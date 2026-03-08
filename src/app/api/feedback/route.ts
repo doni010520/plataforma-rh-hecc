@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/prisma';
 import { getApiUser, unauthorizedResponse } from '@/lib/auth';
+import { createNotification } from '@/lib/notifications';
 import { NextResponse, type NextRequest } from 'next/server';
 
 export async function GET(request: NextRequest) {
@@ -108,6 +109,16 @@ export async function POST(request: Request) {
         toUser: { select: { id: true, name: true, avatarUrl: true, jobTitle: true } },
       },
     });
+
+    const typeLabel = type === 'PRAISE' ? 'elogio' : type === 'CONSTRUCTIVE' ? 'feedback construtivo' : 'solicitação';
+    createNotification({
+      companyId: user.companyId,
+      userId: toUserId,
+      type: 'FEEDBACK_RECEIVED',
+      title: `Novo ${typeLabel} recebido`,
+      body: `${user.name} enviou um ${typeLabel} para você.`,
+      link: '/feedback',
+    }).catch(() => {});
 
     return NextResponse.json(feedback, { status: 201 });
   } catch (error) {

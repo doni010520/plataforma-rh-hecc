@@ -81,6 +81,16 @@ enum SurveyQuestionType {
   TEXT
 }
 
+enum NotificationType {
+  FEEDBACK_RECEIVED
+  EVALUATION_PENDING
+  OKR_CHECKIN_OVERDUE
+  SURVEY_ACTIVE
+  ANNOUNCEMENT_NEW
+  CELEBRATION_REACTION
+  GENERAL
+}
+
 enum CelebrationType {
   ACHIEVEMENT
   BIRTHDAY
@@ -104,6 +114,7 @@ model Company {
   moodLogs       MoodLog[]
   celebrations   Celebration[]
   announcements  Announcement[]
+  notifications  Notification[]
 
   @@map("companies")
 }
@@ -157,6 +168,7 @@ model User {
   celebrationComments  CelebrationComment[]
   announcements        Announcement[]
   announcementReads    AnnouncementRead[]
+  notifications        Notification[]
 
   @@unique([companyId, email])
   @@map("users")
@@ -437,4 +449,22 @@ model AnnouncementRead {
 
   @@unique([announcementId, userId])
   @@map("announcement_reads")
+}
+
+model Notification {
+  id        String           @id @default(uuid())
+  companyId String           @map("company_id")
+  userId    String           @map("user_id")
+  type      NotificationType
+  title     String
+  body      String           @default("")
+  read      Boolean          @default(false)
+  link      String?
+  createdAt DateTime         @default(now()) @map("created_at")
+
+  company Company @relation(fields: [companyId], references: [id])
+  user    User    @relation(fields: [userId], references: [id])
+
+  @@index([userId, read])
+  @@map("notifications")
 }

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getApiUser, unauthorizedResponse, forbiddenResponse, hasRole } from '@/lib/auth';
+import { createNotificationsForMany } from '@/lib/notifications';
 
 export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
   const user = await getApiUser();
@@ -95,6 +96,24 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
       _count: { select: { responses: true } },
     },
   });
+
+  // Notify all employees when survey is activated
+  if (status === 'ACTIVE') {
+    const allUsers = await prisma.user.findMany({
+      where: { companyId: user.companyId, active: true, id: { not: user.id } },
+      select: { id: true },
+    });
+    createNotificationsForMany(
+      allUsers.map((u) => u.id),
+      {
+        companyId: user.companyId,
+        type: 'SURVEY_ACTIVE',
+        title: 'Nova pesquisa disponível',
+        body: `A pesquisa "${updated.title}" está activa. Responda agora.`,
+        link: `/pesquisas/${params.id}/responder`,
+      },
+    ).catch(() => {});
+  }
 
   return NextResponse.json(updated);
 }

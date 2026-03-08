@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getApiUser, unauthorizedResponse, forbiddenResponse, hasRole } from '@/lib/auth';
+import { createNotificationsForMany } from '@/lib/notifications';
 
 export async function GET(request: NextRequest) {
   const user = await getApiUser();
@@ -87,6 +88,33 @@ export async function POST(request: NextRequest) {
       author: { select: { id: true, name: true } },
     },
   });
+
+  // Notify targeted users when sent immediately
+  if (!scheduledAt) {
+    const targets: string[] = targetDepartments || [];
+    const whereUsers: Record<string, unknown> = {
+      companyId: user.companyId,
+      active: true,
+      id: { not: user.id },
+    };
+    if (targets.length > 0) {
+      whereUsers.departmentId = { in: targets };
+    }
+    const targetUsers = await prisma.user.findMany({
+      where: whereUsers,
+      select: { id: true },
+    });
+    createNotificationsForMany(
+      targetUsers.map((u) => u.id),
+      {
+        companyId: user.companyId,
+        type: 'ANNOUNCEMENT_NEW',
+        title: 'Novo comunicado',
+        body: title,
+        link: '/comunicados',
+      },
+    ).catch(() => {});
+  }
 
   return NextResponse.json(announcement, { status: 201 });
 }

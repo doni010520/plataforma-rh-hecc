@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/prisma';
 import { getApiUser, unauthorizedResponse, forbiddenResponse } from '@/lib/auth';
+import { createNotificationsForMany } from '@/lib/notifications';
 import { NextResponse } from 'next/server';
 
 export async function GET(request: Request, { params }: { params: { id: string } }) {
@@ -86,6 +87,23 @@ export async function PUT(request: Request, { params }: { params: { id: string }
         _count: { select: { assignments: true } },
       },
     });
+
+    // Notify evaluators when cycle is activated
+    if (status === 'ACTIVE') {
+      const assignments = await prisma.reviewAssignment.findMany({
+        where: { cycleId: params.id },
+        select: { evaluatorId: true },
+        distinct: ['evaluatorId'],
+      });
+      const evaluatorIds = assignments.map((a) => a.evaluatorId);
+      createNotificationsForMany(evaluatorIds, {
+        companyId: user.companyId,
+        type: 'EVALUATION_PENDING',
+        title: 'Avaliação pendente',
+        body: `O ciclo "${updated.name}" foi activado. Responda suas avaliações.`,
+        link: '/avaliacoes',
+      }).catch(() => {});
+    }
 
     return NextResponse.json(updated);
   } catch {
