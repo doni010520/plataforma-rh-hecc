@@ -2,6 +2,8 @@ import { getCurrentUser } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import Link from 'next/link';
 import MoodWidget from '@/components/MoodWidget';
+import ManagerDashboard from '@/components/ManagerDashboard';
+import AdminDashboard from '@/components/AdminDashboard';
 
 export default async function DashboardPage() {
   const user = await getCurrentUser();
@@ -72,6 +74,9 @@ export default async function DashboardPage() {
     },
     take: 5,
   });
+
+  const isManager = user.role === 'MANAGER';
+  const isAdmin = user.role === 'ADMIN';
 
   return (
     <div>
@@ -268,6 +273,15 @@ export default async function DashboardPage() {
           </div>
         )}
       </div>
+
+      {/* Role-specific Dashboard Sections */}
+      {isManager && <ManagerDashboard />}
+      {isAdmin && (
+        <>
+          <ManagerDashboard />
+          <AdminDashboard />
+        </>
+      )}
     </div>
   );
 }
