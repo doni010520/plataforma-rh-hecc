@@ -17,7 +17,7 @@ export default async function DashboardPage() {
         <div className="bg-white rounded-lg shadow-sm p-6">
           <h3 className="text-sm font-medium text-gray-500 mb-1">Cargo</h3>
           <p className="text-xl font-semibold text-gray-900">{user.jobTitle || 'Não definido'}</p>
-          <p className="text-sm text-gray-500 mt-1">{user.department || 'Sem departamento'}</p>
+          <p className="text-sm text-gray-500 mt-1">{user.department?.name || 'Sem departamento'}</p>
         </div>
 
         <div className="bg-white rounded-lg shadow-sm p-6">

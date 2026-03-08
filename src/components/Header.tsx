@@ -1,6 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
 
 interface HeaderProps {
@@ -28,18 +29,20 @@ export function Header({ userName, avatarUrl }: HeaderProps) {
   return (
     <header className="fixed top-0 left-64 right-0 h-16 bg-white border-b border-gray-200 flex items-center justify-end px-6 z-20">
       <div className="flex items-center gap-4">
-        <span className="text-sm text-gray-700 font-medium">{userName}</span>
-        {avatarUrl ? (
-          <img
-            src={avatarUrl}
-            alt={userName}
-            className="w-8 h-8 rounded-full object-cover"
-          />
-        ) : (
-          <div className="w-8 h-8 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center text-xs font-bold">
-            {initials}
-          </div>
-        )}
+        <Link href="/perfil" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+          <span className="text-sm text-gray-700 font-medium">{userName}</span>
+          {avatarUrl ? (
+            <img
+              src={avatarUrl}
+              alt={userName}
+              className="w-8 h-8 rounded-full object-cover"
+            />
+          ) : (
+            <div className="w-8 h-8 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center text-xs font-bold">
+              {initials}
+            </div>
+          )}
+        </Link>
         <button
           onClick={handleLogout}
           className="text-sm text-gray-500 hover:text-gray-700 transition-colors"
