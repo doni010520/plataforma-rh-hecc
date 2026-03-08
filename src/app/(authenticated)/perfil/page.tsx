@@ -14,6 +14,27 @@ interface UserProfile {
   createdAt: string;
 }
 
+interface FeedbackItem {
+  id: string;
+  type: string;
+  content: string;
+  visibility: string;
+  createdAt: string;
+  fromUser: { id: string; name: string; avatarUrl: string | null };
+}
+
+const feedbackTypeLabels: Record<string, string> = {
+  PRAISE: 'Elogio',
+  CONSTRUCTIVE: 'Construtivo',
+  REQUEST: 'Solicitação',
+};
+
+const feedbackTypeColors: Record<string, string> = {
+  PRAISE: 'bg-green-100 text-green-700',
+  CONSTRUCTIVE: 'bg-yellow-100 text-yellow-700',
+  REQUEST: 'bg-blue-100 text-blue-700',
+};
+
 export default function PerfilPage() {
   const [user, setUser] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
@@ -23,8 +44,14 @@ export default function PerfilPage() {
   const [name, setName] = useState('');
   const [jobTitle, setJobTitle] = useState('');
   const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
+  const [feedbacks, setFeedbacks] = useState<FeedbackItem[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const avatarFileRef = useRef<File | null>(null);
+
+  const fetchFeedbacks = useCallback(async (userId: string) => {
+    const res = await fetch(`/api/feedback/received?userId=${userId}`);
+    if (res.ok) setFeedbacks(await res.json());
+  }, []);
 
   const fetchProfile = useCallback(async () => {
     const res = await fetch('/api/colaboradores?limit=1');
@@ -36,10 +63,11 @@ export default function PerfilPage() {
         setName(u.name);
         setJobTitle(u.jobTitle || '');
         setAvatarPreview(u.avatarUrl);
+        fetchFeedbacks(u.id);
       }
     }
     setLoading(false);
-  }, []);
+  }, [fetchFeedbacks]);
 
   useEffect(() => {
     fetchProfile();
@@ -258,10 +286,31 @@ export default function PerfilPage() {
           </div>
 
           <div className="bg-white rounded-lg shadow-sm p-6">
-            <h3 className="text-sm font-medium text-gray-500 mb-3">Histórico</h3>
-            <p className="text-sm text-gray-400">
-              Feedbacks, avaliações e OKRs serão exibidos aqui conforme os módulos forem ativados.
-            </p>
+            <h3 className="text-sm font-medium text-gray-500 mb-3">
+              Feedbacks Recebidos ({feedbacks.length})
+            </h3>
+            {feedbacks.length === 0 ? (
+              <p className="text-sm text-gray-400">Nenhum feedback recebido ainda.</p>
+            ) : (
+              <div className="space-y-3 max-h-96 overflow-y-auto">
+                {feedbacks.slice(0, 10).map((fb) => (
+                  <div key={fb.id} className="border-b border-gray-100 pb-3 last:border-0">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-xs font-medium text-gray-700">{fb.fromUser.name}</span>
+                      <span
+                        className={`inline-flex px-1.5 py-0.5 text-xs rounded-full ${feedbackTypeColors[fb.type]}`}
+                      >
+                        {feedbackTypeLabels[fb.type]}
+                      </span>
+                    </div>
+                    <p className="text-xs text-gray-600 line-clamp-2">{fb.content}</p>
+                    <p className="text-xs text-gray-400 mt-1">
+                      {new Date(fb.createdAt).toLocaleDateString('pt-BR')}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>

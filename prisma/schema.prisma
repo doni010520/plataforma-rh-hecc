@@ -31,6 +31,17 @@ enum AssignmentStatus {
   DONE
 }
 
+enum FeedbackType {
+  PRAISE
+  CONSTRUCTIVE
+  REQUEST
+}
+
+enum FeedbackVisibility {
+  PUBLIC
+  PRIVATE
+}
+
 model Company {
   id        String   @id @default(uuid())
   name      String
@@ -41,6 +52,7 @@ model Company {
   users        User[]
   departments  Department[]
   reviewCycles ReviewCycle[]
+  feedbacks    Feedback[]
 
   @@map("companies")
 }
@@ -79,6 +91,9 @@ model User {
 
   evaluationsGiven    ReviewAssignment[] @relation("Evaluator")
   evaluationsReceived ReviewAssignment[] @relation("Evaluatee")
+
+  feedbacksSent     Feedback[] @relation("FeedbackFrom")
+  feedbacksReceived Feedback[] @relation("FeedbackTo")
 
   @@unique([companyId, email])
   @@map("users")
@@ -143,4 +158,21 @@ model ReviewAnswer {
 
   @@unique([assignmentId, criteriaId])
   @@map("review_answers")
+}
+
+model Feedback {
+  id         String             @id @default(uuid())
+  companyId  String             @map("company_id")
+  fromUserId String             @map("from_user_id")
+  toUserId   String             @map("to_user_id")
+  type       FeedbackType
+  content    String
+  visibility FeedbackVisibility @default(PRIVATE)
+  createdAt  DateTime           @default(now()) @map("created_at")
+
+  company  Company @relation(fields: [companyId], references: [id])
+  fromUser User    @relation("FeedbackFrom", fields: [fromUserId], references: [id])
+  toUser   User    @relation("FeedbackTo", fields: [toUserId], references: [id])
+
+  @@map("feedbacks")
 }
