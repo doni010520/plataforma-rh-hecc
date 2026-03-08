@@ -14,6 +14,23 @@ enum Role {
   EMPLOYEE
 }
 
+enum ReviewCycleType {
+  SELF
+  HALF  // 180 graus
+  FULL  // 360 graus
+}
+
+enum ReviewCycleStatus {
+  DRAFT
+  ACTIVE
+  CLOSED
+}
+
+enum AssignmentStatus {
+  PENDING
+  DONE
+}
+
 model Company {
   id        String   @id @default(uuid())
   name      String
@@ -21,8 +38,9 @@ model Company {
   logoUrl   String?  @map("logo_url")
   createdAt DateTime @default(now()) @map("created_at")
 
-  users       User[]
-  departments Department[]
+  users        User[]
+  departments  Department[]
+  reviewCycles ReviewCycle[]
 
   @@map("companies")
 }
@@ -54,11 +72,75 @@ model User {
   active       Boolean  @default(true)
   createdAt    DateTime @default(now()) @map("created_at")
 
-  company    Company     @relation(fields: [companyId], references: [id])
-  department Department? @relation(fields: [departmentId], references: [id])
-  manager    User?       @relation("UserManager", fields: [managerId], references: [id])
-  subordinates User[]    @relation("UserManager")
+  company      Company     @relation(fields: [companyId], references: [id])
+  department   Department? @relation(fields: [departmentId], references: [id])
+  manager      User?       @relation("UserManager", fields: [managerId], references: [id])
+  subordinates User[]      @relation("UserManager")
+
+  evaluationsGiven    ReviewAssignment[] @relation("Evaluator")
+  evaluationsReceived ReviewAssignment[] @relation("Evaluatee")
 
   @@unique([companyId, email])
   @@map("users")
+}
+
+model ReviewCycle {
+  id        String            @id @default(uuid())
+  companyId String            @map("company_id")
+  name      String
+  type      ReviewCycleType
+  startDate DateTime          @map("start_date")
+  endDate   DateTime          @map("end_date")
+  status    ReviewCycleStatus @default(DRAFT)
+  createdAt DateTime          @default(now()) @map("created_at")
+
+  company     Company            @relation(fields: [companyId], references: [id])
+  criteria    ReviewCriteria[]
+  assignments ReviewAssignment[]
+
+  @@map("review_cycles")
+}
+
+model ReviewCriteria {
+  id          String @id @default(uuid())
+  cycleId     String @map("cycle_id")
+  name        String
+  description String @default("")
+  weight      Float  @default(1.0)
+
+  cycle   ReviewCycle    @relation(fields: [cycleId], references: [id], onDelete: Cascade)
+  answers ReviewAnswer[]
+
+  @@map("review_criteria")
+}
+
+model ReviewAssignment {
+  id          String           @id @default(uuid())
+  cycleId     String           @map("cycle_id")
+  evaluatorId String           @map("evaluator_id")
+  evaluateeId String           @map("evaluatee_id")
+  status      AssignmentStatus @default(PENDING)
+  createdAt   DateTime         @default(now()) @map("created_at")
+
+  cycle     ReviewCycle    @relation(fields: [cycleId], references: [id], onDelete: Cascade)
+  evaluator User           @relation("Evaluator", fields: [evaluatorId], references: [id])
+  evaluatee User           @relation("Evaluatee", fields: [evaluateeId], references: [id])
+  answers   ReviewAnswer[]
+
+  @@unique([cycleId, evaluatorId, evaluateeId])
+  @@map("review_assignments")
+}
+
+model ReviewAnswer {
+  id           String  @id @default(uuid())
+  assignmentId String  @map("assignment_id")
+  criteriaId   String  @map("criteria_id")
+  score        Int?
+  comment      String  @default("")
+
+  assignment ReviewAssignment @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
+  criteria   ReviewCriteria   @relation(fields: [criteriaId], references: [id], onDelete: Cascade)
+
+  @@unique([assignmentId, criteriaId])
+  @@map("review_answers")
 }

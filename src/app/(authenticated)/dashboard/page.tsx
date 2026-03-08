@@ -1,7 +1,22 @@
 import { getCurrentUser } from '@/lib/auth';
+import { prisma } from '@/lib/prisma';
+import Link from 'next/link';
 
 export default async function DashboardPage() {
   const user = await getCurrentUser();
+
+  const pendingAssignments = await prisma.reviewAssignment.findMany({
+    where: {
+      evaluatorId: user.id,
+      status: 'PENDING',
+      cycle: { status: 'ACTIVE', companyId: user.companyId },
+    },
+    include: {
+      cycle: { select: { name: true, endDate: true } },
+      evaluatee: { select: { name: true } },
+    },
+    take: 5,
+  });
 
   return (
     <div>
@@ -33,11 +48,43 @@ export default async function DashboardPage() {
         </div>
       </div>
 
+      {pendingAssignments.length > 0 && (
+        <div className="mt-8 bg-white rounded-lg shadow-sm p-6">
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">
+            Avaliações Pendentes ({pendingAssignments.length})
+          </h2>
+          <div className="space-y-3">
+            {pendingAssignments.map((a) => (
+              <div
+                key={a.id}
+                className="flex items-center justify-between border border-gray-200 rounded-md p-3"
+              >
+                <div>
+                  <p className="text-sm font-medium text-gray-900">
+                    Avaliar: {a.evaluatee.name}
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    {a.cycle.name} &middot; Prazo:{' '}
+                    {new Date(a.cycle.endDate).toLocaleDateString('pt-BR')}
+                  </p>
+                </div>
+                <Link
+                  href={`/avaliacoes/responder/${a.id}`}
+                  className="text-sm bg-indigo-600 text-white px-3 py-1.5 rounded-md hover:bg-indigo-700 font-medium"
+                >
+                  Responder
+                </Link>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       <div className="mt-8 bg-white rounded-lg shadow-sm p-6">
         <h2 className="text-lg font-semibold text-gray-900 mb-4">Resumo</h2>
         <p className="text-gray-600">
-          Os módulos de avaliação de desempenho, feedback, OKRs, pesquisas e mural serão exibidos
-          aqui conforme forem implementados.
+          Os módulos de feedback, OKRs, pesquisas e mural serão exibidos aqui conforme forem
+          implementados.
         </p>
       </div>
     </div>
