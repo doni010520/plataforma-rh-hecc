@@ -81,6 +81,13 @@ enum SurveyQuestionType {
   TEXT
 }
 
+enum CelebrationType {
+  ACHIEVEMENT
+  BIRTHDAY
+  ANNIVERSARY
+  GENERAL
+}
+
 model Company {
   id        String   @id @default(uuid())
   name      String
@@ -93,8 +100,10 @@ model Company {
   reviewCycles ReviewCycle[]
   feedbacks    Feedback[]
   objectives   Objective[]
-  surveys      Survey[]
-  moodLogs     MoodLog[]
+  surveys        Survey[]
+  moodLogs       MoodLog[]
+  celebrations   Celebration[]
+  announcements  Announcement[]
 
   @@map("companies")
 }
@@ -142,6 +151,12 @@ model User {
 
   surveyResponses SurveyResponse[]
   moodLogs        MoodLog[]
+
+  celebrations         Celebration[]
+  celebrationReactions CelebrationReaction[]
+  celebrationComments  CelebrationComment[]
+  announcements        Announcement[]
+  announcementReads    AnnouncementRead[]
 
   @@unique([companyId, email])
   @@map("users")
@@ -349,4 +364,77 @@ model MoodLog {
 
   @@unique([userId, date])
   @@map("mood_logs")
+}
+
+model Celebration {
+  id        String          @id @default(uuid())
+  companyId String          @map("company_id")
+  authorId  String          @map("author_id")
+  content   String
+  type      CelebrationType
+  createdAt DateTime        @default(now()) @map("created_at")
+
+  company   Company                @relation(fields: [companyId], references: [id])
+  author    User                   @relation(fields: [authorId], references: [id])
+  reactions CelebrationReaction[]
+  comments  CelebrationComment[]
+
+  @@map("celebrations")
+}
+
+model CelebrationReaction {
+  id            String @id @default(uuid())
+  celebrationId String @map("celebration_id")
+  userId        String @map("user_id")
+  emoji         String
+
+  celebration Celebration @relation(fields: [celebrationId], references: [id], onDelete: Cascade)
+  user        User        @relation(fields: [userId], references: [id])
+
+  @@unique([celebrationId, userId])
+  @@map("celebration_reactions")
+}
+
+model CelebrationComment {
+  id            String   @id @default(uuid())
+  celebrationId String   @map("celebration_id")
+  userId        String   @map("user_id")
+  content       String
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  celebration Celebration @relation(fields: [celebrationId], references: [id], onDelete: Cascade)
+  user        User        @relation(fields: [userId], references: [id])
+
+  @@map("celebration_comments")
+}
+
+model Announcement {
+  id                String    @id @default(uuid())
+  companyId         String    @map("company_id")
+  authorId          String    @map("author_id")
+  title             String
+  content           String
+  targetDepartments String    @default("[]") @map("target_departments")
+  scheduledAt       DateTime? @map("scheduled_at")
+  sentAt            DateTime? @map("sent_at")
+  createdAt         DateTime  @default(now()) @map("created_at")
+
+  company Company            @relation(fields: [companyId], references: [id])
+  author  User               @relation(fields: [authorId], references: [id])
+  reads   AnnouncementRead[]
+
+  @@map("announcements")
+}
+
+model AnnouncementRead {
+  id             String   @id @default(uuid())
+  announcementId String   @map("announcement_id")
+  userId         String   @map("user_id")
+  readAt         DateTime @default(now()) @map("read_at")
+
+  announcement Announcement @relation(fields: [announcementId], references: [id], onDelete: Cascade)
+  user         User         @relation(fields: [userId], references: [id])
+
+  @@unique([announcementId, userId])
+  @@map("announcement_reads")
 }
