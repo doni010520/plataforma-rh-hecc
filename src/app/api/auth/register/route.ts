@@ -44,6 +44,7 @@ export async function POST(request: Request) {
     });
 
     if (authError || !authData.user) {
+      console.error('Supabase signUp error:', authError?.message, authError?.status, JSON.stringify(authData));
       if (authError?.message?.includes('already registered')) {
         return NextResponse.json(
           { error: 'Este email já está cadastrado.' },
