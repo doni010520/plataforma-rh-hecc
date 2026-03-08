@@ -1,6 +1,7 @@
 import { getCurrentUser } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import Link from 'next/link';
+import MoodWidget from '@/components/MoodWidget';
 
 export default async function DashboardPage() {
   const user = await getCurrentUser();
@@ -31,6 +32,33 @@ export default async function DashboardPage() {
     },
     take: 5,
   });
+
+  // Today's mood
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const todayMood = await prisma.moodLog.findFirst({
+    where: { userId: user.id, date: today },
+  });
+
+  // Active surveys the user hasn't responded to
+  const activeSurveys = await prisma.survey.findMany({
+    where: {
+      companyId: user.companyId,
+      status: 'ACTIVE',
+    },
+    select: { id: true, title: true },
+  });
+
+  const respondedSurveyIds = await prisma.surveyResponse.findMany({
+    where: {
+      userId: user.id,
+      survey: { companyId: user.companyId, status: 'ACTIVE' },
+    },
+    select: { surveyId: true },
+  });
+
+  const respondedIds = new Set(respondedSurveyIds.map((r) => r.surveyId));
+  const pendingSurveys = activeSurveys.filter((s) => !respondedIds.has(s.id));
 
   const pendingAssignments = await prisma.reviewAssignment.findMany({
     where: {
@@ -74,6 +102,33 @@ export default async function DashboardPage() {
           <p className="text-sm text-gray-500 mt-1">{user.email}</p>
         </div>
       </div>
+
+      {/* Mood Thermometer */}
+      <div className="mt-6">
+        <MoodWidget initialMood={todayMood?.mood ?? null} />
+      </div>
+
+      {/* Active Survey Banner */}
+      {pendingSurveys.length > 0 && (
+        <div className="mt-6 bg-indigo-50 border border-indigo-200 rounded-lg p-4">
+          <h3 className="text-sm font-semibold text-indigo-800 mb-2">
+            📋 Pesquisas Activas ({pendingSurveys.length})
+          </h3>
+          <div className="space-y-2">
+            {pendingSurveys.map((s) => (
+              <div key={s.id} className="flex items-center justify-between">
+                <span className="text-sm text-indigo-700">{s.title}</span>
+                <Link
+                  href={`/pesquisas/${s.id}/responder`}
+                  className="text-sm bg-indigo-600 text-white px-3 py-1 rounded-md hover:bg-indigo-700 font-medium"
+                >
+                  Responder
+                </Link>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {pendingAssignments.length > 0 && (
         <div className="mt-8 bg-white rounded-lg shadow-sm p-6">
