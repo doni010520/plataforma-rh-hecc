@@ -14,6 +14,24 @@ export default async function DashboardPage() {
     },
   });
 
+  // OKR: Get current quarter objectives for the user
+  const currentQuarter = Math.ceil((new Date().getMonth() + 1) / 3);
+  const currentYear = new Date().getFullYear();
+
+  const userObjectives = await prisma.objective.findMany({
+    where: {
+      companyId: user.companyId,
+      ownerId: user.id,
+      quarter: currentQuarter,
+      year: currentYear,
+      status: { not: 'CANCELLED' },
+    },
+    include: {
+      keyResults: true,
+    },
+    take: 5,
+  });
+
   const pendingAssignments = await prisma.reviewAssignment.findMany({
     where: {
       evaluatorId: user.id,
@@ -129,10 +147,71 @@ export default async function DashboardPage() {
       )}
 
       <div className="mt-8 bg-white rounded-lg shadow-sm p-6">
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">Resumo</h2>
-        <p className="text-gray-600">
-          Os módulos de OKRs, pesquisas e mural serão exibidos aqui conforme forem implementados.
-        </p>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-lg font-semibold text-gray-900">
+            Meus OKRs — Q{currentQuarter}/{currentYear}
+          </h2>
+          <Link href="/okrs" className="text-sm text-indigo-600 hover:text-indigo-800 font-medium">
+            Ver todos
+          </Link>
+        </div>
+        {userObjectives.length === 0 ? (
+          <p className="text-gray-500 text-sm">
+            Nenhum objectivo definido para este trimestre.{' '}
+            <Link href="/okrs" className="text-indigo-600 hover:text-indigo-800">
+              Criar OKR
+            </Link>
+          </p>
+        ) : (
+          <div className="space-y-4">
+            {userObjectives.map((obj) => {
+              const krs = obj.keyResults;
+              const progress = krs.length > 0
+                ? krs.reduce((acc, kr) => {
+                    if (kr.metricType === 'BOOLEAN') return acc + (kr.currentValue >= 1 ? 100 : 0);
+                    const range = kr.targetValue - kr.startValue;
+                    if (range === 0) return acc + 100;
+                    const p = ((kr.currentValue - kr.startValue) / range) * 100;
+                    return acc + Math.min(Math.max(p, 0), 100);
+                  }, 0) / krs.length
+                : 0;
+              return (
+                <div key={obj.id}>
+                  <div className="flex items-center justify-between mb-1">
+                    <Link
+                      href={`/okrs/${obj.id}`}
+                      className="text-sm font-medium text-gray-900 hover:text-indigo-600"
+                    >
+                      {obj.title}
+                    </Link>
+                    <div className="flex items-center gap-2">
+                      <span className={`inline-flex px-1.5 py-0.5 text-xs rounded-full ${
+                        obj.status === 'AT_RISK'
+                          ? 'bg-red-100 text-red-700'
+                          : obj.status === 'ACHIEVED'
+                            ? 'bg-green-100 text-green-700'
+                            : 'bg-gray-100 text-gray-600'
+                      }`}>
+                        {obj.status === 'ON_TRACK' ? 'No Caminho'
+                          : obj.status === 'AT_RISK' ? 'Em Risco'
+                          : obj.status === 'ACHIEVED' ? 'Alcançado' : 'Cancelado'}
+                      </span>
+                      <span className="text-sm font-bold text-gray-900">{progress.toFixed(0)}%</span>
+                    </div>
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div
+                      className={`h-2 rounded-full transition-all ${
+                        obj.status === 'AT_RISK' ? 'bg-red-500' : 'bg-indigo-600'
+                      }`}
+                      style={{ width: `${progress}%` }}
+                    />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )}
       </div>
     </div>
   );

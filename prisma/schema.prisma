@@ -42,6 +42,26 @@ enum FeedbackVisibility {
   PRIVATE
 }
 
+enum ObjectiveLevel {
+  COMPANY
+  TEAM
+  INDIVIDUAL
+}
+
+enum ObjectiveStatus {
+  ON_TRACK
+  AT_RISK
+  ACHIEVED
+  CANCELLED
+}
+
+enum MetricType {
+  NUMBER
+  PERCENTAGE
+  CURRENCY
+  BOOLEAN
+}
+
 model Company {
   id        String   @id @default(uuid())
   name      String
@@ -53,6 +73,7 @@ model Company {
   departments  Department[]
   reviewCycles ReviewCycle[]
   feedbacks    Feedback[]
+  objectives   Objective[]
 
   @@map("companies")
 }
@@ -94,6 +115,9 @@ model User {
 
   feedbacksSent     Feedback[] @relation("FeedbackFrom")
   feedbacksReceived Feedback[] @relation("FeedbackTo")
+
+  objectives       Objective[]
+  keyResultUpdates KeyResultUpdate[]
 
   @@unique([companyId, email])
   @@map("users")
@@ -175,4 +199,57 @@ model Feedback {
   toUser   User    @relation("FeedbackTo", fields: [toUserId], references: [id])
 
   @@map("feedbacks")
+}
+
+model Objective {
+  id          String          @id @default(uuid())
+  companyId   String          @map("company_id")
+  ownerId     String          @map("owner_id")
+  title       String
+  description String          @default("")
+  level       ObjectiveLevel
+  quarter     Int
+  year        Int
+  status      ObjectiveStatus @default(ON_TRACK)
+  parentId    String?         @map("parent_id")
+  createdAt   DateTime        @default(now()) @map("created_at")
+
+  company    Company      @relation(fields: [companyId], references: [id])
+  owner      User         @relation(fields: [ownerId], references: [id])
+  parent     Objective?   @relation("ObjectiveParent", fields: [parentId], references: [id])
+  children   Objective[]  @relation("ObjectiveParent")
+  keyResults KeyResult[]
+
+  @@map("objectives")
+}
+
+model KeyResult {
+  id          String     @id @default(uuid())
+  objectiveId String     @map("objective_id")
+  title       String
+  metricType  MetricType @map("metric_type")
+  startValue  Float      @default(0) @map("start_value")
+  targetValue Float      @map("target_value")
+  currentValue Float     @default(0) @map("current_value")
+  confidence  Int        @default(5)
+  updatedAt   DateTime   @updatedAt @map("updated_at")
+
+  objective Objective         @relation(fields: [objectiveId], references: [id], onDelete: Cascade)
+  updates   KeyResultUpdate[]
+
+  @@map("key_results")
+}
+
+model KeyResultUpdate {
+  id          String   @id @default(uuid())
+  keyResultId String   @map("key_result_id")
+  userId      String   @map("user_id")
+  value       Float
+  note        String   @default("")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  keyResult KeyResult @relation(fields: [keyResultId], references: [id], onDelete: Cascade)
+  user      User      @relation(fields: [userId], references: [id])
+
+  @@map("key_result_updates")
 }
