@@ -1,0 +1,470 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum Role {
+  ADMIN
+  MANAGER
+  EMPLOYEE
+}
+
+enum ReviewCycleType {
+  SELF
+  HALF  // 180 graus
+  FULL  // 360 graus
+}
+
+enum ReviewCycleStatus {
+  DRAFT
+  ACTIVE
+  CLOSED
+}
+
+enum AssignmentStatus {
+  PENDING
+  DONE
+}
+
+enum FeedbackType {
+  PRAISE
+  CONSTRUCTIVE
+  REQUEST
+}
+
+enum FeedbackVisibility {
+  PUBLIC
+  PRIVATE
+}
+
+enum ObjectiveLevel {
+  COMPANY
+  TEAM
+  INDIVIDUAL
+}
+
+enum ObjectiveStatus {
+  ON_TRACK
+  AT_RISK
+  ACHIEVED
+  CANCELLED
+}
+
+enum MetricType {
+  NUMBER
+  PERCENTAGE
+  CURRENCY
+  BOOLEAN
+}
+
+enum SurveyType {
+  CLIMATE
+  PULSE
+  SATISFACTION
+  CUSTOM
+}
+
+enum SurveyStatus {
+  DRAFT
+  ACTIVE
+  CLOSED
+}
+
+enum SurveyQuestionType {
+  SCALE
+  MULTIPLE_CHOICE
+  TEXT
+}
+
+enum NotificationType {
+  FEEDBACK_RECEIVED
+  EVALUATION_PENDING
+  OKR_CHECKIN_OVERDUE
+  SURVEY_ACTIVE
+  ANNOUNCEMENT_NEW
+  CELEBRATION_REACTION
+  GENERAL
+}
+
+enum CelebrationType {
+  ACHIEVEMENT
+  BIRTHDAY
+  ANNIVERSARY
+  GENERAL
+}
+
+model Company {
+  id        String   @id @default(uuid())
+  name      String
+  slug      String   @unique
+  logoUrl   String?  @map("logo_url")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  users        User[]
+  departments  Department[]
+  reviewCycles ReviewCycle[]
+  feedbacks    Feedback[]
+  objectives   Objective[]
+  surveys        Survey[]
+  moodLogs       MoodLog[]
+  celebrations   Celebration[]
+  announcements  Announcement[]
+  notifications  Notification[]
+
+  @@map("companies")
+}
+
+model Department {
+  id        String   @id @default(uuid())
+  companyId String   @map("company_id")
+  name      String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  company Company @relation(fields: [companyId], references: [id])
+  users   User[]
+
+  @@unique([companyId, name])
+  @@map("departments")
+}
+
+model User {
+  id           String   @id @default(uuid())
+  companyId    String   @map("company_id")
+  authId       String   @unique @map("auth_id")
+  email        String
+  name         String
+  role         Role     @default(EMPLOYEE)
+  departmentId String?  @map("department_id")
+  jobTitle     String?  @map("job_title")
+  avatarUrl    String?  @map("avatar_url")
+  managerId    String?  @map("manager_id")
+  active       Boolean  @default(true)
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  company      Company     @relation(fields: [companyId], references: [id])
+  department   Department? @relation(fields: [departmentId], references: [id])
+  manager      User?       @relation("UserManager", fields: [managerId], references: [id])
+  subordinates User[]      @relation("UserManager")
+
+  evaluationsGiven    ReviewAssignment[] @relation("Evaluator")
+  evaluationsReceived ReviewAssignment[] @relation("Evaluatee")
+
+  feedbacksSent     Feedback[] @relation("FeedbackFrom")
+  feedbacksReceived Feedback[] @relation("FeedbackTo")
+
+  objectives       Objective[]
+  keyResultUpdates KeyResultUpdate[]
+
+  surveyResponses SurveyResponse[]
+  moodLogs        MoodLog[]
+
+  celebrations         Celebration[]
+  celebrationReactions CelebrationReaction[]
+  celebrationComments  CelebrationComment[]
+  announcements        Announcement[]
+  announcementReads    AnnouncementRead[]
+  notifications        Notification[]
+
+  @@unique([companyId, email])
+  @@map("users")
+}
+
+model ReviewCycle {
+  id        String            @id @default(uuid())
+  companyId String            @map("company_id")
+  name      String
+  type      ReviewCycleType
+  startDate DateTime          @map("start_date")
+  endDate   DateTime          @map("end_date")
+  status    ReviewCycleStatus @default(DRAFT)
+  createdAt DateTime          @default(now()) @map("created_at")
+
+  company     Company            @relation(fields: [companyId], references: [id])
+  criteria    ReviewCriteria[]
+  assignments ReviewAssignment[]
+
+  @@map("review_cycles")
+}
+
+model ReviewCriteria {
+  id          String @id @default(uuid())
+  cycleId     String @map("cycle_id")
+  name        String
+  description String @default("")
+  weight      Float  @default(1.0)
+
+  cycle   ReviewCycle    @relation(fields: [cycleId], references: [id], onDelete: Cascade)
+  answers ReviewAnswer[]
+
+  @@map("review_criteria")
+}
+
+model ReviewAssignment {
+  id          String           @id @default(uuid())
+  cycleId     String           @map("cycle_id")
+  evaluatorId String           @map("evaluator_id")
+  evaluateeId String           @map("evaluatee_id")
+  status      AssignmentStatus @default(PENDING)
+  createdAt   DateTime         @default(now()) @map("created_at")
+
+  cycle     ReviewCycle    @relation(fields: [cycleId], references: [id], onDelete: Cascade)
+  evaluator User           @relation("Evaluator", fields: [evaluatorId], references: [id])
+  evaluatee User           @relation("Evaluatee", fields: [evaluateeId], references: [id])
+  answers   ReviewAnswer[]
+
+  @@unique([cycleId, evaluatorId, evaluateeId])
+  @@map("review_assignments")
+}
+
+model ReviewAnswer {
+  id           String  @id @default(uuid())
+  assignmentId String  @map("assignment_id")
+  criteriaId   String  @map("criteria_id")
+  score        Int?
+  comment      String  @default("")
+
+  assignment ReviewAssignment @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
+  criteria   ReviewCriteria   @relation(fields: [criteriaId], references: [id], onDelete: Cascade)
+
+  @@unique([assignmentId, criteriaId])
+  @@map("review_answers")
+}
+
+model Feedback {
+  id         String             @id @default(uuid())
+  companyId  String             @map("company_id")
+  fromUserId String             @map("from_user_id")
+  toUserId   String             @map("to_user_id")
+  type       FeedbackType
+  content    String
+  visibility FeedbackVisibility @default(PRIVATE)
+  createdAt  DateTime           @default(now()) @map("created_at")
+
+  company  Company @relation(fields: [companyId], references: [id])
+  fromUser User    @relation("FeedbackFrom", fields: [fromUserId], references: [id])
+  toUser   User    @relation("FeedbackTo", fields: [toUserId], references: [id])
+
+  @@map("feedbacks")
+}
+
+model Objective {
+  id          String          @id @default(uuid())
+  companyId   String          @map("company_id")
+  ownerId     String          @map("owner_id")
+  title       String
+  description String          @default("")
+  level       ObjectiveLevel
+  quarter     Int
+  year        Int
+  status      ObjectiveStatus @default(ON_TRACK)
+  parentId    String?         @map("parent_id")
+  createdAt   DateTime        @default(now()) @map("created_at")
+
+  company    Company      @relation(fields: [companyId], references: [id])
+  owner      User         @relation(fields: [ownerId], references: [id])
+  parent     Objective?   @relation("ObjectiveParent", fields: [parentId], references: [id])
+  children   Objective[]  @relation("ObjectiveParent")
+  keyResults KeyResult[]
+
+  @@map("objectives")
+}
+
+model KeyResult {
+  id          String     @id @default(uuid())
+  objectiveId String     @map("objective_id")
+  title       String
+  metricType  MetricType @map("metric_type")
+  startValue  Float      @default(0) @map("start_value")
+  targetValue Float      @map("target_value")
+  currentValue Float     @default(0) @map("current_value")
+  confidence  Int        @default(5)
+  updatedAt   DateTime   @updatedAt @map("updated_at")
+
+  objective Objective         @relation(fields: [objectiveId], references: [id], onDelete: Cascade)
+  updates   KeyResultUpdate[]
+
+  @@map("key_results")
+}
+
+model KeyResultUpdate {
+  id          String   @id @default(uuid())
+  keyResultId String   @map("key_result_id")
+  userId      String   @map("user_id")
+  value       Float
+  note        String   @default("")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  keyResult KeyResult @relation(fields: [keyResultId], references: [id], onDelete: Cascade)
+  user      User      @relation(fields: [userId], references: [id])
+
+  @@map("key_result_updates")
+}
+
+model Survey {
+  id        String       @id @default(uuid())
+  companyId String       @map("company_id")
+  title     String
+  type      SurveyType
+  status    SurveyStatus @default(DRAFT)
+  startDate DateTime?    @map("start_date")
+  endDate   DateTime?    @map("end_date")
+  anonymous Boolean      @default(false)
+  createdAt DateTime     @default(now()) @map("created_at")
+
+  company   Company          @relation(fields: [companyId], references: [id])
+  questions SurveyQuestion[]
+  responses SurveyResponse[]
+
+  @@map("surveys")
+}
+
+model SurveyQuestion {
+  id       String             @id @default(uuid())
+  surveyId String             @map("survey_id")
+  text     String
+  type     SurveyQuestionType
+  options  String             @default("[]")
+  order    Int                @default(0)
+
+  survey  Survey         @relation(fields: [surveyId], references: [id], onDelete: Cascade)
+  answers SurveyAnswer[]
+
+  @@map("survey_questions")
+}
+
+model SurveyResponse {
+  id          String   @id @default(uuid())
+  surveyId    String   @map("survey_id")
+  userId      String?  @map("user_id")
+  submittedAt DateTime @default(now()) @map("submitted_at")
+
+  survey  Survey         @relation(fields: [surveyId], references: [id], onDelete: Cascade)
+  user    User?          @relation(fields: [userId], references: [id])
+  answers SurveyAnswer[]
+
+  @@map("survey_responses")
+}
+
+model SurveyAnswer {
+  id         String @id @default(uuid())
+  responseId String @map("response_id")
+  questionId String @map("question_id")
+  value      String
+
+  response SurveyResponse @relation(fields: [responseId], references: [id], onDelete: Cascade)
+  question SurveyQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@map("survey_answers")
+}
+
+model MoodLog {
+  id        String   @id @default(uuid())
+  companyId String   @map("company_id")
+  userId    String   @map("user_id")
+  mood      Int
+  date      DateTime @db.Date
+  note      String   @default("")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  company Company @relation(fields: [companyId], references: [id])
+  user    User    @relation(fields: [userId], references: [id])
+
+  @@unique([userId, date])
+  @@map("mood_logs")
+}
+
+model Celebration {
+  id        String          @id @default(uuid())
+  companyId String          @map("company_id")
+  authorId  String          @map("author_id")
+  content   String
+  type      CelebrationType
+  createdAt DateTime        @default(now()) @map("created_at")
+
+  company   Company                @relation(fields: [companyId], references: [id])
+  author    User                   @relation(fields: [authorId], references: [id])
+  reactions CelebrationReaction[]
+  comments  CelebrationComment[]
+
+  @@map("celebrations")
+}
+
+model CelebrationReaction {
+  id            String @id @default(uuid())
+  celebrationId String @map("celebration_id")
+  userId        String @map("user_id")
+  emoji         String
+
+  celebration Celebration @relation(fields: [celebrationId], references: [id], onDelete: Cascade)
+  user        User        @relation(fields: [userId], references: [id])
+
+  @@unique([celebrationId, userId])
+  @@map("celebration_reactions")
+}
+
+model CelebrationComment {
+  id            String   @id @default(uuid())
+  celebrationId String   @map("celebration_id")
+  userId        String   @map("user_id")
+  content       String
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  celebration Celebration @relation(fields: [celebrationId], references: [id], onDelete: Cascade)
+  user        User        @relation(fields: [userId], references: [id])
+
+  @@map("celebration_comments")
+}
+
+model Announcement {
+  id                String    @id @default(uuid())
+  companyId         String    @map("company_id")
+  authorId          String    @map("author_id")
+  title             String
+  content           String
+  targetDepartments String    @default("[]") @map("target_departments")
+  scheduledAt       DateTime? @map("scheduled_at")
+  sentAt            DateTime? @map("sent_at")
+  createdAt         DateTime  @default(now()) @map("created_at")
+
+  company Company            @relation(fields: [companyId], references: [id])
+  author  User               @relation(fields: [authorId], references: [id])
+  reads   AnnouncementRead[]
+
+  @@map("announcements")
+}
+
+model AnnouncementRead {
+  id             String   @id @default(uuid())
+  announcementId String   @map("announcement_id")
+  userId         String   @map("user_id")
+  readAt         DateTime @default(now()) @map("read_at")
+
+  announcement Announcement @relation(fields: [announcementId], references: [id], onDelete: Cascade)
+  user         User         @relation(fields: [userId], references: [id])
+
+  @@unique([announcementId, userId])
+  @@map("announcement_reads")
+}
+
+model Notification {
+  id        String           @id @default(uuid())
+  companyId String           @map("company_id")
+  userId    String           @map("user_id")
+  type      NotificationType
+  title     String
+  body      String           @default("")
+  read      Boolean          @default(false)
+  link      String?
+  createdAt DateTime         @default(now()) @map("created_at")
+
+  company Company @relation(fields: [companyId], references: [id])
+  user    User    @relation(fields: [userId], references: [id])
+
+  @@index([userId, read])
+  @@map("notifications")
+}
