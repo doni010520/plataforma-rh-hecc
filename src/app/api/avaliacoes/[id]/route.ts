@@ -1,6 +1,8 @@
 import { prisma } from '@/lib/prisma';
 import { getApiUser, unauthorizedResponse, forbiddenResponse } from '@/lib/auth';
 import { createNotificationsForMany } from '@/lib/notifications';
+import { sendEmail } from '@/lib/email';
+import { evaluationPendingTemplate } from '@/lib/email-templates';
 import { NextResponse } from 'next/server';
 
 export async function GET(request: Request, { params }: { params: { id: string } }) {
@@ -92,7 +94,10 @@ export async function PUT(request: Request, { params }: { params: { id: string }
     if (status === 'ACTIVE') {
       const assignments = await prisma.reviewAssignment.findMany({
         where: { cycleId: params.id },
-        select: { evaluatorId: true },
+        select: {
+          evaluatorId: true,
+          evaluator: { select: { email: true, name: true } },
+        },
         distinct: ['evaluatorId'],
       });
       const evaluatorIds = assignments.map((a) => a.evaluatorId);
@@ -103,6 +108,18 @@ export async function PUT(request: Request, { params }: { params: { id: string }
         body: `O ciclo "${updated.name}" foi activado. Responda suas avaliações.`,
         link: '/avaliacoes',
       }).catch(() => {});
+
+      const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+      Promise.allSettled(
+        assignments.map((a) => {
+          const { subject, html } = evaluationPendingTemplate({
+            evaluatorName: a.evaluator.name,
+            cycleName: updated.name,
+            evaluationUrl: `${appUrl}/avaliacoes`,
+          });
+          return sendEmail({ to: a.evaluator.email, subject, html });
+        }),
+      ).catch(() => {});
     }
 
     return NextResponse.json(updated);

@@ -1,5 +1,7 @@
 import { createClient } from '@/lib/supabase/server';
 import { prisma } from '@/lib/prisma';
+import { sendEmail } from '@/lib/email';
+import { registrationConfirmationTemplate } from '@/lib/email-templates';
 import { NextResponse } from 'next/server';
 
 function generateSlug(name: string): string {
@@ -73,6 +75,14 @@ export async function POST(request: Request) {
         role: 'ADMIN',
       },
     });
+
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+    const { subject, html } = registrationConfirmationTemplate({
+      adminName: name,
+      companyName,
+      loginUrl: `${appUrl}/login`,
+    });
+    sendEmail({ to: email, subject, html }).catch(() => {});
 
     return NextResponse.json({ success: true });
   } catch (error) {
