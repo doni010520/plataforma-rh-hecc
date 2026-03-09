@@ -1,6 +1,8 @@
 import { prisma } from '@/lib/prisma';
 import { getApiUser, unauthorizedResponse, forbiddenResponse } from '@/lib/auth';
 import { createClient } from '@/lib/supabase/server';
+import { sendEmail } from '@/lib/email';
+import { colaboradorInviteTemplate } from '@/lib/email-templates';
 import { NextResponse, type NextRequest } from 'next/server';
 
 export async function GET(request: NextRequest) {
@@ -145,6 +147,15 @@ export async function POST(request: Request) {
         },
       });
 
+      const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+      const { subject, html } = colaboradorInviteTemplate({
+        employeeName: name.trim(),
+        companyName: user.company.name,
+        inviterName: user.name,
+        loginUrl: `${appUrl}/login`,
+      });
+      sendEmail({ to: emailLower, subject, html }).catch(() => {});
+
       return NextResponse.json(colaborador, { status: 201 });
     }
 
@@ -164,6 +175,15 @@ export async function POST(request: Request) {
         manager: { select: { id: true, name: true } },
       },
     });
+
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+    const { subject, html } = colaboradorInviteTemplate({
+      employeeName: name.trim(),
+      companyName: user.company.name,
+      inviterName: user.name,
+      loginUrl: `${appUrl}/login`,
+    });
+    sendEmail({ to: emailLower, subject, html }).catch(() => {});
 
     return NextResponse.json(colaborador, { status: 201 });
   } catch (error) {

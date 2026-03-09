@@ -1,6 +1,8 @@
 import { prisma } from '@/lib/prisma';
 import { getApiUser, unauthorizedResponse } from '@/lib/auth';
 import { createNotification } from '@/lib/notifications';
+import { sendEmail } from '@/lib/email';
+import { feedbackReceivedTemplate } from '@/lib/email-templates';
 import { NextResponse, type NextRequest } from 'next/server';
 
 export async function GET(request: NextRequest) {
@@ -119,6 +121,15 @@ export async function POST(request: Request) {
       body: `${user.name} enviou um ${typeLabel} para você.`,
       link: '/feedback',
     }).catch(() => {});
+
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+    const { subject, html } = feedbackReceivedTemplate({
+      recipientName: recipient.name,
+      senderName: user.name,
+      feedbackType: typeLabel,
+      feedbackUrl: `${appUrl}/feedback`,
+    });
+    sendEmail({ to: recipient.email, subject, html }).catch(() => {});
 
     return NextResponse.json(feedback, { status: 201 });
   } catch (error) {
