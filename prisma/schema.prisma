@@ -16,8 +16,8 @@ enum Role {
 
 enum ReviewCycleType {
   SELF
-  HALF  // 180 graus
-  FULL  // 360 graus
+  HALF // 180 graus
+  FULL // 360 graus
 }
 
 enum ReviewCycleStatus {
@@ -105,16 +105,17 @@ model Company {
   logoUrl   String?  @map("logo_url")
   createdAt DateTime @default(now()) @map("created_at")
 
-  users        User[]
-  departments  Department[]
-  reviewCycles ReviewCycle[]
-  feedbacks    Feedback[]
-  objectives   Objective[]
-  surveys        Survey[]
-  moodLogs       MoodLog[]
-  celebrations   Celebration[]
-  announcements  Announcement[]
-  notifications  Notification[]
+  users            User[]
+  departments      Department[]
+  reviewCycles     ReviewCycle[]
+  feedbacks        Feedback[]
+  objectives       Objective[]
+  surveys          Survey[]
+  moodLogs         MoodLog[]
+  celebrations     Celebration[]
+  announcements    Announcement[]
+  notifications    Notification[]
+  developmentPlans DevelopmentPlan[]
 
   @@map("companies")
 }
@@ -170,6 +171,10 @@ model User {
   announcementReads    AnnouncementRead[]
   notifications        Notification[]
 
+  developmentPlans        DevelopmentPlan[]        @relation("UserPlans")
+  createdDevelopmentPlans DevelopmentPlan[]        @relation("CreatedPlans")
+  planComments            DevelopmentPlanComment[] @relation("PlanComments")
+
   @@unique([companyId, email])
   @@map("users")
 }
@@ -184,9 +189,10 @@ model ReviewCycle {
   status    ReviewCycleStatus @default(DRAFT)
   createdAt DateTime          @default(now()) @map("created_at")
 
-  company     Company            @relation(fields: [companyId], references: [id])
-  criteria    ReviewCriteria[]
-  assignments ReviewAssignment[]
+  company          Company            @relation(fields: [companyId], references: [id])
+  criteria         ReviewCriteria[]
+  assignments      ReviewAssignment[]
+  developmentPlans DevelopmentPlan[]
 
   @@map("review_cycles")
 }
@@ -222,11 +228,11 @@ model ReviewAssignment {
 }
 
 model ReviewAnswer {
-  id           String  @id @default(uuid())
-  assignmentId String  @map("assignment_id")
-  criteriaId   String  @map("criteria_id")
+  id           String @id @default(uuid())
+  assignmentId String @map("assignment_id")
+  criteriaId   String @map("criteria_id")
   score        Int?
-  comment      String  @default("")
+  comment      String @default("")
 
   assignment ReviewAssignment @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
   criteria   ReviewCriteria   @relation(fields: [criteriaId], references: [id], onDelete: Cascade)
@@ -265,25 +271,25 @@ model Objective {
   parentId    String?         @map("parent_id")
   createdAt   DateTime        @default(now()) @map("created_at")
 
-  company    Company      @relation(fields: [companyId], references: [id])
-  owner      User         @relation(fields: [ownerId], references: [id])
-  parent     Objective?   @relation("ObjectiveParent", fields: [parentId], references: [id])
-  children   Objective[]  @relation("ObjectiveParent")
+  company    Company     @relation(fields: [companyId], references: [id])
+  owner      User        @relation(fields: [ownerId], references: [id])
+  parent     Objective?  @relation("ObjectiveParent", fields: [parentId], references: [id])
+  children   Objective[] @relation("ObjectiveParent")
   keyResults KeyResult[]
 
   @@map("objectives")
 }
 
 model KeyResult {
-  id          String     @id @default(uuid())
-  objectiveId String     @map("objective_id")
-  title       String
-  metricType  MetricType @map("metric_type")
-  startValue  Float      @default(0) @map("start_value")
-  targetValue Float      @map("target_value")
-  currentValue Float     @default(0) @map("current_value")
-  confidence  Int        @default(5)
-  updatedAt   DateTime   @updatedAt @map("updated_at")
+  id           String     @id @default(uuid())
+  objectiveId  String     @map("objective_id")
+  title        String
+  metricType   MetricType @map("metric_type")
+  startValue   Float      @default(0) @map("start_value")
+  targetValue  Float      @map("target_value")
+  currentValue Float      @default(0) @map("current_value")
+  confidence   Int        @default(5)
+  updatedAt    DateTime   @updatedAt @map("updated_at")
 
   objective Objective         @relation(fields: [objectiveId], references: [id], onDelete: Cascade)
   updates   KeyResultUpdate[]
@@ -386,8 +392,8 @@ model Celebration {
   type      CelebrationType
   createdAt DateTime        @default(now()) @map("created_at")
 
-  company   Company                @relation(fields: [companyId], references: [id])
-  author    User                   @relation(fields: [authorId], references: [id])
+  company   Company               @relation(fields: [companyId], references: [id])
+  author    User                  @relation(fields: [authorId], references: [id])
   reactions CelebrationReaction[]
   comments  CelebrationComment[]
 
@@ -467,4 +473,80 @@ model Notification {
 
   @@index([userId, read])
   @@map("notifications")
+}
+
+// ========== FASE 10: PDI ==========
+
+enum DevelopmentPlanStatus {
+  DRAFT
+  ACTIVE
+  COMPLETED
+  CANCELLED
+}
+
+enum DevelopmentTaskType {
+  COURSE
+  BOOK
+  MENTORING
+  PRACTICE
+  OTHER
+}
+
+enum DevelopmentTaskStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+}
+
+model DevelopmentPlan {
+  id            String                @id @default(uuid())
+  companyId     String                @map("company_id")
+  userId        String                @map("user_id")
+  createdById   String                @map("created_by_id")
+  title         String
+  description   String                @default("")
+  status        DevelopmentPlanStatus @default(DRAFT)
+  dueDate       DateTime?             @map("due_date")
+  reviewCycleId String?               @map("review_cycle_id")
+  createdAt     DateTime              @default(now()) @map("created_at")
+  updatedAt     DateTime              @updatedAt @map("updated_at")
+
+  company     Company                  @relation(fields: [companyId], references: [id])
+  user        User                     @relation("UserPlans", fields: [userId], references: [id])
+  createdBy   User                     @relation("CreatedPlans", fields: [createdById], references: [id])
+  reviewCycle ReviewCycle?             @relation(fields: [reviewCycleId], references: [id])
+  tasks       DevelopmentTask[]
+  comments    DevelopmentPlanComment[]
+
+  @@map("development_plans")
+}
+
+model DevelopmentTask {
+  id          String                @id @default(uuid())
+  planId      String                @map("plan_id")
+  title       String
+  description String                @default("")
+  type        DevelopmentTaskType
+  resourceUrl String?               @map("resource_url")
+  dueDate     DateTime?             @map("due_date")
+  status      DevelopmentTaskStatus @default(PENDING)
+  completedAt DateTime?             @map("completed_at")
+  order       Int                   @default(0)
+
+  plan DevelopmentPlan @relation(fields: [planId], references: [id], onDelete: Cascade)
+
+  @@map("development_tasks")
+}
+
+model DevelopmentPlanComment {
+  id        String   @id @default(uuid())
+  planId    String   @map("plan_id")
+  userId    String   @map("user_id")
+  content   String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  plan DevelopmentPlan @relation(fields: [planId], references: [id], onDelete: Cascade)
+  user User            @relation("PlanComments", fields: [userId], references: [id])
+
+  @@map("development_plan_comments")
 }
