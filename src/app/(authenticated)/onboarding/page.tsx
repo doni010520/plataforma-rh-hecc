@@ -56,7 +56,7 @@ export default function OnboardingPage() {
   };
 
   const addTemplateTask = () => setTplTasks([...tplTasks, { title: '', type: 'TRAINING', dueDay: 1, assignedTo: 'EMPLOYEE' }]);
-  const updateTemplateTask = (i: number, f: string, v: string | number) => { const u = [...tplTasks]; (u[i] as any)[f] = v; setTplTasks(u); };
+  const updateTemplateTask = (i: number, f: string, v: string | number) => { const u = [...tplTasks]; (u[i] as Record<string, string | number>)[f] = v; setTplTasks(u); };
   const removeTemplateTask = (i: number) => setTplTasks(tplTasks.filter((_, idx) => idx !== i));
   const filtered = statusFilter ? processes.filter((p) => p.status === statusFilter) : processes;
   const activeCount = processes.filter((p) => p.status === 'ACTIVE').length;

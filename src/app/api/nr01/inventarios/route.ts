@@ -3,7 +3,7 @@ import { prisma } from '@/lib/prisma';
 import { getApiUser, unauthorizedResponse, forbiddenResponse } from '@/lib/auth';
 import { RiskSeverity } from '@prisma/client';
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   const user = await getApiUser();
   if (!user) return unauthorizedResponse();
 

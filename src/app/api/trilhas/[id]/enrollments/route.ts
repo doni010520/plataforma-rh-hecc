@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { getApiUser, unauthorizedResponse, forbiddenResponse } from '@/lib/auth';
+import { getApiUser, unauthorizedResponse } from '@/lib/auth';
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const user = await getApiUser();

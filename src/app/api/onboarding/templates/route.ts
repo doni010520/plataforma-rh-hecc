@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
       durationDays: durationDays || 90,
       tasks: tasks?.length
         ? {
-            create: tasks.map((task: any, index: number) => ({
+            create: tasks.map((task: { title: string; description?: string; type: string; dueDay: number; assignedTo: string }, index: number) => ({
               title: task.title,
               description: task.description || '',
               type: task.type,

@@ -161,7 +161,7 @@ export async function collectEmployeeTurnoverSignals(
     select: { id: true },
   });
 
-  let perfScores: Record<string, number> = {};
+  const perfScores: Record<string, number> = {};
   if (latestCycle) {
     const answers = await prisma.reviewAnswer.findMany({
       where: {
