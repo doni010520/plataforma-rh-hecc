@@ -118,6 +118,7 @@ model Company {
   developmentPlans    DevelopmentPlan[]
   onboardingTemplates OnboardingTemplate[]
   onboardingProcesses OnboardingProcess[]
+  learningTracks      LearningTrack[]
 
   @@map("companies")
 }
@@ -180,6 +181,9 @@ model User {
 
   onboardingProcesses   OnboardingProcess[]
   onboardingEvaluations OnboardingEvaluation[]
+
+  createdLearningTracks LearningTrack[]   @relation("CreatedTracks")
+  trackEnrollments      TrackEnrollment[]
 
   @@unique([companyId, email])
   @@map("users")
@@ -671,4 +675,102 @@ model OnboardingEvaluation {
   evaluator User              @relation(fields: [evaluatorId], references: [id])
 
   @@map("onboarding_evaluations")
+}
+
+// ========== FASE 12: TRILHAS DE DESENVOLVIMENTO ==========
+
+enum LearningContentType {
+  VIDEO
+  ARTICLE
+  COURSE
+  PODCAST
+  BOOK
+  OTHER
+}
+
+enum LearningTrackStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum EnrollmentStatus {
+  ACTIVE
+  COMPLETED
+  CANCELLED
+}
+
+enum ContentProgressStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  COMPLETED
+}
+
+model LearningTrack {
+  id             String              @id @default(uuid())
+  companyId      String              @map("company_id")
+  title          String
+  description    String              @default("")
+  category       String              @default("")
+  coverImageUrl  String?             @map("cover_image_url")
+  estimatedHours Int                 @default(0) @map("estimated_hours")
+  status         LearningTrackStatus @default(DRAFT)
+  createdById    String              @map("created_by_id")
+  createdAt      DateTime            @default(now()) @map("created_at")
+  updatedAt      DateTime            @updatedAt @map("updated_at")
+
+  company     Company           @relation(fields: [companyId], references: [id])
+  createdBy   User              @relation("CreatedTracks", fields: [createdById], references: [id])
+  contents    LearningContent[]
+  enrollments TrackEnrollment[]
+
+  @@map("learning_tracks")
+}
+
+model LearningContent {
+  id              String              @id @default(uuid())
+  trackId         String              @map("track_id")
+  title           String
+  description     String              @default("")
+  type            LearningContentType
+  contentUrl      String?             @map("content_url")
+  durationMinutes Int                 @default(0) @map("duration_minutes")
+  order           Int                 @default(0)
+  required        Boolean             @default(true)
+
+  track    LearningTrack     @relation(fields: [trackId], references: [id], onDelete: Cascade)
+  progress ContentProgress[]
+
+  @@map("learning_contents")
+}
+
+model TrackEnrollment {
+  id          String           @id @default(uuid())
+  trackId     String           @map("track_id")
+  userId      String           @map("user_id")
+  status      EnrollmentStatus @default(ACTIVE)
+  enrolledAt  DateTime         @default(now()) @map("enrolled_at")
+  completedAt DateTime?        @map("completed_at")
+
+  track    LearningTrack     @relation(fields: [trackId], references: [id], onDelete: Cascade)
+  user     User              @relation(fields: [userId], references: [id])
+  progress ContentProgress[]
+
+  @@unique([trackId, userId])
+  @@map("track_enrollments")
+}
+
+model ContentProgress {
+  id           String                @id @default(uuid())
+  enrollmentId String                @map("enrollment_id")
+  contentId    String                @map("content_id")
+  status       ContentProgressStatus @default(NOT_STARTED)
+  completedAt  DateTime?             @map("completed_at")
+  notes        String                @default("")
+
+  enrollment TrackEnrollment @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+  content    LearningContent @relation(fields: [contentId], references: [id], onDelete: Cascade)
+
+  @@unique([enrollmentId, contentId])
+  @@map("content_progress")
 }
