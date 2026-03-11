@@ -105,17 +105,19 @@ model Company {
   logoUrl   String?  @map("logo_url")
   createdAt DateTime @default(now()) @map("created_at")
 
-  users            User[]
-  departments      Department[]
-  reviewCycles     ReviewCycle[]
-  feedbacks        Feedback[]
-  objectives       Objective[]
-  surveys          Survey[]
-  moodLogs         MoodLog[]
-  celebrations     Celebration[]
-  announcements    Announcement[]
-  notifications    Notification[]
-  developmentPlans DevelopmentPlan[]
+  users               User[]
+  departments         Department[]
+  reviewCycles        ReviewCycle[]
+  feedbacks           Feedback[]
+  objectives          Objective[]
+  surveys             Survey[]
+  moodLogs            MoodLog[]
+  celebrations        Celebration[]
+  announcements       Announcement[]
+  notifications       Notification[]
+  developmentPlans    DevelopmentPlan[]
+  onboardingTemplates OnboardingTemplate[]
+  onboardingProcesses OnboardingProcess[]
 
   @@map("companies")
 }
@@ -126,8 +128,9 @@ model Department {
   name      String
   createdAt DateTime @default(now()) @map("created_at")
 
-  company Company @relation(fields: [companyId], references: [id])
-  users   User[]
+  company             Company              @relation(fields: [companyId], references: [id])
+  users               User[]
+  onboardingTemplates OnboardingTemplate[]
 
   @@unique([companyId, name])
   @@map("departments")
@@ -174,6 +177,9 @@ model User {
   developmentPlans        DevelopmentPlan[]        @relation("UserPlans")
   createdDevelopmentPlans DevelopmentPlan[]        @relation("CreatedPlans")
   planComments            DevelopmentPlanComment[] @relation("PlanComments")
+
+  onboardingProcesses   OnboardingProcess[]
+  onboardingEvaluations OnboardingEvaluation[]
 
   @@unique([companyId, email])
   @@map("users")
@@ -549,4 +555,120 @@ model DevelopmentPlanComment {
   user User            @relation("PlanComments", fields: [userId], references: [id])
 
   @@map("development_plan_comments")
+}
+
+// ========== FASE 11: ONBOARDING ==========
+
+enum OnboardingTaskType {
+  DOCUMENT
+  MEETING
+  TRAINING
+  SYSTEM_ACCESS
+  OTHER
+}
+
+enum OnboardingAssignee {
+  EMPLOYEE
+  MANAGER
+  HR
+}
+
+enum OnboardingProcessStatus {
+  ACTIVE
+  COMPLETED
+  CANCELLED
+}
+
+enum OnboardingTaskStatus {
+  PENDING
+  COMPLETED
+}
+
+enum EvaluationPeriod {
+  THIRTY
+  SIXTY
+  NINETY
+}
+
+model OnboardingTemplate {
+  id           String   @id @default(uuid())
+  companyId    String   @map("company_id")
+  name         String
+  description  String   @default("")
+  departmentId String?  @map("department_id")
+  jobTitle     String?  @map("job_title")
+  durationDays Int      @default(90) @map("duration_days")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  company    Company                  @relation(fields: [companyId], references: [id])
+  department Department?              @relation(fields: [departmentId], references: [id])
+  tasks      OnboardingTemplateTask[]
+  processes  OnboardingProcess[]
+
+  @@map("onboarding_templates")
+}
+
+model OnboardingTemplateTask {
+  id          String             @id @default(uuid())
+  templateId  String             @map("template_id")
+  title       String
+  description String             @default("")
+  type        OnboardingTaskType
+  dueDay      Int                @map("due_day")
+  assignedTo  OnboardingAssignee @map("assigned_to")
+  order       Int                @default(0)
+
+  template OnboardingTemplate @relation(fields: [templateId], references: [id], onDelete: Cascade)
+
+  @@map("onboarding_template_tasks")
+}
+
+model OnboardingProcess {
+  id          String                  @id @default(uuid())
+  companyId   String                  @map("company_id")
+  userId      String                  @map("user_id")
+  templateId  String                  @map("template_id")
+  startDate   DateTime                @map("start_date")
+  status      OnboardingProcessStatus @default(ACTIVE)
+  completedAt DateTime?               @map("completed_at")
+
+  company     Company                 @relation(fields: [companyId], references: [id])
+  user        User                    @relation(fields: [userId], references: [id])
+  template    OnboardingTemplate      @relation(fields: [templateId], references: [id])
+  tasks       OnboardingProcessTask[]
+  evaluations OnboardingEvaluation[]
+
+  @@map("onboarding_processes")
+}
+
+model OnboardingProcessTask {
+  id          String               @id @default(uuid())
+  processId   String               @map("process_id")
+  title       String
+  description String               @default("")
+  type        OnboardingTaskType
+  dueDate     DateTime             @map("due_date")
+  assignedTo  OnboardingAssignee   @map("assigned_to")
+  status      OnboardingTaskStatus @default(PENDING)
+  completedAt DateTime?            @map("completed_at")
+  note        String               @default("")
+
+  process OnboardingProcess @relation(fields: [processId], references: [id], onDelete: Cascade)
+
+  @@map("onboarding_process_tasks")
+}
+
+model OnboardingEvaluation {
+  id          String           @id @default(uuid())
+  processId   String           @map("process_id")
+  evaluatorId String           @map("evaluator_id")
+  period      EvaluationPeriod
+  score       Int
+  comment     String           @default("")
+  createdAt   DateTime         @default(now()) @map("created_at")
+
+  process   OnboardingProcess @relation(fields: [processId], references: [id], onDelete: Cascade)
+  evaluator User              @relation(fields: [evaluatorId], references: [id])
+
+  @@map("onboarding_evaluations")
 }
