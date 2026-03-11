@@ -1,0 +1,264 @@
+'use client';
+
+import { useState, useEffect, useCallback } from 'react';
+
+interface AiAnalysis {
+  id: string;
+  type: string;
+  title: string;
+  summary: string;
+  details: string;
+  targetId: string | null;
+  targetType: string | null;
+  confidence: number;
+  generatedAt: string;
+}
+
+interface AiAlert {
+  id: string;
+  title: string;
+  message: string;
+  priority: string;
+  category: string;
+  actionUrl: string | null;
+  read: boolean;
+  dismissedAt: string | null;
+  createdAt: string;
+}
+
+interface DashboardData {
+  analysesByType: Record<string, number>;
+  recentAlerts: AiAlert[];
+  totalAnalyses: number;
+  totalAlerts: number;
+  unreadAlerts: number;
+}
+
+type Tab = 'dashboard' | 'analises' | 'alertas';
+
+const typeLabels: Record<string, string> = {
+  PERFORMANCE_SUMMARY: 'Resumo de Performance',
+  TURNOVER_RISK: 'Risco de Turnover',
+  ENGAGEMENT_INSIGHT: 'Insight de Engajamento',
+  SKILL_GAP: 'Lacuna de Competências',
+  TEAM_HEALTH: 'Saúde do Time',
+  CUSTOM: 'Personalizada',
+};
+const typeColors: Record<string, string> = {
+  PERFORMANCE_SUMMARY: 'bg-blue-100 text-blue-800',
+  TURNOVER_RISK: 'bg-red-100 text-red-800',
+  ENGAGEMENT_INSIGHT: 'bg-purple-100 text-purple-800',
+  SKILL_GAP: 'bg-orange-100 text-orange-800',
+  TEAM_HEALTH: 'bg-green-100 text-green-800',
+  CUSTOM: 'bg-gray-100 text-gray-800',
+};
+const priorityLabels: Record<string, string> = { LOW: 'Baixa', MEDIUM: 'Média', HIGH: 'Alta', URGENT: 'Urgente' };
+const priorityColors: Record<string, string> = { LOW: 'bg-gray-100 text-gray-800', MEDIUM: 'bg-yellow-100 text-yellow-800', HIGH: 'bg-orange-100 text-orange-800', URGENT: 'bg-red-100 text-red-800' };
+
+export default function IAPage() {
+  const [tab, setTab] = useState<Tab>('dashboard');
+  const [dashboard, setDashboard] = useState<DashboardData | null>(null);
+  const [analyses, setAnalyses] = useState<AiAnalysis[]>([]);
+  const [alerts, setAlerts] = useState<AiAlert[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedAnalysis, setSelectedAnalysis] = useState<AiAnalysis | null>(null);
+  const [filterType, setFilterType] = useState('');
+
+  const fetchData = useCallback(async () => {
+    setLoading(true);
+    try {
+      const [dashRes, anRes, alRes] = await Promise.all([
+        fetch('/api/ai/dashboard'),
+        fetch(`/api/ai/analises${filterType ? `?type=${filterType}` : ''}`),
+        fetch('/api/ai/alertas'),
+      ]);
+      if (dashRes.ok) setDashboard(await dashRes.json());
+      if (anRes.ok) setAnalyses(await anRes.json());
+      if (alRes.ok) setAlerts(await alRes.json());
+    } catch { /* ignore */ }
+    setLoading(false);
+  }, [filterType]);
+
+  useEffect(() => { fetchData(); }, [fetchData]);
+
+  async function markAsRead(id: string) {
+    await fetch(`/api/ai/alertas/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ read: true }),
+    });
+    fetchData();
+  }
+
+  async function dismissAlert(id: string) {
+    await fetch(`/api/ai/alertas/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ dismiss: true }),
+    });
+    fetchData();
+  }
+
+  if (loading) return <div className="p-8 text-center text-gray-500">Carregando...</div>;
+
+  // Analysis detail
+  if (selectedAnalysis) {
+    const a = selectedAnalysis;
+    return (
+      <div className="p-6 space-y-6 max-w-4xl mx-auto">
+        <button onClick={() => setSelectedAnalysis(null)} className="text-indigo-600 hover:underline text-sm">&larr; Voltar</button>
+        <div className="flex items-start justify-between">
+          <h1 className="text-2xl font-bold text-gray-900">{a.title}</h1>
+          <span className={`px-2 py-1 rounded-full text-xs font-medium ${typeColors[a.type] || 'bg-gray-100'}`}>{typeLabels[a.type] || a.type}</span>
+        </div>
+        <div className="flex items-center gap-4 text-sm text-gray-500">
+          <span>Confiança: {(a.confidence * 100).toFixed(0)}%</span>
+          <span>Gerado em: {new Date(a.generatedAt).toLocaleDateString('pt-BR')}</span>
+        </div>
+        <div className="bg-white border rounded-lg p-6">
+          <h2 className="font-semibold text-gray-900 mb-2">Resumo</h2>
+          <p className="text-gray-700 whitespace-pre-wrap">{a.summary}</p>
+        </div>
+        {a.details && (
+          <div className="bg-white border rounded-lg p-6">
+            <h2 className="font-semibold text-gray-900 mb-2">Detalhes</h2>
+            <p className="text-gray-700 whitespace-pre-wrap">{a.details}</p>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  return (
+    <div className="p-6 space-y-6 max-w-6xl mx-auto">
+      <h1 className="text-2xl font-bold text-gray-900">Inteligência Artificial</h1>
+
+      {/* Tabs */}
+      <div className="border-b border-gray-200">
+        <nav className="flex space-x-8">
+          {([['dashboard', 'Dashboard'], ['analises', 'Análises'], ['alertas', 'Alertas']] as const).map(([key, label]) => (
+            <button key={key} onClick={() => setTab(key)} className={`py-2 px-1 border-b-2 text-sm font-medium transition-colors ${tab === key ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}>
+              {label}
+              {key === 'alertas' && dashboard && dashboard.unreadAlerts > 0 && (
+                <span className="ml-2 inline-flex items-center justify-center px-2 py-0.5 text-xs font-bold leading-none text-white bg-red-500 rounded-full">{dashboard.unreadAlerts}</span>
+              )}
+            </button>
+          ))}
+        </nav>
+      </div>
+
+      {/* Dashboard Tab */}
+      {tab === 'dashboard' && dashboard && (
+        <div className="space-y-6">
+          {/* Summary Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="bg-white border rounded-lg p-6 text-center">
+              <p className="text-3xl font-bold text-indigo-600">{dashboard.totalAnalyses}</p>
+              <p className="text-sm text-gray-500 mt-1">Análises Geradas</p>
+            </div>
+            <div className="bg-white border rounded-lg p-6 text-center">
+              <p className="text-3xl font-bold text-indigo-600">{dashboard.totalAlerts}</p>
+              <p className="text-sm text-gray-500 mt-1">Alertas Totais</p>
+            </div>
+            <div className="bg-white border rounded-lg p-6 text-center">
+              <p className="text-3xl font-bold text-red-600">{dashboard.unreadAlerts}</p>
+              <p className="text-sm text-gray-500 mt-1">Alertas Não Lidos</p>
+            </div>
+          </div>
+
+          {/* Analyses by Type */}
+          <div className="bg-white border rounded-lg p-6">
+            <h2 className="font-semibold text-gray-900 mb-4">Análises por Tipo</h2>
+            <div className="space-y-3">
+              {Object.entries(dashboard.analysesByType).map(([type, count]) => (
+                <div key={type} className="flex items-center justify-between">
+                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${typeColors[type] || 'bg-gray-100'}`}>{typeLabels[type] || type}</span>
+                  <span className="text-sm font-medium text-gray-900">{count as number}</span>
+                </div>
+              ))}
+              {Object.keys(dashboard.analysesByType).length === 0 && <p className="text-sm text-gray-400">Nenhuma análise ainda.</p>}
+            </div>
+          </div>
+
+          {/* Recent Alerts */}
+          {dashboard.recentAlerts.length > 0 && (
+            <div className="bg-white border rounded-lg p-6">
+              <h2 className="font-semibold text-gray-900 mb-4">Alertas Recentes</h2>
+              <div className="space-y-3">
+                {dashboard.recentAlerts.map(alert => (
+                  <div key={alert.id} className={`flex items-start gap-3 p-3 rounded-lg ${alert.read ? 'bg-gray-50' : 'bg-indigo-50'}`}>
+                    <span className={`px-2 py-0.5 rounded-full text-xs font-medium mt-0.5 ${priorityColors[alert.priority]}`}>{priorityLabels[alert.priority]}</span>
+                    <div className="flex-1">
+                      <p className={`text-sm ${alert.read ? 'text-gray-700' : 'font-medium text-gray-900'}`}>{alert.title}</p>
+                      <p className="text-xs text-gray-500 mt-0.5">{alert.message}</p>
+                    </div>
+                    <span className="text-xs text-gray-400">{new Date(alert.createdAt).toLocaleDateString('pt-BR')}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Analyses Tab */}
+      {tab === 'analises' && (
+        <div className="space-y-4">
+          <div className="flex gap-2">
+            <select value={filterType} onChange={e => setFilterType(e.target.value)} className="border rounded px-3 py-2 text-sm">
+              <option value="">Todos os tipos</option>
+              {Object.entries(typeLabels).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
+            </select>
+          </div>
+          <div className="space-y-3">
+            {analyses.map(a => (
+              <div key={a.id} onClick={() => setSelectedAnalysis(a)} className="bg-white border rounded-lg p-4 cursor-pointer hover:border-indigo-300 transition-colors">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="font-medium text-gray-900">{a.title}</h3>
+                    <p className="text-sm text-gray-500 mt-1 line-clamp-1">{a.summary}</p>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="text-sm text-gray-400">{(a.confidence * 100).toFixed(0)}%</span>
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${typeColors[a.type] || 'bg-gray-100'}`}>{typeLabels[a.type] || a.type}</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+            {analyses.length === 0 && <p className="text-center text-gray-400 py-8">Nenhuma análise de IA encontrada.</p>}
+          </div>
+        </div>
+      )}
+
+      {/* Alerts Tab */}
+      {tab === 'alertas' && (
+        <div className="space-y-3">
+          {alerts.map(alert => (
+            <div key={alert.id} className={`bg-white border rounded-lg p-4 ${!alert.read ? 'border-indigo-200' : ''}`}>
+              <div className="flex items-start justify-between">
+                <div className="flex items-start gap-3">
+                  <span className={`px-2 py-0.5 rounded-full text-xs font-medium mt-0.5 ${priorityColors[alert.priority]}`}>{priorityLabels[alert.priority]}</span>
+                  <div>
+                    <p className={`text-sm ${alert.read ? 'text-gray-700' : 'font-medium text-gray-900'}`}>{alert.title}</p>
+                    <p className="text-sm text-gray-500 mt-1">{alert.message}</p>
+                    {alert.category && <span className="text-xs text-gray-400 mt-1">{alert.category}</span>}
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs text-gray-400">{new Date(alert.createdAt).toLocaleDateString('pt-BR')}</span>
+                  {!alert.read && (
+                    <button onClick={() => markAsRead(alert.id)} className="text-xs px-2 py-1 bg-indigo-100 text-indigo-700 rounded hover:bg-indigo-200">Marcar lido</button>
+                  )}
+                  {!alert.dismissedAt && (
+                    <button onClick={() => dismissAlert(alert.id)} className="text-xs px-2 py-1 bg-gray-100 text-gray-700 rounded hover:bg-gray-200">Dispensar</button>
+                  )}
+                </div>
+              </div>
+            </div>
+          ))}
+          {alerts.length === 0 && <p className="text-center text-gray-400 py-8">Nenhum alerta.</p>}
+        </div>
+      )}
+    </div>
+  );
+}
