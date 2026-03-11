@@ -246,25 +246,44 @@ const navItems = [
   },
 ];
 
+// Nav items hidden from EMPLOYEE role
+const employeeHiddenPaths = ['/inteligencia-artificial'];
+
 export function Sidebar() {
   const pathname = usePathname();
   const [unreadCount, setUnreadCount] = useState(0);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [userRole, setUserRole] = useState<string | null>(null);
 
   useEffect(() => {
-    async function fetchUnread() {
+    async function fetchData() {
+      try {
+        const [unreadRes, meRes] = await Promise.all([
+          fetch('/api/comunicados/unread'),
+          fetch('/api/me'),
+        ]);
+        if (unreadRes.ok) {
+          const data = await unreadRes.json();
+          setUnreadCount(data.count ?? 0);
+        }
+        if (meRes.ok) {
+          const me = await meRes.json();
+          setUserRole(me.role);
+        }
+      } catch {
+        // ignore — sidebar should not break if the fetch fails
+      }
+    }
+    fetchData();
+    const interval = setInterval(async () => {
       try {
         const res = await fetch('/api/comunicados/unread');
         if (res.ok) {
           const data = await res.json();
           setUnreadCount(data.count ?? 0);
         }
-      } catch {
-        // ignore — sidebar should not break if the fetch fails
-      }
-    }
-    fetchUnread();
-    const interval = setInterval(fetchUnread, 60_000);
+      } catch {}
+    }, 60_000);
     return () => clearInterval(interval);
   }, []);
 
@@ -315,7 +334,10 @@ export function Sidebar() {
 
         <nav className="flex-1 overflow-y-auto py-4" aria-label="Navegação">
           <ul className="space-y-1 px-3" role="list">
-            {navItems.map((item) => {
+            {navItems.filter((item) => {
+              if (userRole === 'EMPLOYEE' && employeeHiddenPaths.includes(item.href)) return false;
+              return true;
+            }).map((item) => {
               const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
               return (
                 <li key={item.href}>

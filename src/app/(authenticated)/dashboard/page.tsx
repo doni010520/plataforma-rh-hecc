@@ -4,6 +4,7 @@ import Link from 'next/link';
 import MoodWidget from '@/components/MoodWidget';
 import ManagerDashboard from '@/components/ManagerDashboard';
 import AdminDashboard from '@/components/AdminDashboard';
+import { AiDashboardCard } from '@/components/AiDashboardCard';
 
 export default async function DashboardPage() {
   const user = await getCurrentUser();
@@ -61,6 +62,28 @@ export default async function DashboardPage() {
 
   const respondedIds = new Set(respondedSurveyIds.map((r) => r.surveyId));
   const pendingSurveys = activeSurveys.filter((s) => !respondedIds.has(s.id));
+
+  // Active NR-01 psychosocial assessments the user hasn't responded to
+  let pendingAssessments: { id: string; title: string }[] = [];
+  try {
+    const activeAssessments = await prisma.psychosocialAssessment.findMany({
+      where: { companyId: user.companyId, status: 'ACTIVE' },
+      select: { id: true, title: true },
+    });
+
+    const respondedAssessmentIds = await prisma.psychosocialResponse.findMany({
+      where: {
+        userId: user.id,
+        assessment: { companyId: user.companyId, status: 'ACTIVE' },
+      },
+      select: { assessmentId: true },
+    });
+
+    const respondedAssessmentSet = new Set(respondedAssessmentIds.map((r) => r.assessmentId));
+    pendingAssessments = activeAssessments.filter((a) => !respondedAssessmentSet.has(a.id));
+  } catch {
+    // Tables may not exist yet if migration hasn't run
+  }
 
   const pendingAssignments = await prisma.reviewAssignment.findMany({
     where: {
@@ -126,6 +149,28 @@ export default async function DashboardPage() {
                 <Link
                   href={`/pesquisas/${s.id}/responder`}
                   className="text-sm bg-indigo-600 text-white px-3 py-1 rounded-md hover:bg-indigo-700 font-medium"
+                >
+                  Responder
+                </Link>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Active NR-01 Assessment Banner */}
+      {pendingAssessments.length > 0 && (
+        <div className="mt-6 bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+          <h3 className="text-sm font-semibold text-yellow-800 mb-2">
+            Avaliações Psicossociais Ativas ({pendingAssessments.length})
+          </h3>
+          <div className="space-y-2">
+            {pendingAssessments.map((a) => (
+              <div key={a.id} className="flex items-center justify-between">
+                <span className="text-sm text-yellow-700">{a.title}</span>
+                <Link
+                  href={`/nr01/avaliacoes/${a.id}/responder`}
+                  className="text-sm bg-yellow-600 text-white px-3 py-1 rounded-md hover:bg-yellow-700 font-medium"
                 >
                   Responder
                 </Link>
@@ -273,6 +318,9 @@ export default async function DashboardPage() {
           </div>
         )}
       </div>
+
+      {/* AI Insights Card (ADMIN/MANAGER only) */}
+      {(isManager || isAdmin) && <AiDashboardCard />}
 
       {/* Role-specific Dashboard Sections */}
       {isManager && <ManagerDashboard />}
