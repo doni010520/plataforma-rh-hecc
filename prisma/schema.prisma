@@ -105,25 +105,32 @@ model Company {
   logoUrl   String?  @map("logo_url")
   createdAt DateTime @default(now()) @map("created_at")
 
-  users               User[]
-  departments         Department[]
-  reviewCycles        ReviewCycle[]
-  feedbacks           Feedback[]
-  objectives          Objective[]
-  surveys             Survey[]
-  moodLogs            MoodLog[]
-  celebrations        Celebration[]
-  announcements       Announcement[]
-  notifications       Notification[]
-  developmentPlans    DevelopmentPlan[]
-  onboardingTemplates OnboardingTemplate[]
-  onboardingProcesses OnboardingProcess[]
-  learningTracks      LearningTrack[]
-  employeeDocuments   EmployeeDocument[]
-  payslips            Payslip[]
-  vacationRequests    VacationRequest[]
-  salaryHistory       SalaryHistory[]
-  jobHistory          JobHistory[]
+  users                   User[]
+  departments             Department[]
+  reviewCycles            ReviewCycle[]
+  feedbacks               Feedback[]
+  objectives              Objective[]
+  surveys                 Survey[]
+  moodLogs                MoodLog[]
+  celebrations            Celebration[]
+  announcements           Announcement[]
+  notifications           Notification[]
+  developmentPlans        DevelopmentPlan[]
+  onboardingTemplates     OnboardingTemplate[]
+  onboardingProcesses     OnboardingProcess[]
+  learningTracks          LearningTrack[]
+  employeeDocuments       EmployeeDocument[]
+  payslips                Payslip[]
+  vacationRequests        VacationRequest[]
+  salaryHistory           SalaryHistory[]
+  jobHistory              JobHistory[]
+  jobPositions            JobPosition[]
+  candidates              Candidate[]
+  psychosocialAssessments PsychosocialAssessment[]
+  riskInventories         RiskInventory[]
+  complaints              Complaint[]
+  aiAnalyses              AiAnalysis[]
+  aiAlerts                AiAlert[]
 
   @@map("companies")
 }
@@ -139,6 +146,7 @@ model Department {
   onboardingTemplates OnboardingTemplate[]
   jobHistoryFrom      JobHistory[]         @relation("PreviousDepartment")
   jobHistoryTo        JobHistory[]         @relation("NewDepartment")
+  jobPositions        JobPosition[]
 
   @@unique([companyId, name])
   @@map("departments")
@@ -200,6 +208,19 @@ model User {
   createdSalaryChanges SalaryHistory[]    @relation("CreatedSalaryChanges")
   jobHistory           JobHistory[]       @relation("UserJobHistory")
   createdJobChanges    JobHistory[]       @relation("CreatedJobChanges")
+
+  createdPositions    JobPosition[]           @relation("CreatedPositions")
+  appEvaluations      ApplicationEvaluation[] @relation("AppEvaluations")
+  conductedInterviews Interview[]             @relation("ConductedInterviews")
+
+  createdAssessments    PsychosocialAssessment[] @relation("CreatedAssessments")
+  psychosocialResponses PsychosocialResponse[]   @relation("PsychosocialResponses")
+  createdInventories    RiskInventory[]          @relation("CreatedInventories")
+  actionPlanResponsible ActionPlan[]             @relation("ActionPlanResponsible")
+  complaints            Complaint[]              @relation("Complaints")
+  complaintUpdates      ComplaintUpdate[]        @relation("ComplaintUpdates")
+
+  aiAlerts AiAlert[] @relation("AiAlerts")
 
   @@unique([companyId, email])
   @@map("users")
@@ -923,4 +944,379 @@ model JobHistory {
   createdBy          User        @relation("CreatedJobChanges", fields: [createdById], references: [id])
 
   @@map("job_history")
+}
+
+// ========== FASE 14: ATS (RECRUTAMENTO E SELECAO) ==========
+
+enum JobPositionStatus {
+  OPEN
+  CLOSED
+  CANCELLED
+  ON_HOLD
+}
+
+enum ApplicationStatus {
+  NEW
+  SCREENING
+  INTERVIEW
+  OFFER
+  HIRED
+  REJECTED
+  WITHDRAWN
+}
+
+enum InterviewType {
+  PHONE
+  VIDEO
+  IN_PERSON
+  TECHNICAL
+}
+
+enum InterviewStatus {
+  SCHEDULED
+  COMPLETED
+  CANCELLED
+  NO_SHOW
+}
+
+model JobPosition {
+  id           String            @id @default(uuid())
+  companyId    String            @map("company_id")
+  title        String
+  description  String            @default("")
+  departmentId String?           @map("department_id")
+  location     String            @default("")
+  type         String            @default("CLT")
+  salaryMin    Float?            @map("salary_min")
+  salaryMax    Float?            @map("salary_max")
+  vacancies    Int               @default(1)
+  status       JobPositionStatus @default(OPEN)
+  createdById  String            @map("created_by_id")
+  closedAt     DateTime?         @map("closed_at")
+  createdAt    DateTime          @default(now()) @map("created_at")
+
+  company      Company            @relation(fields: [companyId], references: [id])
+  department   Department?        @relation(fields: [departmentId], references: [id])
+  createdBy    User               @relation("CreatedPositions", fields: [createdById], references: [id])
+  stages       RecruitmentStage[]
+  applications Application[]
+
+  @@map("job_positions")
+}
+
+model RecruitmentStage {
+  id         String @id @default(uuid())
+  positionId String @map("position_id")
+  name       String
+  order      Int    @default(0)
+
+  position JobPosition @relation(fields: [positionId], references: [id], onDelete: Cascade)
+
+  @@map("recruitment_stages")
+}
+
+model Candidate {
+  id        String   @id @default(uuid())
+  companyId String   @map("company_id")
+  name      String
+  email     String
+  phone     String   @default("")
+  resumeUrl String?  @map("resume_url")
+  linkedIn  String?  @map("linkedin")
+  notes     String   @default("")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  company      Company       @relation(fields: [companyId], references: [id])
+  applications Application[]
+
+  @@unique([companyId, email])
+  @@map("candidates")
+}
+
+model Application {
+  id           String            @id @default(uuid())
+  positionId   String            @map("position_id")
+  candidateId  String            @map("candidate_id")
+  status       ApplicationStatus @default(NEW)
+  currentStage String?           @map("current_stage")
+  appliedAt    DateTime          @default(now()) @map("applied_at")
+  updatedAt    DateTime          @updatedAt @map("updated_at")
+
+  position    JobPosition             @relation(fields: [positionId], references: [id], onDelete: Cascade)
+  candidate   Candidate               @relation(fields: [candidateId], references: [id])
+  evaluations ApplicationEvaluation[]
+  interviews  Interview[]
+
+  @@unique([positionId, candidateId])
+  @@map("applications")
+}
+
+model ApplicationEvaluation {
+  id            String   @id @default(uuid())
+  applicationId String   @map("application_id")
+  evaluatorId   String   @map("evaluator_id")
+  score         Int
+  comment       String   @default("")
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  application Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  evaluator   User        @relation("AppEvaluations", fields: [evaluatorId], references: [id])
+
+  @@map("application_evaluations")
+}
+
+model Interview {
+  id            String          @id @default(uuid())
+  applicationId String          @map("application_id")
+  interviewerId String          @map("interviewer_id")
+  type          InterviewType   @default(VIDEO)
+  status        InterviewStatus @default(SCHEDULED)
+  scheduledAt   DateTime        @map("scheduled_at")
+  durationMin   Int             @default(60) @map("duration_min")
+  location      String          @default("")
+  notes         String          @default("")
+  score         Int?
+  feedback      String          @default("")
+  createdAt     DateTime        @default(now()) @map("created_at")
+
+  application Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  interviewer User        @relation("ConductedInterviews", fields: [interviewerId], references: [id])
+
+  @@map("interviews")
+}
+
+// ========== FASE 15: NR-01 / RISCOS PSICOSSOCIAIS ==========
+
+enum PsychosocialAssessmentStatus {
+  DRAFT
+  ACTIVE
+  CLOSED
+}
+
+enum RiskSeverity {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum ActionPlanStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+enum ComplaintStatus {
+  OPEN
+  INVESTIGATING
+  RESOLVED
+  DISMISSED
+}
+
+model PsychosocialAssessment {
+  id          String                       @id @default(uuid())
+  companyId   String                       @map("company_id")
+  title       String
+  description String                       @default("")
+  status      PsychosocialAssessmentStatus @default(DRAFT)
+  startDate   DateTime?                    @map("start_date")
+  endDate     DateTime?                    @map("end_date")
+  anonymous   Boolean                      @default(true)
+  createdById String                       @map("created_by_id")
+  createdAt   DateTime                     @default(now()) @map("created_at")
+
+  company   Company                @relation(fields: [companyId], references: [id])
+  createdBy User                   @relation("CreatedAssessments", fields: [createdById], references: [id])
+  questions PsychosocialQuestion[]
+  responses PsychosocialResponse[]
+  results   PsychosocialResult[]
+
+  @@map("psychosocial_assessments")
+}
+
+model PsychosocialQuestion {
+  id           String @id @default(uuid())
+  assessmentId String @map("assessment_id")
+  text         String
+  category     String @default("")
+  order        Int    @default(0)
+
+  assessment PsychosocialAssessment @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+  answers    PsychosocialAnswer[]
+
+  @@map("psychosocial_questions")
+}
+
+model PsychosocialResponse {
+  id           String   @id @default(uuid())
+  assessmentId String   @map("assessment_id")
+  userId       String?  @map("user_id")
+  submittedAt  DateTime @default(now()) @map("submitted_at")
+
+  assessment PsychosocialAssessment @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+  user       User?                  @relation("PsychosocialResponses", fields: [userId], references: [id])
+  answers    PsychosocialAnswer[]
+
+  @@map("psychosocial_responses")
+}
+
+model PsychosocialAnswer {
+  id         String @id @default(uuid())
+  responseId String @map("response_id")
+  questionId String @map("question_id")
+  value      String
+
+  response PsychosocialResponse @relation(fields: [responseId], references: [id], onDelete: Cascade)
+  question PsychosocialQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@unique([responseId, questionId])
+  @@map("psychosocial_answers")
+}
+
+model PsychosocialResult {
+  id             String       @id @default(uuid())
+  assessmentId   String       @map("assessment_id")
+  category       String
+  averageScore   Float        @map("average_score")
+  riskLevel      RiskSeverity @map("risk_level")
+  totalResponses Int          @map("total_responses")
+  calculatedAt   DateTime     @default(now()) @map("calculated_at")
+
+  assessment PsychosocialAssessment @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+
+  @@map("psychosocial_results")
+}
+
+model RiskInventory {
+  id            String   @id @default(uuid())
+  companyId     String   @map("company_id")
+  title         String
+  description   String   @default("")
+  referenceDate DateTime @map("reference_date")
+  createdById   String   @map("created_by_id")
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  company         Company          @relation(fields: [companyId], references: [id])
+  createdBy       User             @relation("CreatedInventories", fields: [createdById], references: [id])
+  identifiedRisks IdentifiedRisk[]
+
+  @@map("risk_inventories")
+}
+
+model IdentifiedRisk {
+  id             String       @id @default(uuid())
+  inventoryId    String       @map("inventory_id")
+  description    String
+  category       String       @default("")
+  severity       RiskSeverity @default(MEDIUM)
+  affectedArea   String       @default("") @map("affected_area")
+  mitigationPlan String       @default("") @map("mitigation_plan")
+
+  inventory   RiskInventory @relation(fields: [inventoryId], references: [id], onDelete: Cascade)
+  actionPlans ActionPlan[]
+
+  @@map("identified_risks")
+}
+
+model ActionPlan {
+  id            String           @id @default(uuid())
+  riskId        String           @map("risk_id")
+  title         String
+  description   String           @default("")
+  responsibleId String           @map("responsible_id")
+  dueDate       DateTime?        @map("due_date")
+  status        ActionPlanStatus @default(PENDING)
+  completedAt   DateTime?        @map("completed_at")
+  createdAt     DateTime         @default(now()) @map("created_at")
+
+  risk        IdentifiedRisk @relation(fields: [riskId], references: [id], onDelete: Cascade)
+  responsible User           @relation("ActionPlanResponsible", fields: [responsibleId], references: [id])
+
+  @@map("action_plans")
+}
+
+model Complaint {
+  id          String          @id @default(uuid())
+  companyId   String          @map("company_id")
+  authorId    String?         @map("author_id")
+  anonymous   Boolean         @default(false)
+  category    String          @default("")
+  description String
+  status      ComplaintStatus @default(OPEN)
+  createdAt   DateTime        @default(now()) @map("created_at")
+
+  company Company           @relation(fields: [companyId], references: [id])
+  author  User?             @relation("Complaints", fields: [authorId], references: [id])
+  updates ComplaintUpdate[]
+
+  @@map("complaints")
+}
+
+model ComplaintUpdate {
+  id          String           @id @default(uuid())
+  complaintId String           @map("complaint_id")
+  authorId    String           @map("author_id")
+  content     String
+  newStatus   ComplaintStatus? @map("new_status")
+  createdAt   DateTime         @default(now()) @map("created_at")
+
+  complaint Complaint @relation(fields: [complaintId], references: [id], onDelete: Cascade)
+  author    User      @relation("ComplaintUpdates", fields: [authorId], references: [id])
+
+  @@map("complaint_updates")
+}
+
+// ========== FASE 16: INTELIGENCIA ARTIFICIAL ==========
+
+enum AiAnalysisType {
+  PERFORMANCE_SUMMARY
+  TURNOVER_RISK
+  ENGAGEMENT_INSIGHT
+  SKILL_GAP
+  TEAM_HEALTH
+  CUSTOM
+}
+
+enum AiAlertPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+model AiAnalysis {
+  id          String         @id @default(uuid())
+  companyId   String         @map("company_id")
+  type        AiAnalysisType
+  title       String
+  summary     String         @default("")
+  details     String         @default("")
+  targetId    String?        @map("target_id")
+  targetType  String?        @map("target_type")
+  confidence  Float          @default(0)
+  generatedAt DateTime       @default(now()) @map("generated_at")
+
+  company Company @relation(fields: [companyId], references: [id])
+
+  @@map("ai_analyses")
+}
+
+model AiAlert {
+  id          String          @id @default(uuid())
+  companyId   String          @map("company_id")
+  userId      String?         @map("user_id")
+  title       String
+  message     String
+  priority    AiAlertPriority @default(MEDIUM)
+  category    String          @default("")
+  actionUrl   String?         @map("action_url")
+  read        Boolean         @default(false)
+  dismissedAt DateTime?       @map("dismissed_at")
+  createdAt   DateTime        @default(now()) @map("created_at")
+
+  company Company @relation(fields: [companyId], references: [id])
+  user    User?   @relation("AiAlerts", fields: [userId], references: [id])
+
+  @@map("ai_alerts")
 }
