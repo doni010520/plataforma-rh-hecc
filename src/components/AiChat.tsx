@@ -130,7 +130,7 @@ export function AiChat({ inline, departmentId }: AiChatProps) {
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-6 right-6 w-14 h-14 bg-indigo-600 text-white rounded-full shadow-lg hover:bg-indigo-700 flex items-center justify-center z-50"
+          className="fixed bottom-6 right-6 w-14 h-14 bg-indigo-600/90 backdrop-blur-sm text-white rounded-full shadow-lg hover:bg-indigo-700 flex items-center justify-center z-50 transition-all hover:scale-105"
           aria-label="Abrir assistente IA"
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -141,8 +141,8 @@ export function AiChat({ inline, departmentId }: AiChatProps) {
 
       {/* Chat panel */}
       {isOpen && (
-        <div className="fixed bottom-6 right-6 w-[400px] h-[500px] bg-white border border-gray-200 rounded-lg shadow-xl flex flex-col z-50">
-          <div className="flex items-center justify-between px-4 py-3 border-b bg-indigo-600 text-white rounded-t-lg">
+        <div className="fixed bottom-6 right-6 w-[400px] h-[500px] bg-white/80 backdrop-blur-xl border border-white/30 rounded-2xl shadow-2xl flex flex-col z-50">
+          <div className="flex items-center justify-between px-4 py-3 border-b border-white/20 bg-indigo-600/90 backdrop-blur-sm text-white rounded-t-2xl">
             <h3 className="font-medium text-sm">Assistente IA</h3>
             <div className="flex gap-2">
               <button onClick={() => setMessages([])} className="text-indigo-200 hover:text-white text-xs">Limpar</button>

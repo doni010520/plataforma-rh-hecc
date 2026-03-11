@@ -35,7 +35,7 @@ export function AiDashboardCard() {
   if (data.totalAnalyses === 0 && data.totalAlerts === 0) return null;
 
   return (
-    <div className="mt-6 bg-gradient-to-br from-indigo-50 to-purple-50 border border-indigo-200 rounded-lg p-6">
+    <div className="mt-6 bg-gradient-to-br from-indigo-50/70 to-purple-50/70 backdrop-blur-lg border border-indigo-200/50 rounded-2xl p-6">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <svg className="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">

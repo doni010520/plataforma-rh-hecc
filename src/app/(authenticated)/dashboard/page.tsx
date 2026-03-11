@@ -106,19 +106,19 @@ export default async function DashboardPage() {
       <h1 className="text-2xl font-bold text-gray-900 mb-6">Dashboard</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div className="bg-white rounded-lg shadow-sm p-6">
+        <div className="bg-white/60 backdrop-blur-lg border border-white/30 rounded-2xl shadow-sm p-6">
           <h3 className="text-sm font-medium text-gray-500 mb-1">Bem-vindo(a)</h3>
           <p className="text-xl font-semibold text-gray-900">{user.name}</p>
           <p className="text-sm text-gray-500 mt-1">{user.company.name}</p>
         </div>
 
-        <div className="bg-white rounded-lg shadow-sm p-6">
+        <div className="bg-white/60 backdrop-blur-lg border border-white/30 rounded-2xl shadow-sm p-6">
           <h3 className="text-sm font-medium text-gray-500 mb-1">Cargo</h3>
           <p className="text-xl font-semibold text-gray-900">{user.jobTitle || 'Não definido'}</p>
           <p className="text-sm text-gray-500 mt-1">{user.department?.name || 'Sem departamento'}</p>
         </div>
 
-        <div className="bg-white rounded-lg shadow-sm p-6">
+        <div className="bg-white/60 backdrop-blur-lg border border-white/30 rounded-2xl shadow-sm p-6">
           <h3 className="text-sm font-medium text-gray-500 mb-1">Perfil</h3>
           <p className="text-xl font-semibold text-gray-900">
             {user.role === 'ADMIN'
@@ -138,7 +138,7 @@ export default async function DashboardPage() {
 
       {/* Active Survey Banner */}
       {pendingSurveys.length > 0 && (
-        <div className="mt-6 bg-indigo-50 border border-indigo-200 rounded-lg p-4">
+        <div className="mt-6 bg-indigo-50/70 backdrop-blur-lg border border-indigo-200/50 rounded-2xl p-4">
           <h3 className="text-sm font-semibold text-indigo-800 mb-2">
             📋 Pesquisas Activas ({pendingSurveys.length})
           </h3>
@@ -160,7 +160,7 @@ export default async function DashboardPage() {
 
       {/* Active NR-01 Assessment Banner */}
       {pendingAssessments.length > 0 && (
-        <div className="mt-6 bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+        <div className="mt-6 bg-yellow-50/70 backdrop-blur-lg border border-yellow-200/50 rounded-2xl p-4">
           <h3 className="text-sm font-semibold text-yellow-800 mb-2">
             Avaliações Psicossociais Ativas ({pendingAssessments.length})
           </h3>

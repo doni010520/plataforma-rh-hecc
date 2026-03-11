@@ -87,7 +87,7 @@ export function AiInterpretation({ type, targetId }: AiInterpretationProps) {
       )}
 
       {result && (
-        <div className="mt-4 bg-gradient-to-br from-indigo-50 to-purple-50 border border-indigo-200 rounded-lg overflow-hidden">
+        <div className="mt-4 bg-gradient-to-br from-indigo-50/70 to-purple-50/70 backdrop-blur-lg border border-indigo-200/50 rounded-2xl overflow-hidden">
           <button
             onClick={() => setExpanded(!expanded)}
             className="w-full flex items-center justify-between px-4 py-3 text-left"
