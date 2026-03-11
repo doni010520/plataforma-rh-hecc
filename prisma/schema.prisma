@@ -119,6 +119,11 @@ model Company {
   onboardingTemplates OnboardingTemplate[]
   onboardingProcesses OnboardingProcess[]
   learningTracks      LearningTrack[]
+  employeeDocuments   EmployeeDocument[]
+  payslips            Payslip[]
+  vacationRequests    VacationRequest[]
+  salaryHistory       SalaryHistory[]
+  jobHistory          JobHistory[]
 
   @@map("companies")
 }
@@ -132,6 +137,8 @@ model Department {
   company             Company              @relation(fields: [companyId], references: [id])
   users               User[]
   onboardingTemplates OnboardingTemplate[]
+  jobHistoryFrom      JobHistory[]         @relation("PreviousDepartment")
+  jobHistoryTo        JobHistory[]         @relation("NewDepartment")
 
   @@unique([companyId, name])
   @@map("departments")
@@ -184,6 +191,15 @@ model User {
 
   createdLearningTracks LearningTrack[]   @relation("CreatedTracks")
   trackEnrollments      TrackEnrollment[]
+
+  employeeDocuments    EmployeeDocument[]
+  payslips             Payslip[]
+  vacationRequests     VacationRequest[]  @relation("UserVacations")
+  approvedVacations    VacationRequest[]  @relation("ApprovedVacations")
+  salaryHistory        SalaryHistory[]    @relation("UserSalaryHistory")
+  createdSalaryChanges SalaryHistory[]    @relation("CreatedSalaryChanges")
+  jobHistory           JobHistory[]       @relation("UserJobHistory")
+  createdJobChanges    JobHistory[]       @relation("CreatedJobChanges")
 
   @@unique([companyId, email])
   @@map("users")
@@ -773,4 +789,138 @@ model ContentProgress {
 
   @@unique([enrollmentId, contentId])
   @@map("content_progress")
+}
+
+// ========== FASE 13: DEPARTAMENTO PESSOAL ==========
+
+enum DocumentType {
+  RG
+  CPF
+  CTPS
+  DIPLOMA
+  CERTIFICATE
+  CONTRACT
+  MEDICAL
+  OTHER
+}
+
+enum DocumentStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  EXPIRED
+}
+
+enum VacationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+enum VacationType {
+  REGULAR
+  ADVANCE
+  SPLIT
+}
+
+model EmployeeDocument {
+  id         String         @id @default(uuid())
+  companyId  String         @map("company_id")
+  userId     String         @map("user_id")
+  name       String
+  type       DocumentType
+  fileUrl    String?        @map("file_url")
+  expiresAt  DateTime?      @map("expires_at")
+  status     DocumentStatus @default(PENDING)
+  notes      String         @default("")
+  uploadedAt DateTime       @default(now()) @map("uploaded_at")
+
+  company Company @relation(fields: [companyId], references: [id])
+  user    User    @relation(fields: [userId], references: [id])
+
+  @@map("employee_documents")
+}
+
+model Payslip {
+  id             String   @id @default(uuid())
+  companyId      String   @map("company_id")
+  userId         String   @map("user_id")
+  referenceMonth Int      @map("reference_month")
+  referenceYear  Int      @map("reference_year")
+  grossSalary    Float    @map("gross_salary")
+  netSalary      Float    @map("net_salary")
+  deductions     Float    @default(0)
+  bonuses        Float    @default(0)
+  fileUrl        String?  @map("file_url")
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  company Company @relation(fields: [companyId], references: [id])
+  user    User    @relation(fields: [userId], references: [id])
+
+  @@unique([userId, referenceMonth, referenceYear])
+  @@map("payslips")
+}
+
+model VacationRequest {
+  id            String         @id @default(uuid())
+  companyId     String         @map("company_id")
+  userId        String         @map("user_id")
+  startDate     DateTime       @map("start_date")
+  endDate       DateTime       @map("end_date")
+  daysRequested Int            @map("days_requested")
+  type          VacationType   @default(REGULAR)
+  status        VacationStatus @default(PENDING)
+  approvedById  String?        @map("approved_by_id")
+  approvedAt    DateTime?      @map("approved_at")
+  notes         String         @default("")
+  createdAt     DateTime       @default(now()) @map("created_at")
+
+  company    Company @relation(fields: [companyId], references: [id])
+  user       User    @relation("UserVacations", fields: [userId], references: [id])
+  approvedBy User?   @relation("ApprovedVacations", fields: [approvedById], references: [id])
+
+  @@map("vacation_requests")
+}
+
+model SalaryHistory {
+  id             String   @id @default(uuid())
+  companyId      String   @map("company_id")
+  userId         String   @map("user_id")
+  previousSalary Float    @map("previous_salary")
+  newSalary      Float    @map("new_salary")
+  reason         String   @default("")
+  effectiveDate  DateTime @map("effective_date")
+  createdById    String   @map("created_by_id")
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  company   Company @relation(fields: [companyId], references: [id])
+  user      User    @relation("UserSalaryHistory", fields: [userId], references: [id])
+  createdBy User    @relation("CreatedSalaryChanges", fields: [createdById], references: [id])
+
+  @@map("salary_history")
+}
+
+model JobHistory {
+  id                   String   @id @default(uuid())
+  companyId            String   @map("company_id")
+  userId               String   @map("user_id")
+  previousJobTitle     String?  @map("previous_job_title")
+  newJobTitle          String   @map("new_job_title")
+  previousDepartmentId String?  @map("previous_department_id")
+  newDepartmentId      String?  @map("new_department_id")
+  reason               String   @default("")
+  effectiveDate        DateTime @map("effective_date")
+  createdById          String   @map("created_by_id")
+  createdAt            DateTime @default(now()) @map("created_at")
+
+  company            Company     @relation(fields: [companyId], references: [id])
+  user               User        @relation("UserJobHistory", fields: [userId], references: [id])
+  previousDepartment Department? @relation("PreviousDepartment", fields: [previousDepartmentId], references: [id])
+  newDepartment      Department? @relation("NewDepartment", fields: [newDepartmentId], references: [id])
+  createdBy          User        @relation("CreatedJobChanges", fields: [createdById], references: [id])
+
+  @@map("job_history")
 }
