@@ -16,8 +16,8 @@ enum Role {
 
 enum ReviewCycleType {
   SELF
-  HALF  // 180 graus
-  FULL  // 360 graus
+  HALF // 180 graus
+  FULL // 360 graus
 }
 
 enum ReviewCycleStatus {
@@ -105,16 +105,32 @@ model Company {
   logoUrl   String?  @map("logo_url")
   createdAt DateTime @default(now()) @map("created_at")
 
-  users        User[]
-  departments  Department[]
-  reviewCycles ReviewCycle[]
-  feedbacks    Feedback[]
-  objectives   Objective[]
-  surveys        Survey[]
-  moodLogs       MoodLog[]
-  celebrations   Celebration[]
-  announcements  Announcement[]
-  notifications  Notification[]
+  users                   User[]
+  departments             Department[]
+  reviewCycles            ReviewCycle[]
+  feedbacks               Feedback[]
+  objectives              Objective[]
+  surveys                 Survey[]
+  moodLogs                MoodLog[]
+  celebrations            Celebration[]
+  announcements           Announcement[]
+  notifications           Notification[]
+  developmentPlans        DevelopmentPlan[]
+  onboardingTemplates     OnboardingTemplate[]
+  onboardingProcesses     OnboardingProcess[]
+  learningTracks          LearningTrack[]
+  employeeDocuments       EmployeeDocument[]
+  payslips                Payslip[]
+  vacationRequests        VacationRequest[]
+  salaryHistory           SalaryHistory[]
+  jobHistory              JobHistory[]
+  jobPositions            JobPosition[]
+  candidates              Candidate[]
+  psychosocialAssessments PsychosocialAssessment[]
+  riskInventories         RiskInventory[]
+  complaints              Complaint[]
+  aiAnalyses              AiAnalysis[]
+  aiAlerts                AiAlert[]
 
   @@map("companies")
 }
@@ -125,8 +141,12 @@ model Department {
   name      String
   createdAt DateTime @default(now()) @map("created_at")
 
-  company Company @relation(fields: [companyId], references: [id])
-  users   User[]
+  company             Company              @relation(fields: [companyId], references: [id])
+  users               User[]
+  onboardingTemplates OnboardingTemplate[]
+  jobHistoryFrom      JobHistory[]         @relation("PreviousDepartment")
+  jobHistoryTo        JobHistory[]         @relation("NewDepartment")
+  jobPositions        JobPosition[]
 
   @@unique([companyId, name])
   @@map("departments")
@@ -170,6 +190,38 @@ model User {
   announcementReads    AnnouncementRead[]
   notifications        Notification[]
 
+  developmentPlans        DevelopmentPlan[]        @relation("UserPlans")
+  createdDevelopmentPlans DevelopmentPlan[]        @relation("CreatedPlans")
+  planComments            DevelopmentPlanComment[] @relation("PlanComments")
+
+  onboardingProcesses   OnboardingProcess[]
+  onboardingEvaluations OnboardingEvaluation[]
+
+  createdLearningTracks LearningTrack[]   @relation("CreatedTracks")
+  trackEnrollments      TrackEnrollment[]
+
+  employeeDocuments    EmployeeDocument[]
+  payslips             Payslip[]
+  vacationRequests     VacationRequest[]  @relation("UserVacations")
+  approvedVacations    VacationRequest[]  @relation("ApprovedVacations")
+  salaryHistory        SalaryHistory[]    @relation("UserSalaryHistory")
+  createdSalaryChanges SalaryHistory[]    @relation("CreatedSalaryChanges")
+  jobHistory           JobHistory[]       @relation("UserJobHistory")
+  createdJobChanges    JobHistory[]       @relation("CreatedJobChanges")
+
+  createdPositions    JobPosition[]           @relation("CreatedPositions")
+  appEvaluations      ApplicationEvaluation[] @relation("AppEvaluations")
+  conductedInterviews Interview[]             @relation("ConductedInterviews")
+
+  createdAssessments    PsychosocialAssessment[] @relation("CreatedAssessments")
+  psychosocialResponses PsychosocialResponse[]   @relation("PsychosocialResponses")
+  createdInventories    RiskInventory[]          @relation("CreatedInventories")
+  actionPlanResponsible ActionPlan[]             @relation("ActionPlanResponsible")
+  complaints            Complaint[]              @relation("Complaints")
+  complaintUpdates      ComplaintUpdate[]        @relation("ComplaintUpdates")
+
+  aiAlerts AiAlert[] @relation("AiAlerts")
+
   @@unique([companyId, email])
   @@map("users")
 }
@@ -184,9 +236,10 @@ model ReviewCycle {
   status    ReviewCycleStatus @default(DRAFT)
   createdAt DateTime          @default(now()) @map("created_at")
 
-  company     Company            @relation(fields: [companyId], references: [id])
-  criteria    ReviewCriteria[]
-  assignments ReviewAssignment[]
+  company          Company            @relation(fields: [companyId], references: [id])
+  criteria         ReviewCriteria[]
+  assignments      ReviewAssignment[]
+  developmentPlans DevelopmentPlan[]
 
   @@map("review_cycles")
 }
@@ -222,11 +275,11 @@ model ReviewAssignment {
 }
 
 model ReviewAnswer {
-  id           String  @id @default(uuid())
-  assignmentId String  @map("assignment_id")
-  criteriaId   String  @map("criteria_id")
+  id           String @id @default(uuid())
+  assignmentId String @map("assignment_id")
+  criteriaId   String @map("criteria_id")
   score        Int?
-  comment      String  @default("")
+  comment      String @default("")
 
   assignment ReviewAssignment @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
   criteria   ReviewCriteria   @relation(fields: [criteriaId], references: [id], onDelete: Cascade)
@@ -265,25 +318,25 @@ model Objective {
   parentId    String?         @map("parent_id")
   createdAt   DateTime        @default(now()) @map("created_at")
 
-  company    Company      @relation(fields: [companyId], references: [id])
-  owner      User         @relation(fields: [ownerId], references: [id])
-  parent     Objective?   @relation("ObjectiveParent", fields: [parentId], references: [id])
-  children   Objective[]  @relation("ObjectiveParent")
+  company    Company     @relation(fields: [companyId], references: [id])
+  owner      User        @relation(fields: [ownerId], references: [id])
+  parent     Objective?  @relation("ObjectiveParent", fields: [parentId], references: [id])
+  children   Objective[] @relation("ObjectiveParent")
   keyResults KeyResult[]
 
   @@map("objectives")
 }
 
 model KeyResult {
-  id          String     @id @default(uuid())
-  objectiveId String     @map("objective_id")
-  title       String
-  metricType  MetricType @map("metric_type")
-  startValue  Float      @default(0) @map("start_value")
-  targetValue Float      @map("target_value")
-  currentValue Float     @default(0) @map("current_value")
-  confidence  Int        @default(5)
-  updatedAt   DateTime   @updatedAt @map("updated_at")
+  id           String     @id @default(uuid())
+  objectiveId  String     @map("objective_id")
+  title        String
+  metricType   MetricType @map("metric_type")
+  startValue   Float      @default(0) @map("start_value")
+  targetValue  Float      @map("target_value")
+  currentValue Float      @default(0) @map("current_value")
+  confidence   Int        @default(5)
+  updatedAt    DateTime   @updatedAt @map("updated_at")
 
   objective Objective         @relation(fields: [objectiveId], references: [id], onDelete: Cascade)
   updates   KeyResultUpdate[]
@@ -386,8 +439,8 @@ model Celebration {
   type      CelebrationType
   createdAt DateTime        @default(now()) @map("created_at")
 
-  company   Company                @relation(fields: [companyId], references: [id])
-  author    User                   @relation(fields: [authorId], references: [id])
+  company   Company               @relation(fields: [companyId], references: [id])
+  author    User                  @relation(fields: [authorId], references: [id])
   reactions CelebrationReaction[]
   comments  CelebrationComment[]
 
@@ -467,4 +520,803 @@ model Notification {
 
   @@index([userId, read])
   @@map("notifications")
+}
+
+// ========== FASE 10: PDI ==========
+
+enum DevelopmentPlanStatus {
+  DRAFT
+  ACTIVE
+  COMPLETED
+  CANCELLED
+}
+
+enum DevelopmentTaskType {
+  COURSE
+  BOOK
+  MENTORING
+  PRACTICE
+  OTHER
+}
+
+enum DevelopmentTaskStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+}
+
+model DevelopmentPlan {
+  id            String                @id @default(uuid())
+  companyId     String                @map("company_id")
+  userId        String                @map("user_id")
+  createdById   String                @map("created_by_id")
+  title         String
+  description   String                @default("")
+  status        DevelopmentPlanStatus @default(DRAFT)
+  dueDate       DateTime?             @map("due_date")
+  reviewCycleId String?               @map("review_cycle_id")
+  createdAt     DateTime              @default(now()) @map("created_at")
+  updatedAt     DateTime              @updatedAt @map("updated_at")
+
+  company     Company                  @relation(fields: [companyId], references: [id])
+  user        User                     @relation("UserPlans", fields: [userId], references: [id])
+  createdBy   User                     @relation("CreatedPlans", fields: [createdById], references: [id])
+  reviewCycle ReviewCycle?             @relation(fields: [reviewCycleId], references: [id])
+  tasks       DevelopmentTask[]
+  comments    DevelopmentPlanComment[]
+
+  @@map("development_plans")
+}
+
+model DevelopmentTask {
+  id          String                @id @default(uuid())
+  planId      String                @map("plan_id")
+  title       String
+  description String                @default("")
+  type        DevelopmentTaskType
+  resourceUrl String?               @map("resource_url")
+  dueDate     DateTime?             @map("due_date")
+  status      DevelopmentTaskStatus @default(PENDING)
+  completedAt DateTime?             @map("completed_at")
+  order       Int                   @default(0)
+
+  plan DevelopmentPlan @relation(fields: [planId], references: [id], onDelete: Cascade)
+
+  @@map("development_tasks")
+}
+
+model DevelopmentPlanComment {
+  id        String   @id @default(uuid())
+  planId    String   @map("plan_id")
+  userId    String   @map("user_id")
+  content   String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  plan DevelopmentPlan @relation(fields: [planId], references: [id], onDelete: Cascade)
+  user User            @relation("PlanComments", fields: [userId], references: [id])
+
+  @@map("development_plan_comments")
+}
+
+// ========== FASE 11: ONBOARDING ==========
+
+enum OnboardingTaskType {
+  DOCUMENT
+  MEETING
+  TRAINING
+  SYSTEM_ACCESS
+  OTHER
+}
+
+enum OnboardingAssignee {
+  EMPLOYEE
+  MANAGER
+  HR
+}
+
+enum OnboardingProcessStatus {
+  ACTIVE
+  COMPLETED
+  CANCELLED
+}
+
+enum OnboardingTaskStatus {
+  PENDING
+  COMPLETED
+}
+
+enum EvaluationPeriod {
+  THIRTY
+  SIXTY
+  NINETY
+}
+
+model OnboardingTemplate {
+  id           String   @id @default(uuid())
+  companyId    String   @map("company_id")
+  name         String
+  description  String   @default("")
+  departmentId String?  @map("department_id")
+  jobTitle     String?  @map("job_title")
+  durationDays Int      @default(90) @map("duration_days")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  company    Company                  @relation(fields: [companyId], references: [id])
+  department Department?              @relation(fields: [departmentId], references: [id])
+  tasks      OnboardingTemplateTask[]
+  processes  OnboardingProcess[]
+
+  @@map("onboarding_templates")
+}
+
+model OnboardingTemplateTask {
+  id          String             @id @default(uuid())
+  templateId  String             @map("template_id")
+  title       String
+  description String             @default("")
+  type        OnboardingTaskType
+  dueDay      Int                @map("due_day")
+  assignedTo  OnboardingAssignee @map("assigned_to")
+  order       Int                @default(0)
+
+  template OnboardingTemplate @relation(fields: [templateId], references: [id], onDelete: Cascade)
+
+  @@map("onboarding_template_tasks")
+}
+
+model OnboardingProcess {
+  id          String                  @id @default(uuid())
+  companyId   String                  @map("company_id")
+  userId      String                  @map("user_id")
+  templateId  String                  @map("template_id")
+  startDate   DateTime                @map("start_date")
+  status      OnboardingProcessStatus @default(ACTIVE)
+  completedAt DateTime?               @map("completed_at")
+
+  company     Company                 @relation(fields: [companyId], references: [id])
+  user        User                    @relation(fields: [userId], references: [id])
+  template    OnboardingTemplate      @relation(fields: [templateId], references: [id])
+  tasks       OnboardingProcessTask[]
+  evaluations OnboardingEvaluation[]
+
+  @@map("onboarding_processes")
+}
+
+model OnboardingProcessTask {
+  id          String               @id @default(uuid())
+  processId   String               @map("process_id")
+  title       String
+  description String               @default("")
+  type        OnboardingTaskType
+  dueDate     DateTime             @map("due_date")
+  assignedTo  OnboardingAssignee   @map("assigned_to")
+  status      OnboardingTaskStatus @default(PENDING)
+  completedAt DateTime?            @map("completed_at")
+  note        String               @default("")
+
+  process OnboardingProcess @relation(fields: [processId], references: [id], onDelete: Cascade)
+
+  @@map("onboarding_process_tasks")
+}
+
+model OnboardingEvaluation {
+  id          String           @id @default(uuid())
+  processId   String           @map("process_id")
+  evaluatorId String           @map("evaluator_id")
+  period      EvaluationPeriod
+  score       Int
+  comment     String           @default("")
+  createdAt   DateTime         @default(now()) @map("created_at")
+
+  process   OnboardingProcess @relation(fields: [processId], references: [id], onDelete: Cascade)
+  evaluator User              @relation(fields: [evaluatorId], references: [id])
+
+  @@map("onboarding_evaluations")
+}
+
+// ========== FASE 12: TRILHAS DE DESENVOLVIMENTO ==========
+
+enum LearningContentType {
+  VIDEO
+  ARTICLE
+  COURSE
+  PODCAST
+  BOOK
+  OTHER
+}
+
+enum LearningTrackStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum EnrollmentStatus {
+  ACTIVE
+  COMPLETED
+  CANCELLED
+}
+
+enum ContentProgressStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  COMPLETED
+}
+
+model LearningTrack {
+  id             String              @id @default(uuid())
+  companyId      String              @map("company_id")
+  title          String
+  description    String              @default("")
+  category       String              @default("")
+  coverImageUrl  String?             @map("cover_image_url")
+  estimatedHours Int                 @default(0) @map("estimated_hours")
+  status         LearningTrackStatus @default(DRAFT)
+  createdById    String              @map("created_by_id")
+  createdAt      DateTime            @default(now()) @map("created_at")
+  updatedAt      DateTime            @updatedAt @map("updated_at")
+
+  company     Company           @relation(fields: [companyId], references: [id])
+  createdBy   User              @relation("CreatedTracks", fields: [createdById], references: [id])
+  contents    LearningContent[]
+  enrollments TrackEnrollment[]
+
+  @@map("learning_tracks")
+}
+
+model LearningContent {
+  id              String              @id @default(uuid())
+  trackId         String              @map("track_id")
+  title           String
+  description     String              @default("")
+  type            LearningContentType
+  contentUrl      String?             @map("content_url")
+  durationMinutes Int                 @default(0) @map("duration_minutes")
+  order           Int                 @default(0)
+  required        Boolean             @default(true)
+
+  track    LearningTrack     @relation(fields: [trackId], references: [id], onDelete: Cascade)
+  progress ContentProgress[]
+
+  @@map("learning_contents")
+}
+
+model TrackEnrollment {
+  id          String           @id @default(uuid())
+  trackId     String           @map("track_id")
+  userId      String           @map("user_id")
+  status      EnrollmentStatus @default(ACTIVE)
+  enrolledAt  DateTime         @default(now()) @map("enrolled_at")
+  completedAt DateTime?        @map("completed_at")
+
+  track    LearningTrack     @relation(fields: [trackId], references: [id], onDelete: Cascade)
+  user     User              @relation(fields: [userId], references: [id])
+  progress ContentProgress[]
+
+  @@unique([trackId, userId])
+  @@map("track_enrollments")
+}
+
+model ContentProgress {
+  id           String                @id @default(uuid())
+  enrollmentId String                @map("enrollment_id")
+  contentId    String                @map("content_id")
+  status       ContentProgressStatus @default(NOT_STARTED)
+  completedAt  DateTime?             @map("completed_at")
+  notes        String                @default("")
+
+  enrollment TrackEnrollment @relation(fields: [enrollmentId], references: [id], onDelete: Cascade)
+  content    LearningContent @relation(fields: [contentId], references: [id], onDelete: Cascade)
+
+  @@unique([enrollmentId, contentId])
+  @@map("content_progress")
+}
+
+// ========== FASE 13: DEPARTAMENTO PESSOAL ==========
+
+enum DocumentType {
+  RG
+  CPF
+  CTPS
+  DIPLOMA
+  CERTIFICATE
+  CONTRACT
+  MEDICAL
+  OTHER
+}
+
+enum DocumentStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  EXPIRED
+}
+
+enum VacationStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+enum VacationType {
+  REGULAR
+  ADVANCE
+  SPLIT
+}
+
+model EmployeeDocument {
+  id         String         @id @default(uuid())
+  companyId  String         @map("company_id")
+  userId     String         @map("user_id")
+  name       String
+  type       DocumentType
+  fileUrl    String?        @map("file_url")
+  expiresAt  DateTime?      @map("expires_at")
+  status     DocumentStatus @default(PENDING)
+  notes      String         @default("")
+  uploadedAt DateTime       @default(now()) @map("uploaded_at")
+
+  company Company @relation(fields: [companyId], references: [id])
+  user    User    @relation(fields: [userId], references: [id])
+
+  @@map("employee_documents")
+}
+
+model Payslip {
+  id             String   @id @default(uuid())
+  companyId      String   @map("company_id")
+  userId         String   @map("user_id")
+  referenceMonth Int      @map("reference_month")
+  referenceYear  Int      @map("reference_year")
+  grossSalary    Float    @map("gross_salary")
+  netSalary      Float    @map("net_salary")
+  deductions     Float    @default(0)
+  bonuses        Float    @default(0)
+  fileUrl        String?  @map("file_url")
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  company Company @relation(fields: [companyId], references: [id])
+  user    User    @relation(fields: [userId], references: [id])
+
+  @@unique([userId, referenceMonth, referenceYear])
+  @@map("payslips")
+}
+
+model VacationRequest {
+  id            String         @id @default(uuid())
+  companyId     String         @map("company_id")
+  userId        String         @map("user_id")
+  startDate     DateTime       @map("start_date")
+  endDate       DateTime       @map("end_date")
+  daysRequested Int            @map("days_requested")
+  type          VacationType   @default(REGULAR)
+  status        VacationStatus @default(PENDING)
+  approvedById  String?        @map("approved_by_id")
+  approvedAt    DateTime?      @map("approved_at")
+  notes         String         @default("")
+  createdAt     DateTime       @default(now()) @map("created_at")
+
+  company    Company @relation(fields: [companyId], references: [id])
+  user       User    @relation("UserVacations", fields: [userId], references: [id])
+  approvedBy User?   @relation("ApprovedVacations", fields: [approvedById], references: [id])
+
+  @@map("vacation_requests")
+}
+
+model SalaryHistory {
+  id             String   @id @default(uuid())
+  companyId      String   @map("company_id")
+  userId         String   @map("user_id")
+  previousSalary Float    @map("previous_salary")
+  newSalary      Float    @map("new_salary")
+  reason         String   @default("")
+  effectiveDate  DateTime @map("effective_date")
+  createdById    String   @map("created_by_id")
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  company   Company @relation(fields: [companyId], references: [id])
+  user      User    @relation("UserSalaryHistory", fields: [userId], references: [id])
+  createdBy User    @relation("CreatedSalaryChanges", fields: [createdById], references: [id])
+
+  @@map("salary_history")
+}
+
+model JobHistory {
+  id                   String   @id @default(uuid())
+  companyId            String   @map("company_id")
+  userId               String   @map("user_id")
+  previousJobTitle     String?  @map("previous_job_title")
+  newJobTitle          String   @map("new_job_title")
+  previousDepartmentId String?  @map("previous_department_id")
+  newDepartmentId      String?  @map("new_department_id")
+  reason               String   @default("")
+  effectiveDate        DateTime @map("effective_date")
+  createdById          String   @map("created_by_id")
+  createdAt            DateTime @default(now()) @map("created_at")
+
+  company            Company     @relation(fields: [companyId], references: [id])
+  user               User        @relation("UserJobHistory", fields: [userId], references: [id])
+  previousDepartment Department? @relation("PreviousDepartment", fields: [previousDepartmentId], references: [id])
+  newDepartment      Department? @relation("NewDepartment", fields: [newDepartmentId], references: [id])
+  createdBy          User        @relation("CreatedJobChanges", fields: [createdById], references: [id])
+
+  @@map("job_history")
+}
+
+// ========== FASE 14: ATS (RECRUTAMENTO E SELECAO) ==========
+
+enum JobPositionStatus {
+  OPEN
+  CLOSED
+  CANCELLED
+  ON_HOLD
+}
+
+enum ApplicationStatus {
+  NEW
+  SCREENING
+  INTERVIEW
+  OFFER
+  HIRED
+  REJECTED
+  WITHDRAWN
+}
+
+enum InterviewType {
+  PHONE
+  VIDEO
+  IN_PERSON
+  TECHNICAL
+}
+
+enum InterviewStatus {
+  SCHEDULED
+  COMPLETED
+  CANCELLED
+  NO_SHOW
+}
+
+model JobPosition {
+  id           String            @id @default(uuid())
+  companyId    String            @map("company_id")
+  title        String
+  description  String            @default("")
+  departmentId String?           @map("department_id")
+  location     String            @default("")
+  type         String            @default("CLT")
+  salaryMin    Float?            @map("salary_min")
+  salaryMax    Float?            @map("salary_max")
+  vacancies    Int               @default(1)
+  status       JobPositionStatus @default(OPEN)
+  createdById  String            @map("created_by_id")
+  closedAt     DateTime?         @map("closed_at")
+  createdAt    DateTime          @default(now()) @map("created_at")
+
+  company      Company            @relation(fields: [companyId], references: [id])
+  department   Department?        @relation(fields: [departmentId], references: [id])
+  createdBy    User               @relation("CreatedPositions", fields: [createdById], references: [id])
+  stages       RecruitmentStage[]
+  applications Application[]
+
+  @@map("job_positions")
+}
+
+model RecruitmentStage {
+  id         String @id @default(uuid())
+  positionId String @map("position_id")
+  name       String
+  order      Int    @default(0)
+
+  position JobPosition @relation(fields: [positionId], references: [id], onDelete: Cascade)
+
+  @@map("recruitment_stages")
+}
+
+model Candidate {
+  id        String   @id @default(uuid())
+  companyId String   @map("company_id")
+  name      String
+  email     String
+  phone     String   @default("")
+  resumeUrl String?  @map("resume_url")
+  linkedIn  String?  @map("linkedin")
+  notes     String   @default("")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  company      Company       @relation(fields: [companyId], references: [id])
+  applications Application[]
+
+  @@unique([companyId, email])
+  @@map("candidates")
+}
+
+model Application {
+  id           String            @id @default(uuid())
+  positionId   String            @map("position_id")
+  candidateId  String            @map("candidate_id")
+  status       ApplicationStatus @default(NEW)
+  currentStage String?           @map("current_stage")
+  appliedAt    DateTime          @default(now()) @map("applied_at")
+  updatedAt    DateTime          @updatedAt @map("updated_at")
+
+  position    JobPosition             @relation(fields: [positionId], references: [id], onDelete: Cascade)
+  candidate   Candidate               @relation(fields: [candidateId], references: [id])
+  evaluations ApplicationEvaluation[]
+  interviews  Interview[]
+
+  @@unique([positionId, candidateId])
+  @@map("applications")
+}
+
+model ApplicationEvaluation {
+  id            String   @id @default(uuid())
+  applicationId String   @map("application_id")
+  evaluatorId   String   @map("evaluator_id")
+  score         Int
+  comment       String   @default("")
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  application Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  evaluator   User        @relation("AppEvaluations", fields: [evaluatorId], references: [id])
+
+  @@map("application_evaluations")
+}
+
+model Interview {
+  id            String          @id @default(uuid())
+  applicationId String          @map("application_id")
+  interviewerId String          @map("interviewer_id")
+  type          InterviewType   @default(VIDEO)
+  status        InterviewStatus @default(SCHEDULED)
+  scheduledAt   DateTime        @map("scheduled_at")
+  durationMin   Int             @default(60) @map("duration_min")
+  location      String          @default("")
+  notes         String          @default("")
+  score         Int?
+  feedback      String          @default("")
+  createdAt     DateTime        @default(now()) @map("created_at")
+
+  application Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  interviewer User        @relation("ConductedInterviews", fields: [interviewerId], references: [id])
+
+  @@map("interviews")
+}
+
+// ========== FASE 15: NR-01 / RISCOS PSICOSSOCIAIS ==========
+
+enum PsychosocialAssessmentStatus {
+  DRAFT
+  ACTIVE
+  CLOSED
+}
+
+enum RiskSeverity {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum ActionPlanStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+enum ComplaintStatus {
+  OPEN
+  INVESTIGATING
+  RESOLVED
+  DISMISSED
+}
+
+model PsychosocialAssessment {
+  id          String                       @id @default(uuid())
+  companyId   String                       @map("company_id")
+  title       String
+  description String                       @default("")
+  status      PsychosocialAssessmentStatus @default(DRAFT)
+  startDate   DateTime?                    @map("start_date")
+  endDate     DateTime?                    @map("end_date")
+  anonymous   Boolean                      @default(true)
+  createdById String                       @map("created_by_id")
+  createdAt   DateTime                     @default(now()) @map("created_at")
+
+  company   Company                @relation(fields: [companyId], references: [id])
+  createdBy User                   @relation("CreatedAssessments", fields: [createdById], references: [id])
+  questions PsychosocialQuestion[]
+  responses PsychosocialResponse[]
+  results   PsychosocialResult[]
+
+  @@map("psychosocial_assessments")
+}
+
+model PsychosocialQuestion {
+  id           String @id @default(uuid())
+  assessmentId String @map("assessment_id")
+  text         String
+  category     String @default("")
+  order        Int    @default(0)
+
+  assessment PsychosocialAssessment @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+  answers    PsychosocialAnswer[]
+
+  @@map("psychosocial_questions")
+}
+
+model PsychosocialResponse {
+  id           String   @id @default(uuid())
+  assessmentId String   @map("assessment_id")
+  userId       String?  @map("user_id")
+  submittedAt  DateTime @default(now()) @map("submitted_at")
+
+  assessment PsychosocialAssessment @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+  user       User?                  @relation("PsychosocialResponses", fields: [userId], references: [id])
+  answers    PsychosocialAnswer[]
+
+  @@map("psychosocial_responses")
+}
+
+model PsychosocialAnswer {
+  id         String @id @default(uuid())
+  responseId String @map("response_id")
+  questionId String @map("question_id")
+  value      String
+
+  response PsychosocialResponse @relation(fields: [responseId], references: [id], onDelete: Cascade)
+  question PsychosocialQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@unique([responseId, questionId])
+  @@map("psychosocial_answers")
+}
+
+model PsychosocialResult {
+  id             String       @id @default(uuid())
+  assessmentId   String       @map("assessment_id")
+  category       String
+  averageScore   Float        @map("average_score")
+  riskLevel      RiskSeverity @map("risk_level")
+  totalResponses Int          @map("total_responses")
+  calculatedAt   DateTime     @default(now()) @map("calculated_at")
+
+  assessment PsychosocialAssessment @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+
+  @@map("psychosocial_results")
+}
+
+model RiskInventory {
+  id            String   @id @default(uuid())
+  companyId     String   @map("company_id")
+  title         String
+  description   String   @default("")
+  referenceDate DateTime @map("reference_date")
+  createdById   String   @map("created_by_id")
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  company         Company          @relation(fields: [companyId], references: [id])
+  createdBy       User             @relation("CreatedInventories", fields: [createdById], references: [id])
+  identifiedRisks IdentifiedRisk[]
+
+  @@map("risk_inventories")
+}
+
+model IdentifiedRisk {
+  id             String       @id @default(uuid())
+  inventoryId    String       @map("inventory_id")
+  description    String
+  category       String       @default("")
+  severity       RiskSeverity @default(MEDIUM)
+  affectedArea   String       @default("") @map("affected_area")
+  mitigationPlan String       @default("") @map("mitigation_plan")
+
+  inventory   RiskInventory @relation(fields: [inventoryId], references: [id], onDelete: Cascade)
+  actionPlans ActionPlan[]
+
+  @@map("identified_risks")
+}
+
+model ActionPlan {
+  id            String           @id @default(uuid())
+  riskId        String           @map("risk_id")
+  title         String
+  description   String           @default("")
+  responsibleId String           @map("responsible_id")
+  dueDate       DateTime?        @map("due_date")
+  status        ActionPlanStatus @default(PENDING)
+  completedAt   DateTime?        @map("completed_at")
+  createdAt     DateTime         @default(now()) @map("created_at")
+
+  risk        IdentifiedRisk @relation(fields: [riskId], references: [id], onDelete: Cascade)
+  responsible User           @relation("ActionPlanResponsible", fields: [responsibleId], references: [id])
+
+  @@map("action_plans")
+}
+
+model Complaint {
+  id          String          @id @default(uuid())
+  companyId   String          @map("company_id")
+  authorId    String?         @map("author_id")
+  anonymous   Boolean         @default(false)
+  category    String          @default("")
+  description String
+  status      ComplaintStatus @default(OPEN)
+  createdAt   DateTime        @default(now()) @map("created_at")
+
+  company Company           @relation(fields: [companyId], references: [id])
+  author  User?             @relation("Complaints", fields: [authorId], references: [id])
+  updates ComplaintUpdate[]
+
+  @@map("complaints")
+}
+
+model ComplaintUpdate {
+  id          String           @id @default(uuid())
+  complaintId String           @map("complaint_id")
+  authorId    String           @map("author_id")
+  content     String
+  newStatus   ComplaintStatus? @map("new_status")
+  createdAt   DateTime         @default(now()) @map("created_at")
+
+  complaint Complaint @relation(fields: [complaintId], references: [id], onDelete: Cascade)
+  author    User      @relation("ComplaintUpdates", fields: [authorId], references: [id])
+
+  @@map("complaint_updates")
+}
+
+// ========== FASE 16: INTELIGENCIA ARTIFICIAL ==========
+
+enum AiAnalysisType {
+  PERFORMANCE_SUMMARY
+  TURNOVER_RISK
+  ENGAGEMENT_INSIGHT
+  SKILL_GAP
+  TEAM_HEALTH
+  CUSTOM
+}
+
+enum AiAlertPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+model AiAnalysis {
+  id          String         @id @default(uuid())
+  companyId   String         @map("company_id")
+  type        AiAnalysisType
+  title       String
+  summary     String         @default("")
+  details     String         @default("")
+  targetId    String?        @map("target_id")
+  targetType  String?        @map("target_type")
+  confidence  Float          @default(0)
+  generatedAt DateTime       @default(now()) @map("generated_at")
+
+  company Company @relation(fields: [companyId], references: [id])
+
+  @@map("ai_analyses")
+}
+
+model AiAlert {
+  id          String          @id @default(uuid())
+  companyId   String          @map("company_id")
+  userId      String?         @map("user_id")
+  title       String
+  message     String
+  priority    AiAlertPriority @default(MEDIUM)
+  category    String          @default("")
+  actionUrl   String?         @map("action_url")
+  read        Boolean         @default(false)
+  dismissedAt DateTime?       @map("dismissed_at")
+  createdAt   DateTime        @default(now()) @map("created_at")
+
+  company Company @relation(fields: [companyId], references: [id])
+  user    User?   @relation("AiAlerts", fields: [userId], references: [id])
+
+  @@map("ai_alerts")
 }
