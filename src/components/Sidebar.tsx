@@ -246,25 +246,44 @@ const navItems = [
   },
 ];
 
+// Nav items hidden from EMPLOYEE role
+const employeeHiddenPaths = ['/inteligencia-artificial'];
+
 export function Sidebar() {
   const pathname = usePathname();
   const [unreadCount, setUnreadCount] = useState(0);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [userRole, setUserRole] = useState<string | null>(null);
 
   useEffect(() => {
-    async function fetchUnread() {
+    async function fetchData() {
+      try {
+        const [unreadRes, meRes] = await Promise.all([
+          fetch('/api/comunicados/unread'),
+          fetch('/api/me'),
+        ]);
+        if (unreadRes.ok) {
+          const data = await unreadRes.json();
+          setUnreadCount(data.count ?? 0);
+        }
+        if (meRes.ok) {
+          const me = await meRes.json();
+          setUserRole(me.role);
+        }
+      } catch {
+        // ignore — sidebar should not break if the fetch fails
+      }
+    }
+    fetchData();
+    const interval = setInterval(async () => {
       try {
         const res = await fetch('/api/comunicados/unread');
         if (res.ok) {
           const data = await res.json();
           setUnreadCount(data.count ?? 0);
         }
-      } catch {
-        // ignore — sidebar should not break if the fetch fails
-      }
-    }
-    fetchUnread();
-    const interval = setInterval(fetchUnread, 60_000);
+      } catch {}
+    }, 60_000);
     return () => clearInterval(interval);
   }, []);
 
@@ -295,12 +314,12 @@ export function Sidebar() {
       )}
 
       <aside
-        className={`fixed left-0 top-0 h-screen w-64 bg-white border-r border-gray-200 flex flex-col z-40 transition-transform duration-200 ${
+        className={`fixed left-0 top-0 h-screen w-64 bg-white/70 backdrop-blur-xl border-r border-white/20 flex flex-col z-40 transition-transform duration-200 ${
           mobileOpen ? 'translate-x-0' : '-translate-x-full'
         } md:translate-x-0`}
         aria-label="Menu de navegação principal"
       >
-        <div className="flex items-center justify-between p-6 border-b border-gray-200">
+        <div className="flex items-center justify-between p-6 border-b border-white/20">
           <h1 className="text-xl font-bold text-indigo-600">Plataforma RH</h1>
           <button
             onClick={() => setMobileOpen(false)}
@@ -315,7 +334,10 @@ export function Sidebar() {
 
         <nav className="flex-1 overflow-y-auto py-4" aria-label="Navegação">
           <ul className="space-y-1 px-3" role="list">
-            {navItems.map((item) => {
+            {navItems.filter((item) => {
+              if (userRole === 'EMPLOYEE' && employeeHiddenPaths.includes(item.href)) return false;
+              return true;
+            }).map((item) => {
               const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
               return (
                 <li key={item.href}>

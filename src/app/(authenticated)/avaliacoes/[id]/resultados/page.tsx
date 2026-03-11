@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
+import { AiInterpretation } from '@/components/AiInterpretation';
 
 interface CriteriaInfo {
   id: string;
@@ -103,12 +104,15 @@ export default function ResultadosPage() {
             Resultados — {data.cycle.name}
           </h1>
         </div>
-        <a
-          href={`/api/avaliacoes/${id}/export`}
-          className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 font-medium text-sm"
-        >
-          Exportar CSV
-        </a>
+        <div className="flex items-center gap-3">
+          <AiInterpretation type="avaliacao" targetId={id} />
+          <a
+            href={`/api/avaliacoes/${id}/export`}
+            className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 font-medium text-sm"
+          >
+            Exportar CSV
+          </a>
+        </div>
       </div>
 
       {/* 9Box Grid */}

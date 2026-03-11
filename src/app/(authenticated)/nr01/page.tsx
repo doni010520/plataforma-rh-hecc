@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { AiInterpretation } from '@/components/AiInterpretation';
 
 interface Assessment {
   id: string;
@@ -53,6 +54,33 @@ interface Complaint {
 }
 
 type Tab = 'avaliacoes' | 'inventarios' | 'denuncias';
+
+const defaultNr01Questions: { text: string; category: string }[] = [
+  // Carga de Trabalho
+  { text: 'O volume de trabalho que me é atribuído é adequado à minha jornada.', category: 'Carga de Trabalho' },
+  { text: 'Consigo cumprir meus prazos sem pressão excessiva.', category: 'Carga de Trabalho' },
+  { text: 'Não me sinto sobrecarregado(a) com minhas responsabilidades.', category: 'Carga de Trabalho' },
+  // Autonomia
+  { text: 'Tenho liberdade para tomar decisões no meu trabalho.', category: 'Autonomia' },
+  { text: 'Consigo definir o ritmo do meu trabalho de forma adequada.', category: 'Autonomia' },
+  { text: 'Minha opinião é considerada nas decisões que afetam meu trabalho.', category: 'Autonomia' },
+  // Relações Interpessoais
+  { text: 'Tenho um bom relacionamento com meus colegas de trabalho.', category: 'Relações Interpessoais' },
+  { text: 'Posso contar com o apoio dos meus colegas quando necessário.', category: 'Relações Interpessoais' },
+  { text: 'O ambiente de trabalho é respeitoso e colaborativo.', category: 'Relações Interpessoais' },
+  // Liderança
+  { text: 'Meu gestor se comunica de forma clara e respeitosa.', category: 'Liderança' },
+  { text: 'Recebo feedback construtivo com regularidade.', category: 'Liderança' },
+  { text: 'Sinto que meu trabalho é reconhecido e valorizado.', category: 'Liderança' },
+  // Assédio e Discriminação
+  { text: 'Nunca presenciei ou sofri situações de assédio moral no trabalho.', category: 'Assédio e Discriminação' },
+  { text: 'Nunca presenciei ou sofri situações de assédio sexual no trabalho.', category: 'Assédio e Discriminação' },
+  { text: 'Não existe discriminação de gênero, raça, religião ou orientação sexual no meu ambiente de trabalho.', category: 'Assédio e Discriminação' },
+  // Equilíbrio Vida-Trabalho
+  { text: 'Minha jornada de trabalho permite manter um equilíbrio saudável com a vida pessoal.', category: 'Equilíbrio Vida-Trabalho' },
+  { text: 'Consigo ter períodos de descanso adequados durante o trabalho.', category: 'Equilíbrio Vida-Trabalho' },
+  { text: 'Não sou frequentemente solicitado(a) fora do meu horário de trabalho.', category: 'Equilíbrio Vida-Trabalho' },
+];
 
 const assessmentStatusLabels: Record<string, string> = { DRAFT: 'Rascunho', ACTIVE: 'Ativa', CLOSED: 'Encerrada' };
 const assessmentStatusColors: Record<string, string> = { DRAFT: 'bg-gray-100 text-gray-800', ACTIVE: 'bg-green-100 text-green-800', CLOSED: 'bg-red-100 text-red-800' };
@@ -224,7 +252,10 @@ export default function NR01Page() {
 
         {a.results && a.results.length > 0 && (
           <div>
-            <h2 className="text-lg font-semibold text-gray-900 mb-3">Resultados</h2>
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="text-lg font-semibold text-gray-900">Resultados</h2>
+              <AiInterpretation type="nr01" targetId={a.id} />
+            </div>
             <div className="space-y-2">
               {a.results.map((r: Result) => (
                 <div key={r.id} className="bg-white border rounded p-4 flex items-center justify-between">
@@ -290,7 +321,20 @@ export default function NR01Page() {
             <textarea value={aDesc} onChange={e => setADesc(e.target.value)} rows={2} className="w-full border rounded px-3 py-2 text-sm" />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Perguntas</label>
+            <div className="flex items-center justify-between mb-2">
+              <label className="block text-sm font-medium text-gray-700">Perguntas</label>
+              <button
+                type="button"
+                onClick={() => {
+                  setAQuestions([...defaultNr01Questions]);
+                  if (!aTitle) setATitle('Avaliação de Riscos Psicossociais');
+                  if (!aDesc) setADesc('Avaliação conforme NR-01 para identificação de fatores de risco psicossocial no ambiente de trabalho.');
+                }}
+                className="text-xs px-3 py-1 bg-yellow-100 text-yellow-800 rounded-md hover:bg-yellow-200 font-medium"
+              >
+                Usar modelo padrão NR-01 ({defaultNr01Questions.length} perguntas)
+              </button>
+            </div>
             {aQuestions.map((q, i) => (
               <div key={i} className="flex gap-2 mb-2">
                 <input value={q.text} onChange={e => { const nq = [...aQuestions]; nq[i].text = e.target.value; setAQuestions(nq); }} placeholder="Pergunta..." className="flex-1 border rounded px-3 py-2 text-sm" />

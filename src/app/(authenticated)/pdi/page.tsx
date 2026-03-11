@@ -15,7 +15,7 @@ interface Plan {
 
 const statusLabels: Record<string, string> = { DRAFT: 'Rascunho', ACTIVE: 'Em andamento', COMPLETED: 'Concluído', CANCELLED: 'Cancelado' };
 const statusColors: Record<string, string> = { DRAFT: 'bg-gray-100 text-gray-700', ACTIVE: 'bg-blue-100 text-blue-700', COMPLETED: 'bg-green-100 text-green-700', CANCELLED: 'bg-red-100 text-red-700' };
-const taskTypeLabels: Record<string, string> = { COURSE: 'Curso', BOOK: 'Livro', MENTORING: 'Mentoria', PRACTICE: 'Prática', OTHER: 'Outro' };
+
 
 function getProgress(tasks: Task[]): number {
   if (tasks.length === 0) return 0;

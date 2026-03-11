@@ -27,6 +27,7 @@ const contentTypeLabels: Record<string, string> = { VIDEO: 'Vídeo', ARTICLE: 'A
 
 export default function TrilhasPage() {
   const [tracks, setTracks] = useState<LearningTrack[]>([]);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [loading, setLoading] = useState(true);
   const [statusFilter, setStatusFilter] = useState('');
@@ -82,7 +83,7 @@ export default function TrilhasPage() {
   const addContent = () => setFormContents([...formContents, { title: '', type: 'VIDEO', contentUrl: '', durationMinutes: 0 }]);
   const updateContent = (i: number, field: string, value: string | number) => {
     const updated = [...formContents];
-    (updated[i] as any)[field] = value;
+    (updated[i] as Record<string, string | number>)[field] = value;
     setFormContents(updated);
   };
   const removeContent = (i: number) => setFormContents(formContents.filter((_, idx) => idx !== i));

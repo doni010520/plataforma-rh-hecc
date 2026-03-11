@@ -4,13 +4,40 @@ import { useState, useEffect, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 
-const statusLabels: Record<string, string> = { DRAFT: 'Rascunho', ACTIVE: 'Em andamento', COMPLETED: 'Concluído', CANCELLED: 'Cancelado' };
 const taskTypeLabels: Record<string, string> = { COURSE: 'Curso', BOOK: 'Livro', MENTORING: 'Mentoria', PRACTICE: 'Prática', OTHER: 'Outro' };
+
+interface PDITask {
+  id: string;
+  title: string;
+  status: string;
+  type: string;
+  dueDate: string | null;
+  completedAt: string | null;
+}
+
+interface PDIComment {
+  id: string;
+  content: string;
+  createdAt: string;
+  user: { name: string; avatarUrl: string | null };
+}
+
+interface PDIPlan {
+  title: string;
+  description: string | null;
+  status: string;
+  dueDate: string | null;
+  user: { name: string; avatarUrl: string | null; jobTitle: string | null };
+  createdBy: { name: string };
+  reviewCycle: { name: string } | null;
+  tasks: PDITask[];
+  comments: PDIComment[];
+}
 
 export default function PDIDetailPage() {
   const params = useParams();
   const router = useRouter();
-  const [plan, setPlan] = useState<any>(null);
+  const [plan, setPlan] = useState<PDIPlan | null>(null);
   const [loading, setLoading] = useState(true);
   const [comment, setComment] = useState('');
   const [sendingComment, setSendingComment] = useState(false);
@@ -35,7 +62,7 @@ export default function PDIDetailPage() {
       body: JSON.stringify({ status: newStatus }),
     });
     if (res.ok) {
-      setPlan((prev: any) => ({ ...prev, tasks: prev.tasks.map((t: any) => t.id === taskId ? { ...t, status: newStatus, completedAt: newStatus === 'COMPLETED' ? new Date().toISOString() : null } : t) }));
+      setPlan((prev: PDIPlan | null) => prev ? { ...prev, tasks: prev.tasks.map((t: PDITask) => t.id === taskId ? { ...t, status: newStatus, completedAt: newStatus === 'COMPLETED' ? new Date().toISOString() : null } : t) } : prev);
     }
   }
 
@@ -47,7 +74,7 @@ export default function PDIDetailPage() {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ content: comment }),
     });
-    if (res.ok) { const c = await res.json(); setPlan((prev: any) => ({ ...prev, comments: [c, ...prev.comments] })); setComment(''); }
+    if (res.ok) { const c = await res.json(); setPlan((prev: PDIPlan | null) => prev ? { ...prev, comments: [c, ...prev.comments] } : prev); setComment(''); }
     setSendingComment(false);
   }
 
@@ -56,7 +83,7 @@ export default function PDIDetailPage() {
       method: 'PUT', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ status }),
     });
-    setPlan((prev: any) => ({ ...prev, status }));
+    setPlan((prev: PDIPlan | null) => prev ? { ...prev, status } : prev);
   }
 
   async function addTask(e: React.FormEvent) {
@@ -67,13 +94,13 @@ export default function PDIDetailPage() {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ title: newTaskTitle, type: newTaskType, dueDate: newTaskDueDate || null }),
     });
-    if (res.ok) { const task = await res.json(); setPlan((prev: any) => ({ ...prev, tasks: [...prev.tasks, task] })); setNewTaskTitle(''); setNewTaskType('COURSE'); setNewTaskDueDate(''); setShowAddTask(false); }
+    if (res.ok) { const task = await res.json(); setPlan((prev: PDIPlan | null) => prev ? { ...prev, tasks: [...prev.tasks, task] } : prev); setNewTaskTitle(''); setNewTaskType('COURSE'); setNewTaskDueDate(''); setShowAddTask(false); }
     setSavingTask(false);
   }
 
   async function deleteTask(taskId: string) {
     const res = await fetch('/api/pdi/' + params.id + '/tasks/' + taskId, { method: 'DELETE' });
-    if (res.ok) { setPlan((prev: any) => ({ ...prev, tasks: prev.tasks.filter((t: any) => t.id !== taskId) })); }
+    if (res.ok) { setPlan((prev: PDIPlan | null) => prev ? { ...prev, tasks: prev.tasks.filter((t: PDITask) => t.id !== taskId) } : prev); }
   }
 
   async function deletePlan() {
@@ -85,7 +112,7 @@ export default function PDIDetailPage() {
   if (loading) return <div className="space-y-4"><div className="h-8 w-64 bg-gray-200 rounded animate-pulse" /><div className="h-96 bg-gray-200 rounded animate-pulse" /></div>;
   if (!plan) return <div className="text-center py-12"><p className="text-gray-500">PDI não encontrado.</p><Link href="/pdi" className="text-indigo-600 hover:underline">Voltar</Link></div>;
 
-  const progress = plan.tasks.length > 0 ? Math.round((plan.tasks.filter((t: any) => t.status === 'COMPLETED').length / plan.tasks.length) * 100) : 0;
+  const progress = plan.tasks.length > 0 ? Math.round((plan.tasks.filter((t: PDITask) => t.status === 'COMPLETED').length / plan.tasks.length) * 100) : 0;
 
   return (
     <div className="max-w-4xl mx-auto">
@@ -134,7 +161,7 @@ export default function PDIDetailPage() {
           </form>
         )}
         {plan.tasks.length === 0 ? <p className="text-gray-500 text-center py-4">Nenhuma tarefa cadastrada</p> : (
-          <div className="space-y-2">{plan.tasks.map((task: any) => (
+          <div className="space-y-2">{plan.tasks.map((task: PDITask) => (
             <div key={task.id} className={'border rounded-lg p-3 flex items-start gap-3 ' + (task.status === 'COMPLETED' ? 'bg-green-50 border-green-200' : '')}>
               <button onClick={() => toggleTaskStatus(task.id, task.status)} className={'mt-0.5 w-5 h-5 rounded border-2 flex items-center justify-center text-xs ' + (task.status === 'COMPLETED' ? 'bg-green-600 border-green-600 text-white' : 'border-gray-300 hover:border-indigo-500')}>
                 {task.status === 'COMPLETED' && '✓'}
@@ -159,7 +186,7 @@ export default function PDIDetailPage() {
           <button type="submit" disabled={sendingComment || !comment.trim()} className="bg-indigo-600 text-white px-4 py-2 rounded-md text-sm hover:bg-indigo-700 disabled:opacity-50">{sendingComment ? 'Enviando...' : 'Comentar'}</button>
         </form>
         {plan.comments.length === 0 ? <p className="text-gray-500 text-center py-4">Nenhum comentário ainda</p> : (
-          <div className="space-y-4">{plan.comments.map((c: any) => (
+          <div className="space-y-4">{plan.comments.map((c: PDIComment) => (
             <div key={c.id} className="flex gap-3">
               {c.user.avatarUrl ? <img src={c.user.avatarUrl} alt={c.user.name} className="w-8 h-8 rounded-full" /> : <div className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-sm">{c.user.name.charAt(0)}</div>}
               <div className="flex-1"><div className="flex items-center gap-2 mb-1"><span className="font-medium text-sm">{c.user.name}</span><span className="text-xs text-gray-500">{new Date(c.createdAt).toLocaleDateString('pt-BR')}</span></div><p className="text-sm text-gray-700">{c.content}</p></div>

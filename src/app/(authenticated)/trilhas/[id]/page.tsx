@@ -56,7 +56,6 @@ interface Employee {
 const statusLabels: Record<string, string> = { DRAFT: 'Rascunho', PUBLISHED: 'Publicada', ARCHIVED: 'Arquivada' };
 const statusColors: Record<string, string> = { DRAFT: 'bg-gray-100 text-gray-800', PUBLISHED: 'bg-green-100 text-green-800', ARCHIVED: 'bg-yellow-100 text-yellow-800' };
 const contentTypeLabels: Record<string, string> = { VIDEO: 'Vídeo', ARTICLE: 'Artigo', COURSE: 'Curso', PODCAST: 'Podcast', BOOK: 'Livro', OTHER: 'Outro' };
-const progressLabels: Record<string, string> = { NOT_STARTED: 'Não Iniciado', IN_PROGRESS: 'Em Andamento', COMPLETED: 'Concluído' };
 const progressColors: Record<string, string> = { NOT_STARTED: 'text-gray-400', IN_PROGRESS: 'text-blue-600', COMPLETED: 'text-green-600' };
 const enrollStatusLabels: Record<string, string> = { ACTIVE: 'Ativo', COMPLETED: 'Concluído', CANCELLED: 'Cancelado' };
 const enrollStatusColors: Record<string, string> = { ACTIVE: 'bg-blue-100 text-blue-800', COMPLETED: 'bg-green-100 text-green-800', CANCELLED: 'bg-gray-100 text-gray-800' };
@@ -76,7 +75,7 @@ export default function TrackDetailPage() {
   const [contentDuration, setContentDuration] = useState(0);
   const [contentDescription, setContentDescription] = useState('');
   const [enrollUserId, setEnrollUserId] = useState('');
-  const [myEnrollment, setMyEnrollment] = useState<Enrollment | null>(null);
+
 
   const fetchData = useCallback(async () => {
     try {

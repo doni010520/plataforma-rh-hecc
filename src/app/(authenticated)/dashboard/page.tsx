@@ -4,6 +4,7 @@ import Link from 'next/link';
 import MoodWidget from '@/components/MoodWidget';
 import ManagerDashboard from '@/components/ManagerDashboard';
 import AdminDashboard from '@/components/AdminDashboard';
+import { AiDashboardCard } from '@/components/AiDashboardCard';
 
 export default async function DashboardPage() {
   const user = await getCurrentUser();
@@ -62,6 +63,28 @@ export default async function DashboardPage() {
   const respondedIds = new Set(respondedSurveyIds.map((r) => r.surveyId));
   const pendingSurveys = activeSurveys.filter((s) => !respondedIds.has(s.id));
 
+  // Active NR-01 psychosocial assessments the user hasn't responded to
+  let pendingAssessments: { id: string; title: string }[] = [];
+  try {
+    const activeAssessments = await prisma.psychosocialAssessment.findMany({
+      where: { companyId: user.companyId, status: 'ACTIVE' },
+      select: { id: true, title: true },
+    });
+
+    const respondedAssessmentIds = await prisma.psychosocialResponse.findMany({
+      where: {
+        userId: user.id,
+        assessment: { companyId: user.companyId, status: 'ACTIVE' },
+      },
+      select: { assessmentId: true },
+    });
+
+    const respondedAssessmentSet = new Set(respondedAssessmentIds.map((r) => r.assessmentId));
+    pendingAssessments = activeAssessments.filter((a) => !respondedAssessmentSet.has(a.id));
+  } catch {
+    // Tables may not exist yet if migration hasn't run
+  }
+
   const pendingAssignments = await prisma.reviewAssignment.findMany({
     where: {
       evaluatorId: user.id,
@@ -83,19 +106,19 @@ export default async function DashboardPage() {
       <h1 className="text-2xl font-bold text-gray-900 mb-6">Dashboard</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div className="bg-white rounded-lg shadow-sm p-6">
+        <div className="bg-white/60 backdrop-blur-lg border border-white/30 rounded-2xl shadow-sm p-6">
           <h3 className="text-sm font-medium text-gray-500 mb-1">Bem-vindo(a)</h3>
           <p className="text-xl font-semibold text-gray-900">{user.name}</p>
           <p className="text-sm text-gray-500 mt-1">{user.company.name}</p>
         </div>
 
-        <div className="bg-white rounded-lg shadow-sm p-6">
+        <div className="bg-white/60 backdrop-blur-lg border border-white/30 rounded-2xl shadow-sm p-6">
           <h3 className="text-sm font-medium text-gray-500 mb-1">Cargo</h3>
           <p className="text-xl font-semibold text-gray-900">{user.jobTitle || 'Não definido'}</p>
           <p className="text-sm text-gray-500 mt-1">{user.department?.name || 'Sem departamento'}</p>
         </div>
 
-        <div className="bg-white rounded-lg shadow-sm p-6">
+        <div className="bg-white/60 backdrop-blur-lg border border-white/30 rounded-2xl shadow-sm p-6">
           <h3 className="text-sm font-medium text-gray-500 mb-1">Perfil</h3>
           <p className="text-xl font-semibold text-gray-900">
             {user.role === 'ADMIN'
@@ -115,7 +138,7 @@ export default async function DashboardPage() {
 
       {/* Active Survey Banner */}
       {pendingSurveys.length > 0 && (
-        <div className="mt-6 bg-indigo-50 border border-indigo-200 rounded-lg p-4">
+        <div className="mt-6 bg-indigo-50/70 backdrop-blur-lg border border-indigo-200/50 rounded-2xl p-4">
           <h3 className="text-sm font-semibold text-indigo-800 mb-2">
             📋 Pesquisas Activas ({pendingSurveys.length})
           </h3>
@@ -126,6 +149,28 @@ export default async function DashboardPage() {
                 <Link
                   href={`/pesquisas/${s.id}/responder`}
                   className="text-sm bg-indigo-600 text-white px-3 py-1 rounded-md hover:bg-indigo-700 font-medium"
+                >
+                  Responder
+                </Link>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Active NR-01 Assessment Banner */}
+      {pendingAssessments.length > 0 && (
+        <div className="mt-6 bg-yellow-50/70 backdrop-blur-lg border border-yellow-200/50 rounded-2xl p-4">
+          <h3 className="text-sm font-semibold text-yellow-800 mb-2">
+            Avaliações Psicossociais Ativas ({pendingAssessments.length})
+          </h3>
+          <div className="space-y-2">
+            {pendingAssessments.map((a) => (
+              <div key={a.id} className="flex items-center justify-between">
+                <span className="text-sm text-yellow-700">{a.title}</span>
+                <Link
+                  href={`/nr01/avaliacoes/${a.id}/responder`}
+                  className="text-sm bg-yellow-600 text-white px-3 py-1 rounded-md hover:bg-yellow-700 font-medium"
                 >
                   Responder
                 </Link>
@@ -273,6 +318,9 @@ export default async function DashboardPage() {
           </div>
         )}
       </div>
+
+      {/* AI Insights Card (ADMIN/MANAGER only) */}
+      {(isManager || isAdmin) && <AiDashboardCard />}
 
       {/* Role-specific Dashboard Sections */}
       {isManager && <ManagerDashboard />}

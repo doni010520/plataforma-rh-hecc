@@ -98,7 +98,7 @@ export function Header({ userName, avatarUrl }: HeaderProps) {
     .slice(0, 2);
 
   return (
-    <header className="fixed top-0 left-0 md:left-64 right-0 h-16 bg-white border-b border-gray-200 flex items-center justify-between px-4 md:px-6 z-20">
+    <header className="fixed top-0 left-0 md:left-64 right-0 h-16 bg-white/70 backdrop-blur-xl border-b border-white/20 flex items-center justify-between px-4 md:px-6 z-20">
       {/* Mobile menu button */}
       <button
         onClick={() => document.dispatchEvent(new CustomEvent('toggle-sidebar'))}
@@ -133,7 +133,7 @@ export function Header({ userName, avatarUrl }: HeaderProps) {
           </button>
 
           {showDropdown && (
-            <div className="absolute right-0 top-full mt-2 w-80 bg-white rounded-lg shadow-lg border border-gray-200 max-h-96 overflow-hidden z-50">
+            <div className="absolute right-0 top-full mt-2 w-80 bg-white/80 backdrop-blur-xl rounded-lg shadow-lg border border-white/30 max-h-96 overflow-hidden z-50">
               <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
                 <h3 className="text-sm font-semibold text-gray-900">Notificações</h3>
                 {unreadCount > 0 && (

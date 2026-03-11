@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
+import { AiInterpretation } from '@/components/AiInterpretation';
 
 interface DeptStat {
   name: string;
@@ -95,6 +96,9 @@ export default function ResultadosPesquisaPage() {
         <p className="text-sm text-gray-500">
           {data.survey.anonymous ? 'Pesquisa anónima' : 'Pesquisa identificada'}
         </p>
+        <div className="mt-3">
+          <AiInterpretation type="survey" targetId={id} />
+        </div>
       </div>
 
       {/* Summary Cards */}

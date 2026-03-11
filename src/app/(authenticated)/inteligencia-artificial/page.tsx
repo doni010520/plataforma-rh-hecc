@@ -34,6 +34,11 @@ interface DashboardData {
   unreadAlerts: number;
 }
 
+interface Department {
+  id: string;
+  name: string;
+}
+
 type Tab = 'dashboard' | 'analises' | 'alertas';
 
 const typeLabels: Record<string, string> = {
@@ -63,6 +68,10 @@ export default function IAPage() {
   const [loading, setLoading] = useState(true);
   const [selectedAnalysis, setSelectedAnalysis] = useState<AiAnalysis | null>(null);
   const [filterType, setFilterType] = useState('');
+  const [departments, setDepartments] = useState<Department[]>([]);
+  const [selectedDept, setSelectedDept] = useState('');
+  const [generating, setGenerating] = useState<'insights' | 'turnover' | null>(null);
+  const [generateResult, setGenerateResult] = useState<{ type: string; message: string } | null>(null);
 
   const fetchData = useCallback(async () => {
     setLoading(true);
@@ -80,6 +89,62 @@ export default function IAPage() {
   }, [filterType]);
 
   useEffect(() => { fetchData(); }, [fetchData]);
+
+  useEffect(() => {
+    fetch('/api/departments')
+      .then(r => r.ok ? r.json() : [])
+      .then(setDepartments)
+      .catch(() => {});
+  }, []);
+
+  async function generateInsights() {
+    setGenerating('insights');
+    setGenerateResult(null);
+    try {
+      const res = await fetch('/api/ai/gerar-insights', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          scope: selectedDept ? 'department' : 'company',
+          departmentId: selectedDept || undefined,
+        }),
+      });
+      if (res.ok) {
+        setGenerateResult({ type: 'success', message: 'Insights gerados com sucesso!' });
+        fetchData();
+      } else {
+        const err = await res.json().catch(() => ({ error: 'Erro desconhecido' }));
+        setGenerateResult({ type: 'error', message: err.error || 'Erro ao gerar insights.' });
+      }
+    } catch {
+      setGenerateResult({ type: 'error', message: 'Erro de conexão.' });
+    }
+    setGenerating(null);
+  }
+
+  async function generateTurnover() {
+    setGenerating('turnover');
+    setGenerateResult(null);
+    try {
+      const res = await fetch('/api/ai/risco-turnover', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          departmentId: selectedDept || undefined,
+        }),
+      });
+      if (res.ok) {
+        setGenerateResult({ type: 'success', message: 'Análise de turnover concluída!' });
+        fetchData();
+      } else {
+        const err = await res.json().catch(() => ({ error: 'Erro desconhecido' }));
+        setGenerateResult({ type: 'error', message: err.error || 'Erro ao analisar turnover.' });
+      }
+    } catch {
+      setGenerateResult({ type: 'error', message: 'Erro de conexão.' });
+    }
+    setGenerating(null);
+  }
 
   async function markAsRead(id: string) {
     await fetch(`/api/ai/alertas/${id}`, {
@@ -150,6 +215,54 @@ export default function IAPage() {
       {/* Dashboard Tab */}
       {tab === 'dashboard' && dashboard && (
         <div className="space-y-6">
+          {/* AI Actions */}
+          <div className="bg-white border rounded-lg p-6">
+            <h2 className="font-semibold text-gray-900 mb-4">Gerar Análises com IA</h2>
+            <div className="flex flex-wrap items-end gap-4">
+              <div>
+                <label className="block text-xs text-gray-500 mb-1">Departamento (opcional)</label>
+                <select
+                  value={selectedDept}
+                  onChange={e => setSelectedDept(e.target.value)}
+                  className="border rounded px-3 py-2 text-sm"
+                  disabled={!!generating}
+                >
+                  <option value="">Toda a empresa</option>
+                  {departments.map(d => <option key={d.id} value={d.id}>{d.name}</option>)}
+                </select>
+              </div>
+              <button
+                onClick={generateInsights}
+                disabled={!!generating}
+                className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm hover:bg-indigo-700 disabled:opacity-50 flex items-center gap-2"
+              >
+                {generating === 'insights' ? (
+                  <>
+                    <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" /></svg>
+                    Gerando...
+                  </>
+                ) : 'Gerar Insights'}
+              </button>
+              <button
+                onClick={generateTurnover}
+                disabled={!!generating}
+                className="px-4 py-2 bg-red-600 text-white rounded-lg text-sm hover:bg-red-700 disabled:opacity-50 flex items-center gap-2"
+              >
+                {generating === 'turnover' ? (
+                  <>
+                    <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" /></svg>
+                    Analisando...
+                  </>
+                ) : 'Analisar Risco de Turnover'}
+              </button>
+            </div>
+            {generateResult && (
+              <div className={`mt-3 text-sm px-3 py-2 rounded ${generateResult.type === 'success' ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
+                {generateResult.message}
+              </div>
+            )}
+          </div>
+
           {/* Summary Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="bg-white border rounded-lg p-6 text-center">
@@ -259,6 +372,7 @@ export default function IAPage() {
           {alerts.length === 0 && <p className="text-center text-gray-400 py-8">Nenhum alerta.</p>}
         </div>
       )}
+
     </div>
   );
 }
