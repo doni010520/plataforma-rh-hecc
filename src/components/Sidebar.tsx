@@ -370,7 +370,7 @@ export function Sidebar() {
       )}
 
       <aside
-        className={`fixed left-0 top-0 h-screen w-64 bg-green-950/80 backdrop-blur-xl border-r border-green-800/30 flex flex-col z-40 transition-transform duration-200 ${
+        className={`fixed left-0 top-0 h-screen w-64 bg-green-950/80 backdrop-blur-xl border-r border-green-800/30 flex flex-col z-40 transition-transform duration-200 sidebar-light ${
           mobileOpen ? 'translate-x-0' : '-translate-x-full'
         } md:translate-x-0`}
         aria-label="Menu de navegação principal"

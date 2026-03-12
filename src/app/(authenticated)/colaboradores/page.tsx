@@ -338,13 +338,13 @@ export default function ColaboradoresPage() {
                     <th className="text-left px-6 py-3 text-xs font-medium text-gray-400 uppercase tracking-wider">
                       Nome
                     </th>
-                    <th className="text-left px-6 py-3 text-xs font-medium text-gray-400 uppercase tracking-wider">
+                    <th className="text-left px-6 py-3 text-xs font-medium text-gray-400 uppercase tracking-wider hidden md:table-cell">
                       Cargo
                     </th>
-                    <th className="text-left px-6 py-3 text-xs font-medium text-gray-400 uppercase tracking-wider">
+                    <th className="text-left px-6 py-3 text-xs font-medium text-gray-400 uppercase tracking-wider hidden lg:table-cell">
                       Departamento
                     </th>
-                    <th className="text-left px-6 py-3 text-xs font-medium text-gray-400 uppercase tracking-wider">
+                    <th className="text-left px-6 py-3 text-xs font-medium text-gray-400 uppercase tracking-wider hidden sm:table-cell">
                       Perfil
                     </th>
                     <th className="text-left px-6 py-3 text-xs font-medium text-gray-400 uppercase tracking-wider">
@@ -371,9 +371,9 @@ export default function ColaboradoresPage() {
                           <p className="text-sm text-gray-400">{user.email}</p>
                         </div>
                       </td>
-                      <td className="px-6 py-4 text-gray-400">{user.jobTitle || '—'}</td>
-                      <td className="px-6 py-4 text-gray-400">{user.department?.name || '—'}</td>
-                      <td className="px-6 py-4">
+                      <td className="px-6 py-4 text-gray-400 hidden md:table-cell">{user.jobTitle || '—'}</td>
+                      <td className="px-6 py-4 text-gray-400 hidden lg:table-cell">{user.department?.name || '—'}</td>
+                      <td className="px-6 py-4 hidden sm:table-cell">
                         <span
                           className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${
                             user.role === 'ADMIN'

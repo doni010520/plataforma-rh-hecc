@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ===== Dark Theme (default) ===== */
 :root {
   --primary: #34d399;
   --primary-hover: #10b981;
@@ -18,4 +19,268 @@ body {
   color: var(--foreground);
   background: transparent;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* ===== Light Theme Overrides ===== */
+/* When html has .light class, override dark colors globally */
+
+html.light {
+  --primary: #059669;
+  --primary-hover: #047857;
+  --background: #f8fafc;
+  --foreground: #1f2937;
+  --card: rgba(255, 255, 255, 0.8);
+  --border: rgba(0, 0, 0, 0.1);
+  --muted: #6b7280;
+  --error: #ef4444;
+  --success: #059669;
+}
+
+/* Body gradient */
+html.light body {
+  background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 50%, #f0fdf4 100%) !important;
+  color: #1f2937;
+}
+
+/* ---- Background overrides ---- */
+
+/* Main card backgrounds: green-950/XX → white/light */
+html.light [class*="bg-green-950"] {
+  background-color: rgba(255, 255, 255, 0.85) !important;
+}
+
+/* Gray-900 backgrounds → light */
+html.light [class*="bg-gray-900"] {
+  background-color: #f9fafb !important;
+}
+
+/* Green-900 backgrounds (hover, active states) → light green */
+html.light [class*="bg-green-900"] {
+  background-color: rgba(236, 253, 245, 0.7) !important;
+}
+
+/* Emerald-900 backgrounds → light emerald */
+html.light [class*="bg-emerald-900"] {
+  background-color: rgba(209, 250, 229, 0.5) !important;
+}
+
+/* Emerald-800 → lighter */
+html.light [class*="bg-emerald-800"] {
+  background-color: #059669 !important;
+}
+
+/* Green-800 backgrounds (skeleton, dividers) → light gray */
+html.light [class*="bg-green-800"] {
+  background-color: rgba(229, 231, 235, 0.5) !important;
+}
+
+/* Red backgrounds - keep red tones but lighter */
+html.light [class*="bg-red-900"] {
+  background-color: rgba(254, 226, 226, 0.6) !important;
+}
+
+/* Yellow backgrounds - keep yellow tones */
+html.light [class*="bg-yellow-900"] {
+  background-color: rgba(254, 249, 195, 0.6) !important;
+}
+
+/* ---- Text color overrides ---- */
+
+/* Primary text: gray-100 → dark */
+html.light [class*="text-gray-100"] {
+  color: #1f2937 !important;
+}
+
+/* Secondary text: gray-200 → medium dark */
+html.light [class*="text-gray-200"] {
+  color: #374151 !important;
+}
+
+/* Tertiary text: gray-300 → medium */
+html.light [class*="text-gray-300"] {
+  color: #4b5563 !important;
+}
+
+/* Muted text: gray-400 → muted dark */
+html.light [class*="text-gray-400"] {
+  color: #6b7280 !important;
+}
+
+/* Accent text: emerald-400 → darker emerald */
+html.light [class*="text-emerald-400"] {
+  color: #059669 !important;
+}
+
+/* Emerald-300 → darker */
+html.light [class*="text-emerald-300"] {
+  color: #047857 !important;
+}
+
+/* Emerald-200 → darker */
+html.light [class*="text-emerald-200"] {
+  color: #065f46 !important;
+}
+
+/* Green-100 text → dark */
+html.light [class*="text-green-100"] {
+  color: #374151 !important;
+}
+
+/* Green-50 text → dark */
+html.light [class*="text-green-50"] {
+  color: #1f2937 !important;
+}
+
+/* Gray-500 → slightly darker for readability */
+html.light [class*="text-gray-500"] {
+  color: #9ca3af !important;
+}
+
+/* Green 900 text */
+html.light [class*="text-green-900"] {
+  color: #064e3b !important;
+}
+
+/* ---- Border overrides ---- */
+
+html.light [class*="border-green-800"],
+html.light [class*="border-green-700"] {
+  border-color: rgba(229, 231, 235, 0.6) !important;
+}
+
+html.light [class*="border-emerald-500"] {
+  border-color: rgba(16, 185, 129, 0.2) !important;
+}
+
+html.light [class*="border-white"] {
+  border-color: rgba(0, 0, 0, 0.06) !important;
+}
+
+/* ---- Sidebar & Header glassmorphism ---- */
+
+html.light .sidebar-light {
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  border-right-color: rgba(229, 231, 235, 0.8) !important;
+}
+
+html.light .header-light {
+  background-color: rgba(255, 255, 255, 0.85) !important;
+  border-bottom-color: rgba(229, 231, 235, 0.8) !important;
+}
+
+/* ---- Form elements ---- */
+
+html.light select,
+html.light input[type="text"],
+html.light input[type="email"],
+html.light input[type="password"],
+html.light input[type="number"],
+html.light input[type="date"],
+html.light input[type="search"],
+html.light textarea {
+  background-color: #ffffff !important;
+  color: #1f2937 !important;
+  border-color: #d1d5db !important;
+}
+
+html.light select option {
+  background-color: #ffffff;
+  color: #1f2937;
+}
+
+/* ---- Scrollbar ---- */
+html.light ::-webkit-scrollbar-track {
+  background: #f3f4f6;
+}
+
+html.light ::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 4px;
+}
+
+html.light ::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+/* ---- Button overrides ---- */
+
+html.light [class*="bg-green-700"]:not([class*="text-"]) {
+  background-color: #059669 !important;
+}
+
+html.light [class*="hover\\:bg-green-800"]:hover {
+  background-color: #047857 !important;
+}
+
+html.light [class*="hover\\:bg-green-900"]:hover {
+  background-color: rgba(236, 253, 245, 0.8) !important;
+}
+
+/* ---- Theme toggle button ---- */
+.theme-toggle-btn {
+  transition: all 0.2s ease;
+}
+
+html.light .theme-toggle-btn {
+  color: #4b5563;
+}
+
+html.light .theme-toggle-btn:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+html.dark .theme-toggle-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* ---- Glassmorphism backdrop ---- */
+/* Keep backdrop-blur in both themes */
+html.light [class*="backdrop-blur"] {
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+}
+
+/* ---- Notification dropdown in light ---- */
+html.light [class*="bg-green-950\\/90"] {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+}
+
+/* ---- Shadows in light mode ---- */
+html.light [class*="shadow"] {
+  --tw-shadow-color: rgba(0, 0, 0, 0.08);
+}
+
+/* ---- Gradient text stays same ---- */
+html.light [class*="from-green-50"] {
+  --tw-gradient-from: #ecfdf5;
+}
+
+/* ---- Auth pages (login/register) ---- */
+html.light [class*="bg-gray-800"] {
+  background-color: #ffffff !important;
+}
+
+/* ---- Mobile responsiveness utilities ---- */
+@media (max-width: 640px) {
+  /* Tables: make them scroll horizontally */
+  table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Smaller text on mobile */
+  .text-2xl {
+    font-size: 1.25rem !important;
+  }
+
+  /* Compact padding on very small screens */
+  .p-6 {
+    padding: 1rem !important;
+  }
+
+  .px-6 {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
 }

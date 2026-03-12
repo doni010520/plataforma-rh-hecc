@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
+import { ThemeToggle } from './ThemeToggle';
 
 interface NotificationItem {
   id: string;
@@ -98,7 +99,7 @@ export function Header({ userName, avatarUrl }: HeaderProps) {
     .slice(0, 2);
 
   return (
-    <header className="fixed top-0 left-0 md:left-64 right-0 h-16 bg-green-950/70 backdrop-blur-xl border-b border-emerald-500/10 flex items-center justify-between px-4 md:px-6 z-20">
+    <header className="fixed top-0 left-0 md:left-64 right-0 h-16 bg-green-950/70 backdrop-blur-xl border-b border-emerald-500/10 flex items-center justify-between px-4 md:px-6 z-20 header-light">
       {/* Mobile menu button */}
       <button
         onClick={() => document.dispatchEvent(new CustomEvent('toggle-sidebar'))}
@@ -112,7 +113,10 @@ export function Header({ userName, avatarUrl }: HeaderProps) {
 
       <div className="flex-1" />
 
-      <div className="flex items-center gap-3">
+      <div className="flex items-center gap-2 md:gap-3">
+        {/* Theme Toggle */}
+        <ThemeToggle />
+
         {/* Notification Bell */}
         <div className="relative" ref={dropdownRef}>
           <button
@@ -133,7 +137,7 @@ export function Header({ userName, avatarUrl }: HeaderProps) {
           </button>
 
           {showDropdown && (
-            <div className="absolute right-0 top-full mt-2 w-80 bg-green-950/90 backdrop-blur-xl rounded-lg shadow-lg border border-emerald-500/10 max-h-96 overflow-hidden z-50">
+            <div className="absolute right-0 top-full mt-2 w-[calc(100vw-2rem)] sm:w-80 bg-green-950/90 backdrop-blur-xl rounded-lg shadow-lg border border-emerald-500/10 max-h-96 overflow-hidden z-50">
               <div className="flex items-center justify-between px-4 py-3 border-b border-green-800/30">
                 <h3 className="text-sm font-semibold text-gray-100">Notificações</h3>
                 {unreadCount > 0 && (
