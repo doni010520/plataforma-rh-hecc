@@ -459,8 +459,26 @@ model Celebration {
   author    User                  @relation(fields: [authorId], references: [id])
   reactions CelebrationReaction[]
   comments  CelebrationComment[]
+  media     CelebrationMedia[]
 
   @@map("celebrations")
+}
+
+model CelebrationMedia {
+  id            String   @id @default(uuid())
+  celebrationId String   @map("celebration_id")
+  url           String
+  type          String   // "image" or "video"
+  fileName      String?  @map("file_name")
+  fileSize      Int?     @map("file_size")
+  mimeType      String?  @map("mime_type")
+  width         Int?
+  height        Int?
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  celebration Celebration @relation(fields: [celebrationId], references: [id], onDelete: Cascade)
+
+  @@map("celebration_media")
 }
 
 model CelebrationReaction {
