@@ -39,25 +39,25 @@ const PROFILE_INFO: Record<ProfileKey, { name: string; description: string; colo
     name: 'Dominancia',
     description: 'Direto, orientado a resultados, determinado, competitivo. Pessoas com perfil D sao decisivas, gostam de desafios e buscam resultados rapidos.',
     color: 'text-red-700',
-    bgColor: 'bg-red-500',
+    bgColor: 'bg-red-900/300',
   },
   I: {
     name: 'Influencia',
     description: 'Entusiasmado, colaborativo, otimista, comunicativo. Pessoas com perfil I sao sociaveis, persuasivas e gostam de trabalhar em equipe.',
-    color: 'text-yellow-700',
-    bgColor: 'bg-yellow-500',
+    color: 'text-yellow-400',
+    bgColor: 'bg-yellow-900/300',
   },
   S: {
     name: 'Estabilidade',
     description: 'Paciente, confiavel, trabalho em equipe, calmo. Pessoas com perfil S sao estaveis, leais e preferem ambientes harmoniosos.',
-    color: 'text-green-700',
-    bgColor: 'bg-green-500',
+    color: 'text-emerald-400',
+    bgColor: 'bg-emerald-900/300',
   },
   C: {
     name: 'Conformidade',
     description: 'Analitico, preciso, detalhista, sistematico. Pessoas com perfil C sao rigorosas, valorizam qualidade e seguem padroes estabelecidos.',
     color: 'text-blue-700',
-    bgColor: 'bg-blue-500',
+    bgColor: 'bg-blue-900/300',
   },
 };
 
@@ -195,8 +195,8 @@ export default function DiscPage() {
 
     return (
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Perfil DISC</h1>
-        <p className="text-gray-600 mb-8">
+        <h1 className="text-2xl font-bold text-gray-100 mb-2">Perfil DISC</h1>
+        <p className="text-gray-400 mb-8">
           Resultado da sua avaliacao comportamental DISC
           {result.completedAt && (
             <span className="text-sm text-gray-400 ml-2">
@@ -207,13 +207,13 @@ export default function DiscPage() {
 
         {/* Primary Profile Badge */}
         {primary && (
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+          <div className="bg-green-950/50 backdrop-blur-lg rounded-xl shadow-sm border border-green-800/30 p-6 mb-6">
             <div className="flex items-center gap-4 mb-4">
               <div className={`w-16 h-16 ${PROFILE_INFO[primary].bgColor} rounded-xl flex items-center justify-center`}>
                 <span className="text-2xl font-bold text-white">{primary}</span>
               </div>
               <div>
-                <h2 className="text-xl font-bold text-gray-900">
+                <h2 className="text-xl font-bold text-gray-100">
                   Perfil Primario: {PROFILE_INFO[primary].name}
                 </h2>
                 <p className={`text-sm font-medium ${PROFILE_INFO[primary].color}`}>
@@ -221,13 +221,13 @@ export default function DiscPage() {
                 </p>
               </div>
             </div>
-            <p className="text-gray-700">{PROFILE_INFO[primary].description}</p>
+            <p className="text-gray-300">{PROFILE_INFO[primary].description}</p>
           </div>
         )}
 
         {/* DISC Bars */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-6">Distribuicao do Perfil</h3>
+        <div className="bg-green-950/50 backdrop-blur-lg rounded-xl shadow-sm border border-green-800/30 p-6 mb-6">
+          <h3 className="text-lg font-semibold text-gray-100 mb-6">Distribuicao do Perfil</h3>
           <div className="space-y-5">
             {profiles.map(({ key, value }) => (
               <div key={key}>
@@ -236,11 +236,11 @@ export default function DiscPage() {
                     <span className={`w-8 h-8 ${PROFILE_INFO[key].bgColor} rounded-lg flex items-center justify-center text-white font-bold text-sm`}>
                       {key}
                     </span>
-                    <span className="text-sm font-medium text-gray-700">{PROFILE_INFO[key].name}</span>
+                    <span className="text-sm font-medium text-gray-300">{PROFILE_INFO[key].name}</span>
                   </div>
-                  <span className="text-sm font-semibold text-gray-900">{value}%</span>
+                  <span className="text-sm font-semibold text-gray-100">{value}%</span>
                 </div>
-                <div className="w-full bg-gray-100 rounded-full h-4 overflow-hidden">
+                <div className="w-full bg-green-900/40 rounded-full h-4 overflow-hidden">
                   <div
                     className={`h-full rounded-full ${PROFILE_INFO[key].bgColor} transition-all duration-700`}
                     style={{ width: `${value}%` }}
@@ -254,14 +254,14 @@ export default function DiscPage() {
         {/* All Profiles Summary */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
           {profiles.map(({ key }) => (
-            <div key={key} className="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
+            <div key={key} className="bg-green-950/50 backdrop-blur-lg rounded-xl shadow-sm border border-green-800/30 p-5">
               <div className="flex items-center gap-3 mb-2">
                 <span className={`w-8 h-8 ${PROFILE_INFO[key].bgColor} rounded-lg flex items-center justify-center text-white font-bold text-sm`}>
                   {key}
                 </span>
-                <h4 className="font-semibold text-gray-900">{PROFILE_INFO[key].name}</h4>
+                <h4 className="font-semibold text-gray-100">{PROFILE_INFO[key].name}</h4>
               </div>
-              <p className="text-sm text-gray-600">{PROFILE_INFO[key].description}</p>
+              <p className="text-sm text-gray-400">{PROFILE_INFO[key].description}</p>
             </div>
           ))}
         </div>
@@ -269,7 +269,7 @@ export default function DiscPage() {
         <div className="text-center">
           <button
             onClick={handleRetake}
-            className="px-6 py-2.5 bg-white border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors"
+            className="px-6 py-2.5 bg-green-950/50 backdrop-blur-lg border border-green-700/40 text-gray-300 font-medium rounded-lg hover:bg-green-900/30 transition-colors"
           >
             Refazer Avaliacao
           </button>
@@ -282,12 +282,12 @@ export default function DiscPage() {
   if (phase === 'intro') {
     return (
       <div className="max-w-3xl mx-auto">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Avaliacao DISC</h1>
-        <p className="text-gray-600 mb-8">Avaliacao comportamental baseada na metodologia DISC</p>
+        <h1 className="text-2xl font-bold text-gray-100 mb-2">Avaliacao DISC</h1>
+        <p className="text-gray-400 mb-8">Avaliacao comportamental baseada na metodologia DISC</p>
 
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 sm:p-8 mb-8">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">O que e o DISC?</h2>
-          <p className="text-gray-700 mb-4">
+        <div className="bg-green-950/50 backdrop-blur-lg rounded-xl shadow-sm border border-green-800/30 p-6 sm:p-8 mb-8">
+          <h2 className="text-xl font-semibold text-gray-100 mb-4">O que e o DISC?</h2>
+          <p className="text-gray-300 mb-4">
             O DISC e uma metodologia de avaliacao comportamental que identifica quatro dimensoes principais
             do comportamento humano. Ela ajuda a entender como voce se comunica, toma decisoes e interage
             com outras pessoas no ambiente de trabalho.
@@ -295,42 +295,42 @@ export default function DiscPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
             {(['D', 'I', 'S', 'C'] as const).map((key) => (
-              <div key={key} className="flex items-start gap-3 p-3 rounded-lg bg-gray-50">
+              <div key={key} className="flex items-start gap-3 p-3 rounded-lg bg-green-900/30">
                 <span className={`w-10 h-10 ${PROFILE_INFO[key].bgColor} rounded-lg flex items-center justify-center text-white font-bold flex-shrink-0`}>
                   {key}
                 </span>
                 <div>
-                  <h3 className="font-semibold text-gray-900 text-sm">{PROFILE_INFO[key].name}</h3>
-                  <p className="text-xs text-gray-600">{PROFILE_INFO[key].description}</p>
+                  <h3 className="font-semibold text-gray-100 text-sm">{PROFILE_INFO[key].name}</h3>
+                  <p className="text-xs text-gray-400">{PROFILE_INFO[key].description}</p>
                 </div>
               </div>
             ))}
           </div>
 
-          <h3 className="text-lg font-semibold text-gray-900 mb-3">Como funciona?</h3>
-          <ul className="space-y-2 text-gray-700 mb-6">
+          <h3 className="text-lg font-semibold text-gray-100 mb-3">Como funciona?</h3>
+          <ul className="space-y-2 text-gray-300 mb-6">
             <li className="flex items-start gap-2">
-              <span className="w-5 h-5 bg-green-100 text-green-800 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">1</span>
+              <span className="w-5 h-5 bg-emerald-900/40 text-emerald-300 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">1</span>
               <span>Voce respondera 24 perguntas rapidas</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="w-5 h-5 bg-green-100 text-green-800 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">2</span>
+              <span className="w-5 h-5 bg-emerald-900/40 text-emerald-300 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">2</span>
               <span>Em cada pergunta, escolha o comportamento que MAIS e MENOS descreve voce</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="w-5 h-5 bg-green-100 text-green-800 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">3</span>
+              <span className="w-5 h-5 bg-emerald-900/40 text-emerald-300 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">3</span>
               <span>Ao final, voce recebera seu perfil DISC com analise detalhada</span>
             </li>
           </ul>
 
-          <p className="text-sm text-gray-500 mb-6">
+          <p className="text-sm text-gray-400 mb-6">
             Tempo estimado: 5 a 10 minutos. Nao existem respostas certas ou erradas.
           </p>
 
           <button
             onClick={startAssessment}
             disabled={loading}
-            className="w-full sm:w-auto px-8 py-3 bg-green-700 text-white font-medium rounded-lg hover:bg-green-800 focus:ring-2 focus:ring-green-600 focus:ring-offset-2 disabled:opacity-50 transition-colors"
+            className="w-full sm:w-auto px-8 py-3 bg-green-700 text-white font-medium rounded-lg hover:bg-green-800 focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 disabled:opacity-50 transition-colors"
           >
             {loading ? 'Carregando...' : 'Iniciar Avaliacao'}
           </button>
@@ -350,24 +350,24 @@ export default function DiscPage() {
 
     return (
       <div className="max-w-3xl mx-auto">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Avaliacao DISC</h1>
-        <p className="text-gray-600 mb-6">
+        <h1 className="text-2xl font-bold text-gray-100 mb-2">Avaliacao DISC</h1>
+        <p className="text-gray-400 mb-6">
           Pergunta {currentQuestion + 1} de {questions.length}
         </p>
 
         {/* Progress Bar */}
-        <div className="w-full bg-gray-200 rounded-full h-2.5 mb-8">
+        <div className="w-full bg-green-800/40 rounded-full h-2.5 mb-8">
           <div
             className="bg-green-700 h-2.5 rounded-full transition-all duration-300"
             style={{ width: `${progress}%` }}
           />
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 sm:p-8">
-          <h2 className="text-lg font-semibold text-gray-900 mb-2">
+        <div className="bg-green-950/50 backdrop-blur-lg rounded-xl shadow-sm border border-green-800/30 p-6 sm:p-8">
+          <h2 className="text-lg font-semibold text-gray-100 mb-2">
             Selecione os comportamentos
           </h2>
-          <p className="text-sm text-gray-600 mb-6">
+          <p className="text-sm text-gray-400 mb-6">
             Escolha qual palavra mais descreve voce (<strong>MAIS</strong>) e qual menos descreve voce (<strong>MENOS</strong>).
           </p>
 
@@ -382,13 +382,13 @@ export default function DiscPage() {
                   key={key}
                   className={`flex items-center justify-between p-4 rounded-lg border-2 transition-all ${
                     isMost
-                      ? 'border-green-400 bg-green-50'
+                      ? 'border-green-400 bg-emerald-900/30'
                       : isLeastSel
-                      ? 'border-red-400 bg-red-50'
-                      : 'border-gray-200 hover:border-gray-300'
+                      ? 'border-red-400 bg-red-900/30'
+                      : 'border-green-800/30 hover:border-green-700/40'
                   }`}
                 >
-                  <span className="font-medium text-gray-900">{word}</span>
+                  <span className="font-medium text-gray-100">{word}</span>
                   <div className="flex gap-2">
                     <button
                       type="button"
@@ -399,7 +399,7 @@ export default function DiscPage() {
                       className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-colors ${
                         isMost
                           ? 'bg-green-600 text-white'
-                          : 'bg-gray-100 text-gray-600 hover:bg-green-100 hover:text-green-700'
+                          : 'bg-green-900/40 text-gray-400 hover:bg-emerald-900/40 hover:text-emerald-400'
                       }`}
                     >
                       MAIS
@@ -413,7 +413,7 @@ export default function DiscPage() {
                       className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-colors ${
                         isLeastSel
                           ? 'bg-red-600 text-white'
-                          : 'bg-gray-100 text-gray-600 hover:bg-red-100 hover:text-red-700'
+                          : 'bg-green-900/40 text-gray-400 hover:bg-red-900/30 hover:text-red-700'
                       }`}
                     >
                       MENOS
@@ -448,7 +448,7 @@ export default function DiscPage() {
                 }
               }}
               disabled={currentQuestion === 0}
-              className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 disabled:opacity-30 disabled:cursor-not-allowed"
+              className="px-4 py-2 text-sm font-medium text-gray-400 hover:text-gray-100 disabled:opacity-30 disabled:cursor-not-allowed"
             >
               Voltar
             </button>
@@ -456,7 +456,7 @@ export default function DiscPage() {
               type="button"
               onClick={handleNext}
               disabled={!canProceed || submitting}
-              className="px-6 py-2.5 bg-green-700 text-white font-medium rounded-lg hover:bg-green-800 focus:ring-2 focus:ring-green-600 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="px-6 py-2.5 bg-green-700 text-white font-medium rounded-lg hover:bg-green-800 focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
               {submitting ? 'Calculando...' : isLast ? 'Finalizar' : 'Proxima'}
             </button>

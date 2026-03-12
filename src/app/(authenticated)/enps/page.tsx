@@ -42,16 +42,16 @@ function getNpsColor(score: number | null): string {
 }
 
 function getNpsBgColor(score: number | null): string {
-  if (score === null) return 'bg-gray-100 text-gray-500';
-  if (score >= 50) return 'bg-green-100 text-green-800';
-  if (score >= 0) return 'bg-yellow-100 text-yellow-800';
-  return 'bg-red-100 text-red-800';
+  if (score === null) return 'bg-green-900/40 text-gray-400';
+  if (score >= 50) return 'bg-emerald-900/40 text-emerald-300';
+  if (score >= 0) return 'bg-yellow-100 text-yellow-300';
+  return 'bg-red-900/30 text-red-800';
 }
 
 function getScoreColor(score: number): string {
-  if (score >= 9) return 'bg-green-500';
-  if (score >= 7) return 'bg-yellow-500';
-  return 'bg-red-500';
+  if (score >= 9) return 'bg-emerald-900/300';
+  if (score >= 7) return 'bg-yellow-900/300';
+  return 'bg-red-900/300';
 }
 
 function getStatusLabel(status: string): string {
@@ -65,10 +65,10 @@ function getStatusLabel(status: string): string {
 
 function getStatusColor(status: string): string {
   switch (status) {
-    case 'DRAFT': return 'bg-gray-100 text-gray-700';
-    case 'ACTIVE': return 'bg-green-100 text-green-700';
-    case 'CLOSED': return 'bg-red-100 text-red-700';
-    default: return 'bg-gray-100 text-gray-700';
+    case 'DRAFT': return 'bg-green-900/40 text-gray-300';
+    case 'ACTIVE': return 'bg-emerald-900/40 text-emerald-400';
+    case 'CLOSED': return 'bg-red-900/30 text-red-700';
+    default: return 'bg-green-900/40 text-gray-300';
   }
 }
 
@@ -189,8 +189,8 @@ export default function EnpsPage() {
     return (
       <div className="p-6">
         <div className="animate-pulse space-y-4">
-          <div className="h-8 bg-gray-200 rounded w-48" />
-          <div className="h-32 bg-gray-200 rounded" />
+          <div className="h-8 bg-green-800/40 rounded w-48" />
+          <div className="h-32 bg-green-800/40 rounded" />
         </div>
       </div>
     );
@@ -205,7 +205,7 @@ export default function EnpsPage() {
       <div className="p-6 max-w-4xl mx-auto">
         <button
           onClick={() => setSelectedSurvey(null)}
-          className="mb-4 text-green-700 hover:text-green-900 text-sm font-medium flex items-center gap-1"
+          className="mb-4 text-emerald-400 hover:text-emerald-200 text-sm font-medium flex items-center gap-1"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -213,11 +213,11 @@ export default function EnpsPage() {
           Voltar
         </button>
 
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+        <div className="bg-green-950/50 backdrop-blur-lg rounded-xl shadow-sm border border-green-800/30 p-6 mb-6">
           <div className="flex items-start justify-between mb-4">
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">{s.title}</h1>
-              <p className="text-sm text-gray-500 mt-1">
+              <h1 className="text-2xl font-bold text-gray-100">{s.title}</h1>
+              <p className="text-sm text-gray-400 mt-1">
                 Criado por {s.createdBy.name} em{' '}
                 {new Date(s.createdAt).toLocaleDateString('pt-BR')}
               </p>
@@ -229,31 +229,31 @@ export default function EnpsPage() {
 
           {/* NPS Score */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-            <div className="bg-gray-50 rounded-lg p-4 text-center">
-              <p className="text-sm text-gray-500 mb-1">NPS Score</p>
+            <div className="bg-green-900/30 rounded-lg p-4 text-center">
+              <p className="text-sm text-gray-400 mb-1">NPS Score</p>
               <p className={`text-4xl font-bold ${getNpsColor(s.npsScore)}`}>
                 {s.npsScore !== null ? s.npsScore : '—'}
               </p>
             </div>
-            <div className="bg-green-50 rounded-lg p-4 text-center">
+            <div className="bg-emerald-900/30 rounded-lg p-4 text-center">
               <p className="text-sm text-green-600 mb-1">Promotores (9-10)</p>
-              <p className="text-2xl font-bold text-green-700">{s.promoters}</p>
+              <p className="text-2xl font-bold text-emerald-400">{s.promoters}</p>
               {s.totalResponses > 0 && (
                 <p className="text-xs text-green-500">
                   {Math.round((s.promoters / s.totalResponses) * 100)}%
                 </p>
               )}
             </div>
-            <div className="bg-yellow-50 rounded-lg p-4 text-center">
+            <div className="bg-yellow-900/30 rounded-lg p-4 text-center">
               <p className="text-sm text-yellow-600 mb-1">Passivos (7-8)</p>
-              <p className="text-2xl font-bold text-yellow-700">{s.passives}</p>
+              <p className="text-2xl font-bold text-yellow-400">{s.passives}</p>
               {s.totalResponses > 0 && (
                 <p className="text-xs text-yellow-500">
                   {Math.round((s.passives / s.totalResponses) * 100)}%
                 </p>
               )}
             </div>
-            <div className="bg-red-50 rounded-lg p-4 text-center">
+            <div className="bg-red-900/30 rounded-lg p-4 text-center">
               <p className="text-sm text-red-600 mb-1">Detratores (0-6)</p>
               <p className="text-2xl font-bold text-red-700">{s.detractors}</p>
               {s.totalResponses > 0 && (
@@ -266,21 +266,21 @@ export default function EnpsPage() {
 
           {/* Score Distribution */}
           <div className="mb-6">
-            <h3 className="text-sm font-medium text-gray-700 mb-3">Distribuicao de Notas</h3>
+            <h3 className="text-sm font-medium text-gray-300 mb-3">Distribuicao de Notas</h3>
             <div className="space-y-2">
               {Array.from({ length: 11 }, (_, i) => i).map((score) => {
                 const count = s.distribution[score] ?? 0;
                 const width = maxDistribution > 0 ? (count / maxDistribution) * 100 : 0;
                 return (
                   <div key={score} className="flex items-center gap-2">
-                    <span className="w-6 text-right text-sm text-gray-600 font-medium">{score}</span>
-                    <div className="flex-1 bg-gray-100 rounded-full h-5 relative">
+                    <span className="w-6 text-right text-sm text-gray-400 font-medium">{score}</span>
+                    <div className="flex-1 bg-green-900/40 rounded-full h-5 relative">
                       <div
                         className={`h-5 rounded-full ${getScoreColor(score)} transition-all`}
                         style={{ width: `${width}%`, minWidth: count > 0 ? '8px' : '0' }}
                       />
                     </div>
-                    <span className="w-8 text-sm text-gray-500">{count}</span>
+                    <span className="w-8 text-sm text-gray-400">{count}</span>
                   </div>
                 );
               })}
@@ -309,30 +309,30 @@ export default function EnpsPage() {
             </div>
           )}
 
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-gray-400">
             Total de respostas: {s.totalResponses}
           </p>
         </div>
 
         {/* Response form */}
         {s.status === 'ACTIVE' && !s.hasResponded && (
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Responder Pesquisa</h3>
-            <p className="text-sm text-gray-600 mb-4">
+          <div className="bg-green-950/50 backdrop-blur-lg rounded-xl shadow-sm border border-green-800/30 p-6">
+            <h3 className="text-lg font-semibold text-gray-100 mb-4">Responder Pesquisa</h3>
+            <p className="text-sm text-gray-400 mb-4">
               Em uma escala de 0 a 10, o quanto voce recomendaria esta empresa como um bom lugar para trabalhar?
             </p>
 
             <div className="flex flex-wrap gap-2 mb-4">
               {Array.from({ length: 11 }, (_, i) => i).map((score) => {
-                let bgClass = 'bg-gray-100 text-gray-700 hover:bg-gray-200';
+                let bgClass = 'bg-green-900/40 text-gray-300 hover:bg-green-800/40';
                 if (respondScore === score) {
                   if (score >= 9) bgClass = 'bg-green-600 text-white';
-                  else if (score >= 7) bgClass = 'bg-yellow-500 text-white';
+                  else if (score >= 7) bgClass = 'bg-yellow-900/300 text-white';
                   else bgClass = 'bg-red-600 text-white';
                 } else {
-                  if (score >= 9) bgClass = 'bg-green-50 text-green-700 hover:bg-green-100 border border-green-200';
-                  else if (score >= 7) bgClass = 'bg-yellow-50 text-yellow-700 hover:bg-yellow-100 border border-yellow-200';
-                  else bgClass = 'bg-red-50 text-red-700 hover:bg-red-100 border border-red-200';
+                  if (score >= 9) bgClass = 'bg-emerald-900/30 text-emerald-400 hover:bg-emerald-900/40 border border-emerald-500/20';
+                  else if (score >= 7) bgClass = 'bg-yellow-900/30 text-yellow-400 hover:bg-yellow-100 border border-yellow-500/20';
+                  else bgClass = 'bg-red-900/30 text-red-700 hover:bg-red-900/30 border border-red-200';
                 }
                 return (
                   <button
@@ -356,7 +356,7 @@ export default function EnpsPage() {
               onChange={(e) => setRespondComment(e.target.value)}
               placeholder="Comentario (opcional)"
               rows={3}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mb-4 focus:ring-2 focus:ring-green-600 focus:border-green-600"
+              className="w-full border border-green-700/40 rounded-lg px-3 py-2 text-sm mb-4 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
             />
 
             <button
@@ -370,8 +370,8 @@ export default function EnpsPage() {
         )}
 
         {s.status === 'ACTIVE' && s.hasResponded && (
-          <div className="bg-green-50 border border-green-200 rounded-xl p-4 text-center">
-            <p className="text-green-700 font-medium">Voce ja respondeu esta pesquisa. Obrigado!</p>
+          <div className="bg-emerald-900/30 border border-emerald-500/20 rounded-xl p-4 text-center">
+            <p className="text-emerald-400 font-medium">Voce ja respondeu esta pesquisa. Obrigado!</p>
           </div>
         )}
       </div>
@@ -383,8 +383,8 @@ export default function EnpsPage() {
     <div className="p-6 max-w-4xl mx-auto">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">eNPS</h1>
-          <p className="text-sm text-gray-500 mt-1">Employee Net Promoter Score</p>
+          <h1 className="text-2xl font-bold text-gray-100">eNPS</h1>
+          <p className="text-sm text-gray-400 mt-1">Employee Net Promoter Score</p>
         </div>
         {isAdmin && (
           <button
@@ -398,15 +398,15 @@ export default function EnpsPage() {
 
       {/* Create form */}
       {showCreate && (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 mb-6">
-          <h3 className="text-sm font-semibold text-gray-700 mb-3">Criar Pesquisa eNPS</h3>
+        <div className="bg-green-950/50 backdrop-blur-lg rounded-xl shadow-sm border border-green-800/30 p-4 mb-6">
+          <h3 className="text-sm font-semibold text-gray-300 mb-3">Criar Pesquisa eNPS</h3>
           <div className="flex gap-2">
             <input
               type="text"
               value={newTitle}
               onChange={(e) => setNewTitle(e.target.value)}
               placeholder="Titulo da pesquisa"
-              className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-green-600 focus:border-green-600"
+              className="flex-1 border border-green-700/40 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
             />
             <button
               onClick={handleCreate}
@@ -421,8 +421,8 @@ export default function EnpsPage() {
 
       {/* Surveys list */}
       {surveys.length === 0 ? (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-12 text-center">
-          <p className="text-gray-500">Nenhuma pesquisa eNPS encontrada.</p>
+        <div className="bg-green-950/50 backdrop-blur-lg rounded-xl shadow-sm border border-green-800/30 p-12 text-center">
+          <p className="text-gray-400">Nenhuma pesquisa eNPS encontrada.</p>
         </div>
       ) : (
         <div className="space-y-3">
@@ -430,17 +430,17 @@ export default function EnpsPage() {
             <button
               key={survey.id}
               onClick={() => loadSurveyDetail(survey.id)}
-              className="w-full text-left bg-white rounded-xl shadow-sm border border-gray-200 p-4 hover:shadow-md transition-shadow"
+              className="w-full text-left bg-green-950/50 backdrop-blur-lg rounded-xl shadow-sm border border-green-800/30 p-4 hover:shadow-md transition-shadow"
             >
               <div className="flex items-center justify-between">
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-1">
-                    <h3 className="font-semibold text-gray-900">{survey.title}</h3>
+                    <h3 className="font-semibold text-gray-100">{survey.title}</h3>
                     <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${getStatusColor(survey.status)}`}>
                       {getStatusLabel(survey.status)}
                     </span>
                   </div>
-                  <p className="text-xs text-gray-500">
+                  <p className="text-xs text-gray-400">
                     {survey.totalResponses} resposta{survey.totalResponses !== 1 ? 's' : ''}{' '}
                     &middot; Criado em {new Date(survey.createdAt).toLocaleDateString('pt-BR')}
                   </p>
@@ -458,8 +458,8 @@ export default function EnpsPage() {
 
       {loadingDetail && (
         <div className="fixed inset-0 bg-black/20 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 shadow-xl">
-            <p className="text-gray-600">Carregando...</p>
+          <div className="bg-green-950/50 backdrop-blur-lg rounded-lg p-6 shadow-xl">
+            <p className="text-gray-400">Carregando...</p>
           </div>
         </div>
       )}

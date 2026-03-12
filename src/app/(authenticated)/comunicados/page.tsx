@@ -123,8 +123,8 @@ export default function ComunicadosPage() {
   if (loading) {
     return (
       <div className="space-y-4">
-        <div className="h-8 w-48 bg-gray-200 rounded animate-pulse" />
-        <div className="h-64 bg-gray-200 rounded animate-pulse" />
+        <div className="h-8 w-48 bg-green-800/40 rounded animate-pulse" />
+        <div className="h-64 bg-green-800/40 rounded animate-pulse" />
       </div>
     );
   }
@@ -132,7 +132,7 @@ export default function ComunicadosPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Comunicados</h1>
+        <h1 className="text-2xl font-bold text-gray-100">Comunicados</h1>
         {isAdmin && (
           <button
             onClick={() => setShowForm(!showForm)}
@@ -145,33 +145,33 @@ export default function ComunicadosPage() {
 
       {/* Create Form (Admin) */}
       {showForm && (
-        <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Novo Comunicado</h2>
+        <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-6 mb-6">
+          <h2 className="text-lg font-semibold text-gray-100 mb-4">Novo Comunicado</h2>
           <form onSubmit={handleCreate} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Título</label>
+              <label className="block text-sm font-medium text-gray-300 mb-1">Título</label>
               <input
                 type="text"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                className="w-full px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                 placeholder="Título do comunicado"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Conteúdo</label>
+              <label className="block text-sm font-medium text-gray-300 mb-1">Conteúdo</label>
               <textarea
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
                 required
                 rows={5}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                className="w-full px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                 placeholder="Conteúdo do comunicado..."
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-300 mb-2">
                 Departamentos (deixe vazio para todos)
               </label>
               <div className="flex flex-wrap gap-2">
@@ -183,7 +183,7 @@ export default function ComunicadosPage() {
                     className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
                       targetDepts.includes(dept.id)
                         ? 'bg-green-700 text-white'
-                        : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                        : 'bg-green-900/40 text-gray-400 hover:bg-green-800/40'
                     }`}
                   >
                     {dept.name}
@@ -192,18 +192,18 @@ export default function ComunicadosPage() {
               </div>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-300 mb-1">
                 Agendamento (opcional, deixe vazio para enviar imediatamente)
               </label>
               <input
                 type="datetime-local"
                 value={scheduledAt}
                 onChange={(e) => setScheduledAt(e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                className="px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
               />
             </div>
             {error && (
-              <div className="bg-red-50 text-red-600 text-sm p-3 rounded-md">{error}</div>
+              <div className="bg-red-900/30 text-red-600 text-sm p-3 rounded-md">{error}</div>
             )}
             <button
               type="submit"
@@ -218,8 +218,8 @@ export default function ComunicadosPage() {
 
       {/* Announcements List */}
       {announcements.length === 0 ? (
-        <div className="bg-white rounded-lg shadow-sm p-12 text-center">
-          <p className="text-gray-500">Nenhum comunicado encontrado.</p>
+        <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-12 text-center">
+          <p className="text-gray-400">Nenhum comunicado encontrado.</p>
         </div>
       ) : (
         <div className="space-y-4">
@@ -233,12 +233,12 @@ export default function ComunicadosPage() {
             return (
               <div
                 key={a.id}
-                className={`bg-white rounded-lg shadow-sm overflow-hidden ${
+                className={`bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm overflow-hidden ${
                   !isAdmin && !a.isRead ? 'border-l-4 border-green-600' : ''
                 }`}
               >
                 <div
-                  className="p-5 cursor-pointer hover:bg-gray-50 transition-colors"
+                  className="p-5 cursor-pointer hover:bg-green-900/30 transition-colors"
                   onClick={() => {
                     setExpandedId(isExpanded ? null : a.id);
                     if (!isAdmin && !a.isRead) markAsRead(a.id);
@@ -248,11 +248,11 @@ export default function ComunicadosPage() {
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-1">
                         {!isAdmin && !a.isRead && (
-                          <span className="w-2 h-2 bg-green-500 rounded-full flex-shrink-0" />
+                          <span className="w-2 h-2 bg-emerald-900/300 rounded-full flex-shrink-0" />
                         )}
-                        <h3 className="font-semibold text-gray-900">{a.title}</h3>
+                        <h3 className="font-semibold text-gray-100">{a.title}</h3>
                       </div>
-                      <p className="text-sm text-gray-500">
+                      <p className="text-sm text-gray-400">
                         {a.author.name} &middot;{' '}
                         {a.sentAt
                           ? new Date(a.sentAt).toLocaleDateString('pt-BR', {
@@ -286,7 +286,7 @@ export default function ComunicadosPage() {
                         </span>
                       )}
                       {!a.sentAt && (
-                        <span className="inline-flex px-2 py-0.5 text-xs font-medium rounded-full bg-yellow-100 text-yellow-700">
+                        <span className="inline-flex px-2 py-0.5 text-xs font-medium rounded-full bg-yellow-100 text-yellow-400">
                           Agendado
                         </span>
                       )}
@@ -303,8 +303,8 @@ export default function ComunicadosPage() {
                 </div>
 
                 {isExpanded && (
-                  <div className="px-5 pb-5 border-t border-gray-100 pt-4">
-                    <div className="prose prose-sm max-w-none text-gray-700 whitespace-pre-wrap">
+                  <div className="px-5 pb-5 border-t border-green-800/20 pt-4">
+                    <div className="prose prose-sm max-w-none text-gray-300 whitespace-pre-wrap">
                       {a.content}
                     </div>
                   </div>

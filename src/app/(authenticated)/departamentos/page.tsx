@@ -94,18 +94,18 @@ export default function DepartamentosPage() {
   if (loading) {
     return (
       <div className="space-y-4">
-        <div className="h-8 w-48 bg-gray-200 rounded animate-pulse" />
-        <div className="h-64 bg-gray-200 rounded animate-pulse" />
+        <div className="h-8 w-48 bg-green-800/40 rounded animate-pulse" />
+        <div className="h-64 bg-green-800/40 rounded animate-pulse" />
       </div>
     );
   }
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Departamentos</h1>
+      <h1 className="text-2xl font-bold text-gray-100 mb-6">Departamentos</h1>
 
-      <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">Novo Departamento</h2>
+      <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-6 mb-6">
+        <h2 className="text-lg font-semibold text-gray-100 mb-4">Novo Departamento</h2>
         <form onSubmit={handleCreate} className="flex gap-3">
           <input
             type="text"
@@ -114,7 +114,7 @@ export default function DepartamentosPage() {
             placeholder="Nome do departamento"
             required
             minLength={2}
-            className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
+            className="flex-1 px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
           />
           <button
             type="submit"
@@ -127,20 +127,20 @@ export default function DepartamentosPage() {
       </div>
 
       {error && (
-        <div className="bg-red-50 text-red-600 text-sm p-3 rounded-md mb-4">{error}</div>
+        <div className="bg-red-900/30 text-red-600 text-sm p-3 rounded-md mb-4">{error}</div>
       )}
 
-      <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+      <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm overflow-hidden">
         <table className="w-full">
-          <thead className="bg-gray-50">
+          <thead className="bg-green-900/30">
             <tr>
-              <th className="text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="text-left px-6 py-3 text-xs font-medium text-gray-400 uppercase tracking-wider">
                 Nome
               </th>
-              <th className="text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="text-left px-6 py-3 text-xs font-medium text-gray-400 uppercase tracking-wider">
                 Colaboradores
               </th>
-              <th className="text-right px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="text-right px-6 py-3 text-xs font-medium text-gray-400 uppercase tracking-wider">
                 Ações
               </th>
             </tr>
@@ -148,7 +148,7 @@ export default function DepartamentosPage() {
           <tbody className="divide-y divide-gray-200">
             {departments.length === 0 && (
               <tr>
-                <td colSpan={3} className="px-6 py-8 text-center text-gray-500">
+                <td colSpan={3} className="px-6 py-8 text-center text-gray-400">
                   Nenhum departamento cadastrado.
                 </td>
               </tr>
@@ -161,21 +161,21 @@ export default function DepartamentosPage() {
                       type="text"
                       value={editingName}
                       onChange={(e) => setEditingName(e.target.value)}
-                      className="px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600"
+                      className="px-2 py-1 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500"
                       autoFocus
                     />
                   ) : (
-                    <span className="text-gray-900 font-medium">{dept.name}</span>
+                    <span className="text-gray-100 font-medium">{dept.name}</span>
                   )}
                 </td>
-                <td className="px-6 py-4 text-gray-500">{dept._count.users}</td>
+                <td className="px-6 py-4 text-gray-400">{dept._count.users}</td>
                 <td className="px-6 py-4 text-right space-x-2">
                   {editingId === dept.id ? (
                     <>
                       <button
                         onClick={() => handleUpdate(dept.id)}
                         disabled={saving}
-                        className="text-green-700 hover:text-green-900 text-sm font-medium"
+                        className="text-emerald-400 hover:text-emerald-200 text-sm font-medium"
                       >
                         Salvar
                       </button>
@@ -184,7 +184,7 @@ export default function DepartamentosPage() {
                           setEditingId(null);
                           setEditingName('');
                         }}
-                        className="text-gray-500 hover:text-gray-700 text-sm font-medium"
+                        className="text-gray-400 hover:text-gray-300 text-sm font-medium"
                       >
                         Cancelar
                       </button>
@@ -196,7 +196,7 @@ export default function DepartamentosPage() {
                           setEditingId(dept.id);
                           setEditingName(dept.name);
                         }}
-                        className="text-green-700 hover:text-green-900 text-sm font-medium"
+                        className="text-emerald-400 hover:text-emerald-200 text-sm font-medium"
                       >
                         Editar
                       </button>

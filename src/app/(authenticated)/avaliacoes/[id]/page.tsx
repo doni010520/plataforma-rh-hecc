@@ -54,14 +54,14 @@ export default function CycleDetailPage() {
   if (loading) {
     return (
       <div className="space-y-4">
-        <div className="h-8 w-64 bg-gray-200 rounded animate-pulse" />
-        <div className="h-96 bg-gray-200 rounded animate-pulse" />
+        <div className="h-8 w-64 bg-green-800/40 rounded animate-pulse" />
+        <div className="h-96 bg-green-800/40 rounded animate-pulse" />
       </div>
     );
   }
 
   if (!cycle) {
-    return <p className="text-gray-500">Ciclo não encontrado.</p>;
+    return <p className="text-gray-400">Ciclo não encontrado.</p>;
   }
 
   const totalAssignments = cycle.assignments.length;
@@ -78,10 +78,10 @@ export default function CycleDetailPage() {
     <div>
       <div className="flex items-center justify-between mb-6">
         <div>
-          <Link href="/avaliacoes" className="text-sm text-green-700 hover:text-green-900 mb-1 inline-block">
+          <Link href="/avaliacoes" className="text-sm text-emerald-400 hover:text-emerald-200 mb-1 inline-block">
             &larr; Voltar
           </Link>
-          <h1 className="text-2xl font-bold text-gray-900">{cycle.name}</h1>
+          <h1 className="text-2xl font-bold text-gray-100">{cycle.name}</h1>
         </div>
         {(cycle.status === 'ACTIVE' || cycle.status === 'CLOSED') && (
           <Link
@@ -94,18 +94,18 @@ export default function CycleDetailPage() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        <div className="bg-white rounded-lg shadow-sm p-4">
-          <p className="text-sm text-gray-500">Total de Avaliações</p>
-          <p className="text-2xl font-bold text-gray-900">{totalAssignments}</p>
+        <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-4">
+          <p className="text-sm text-gray-400">Total de Avaliações</p>
+          <p className="text-2xl font-bold text-gray-100">{totalAssignments}</p>
         </div>
-        <div className="bg-white rounded-lg shadow-sm p-4">
-          <p className="text-sm text-gray-500">Respondidas</p>
+        <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-4">
+          <p className="text-sm text-gray-400">Respondidas</p>
           <p className="text-2xl font-bold text-green-600">{doneAssignments}</p>
         </div>
-        <div className="bg-white rounded-lg shadow-sm p-4">
-          <p className="text-sm text-gray-500">Taxa de Preenchimento</p>
-          <p className="text-2xl font-bold text-gray-900">{completionRate}%</p>
-          <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
+        <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-4">
+          <p className="text-sm text-gray-400">Taxa de Preenchimento</p>
+          <p className="text-2xl font-bold text-gray-100">{completionRate}%</p>
+          <div className="w-full bg-green-800/40 rounded-full h-2 mt-2">
             <div
               className="bg-green-700 h-2 rounded-full transition-all"
               style={{ width: `${completionRate}%` }}
@@ -114,23 +114,23 @@ export default function CycleDetailPage() {
         </div>
       </div>
 
-      <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-        <div className="px-6 py-4 border-b border-gray-200">
-          <h2 className="font-semibold text-gray-900">Status por Colaborador</h2>
+      <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm overflow-hidden">
+        <div className="px-6 py-4 border-b border-green-800/30">
+          <h2 className="font-semibold text-gray-100">Status por Colaborador</h2>
         </div>
         <table className="w-full">
-          <thead className="bg-gray-50">
+          <thead className="bg-green-900/30">
             <tr>
-              <th className="text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase">
+              <th className="text-left px-6 py-3 text-xs font-medium text-gray-400 uppercase">
                 Avaliado
               </th>
-              <th className="text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase">
+              <th className="text-left px-6 py-3 text-xs font-medium text-gray-400 uppercase">
                 Departamento
               </th>
-              <th className="text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase">
+              <th className="text-left px-6 py-3 text-xs font-medium text-gray-400 uppercase">
                 Avaliador
               </th>
-              <th className="text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase">
+              <th className="text-left px-6 py-3 text-xs font-medium text-gray-400 uppercase">
                 Status
               </th>
             </tr>
@@ -138,13 +138,13 @@ export default function CycleDetailPage() {
           <tbody className="divide-y divide-gray-200">
             {cycle.assignments.map((a) => (
               <tr key={a.id}>
-                <td className="px-6 py-3 text-sm font-medium text-gray-900">
+                <td className="px-6 py-3 text-sm font-medium text-gray-100">
                   {a.evaluatee.name}
                 </td>
-                <td className="px-6 py-3 text-sm text-gray-500">
+                <td className="px-6 py-3 text-sm text-gray-400">
                   {a.evaluatee.department?.name || '—'}
                 </td>
-                <td className="px-6 py-3 text-sm text-gray-600">
+                <td className="px-6 py-3 text-sm text-gray-400">
                   {a.evaluator.name}
                   {a.evaluator.id === a.evaluatee.id && (
                     <span className="text-xs text-gray-400 ml-1">(auto)</span>
@@ -154,8 +154,8 @@ export default function CycleDetailPage() {
                   <span
                     className={`inline-flex px-2 py-0.5 text-xs font-medium rounded-full ${
                       a.status === 'DONE'
-                        ? 'bg-green-100 text-green-700'
-                        : 'bg-yellow-100 text-yellow-700'
+                        ? 'bg-emerald-900/40 text-emerald-400'
+                        : 'bg-yellow-100 text-yellow-400'
                     }`}
                   >
                     {statusLabels[a.status]}

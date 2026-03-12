@@ -54,11 +54,11 @@ interface Employee {
 }
 
 const statusLabels: Record<string, string> = { DRAFT: 'Rascunho', PUBLISHED: 'Publicada', ARCHIVED: 'Arquivada' };
-const statusColors: Record<string, string> = { DRAFT: 'bg-gray-100 text-gray-800', PUBLISHED: 'bg-green-100 text-green-800', ARCHIVED: 'bg-yellow-100 text-yellow-800' };
+const statusColors: Record<string, string> = { DRAFT: 'bg-green-900/40 text-gray-200', PUBLISHED: 'bg-emerald-900/40 text-emerald-300', ARCHIVED: 'bg-yellow-100 text-yellow-300' };
 const contentTypeLabels: Record<string, string> = { VIDEO: 'Vídeo', ARTICLE: 'Artigo', COURSE: 'Curso', PODCAST: 'Podcast', BOOK: 'Livro', OTHER: 'Outro' };
 const progressColors: Record<string, string> = { NOT_STARTED: 'text-gray-400', IN_PROGRESS: 'text-blue-600', COMPLETED: 'text-green-600' };
 const enrollStatusLabels: Record<string, string> = { ACTIVE: 'Ativo', COMPLETED: 'Concluído', CANCELLED: 'Cancelado' };
-const enrollStatusColors: Record<string, string> = { ACTIVE: 'bg-blue-100 text-blue-800', COMPLETED: 'bg-green-100 text-green-800', CANCELLED: 'bg-gray-100 text-gray-800' };
+const enrollStatusColors: Record<string, string> = { ACTIVE: 'bg-blue-100 text-blue-800', COMPLETED: 'bg-emerald-900/40 text-emerald-300', CANCELLED: 'bg-green-900/40 text-gray-200' };
 
 export default function TrackDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -181,27 +181,27 @@ export default function TrackDetailPage() {
   };
 
   if (loading) return (<div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-700" /></div>);
-  if (!track) return (<div className="text-center py-12"><p className="text-gray-500">Trilha não encontrada.</p><Link href="/trilhas" className="text-green-700 hover:underline text-sm mt-2 inline-block">Voltar para Trilhas</Link></div>);
+  if (!track) return (<div className="text-center py-12"><p className="text-gray-400">Trilha não encontrada.</p><Link href="/trilhas" className="text-emerald-400 hover:underline text-sm mt-2 inline-block">Voltar para Trilhas</Link></div>);
 
   const totalContents = track.contents.length;
   const totalDuration = track.contents.reduce((sum, c) => sum + c.durationMinutes, 0);
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center gap-2 text-sm text-gray-500">
-        <Link href="/trilhas" className="hover:text-green-700">← Voltar para Trilhas</Link>
+      <div className="flex items-center gap-2 text-sm text-gray-400">
+        <Link href="/trilhas" className="hover:text-emerald-400">← Voltar para Trilhas</Link>
       </div>
 
-      <div className="bg-white rounded-lg border border-gray-200 p-6">
+      <div className="bg-green-950/50 backdrop-blur-lg rounded-lg border border-green-800/30 p-6">
         <div className="flex items-start justify-between">
           <div>
             <div className="flex items-center gap-3 mb-2">
-              <h1 className="text-2xl font-bold text-gray-900">{track.title}</h1>
+              <h1 className="text-2xl font-bold text-gray-100">{track.title}</h1>
               <span className={`text-xs px-2 py-1 rounded-full font-medium ${statusColors[track.status]}`}>{statusLabels[track.status]}</span>
             </div>
-            {track.description && <p className="text-gray-600 mb-2">{track.description}</p>}
-            {track.category && <p className="text-sm text-green-700 font-medium mb-2">{track.category}</p>}
-            <div className="flex items-center gap-4 text-sm text-gray-500">
+            {track.description && <p className="text-gray-400 mb-2">{track.description}</p>}
+            {track.category && <p className="text-sm text-emerald-400 font-medium mb-2">{track.category}</p>}
+            <div className="flex items-center gap-4 text-sm text-gray-400">
               <span>{totalContents} conteúdos</span>
               {totalDuration > 0 && <span>{Math.floor(totalDuration / 60)}h{totalDuration % 60 > 0 ? ` ${totalDuration % 60}min` : ''}</span>}
               <span>{track.enrollments.length} inscritos</span>
@@ -209,7 +209,7 @@ export default function TrackDetailPage() {
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <select value={track.status} onChange={(e) => handleStatusChange(e.target.value)} className="border border-gray-300 rounded-lg px-3 py-2 text-sm">
+            <select value={track.status} onChange={(e) => handleStatusChange(e.target.value)} className="border border-green-700/40 rounded-lg px-3 py-2 text-sm">
               <option value="DRAFT">Rascunho</option>
               <option value="PUBLISHED">Publicada</option>
               <option value="ARCHIVED">Arquivada</option>
@@ -219,10 +219,10 @@ export default function TrackDetailPage() {
         </div>
       </div>
 
-      <div className="border-b border-gray-200">
+      <div className="border-b border-green-800/30">
         <nav className="flex gap-4">
-          <button onClick={() => setActiveTab('contents')} className={`pb-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'contents' ? 'border-green-700 text-green-700' : 'border-transparent text-gray-500 hover:text-gray-700'}`}>Conteúdos ({totalContents})</button>
-          <button onClick={() => setActiveTab('enrollments')} className={`pb-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'enrollments' ? 'border-green-700 text-green-700' : 'border-transparent text-gray-500 hover:text-gray-700'}`}>Inscrições ({track.enrollments.length})</button>
+          <button onClick={() => setActiveTab('contents')} className={`pb-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'contents' ? 'border-green-700 text-emerald-400' : 'border-transparent text-gray-400 hover:text-gray-300'}`}>Conteúdos ({totalContents})</button>
+          <button onClick={() => setActiveTab('enrollments')} className={`pb-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'enrollments' ? 'border-green-700 text-emerald-400' : 'border-transparent text-gray-400 hover:text-gray-300'}`}>Inscrições ({track.enrollments.length})</button>
         </nav>
       </div>
 
@@ -233,58 +233,58 @@ export default function TrackDetailPage() {
           </div>
 
           {showAddContent && (
-            <form onSubmit={handleAddContent} className="bg-white rounded-lg border border-gray-200 p-4 space-y-3">
+            <form onSubmit={handleAddContent} className="bg-green-950/50 backdrop-blur-lg rounded-lg border border-green-800/30 p-4 space-y-3">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Título</label>
-                  <input type="text" value={contentTitle} onChange={(e) => setContentTitle(e.target.value)} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" required />
+                  <label className="block text-sm font-medium text-gray-300 mb-1">Título</label>
+                  <input type="text" value={contentTitle} onChange={(e) => setContentTitle(e.target.value)} className="w-full border border-green-700/40 rounded-lg px-3 py-2 text-sm" required />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Tipo</label>
-                  <select value={contentType} onChange={(e) => setContentType(e.target.value)} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">
+                  <label className="block text-sm font-medium text-gray-300 mb-1">Tipo</label>
+                  <select value={contentType} onChange={(e) => setContentType(e.target.value)} className="w-full border border-green-700/40 rounded-lg px-3 py-2 text-sm">
                     {Object.entries(contentTypeLabels).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Duração (min)</label>
-                  <input type="number" value={contentDuration} onChange={(e) => setContentDuration(Number(e.target.value))} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" min={0} />
+                  <label className="block text-sm font-medium text-gray-300 mb-1">Duração (min)</label>
+                  <input type="number" value={contentDuration} onChange={(e) => setContentDuration(Number(e.target.value))} className="w-full border border-green-700/40 rounded-lg px-3 py-2 text-sm" min={0} />
                 </div>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">URL do Conteúdo</label>
-                <input type="text" value={contentUrl} onChange={(e) => setContentUrl(e.target.value)} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" placeholder="https://..." />
+                <label className="block text-sm font-medium text-gray-300 mb-1">URL do Conteúdo</label>
+                <input type="text" value={contentUrl} onChange={(e) => setContentUrl(e.target.value)} className="w-full border border-green-700/40 rounded-lg px-3 py-2 text-sm" placeholder="https://..." />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Descrição</label>
-                <textarea value={contentDescription} onChange={(e) => setContentDescription(e.target.value)} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" rows={2} />
+                <label className="block text-sm font-medium text-gray-300 mb-1">Descrição</label>
+                <textarea value={contentDescription} onChange={(e) => setContentDescription(e.target.value)} className="w-full border border-green-700/40 rounded-lg px-3 py-2 text-sm" rows={2} />
               </div>
               <div className="flex gap-2">
                 <button type="submit" className="px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-green-800 text-sm">Adicionar</button>
-                <button type="button" onClick={() => setShowAddContent(false)} className="px-4 py-2 text-gray-600 hover:text-gray-800 text-sm">Cancelar</button>
+                <button type="button" onClick={() => setShowAddContent(false)} className="px-4 py-2 text-gray-400 hover:text-gray-200 text-sm">Cancelar</button>
               </div>
             </form>
           )}
 
           {track.contents.length === 0 ? (
-            <div className="text-center py-8 bg-gray-50 rounded-lg">
-              <p className="text-gray-500">Nenhum conteúdo adicionado.</p>
+            <div className="text-center py-8 bg-green-900/30 rounded-lg">
+              <p className="text-gray-400">Nenhum conteúdo adicionado.</p>
               <p className="text-gray-400 text-sm mt-1">Adicione conteúdos à trilha para que os colaboradores possam acompanhar.</p>
             </div>
           ) : (
             <div className="space-y-2">
               {track.contents.map((content, index) => (
-                <div key={content.id} className="bg-white rounded-lg border border-gray-200 p-4 flex items-center gap-4">
-                  <span className="w-8 h-8 flex items-center justify-center bg-green-100 text-green-800 rounded-full text-sm font-bold">{index + 1}</span>
+                <div key={content.id} className="bg-green-950/50 backdrop-blur-lg rounded-lg border border-green-800/30 p-4 flex items-center gap-4">
+                  <span className="w-8 h-8 flex items-center justify-center bg-emerald-900/40 text-emerald-300 rounded-full text-sm font-bold">{index + 1}</span>
                   <div className="flex-1">
                     <div className="flex items-center gap-2">
-                      <span className="font-medium text-gray-900">{content.title}</span>
-                      <span className="text-xs px-2 py-0.5 bg-gray-100 text-gray-600 rounded">{contentTypeLabels[content.type] || content.type}</span>
-                      {content.required && <span className="text-xs px-2 py-0.5 bg-green-100 text-green-700 rounded">Obrigatório</span>}
+                      <span className="font-medium text-gray-100">{content.title}</span>
+                      <span className="text-xs px-2 py-0.5 bg-green-900/40 text-gray-400 rounded">{contentTypeLabels[content.type] || content.type}</span>
+                      {content.required && <span className="text-xs px-2 py-0.5 bg-emerald-900/40 text-emerald-400 rounded">Obrigatório</span>}
                     </div>
-                    {content.description && <p className="text-sm text-gray-500 mt-1">{content.description}</p>}
+                    {content.description && <p className="text-sm text-gray-400 mt-1">{content.description}</p>}
                     <div className="flex items-center gap-3 text-xs text-gray-400 mt-1">
                       {content.durationMinutes > 0 && <span>{content.durationMinutes} min</span>}
-                      {content.contentUrl && <a href={content.contentUrl} target="_blank" rel="noopener noreferrer" className="text-green-700 hover:underline">Acessar</a>}
+                      {content.contentUrl && <a href={content.contentUrl} target="_blank" rel="noopener noreferrer" className="text-emerald-400 hover:underline">Acessar</a>}
                     </div>
                   </div>
                   <button onClick={() => handleDeleteContent(content.id)} className="text-red-400 hover:text-red-600 text-sm">✕</button>
@@ -298,27 +298,27 @@ export default function TrackDetailPage() {
       {activeTab === 'enrollments' && (
         <div className="space-y-4">
           <div className="flex justify-end gap-2">
-            <button onClick={handleSelfEnroll} className="px-4 py-2 border border-green-700 text-green-700 rounded-lg hover:bg-green-50 text-sm font-medium">Inscrever-me</button>
+            <button onClick={handleSelfEnroll} className="px-4 py-2 border border-green-700 text-emerald-400 rounded-lg hover:bg-emerald-900/30 text-sm font-medium">Inscrever-me</button>
             <button onClick={() => setShowEnroll(!showEnroll)} className="px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-green-800 text-sm font-medium">+ Inscrever Colaborador</button>
           </div>
 
           {showEnroll && (
-            <form onSubmit={handleEnroll} className="bg-white rounded-lg border border-gray-200 p-4 flex items-end gap-3">
+            <form onSubmit={handleEnroll} className="bg-green-950/50 backdrop-blur-lg rounded-lg border border-green-800/30 p-4 flex items-end gap-3">
               <div className="flex-1">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Colaborador</label>
-                <select value={enrollUserId} onChange={(e) => setEnrollUserId(e.target.value)} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" required>
+                <label className="block text-sm font-medium text-gray-300 mb-1">Colaborador</label>
+                <select value={enrollUserId} onChange={(e) => setEnrollUserId(e.target.value)} className="w-full border border-green-700/40 rounded-lg px-3 py-2 text-sm" required>
                   <option value="">Selecione...</option>
                   {employees.map((emp) => <option key={emp.id} value={emp.id}>{emp.name}</option>)}
                 </select>
               </div>
               <button type="submit" className="px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-green-800 text-sm">Inscrever</button>
-              <button type="button" onClick={() => setShowEnroll(false)} className="px-4 py-2 text-gray-600 hover:text-gray-800 text-sm">Cancelar</button>
+              <button type="button" onClick={() => setShowEnroll(false)} className="px-4 py-2 text-gray-400 hover:text-gray-200 text-sm">Cancelar</button>
             </form>
           )}
 
           {track.enrollments.length === 0 ? (
-            <div className="text-center py-8 bg-gray-50 rounded-lg">
-              <p className="text-gray-500">Nenhum colaborador inscrito nesta trilha.</p>
+            <div className="text-center py-8 bg-green-900/30 rounded-lg">
+              <p className="text-gray-400">Nenhum colaborador inscrito nesta trilha.</p>
             </div>
           ) : (
             <div className="space-y-4">
@@ -327,23 +327,23 @@ export default function TrackDetailPage() {
                 const completed = enrollment.progress.filter((p) => p.status === 'COMPLETED').length;
                 const pct = total > 0 ? Math.round((completed / total) * 100) : 0;
                 return (
-                  <div key={enrollment.id} className="bg-white rounded-lg border border-gray-200 p-4">
+                  <div key={enrollment.id} className="bg-green-950/50 backdrop-blur-lg rounded-lg border border-green-800/30 p-4">
                     <div className="flex items-center justify-between mb-3">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center text-green-800 font-bold">{enrollment.user.name.charAt(0)}</div>
+                        <div className="w-10 h-10 bg-emerald-900/40 rounded-full flex items-center justify-center text-emerald-300 font-bold">{enrollment.user.name.charAt(0)}</div>
                         <div>
-                          <p className="font-medium text-gray-900">{enrollment.user.name}</p>
-                          <p className="text-xs text-gray-500">{enrollment.user.jobTitle || 'Sem cargo'}</p>
+                          <p className="font-medium text-gray-100">{enrollment.user.name}</p>
+                          <p className="text-xs text-gray-400">{enrollment.user.jobTitle || 'Sem cargo'}</p>
                         </div>
                       </div>
                       <span className={`text-xs px-2 py-1 rounded-full font-medium ${enrollStatusColors[enrollment.status]}`}>{enrollStatusLabels[enrollment.status]}</span>
                     </div>
                     <div className="mb-3">
-                      <div className="flex justify-between text-xs text-gray-500 mb-1">
+                      <div className="flex justify-between text-xs text-gray-400 mb-1">
                         <span>{completed}/{total} conteúdos</span>
                         <span>{pct}%</span>
                       </div>
-                      <div className="w-full bg-gray-200 rounded-full h-2">
+                      <div className="w-full bg-green-800/40 rounded-full h-2">
                         <div className="bg-green-700 h-2 rounded-full transition-all" style={{ width: `${pct}%` }} />
                       </div>
                     </div>
@@ -353,7 +353,7 @@ export default function TrackDetailPage() {
                         const currentStatus = prog?.status || 'NOT_STARTED';
                         return (
                           <div key={content.id} className="flex items-center justify-between text-sm py-1">
-                            <span className={`${currentStatus === 'COMPLETED' ? 'line-through text-gray-400' : 'text-gray-700'}`}>{content.title}</span>
+                            <span className={`${currentStatus === 'COMPLETED' ? 'line-through text-gray-400' : 'text-gray-300'}`}>{content.title}</span>
                             <select
                               value={currentStatus}
                               onChange={(e) => handleProgressUpdate(enrollment.id, content.id, e.target.value)}

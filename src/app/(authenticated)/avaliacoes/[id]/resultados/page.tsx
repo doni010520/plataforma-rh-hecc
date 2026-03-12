@@ -39,9 +39,9 @@ const boxLabels = [
 ];
 
 const boxColors = [
-  ['bg-yellow-100', 'bg-blue-100', 'bg-green-100'],
-  ['bg-orange-100', 'bg-gray-100', 'bg-blue-100'],
-  ['bg-red-100', 'bg-orange-100', 'bg-yellow-100'],
+  ['bg-yellow-100', 'bg-blue-100', 'bg-emerald-900/40'],
+  ['bg-orange-100', 'bg-green-900/40', 'bg-blue-100'],
+  ['bg-red-900/30', 'bg-orange-100', 'bg-yellow-100'],
 ];
 
 export default function ResultadosPage() {
@@ -64,14 +64,14 @@ export default function ResultadosPage() {
   if (loading) {
     return (
       <div className="space-y-4">
-        <div className="h-8 w-64 bg-gray-200 rounded animate-pulse" />
-        <div className="h-96 bg-gray-200 rounded animate-pulse" />
+        <div className="h-8 w-64 bg-green-800/40 rounded animate-pulse" />
+        <div className="h-96 bg-green-800/40 rounded animate-pulse" />
       </div>
     );
   }
 
   if (!data) {
-    return <p className="text-gray-500">Resultados não encontrados.</p>;
+    return <p className="text-gray-400">Resultados não encontrados.</p>;
   }
 
   const evaluatees = Object.entries(data.summary.byEvaluatee);
@@ -97,10 +97,10 @@ export default function ResultadosPage() {
     <div>
       <div className="flex items-center justify-between mb-6">
         <div>
-          <Link href="/avaliacoes" className="text-sm text-green-700 hover:text-green-900 mb-1 inline-block">
+          <Link href="/avaliacoes" className="text-sm text-emerald-400 hover:text-emerald-200 mb-1 inline-block">
             &larr; Voltar
           </Link>
-          <h1 className="text-2xl font-bold text-gray-900">
+          <h1 className="text-2xl font-bold text-gray-100">
             Resultados — {data.cycle.name}
           </h1>
         </div>
@@ -116,10 +116,10 @@ export default function ResultadosPage() {
       </div>
 
       {/* 9Box Grid */}
-      <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">Matriz 9Box</h2>
+      <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-6 mb-6">
+        <h2 className="text-lg font-semibold text-gray-100 mb-4">Matriz 9Box</h2>
         <div className="mb-2 flex items-center gap-2">
-          <span className="text-xs text-gray-500 writing-mode-vertical transform -rotate-90 origin-center">
+          <span className="text-xs text-gray-400 writing-mode-vertical transform -rotate-90 origin-center">
             Potencial
           </span>
           <div className="flex-1">
@@ -133,11 +133,11 @@ export default function ResultadosPage() {
                       key={key}
                       className={`${boxColors[ri][ci]} rounded-lg p-3 min-h-[100px]`}
                     >
-                      <p className="text-xs font-semibold text-gray-700 mb-1">{label}</p>
+                      <p className="text-xs font-semibold text-gray-300 mb-1">{label}</p>
                       {names.length > 0 ? (
                         <div className="space-y-0.5">
                           {names.map((n) => (
-                            <p key={n} className="text-xs text-gray-600">
+                            <p key={n} className="text-xs text-gray-400">
                               {n}
                             </p>
                           ))}
@@ -151,17 +151,17 @@ export default function ResultadosPage() {
               )}
             </div>
             <div className="text-center mt-2">
-              <span className="text-xs text-gray-500">Desempenho &rarr;</span>
+              <span className="text-xs text-gray-400">Desempenho &rarr;</span>
             </div>
           </div>
         </div>
       </div>
 
       {/* Mapa de Calor por Departamento */}
-      <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">Mapa de Calor por Departamento</h2>
+      <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-6 mb-6">
+        <h2 className="text-lg font-semibold text-gray-100 mb-4">Mapa de Calor por Departamento</h2>
         {departments.length === 0 ? (
-          <p className="text-gray-500 text-sm">Nenhum resultado disponível.</p>
+          <p className="text-gray-400 text-sm">Nenhum resultado disponível.</p>
         ) : (
           <div className="space-y-3">
             {departments.map(([dept, info]) => {
@@ -170,12 +170,12 @@ export default function ResultadosPage() {
               return (
                 <div key={dept}>
                   <div className="flex items-center justify-between mb-1">
-                    <span className="text-sm font-medium text-gray-700">{dept}</span>
-                    <span className="text-sm text-gray-500">
+                    <span className="text-sm font-medium text-gray-300">{dept}</span>
+                    <span className="text-sm text-gray-400">
                       {info.avg.toFixed(2)} / 5.0 ({info.scores.length} avaliados)
                     </span>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-4">
+                  <div className="w-full bg-green-800/40 rounded-full h-4">
                     <div
                       className="h-4 rounded-full transition-all"
                       style={{
@@ -192,29 +192,29 @@ export default function ResultadosPage() {
       </div>
 
       {/* Tabela Individual */}
-      <div className="bg-white rounded-lg shadow-sm overflow-hidden">
-        <div className="px-6 py-4 border-b border-gray-200">
-          <h2 className="font-semibold text-gray-900">Resultados Individuais</h2>
+      <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm overflow-hidden">
+        <div className="px-6 py-4 border-b border-green-800/30">
+          <h2 className="font-semibold text-gray-100">Resultados Individuais</h2>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-gray-50">
+            <thead className="bg-green-900/30">
               <tr>
-                <th className="text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase">
+                <th className="text-left px-6 py-3 text-xs font-medium text-gray-400 uppercase">
                   Colaborador
                 </th>
-                <th className="text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase">
+                <th className="text-left px-6 py-3 text-xs font-medium text-gray-400 uppercase">
                   Departamento
                 </th>
                 {criteria.map((c) => (
                   <th
                     key={c.id}
-                    className="text-center px-4 py-3 text-xs font-medium text-gray-500 uppercase"
+                    className="text-center px-4 py-3 text-xs font-medium text-gray-400 uppercase"
                   >
                     {c.name}
                   </th>
                 ))}
-                <th className="text-center px-6 py-3 text-xs font-medium text-gray-500 uppercase">
+                <th className="text-center px-6 py-3 text-xs font-medium text-gray-400 uppercase">
                   Média
                 </th>
               </tr>
@@ -224,7 +224,7 @@ export default function ResultadosPage() {
                 <tr>
                   <td
                     colSpan={criteria.length + 3}
-                    className="px-6 py-8 text-center text-gray-500"
+                    className="px-6 py-8 text-center text-gray-400"
                   >
                     Nenhum resultado disponível.
                   </td>
@@ -234,8 +234,8 @@ export default function ResultadosPage() {
                 .sort((a, b) => b[1].avgScore - a[1].avgScore)
                 .map(([eId, ev]) => (
                   <tr key={eId}>
-                    <td className="px-6 py-3 text-sm font-medium text-gray-900">{ev.name}</td>
-                    <td className="px-6 py-3 text-sm text-gray-500">
+                    <td className="px-6 py-3 text-sm font-medium text-gray-100">{ev.name}</td>
+                    <td className="px-6 py-3 text-sm text-gray-400">
                       {ev.departmentName || '—'}
                     </td>
                     {criteria.map((c) => {
@@ -245,12 +245,12 @@ export default function ResultadosPage() {
                           ? (scores.reduce((a, b) => a + b, 0) / scores.length).toFixed(1)
                           : '—';
                       return (
-                        <td key={c.id} className="px-4 py-3 text-center text-sm text-gray-600">
+                        <td key={c.id} className="px-4 py-3 text-center text-sm text-gray-400">
                           {avg}
                         </td>
                       );
                     })}
-                    <td className="px-6 py-3 text-center text-sm font-bold text-gray-900">
+                    <td className="px-6 py-3 text-center text-sm font-bold text-gray-100">
                       {ev.avgScore.toFixed(2)}
                     </td>
                   </tr>

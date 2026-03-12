@@ -103,31 +103,31 @@ export default async function DashboardPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900 mb-6">Dashboard</h1>
+      <h1 className="text-2xl font-bold text-gray-100 mb-6">Dashboard</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div className="bg-white/60 backdrop-blur-lg border border-white/30 rounded-2xl shadow-sm p-6">
-          <h3 className="text-sm font-medium text-gray-500 mb-1">Bem-vindo(a)</h3>
-          <p className="text-xl font-semibold text-gray-900">{user.name}</p>
-          <p className="text-sm text-gray-500 mt-1">{user.company.name}</p>
+        <div className="bg-green-950/50 backdrop-blur-lg border border-emerald-500/10 rounded-2xl shadow-sm p-6">
+          <h3 className="text-sm font-medium text-gray-400 mb-1">Bem-vindo(a)</h3>
+          <p className="text-xl font-semibold text-gray-100">{user.name}</p>
+          <p className="text-sm text-gray-400 mt-1">{user.company.name}</p>
         </div>
 
-        <div className="bg-white/60 backdrop-blur-lg border border-white/30 rounded-2xl shadow-sm p-6">
-          <h3 className="text-sm font-medium text-gray-500 mb-1">Cargo</h3>
-          <p className="text-xl font-semibold text-gray-900">{user.jobTitle || 'Não definido'}</p>
-          <p className="text-sm text-gray-500 mt-1">{user.department?.name || 'Sem departamento'}</p>
+        <div className="bg-green-950/50 backdrop-blur-lg border border-emerald-500/10 rounded-2xl shadow-sm p-6">
+          <h3 className="text-sm font-medium text-gray-400 mb-1">Cargo</h3>
+          <p className="text-xl font-semibold text-gray-100">{user.jobTitle || 'Não definido'}</p>
+          <p className="text-sm text-gray-400 mt-1">{user.department?.name || 'Sem departamento'}</p>
         </div>
 
-        <div className="bg-white/60 backdrop-blur-lg border border-white/30 rounded-2xl shadow-sm p-6">
-          <h3 className="text-sm font-medium text-gray-500 mb-1">Perfil</h3>
-          <p className="text-xl font-semibold text-gray-900">
+        <div className="bg-green-950/50 backdrop-blur-lg border border-emerald-500/10 rounded-2xl shadow-sm p-6">
+          <h3 className="text-sm font-medium text-gray-400 mb-1">Perfil</h3>
+          <p className="text-xl font-semibold text-gray-100">
             {user.role === 'ADMIN'
               ? 'Administrador'
               : user.role === 'MANAGER'
                 ? 'Gestor'
                 : 'Colaborador'}
           </p>
-          <p className="text-sm text-gray-500 mt-1">{user.email}</p>
+          <p className="text-sm text-gray-400 mt-1">{user.email}</p>
         </div>
       </div>
 
@@ -138,14 +138,14 @@ export default async function DashboardPage() {
 
       {/* Active Survey Banner */}
       {pendingSurveys.length > 0 && (
-        <div className="mt-6 bg-green-50/70 backdrop-blur-lg border border-green-200/50 rounded-2xl p-4">
-          <h3 className="text-sm font-semibold text-green-800 mb-2">
+        <div className="mt-6 bg-emerald-900/40 backdrop-blur-lg border border-emerald-500/20 rounded-2xl p-4">
+          <h3 className="text-sm font-semibold text-emerald-300 mb-2">
             📋 Pesquisas Activas ({pendingSurveys.length})
           </h3>
           <div className="space-y-2">
             {pendingSurveys.map((s) => (
               <div key={s.id} className="flex items-center justify-between">
-                <span className="text-sm text-green-700">{s.title}</span>
+                <span className="text-sm text-emerald-400">{s.title}</span>
                 <Link
                   href={`/pesquisas/${s.id}/responder`}
                   className="text-sm bg-green-700 text-white px-3 py-1 rounded-md hover:bg-green-800 font-medium"
@@ -160,14 +160,14 @@ export default async function DashboardPage() {
 
       {/* Active NR-01 Assessment Banner */}
       {pendingAssessments.length > 0 && (
-        <div className="mt-6 bg-yellow-50/70 backdrop-blur-lg border border-yellow-200/50 rounded-2xl p-4">
-          <h3 className="text-sm font-semibold text-yellow-800 mb-2">
+        <div className="mt-6 bg-yellow-900/30 backdrop-blur-lg border border-yellow-500/20 rounded-2xl p-4">
+          <h3 className="text-sm font-semibold text-yellow-300 mb-2">
             Avaliações Psicossociais Ativas ({pendingAssessments.length})
           </h3>
           <div className="space-y-2">
             {pendingAssessments.map((a) => (
               <div key={a.id} className="flex items-center justify-between">
-                <span className="text-sm text-yellow-700">{a.title}</span>
+                <span className="text-sm text-yellow-400">{a.title}</span>
                 <Link
                   href={`/nr01/avaliacoes/${a.id}/responder`}
                   className="text-sm bg-yellow-600 text-white px-3 py-1 rounded-md hover:bg-yellow-700 font-medium"
@@ -181,18 +181,18 @@ export default async function DashboardPage() {
       )}
 
       {pendingAssignments.length > 0 && (
-        <div className="mt-8 bg-white rounded-lg shadow-sm p-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">
+        <div className="mt-8 bg-green-950/50 backdrop-blur-lg border border-emerald-500/10 rounded-lg p-6">
+          <h2 className="text-lg font-semibold text-gray-100 mb-4">
             Avaliações Pendentes ({pendingAssignments.length})
           </h2>
           <div className="space-y-3">
             {pendingAssignments.map((a) => (
               <div
                 key={a.id}
-                className="flex items-center justify-between border border-gray-200 rounded-md p-3"
+                className="flex items-center justify-between border border-green-800/30 rounded-md p-3"
               >
                 <div>
-                  <p className="text-sm font-medium text-gray-900">
+                  <p className="text-sm font-medium text-gray-100">
                     Avaliar: {a.evaluatee.name}
                   </p>
                   <p className="text-xs text-gray-500">
@@ -213,36 +213,36 @@ export default async function DashboardPage() {
       )}
 
       {recentFeedbacks.length > 0 && (
-        <div className="mt-8 bg-white rounded-lg shadow-sm p-6">
+        <div className="mt-8 bg-green-950/50 backdrop-blur-lg border border-emerald-500/10 rounded-lg p-6">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-gray-900">
+            <h2 className="text-lg font-semibold text-gray-100">
               Feedbacks Recentes
             </h2>
-            <Link href="/feedback" className="text-sm text-green-700 hover:text-green-800 font-medium">
+            <Link href="/feedback" className="text-sm text-emerald-400 hover:text-emerald-300 font-medium">
               Ver todos
             </Link>
           </div>
           <div className="space-y-3">
             {recentFeedbacks.map((fb) => (
-              <div key={fb.id} className="border border-gray-200 rounded-md p-3">
+              <div key={fb.id} className="border border-green-800/30 rounded-md p-3">
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="text-sm font-medium text-gray-900">
+                  <span className="text-sm font-medium text-gray-100">
                     {fb.fromUser.name}
                   </span>
                   <span
                     className={`inline-flex px-2 py-0.5 text-xs font-medium rounded-full ${
                       fb.type === 'PRAISE'
-                        ? 'bg-green-100 text-green-700'
+                        ? 'bg-emerald-900/40 text-emerald-400'
                         : fb.type === 'CONSTRUCTIVE'
-                          ? 'bg-yellow-100 text-yellow-700'
-                          : 'bg-blue-100 text-blue-700'
+                          ? 'bg-yellow-900/30 text-yellow-400'
+                          : 'bg-blue-900/30 text-blue-400'
                     }`}
                   >
                     {fb.type === 'PRAISE' ? 'Elogio' : fb.type === 'CONSTRUCTIVE' ? 'Construtivo' : 'Solicitação'}
                   </span>
                 </div>
-                <p className="text-sm text-gray-600 line-clamp-2">{fb.content}</p>
-                <p className="text-xs text-gray-400 mt-1">
+                <p className="text-sm text-gray-400 line-clamp-2">{fb.content}</p>
+                <p className="text-xs text-gray-500 mt-1">
                   {new Date(fb.createdAt).toLocaleDateString('pt-BR')}
                 </p>
               </div>
@@ -251,19 +251,19 @@ export default async function DashboardPage() {
         </div>
       )}
 
-      <div className="mt-8 bg-white rounded-lg shadow-sm p-6">
+      <div className="mt-8 bg-green-950/50 backdrop-blur-lg border border-emerald-500/10 rounded-lg p-6">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold text-gray-900">
+          <h2 className="text-lg font-semibold text-gray-100">
             Meus OKRs — Q{currentQuarter}/{currentYear}
           </h2>
-          <Link href="/okrs" className="text-sm text-green-700 hover:text-green-800 font-medium">
+          <Link href="/okrs" className="text-sm text-emerald-400 hover:text-emerald-300 font-medium">
             Ver todos
           </Link>
         </div>
         {userObjectives.length === 0 ? (
-          <p className="text-gray-500 text-sm">
+          <p className="text-gray-400 text-sm">
             Nenhum objectivo definido para este trimestre.{' '}
-            <Link href="/okrs" className="text-green-700 hover:text-green-800">
+            <Link href="/okrs" className="text-emerald-400 hover:text-emerald-300">
               Criar OKR
             </Link>
           </p>
@@ -285,26 +285,26 @@ export default async function DashboardPage() {
                   <div className="flex items-center justify-between mb-1">
                     <Link
                       href={`/okrs/${obj.id}`}
-                      className="text-sm font-medium text-gray-900 hover:text-green-700"
+                      className="text-sm font-medium text-gray-100 hover:text-emerald-400"
                     >
                       {obj.title}
                     </Link>
                     <div className="flex items-center gap-2">
                       <span className={`inline-flex px-1.5 py-0.5 text-xs rounded-full ${
                         obj.status === 'AT_RISK'
-                          ? 'bg-red-100 text-red-700'
+                          ? 'bg-red-900/30 text-red-400'
                           : obj.status === 'ACHIEVED'
-                            ? 'bg-green-100 text-green-700'
-                            : 'bg-gray-100 text-gray-600'
+                            ? 'bg-emerald-900/40 text-emerald-400'
+                            : 'bg-green-900/40 text-gray-400'
                       }`}>
                         {obj.status === 'ON_TRACK' ? 'No Caminho'
                           : obj.status === 'AT_RISK' ? 'Em Risco'
                           : obj.status === 'ACHIEVED' ? 'Alcançado' : 'Cancelado'}
                       </span>
-                      <span className="text-sm font-bold text-gray-900">{progress.toFixed(0)}%</span>
+                      <span className="text-sm font-bold text-gray-100">{progress.toFixed(0)}%</span>
                     </div>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div className="w-full bg-green-800/40 rounded-full h-2">
                     <div
                       className={`h-2 rounded-full transition-all ${
                         obj.status === 'AT_RISK' ? 'bg-red-500' : 'bg-green-600'

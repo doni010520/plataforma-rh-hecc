@@ -82,35 +82,35 @@ export default function ResponderNR01Page() {
   if (loading) {
     return (
       <div className="space-y-4 max-w-2xl mx-auto">
-        <div className="h-8 w-64 bg-gray-200 rounded animate-pulse" />
-        <div className="h-96 bg-gray-200 rounded animate-pulse" />
+        <div className="h-8 w-64 bg-green-800/40 rounded animate-pulse" />
+        <div className="h-96 bg-green-800/40 rounded animate-pulse" />
       </div>
     );
   }
 
   if (!assessment) {
-    return <p className="text-gray-500">Avaliação não encontrada ou não está ativa.</p>;
+    return <p className="text-gray-400">Avaliação não encontrada ou não está ativa.</p>;
   }
 
   if (assessment.hasResponded || submitted) {
     return (
-      <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-sm p-8 text-center">
-        <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+      <div className="max-w-2xl mx-auto bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-8 text-center">
+        <div className="w-16 h-16 bg-emerald-900/40 rounded-full flex items-center justify-center mx-auto mb-4">
           <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
           </svg>
         </div>
-        <h1 className="text-xl font-bold text-gray-900 mb-2">
+        <h1 className="text-xl font-bold text-gray-100 mb-2">
           {submitted ? 'Respostas enviadas!' : 'Avaliação já respondida'}
         </h1>
-        <p className="text-gray-500 mb-6">
+        <p className="text-gray-400 mb-6">
           {submitted
             ? 'Obrigado por participar da avaliação psicossocial. Suas respostas foram registradas com sucesso.'
             : `Você já respondeu a avaliação "${assessment.title}".`}
         </p>
         <button
           onClick={() => router.push('/dashboard')}
-          className="text-green-700 hover:text-green-900 font-medium"
+          className="text-emerald-400 hover:text-emerald-200 font-medium"
         >
           Voltar ao Dashboard
         </button>
@@ -127,12 +127,12 @@ export default function ResponderNR01Page() {
   return (
     <div className="max-w-2xl mx-auto">
       <div className="mb-6">
-        <h1 className="text-xl font-bold text-gray-900">{assessment.title}</h1>
+        <h1 className="text-xl font-bold text-gray-100">{assessment.title}</h1>
         {assessment.description && (
-          <p className="text-sm text-gray-500 mt-1">{assessment.description}</p>
+          <p className="text-sm text-gray-400 mt-1">{assessment.description}</p>
         )}
         {assessment.anonymous && (
-          <p className="text-sm text-yellow-700 bg-yellow-50 border border-yellow-200 rounded px-3 py-1.5 mt-2 inline-block">
+          <p className="text-sm text-yellow-400 bg-yellow-900/30 border border-yellow-500/20 rounded px-3 py-1.5 mt-2 inline-block">
             Esta avaliação é anônima. Suas respostas não serão identificadas.
           </p>
         )}
@@ -141,27 +141,27 @@ export default function ResponderNR01Page() {
       {/* Progress bar */}
       <div className="mb-8">
         <div className="flex items-center justify-between mb-1">
-          <span className="text-sm text-gray-500">
+          <span className="text-sm text-gray-400">
             Pergunta {currentStep + 1} de {totalQuestions}
           </span>
-          <span className="text-sm font-medium text-gray-700">{progress.toFixed(0)}%</span>
+          <span className="text-sm font-medium text-gray-300">{progress.toFixed(0)}%</span>
         </div>
-        <div className="w-full bg-gray-200 rounded-full h-2">
+        <div className="w-full bg-green-800/40 rounded-full h-2">
           <div
-            className="h-2 rounded-full bg-yellow-500 transition-all"
+            className="h-2 rounded-full bg-yellow-900/300 transition-all"
             style={{ width: `${progress}%` }}
           />
         </div>
       </div>
 
       {/* Question */}
-      <div className="bg-white rounded-lg shadow-sm p-8 mb-6">
+      <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-8 mb-6">
         {currentQuestion.category && (
-          <span className="text-xs font-medium text-yellow-700 bg-yellow-50 px-2 py-0.5 rounded mb-3 inline-block">
+          <span className="text-xs font-medium text-yellow-400 bg-yellow-900/30 px-2 py-0.5 rounded mb-3 inline-block">
             {currentQuestion.category}
           </span>
         )}
-        <h2 className="text-lg font-semibold text-gray-900 mb-6">{currentQuestion.text}</h2>
+        <h2 className="text-lg font-semibold text-gray-100 mb-6">{currentQuestion.text}</h2>
 
         {/* Scale 1-5 */}
         <div className="flex gap-3 justify-center">
@@ -172,8 +172,8 @@ export default function ResponderNR01Page() {
               onClick={() => setAnswer(currentQuestion.id, score.toString())}
               className={`w-16 h-16 rounded-lg border-2 text-center transition-all ${
                 currentAnswer === score.toString()
-                  ? 'border-yellow-500 bg-yellow-50 text-yellow-700 font-bold'
-                  : 'border-gray-200 hover:border-gray-300 text-gray-600'
+                  ? 'border-yellow-500 bg-yellow-900/30 text-yellow-400 font-bold'
+                  : 'border-green-800/30 hover:border-green-700/40 text-gray-400'
               }`}
             >
               <span className="text-xl">{score}</span>
@@ -186,7 +186,7 @@ export default function ResponderNR01Page() {
       </div>
 
       {error && (
-        <div className="bg-red-50 text-red-600 text-sm p-3 rounded-md mb-4">{error}</div>
+        <div className="bg-red-900/30 text-red-600 text-sm p-3 rounded-md mb-4">{error}</div>
       )}
 
       {/* Navigation */}
@@ -194,7 +194,7 @@ export default function ResponderNR01Page() {
         <button
           onClick={() => setCurrentStep(Math.max(0, currentStep - 1))}
           disabled={currentStep === 0}
-          className="px-4 py-2 text-gray-600 hover:text-gray-800 font-medium disabled:opacity-30"
+          className="px-4 py-2 text-gray-400 hover:text-gray-200 font-medium disabled:opacity-30"
         >
           &larr; Anterior
         </button>

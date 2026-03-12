@@ -139,8 +139,8 @@ export default function MuralPage() {
   if (loading) {
     return (
       <div className="space-y-4">
-        <div className="h-8 w-48 bg-gray-200 rounded animate-pulse" />
-        <div className="h-64 bg-gray-200 rounded animate-pulse" />
+        <div className="h-8 w-48 bg-green-800/40 rounded animate-pulse" />
+        <div className="h-64 bg-green-800/40 rounded animate-pulse" />
       </div>
     );
   }
@@ -148,7 +148,7 @@ export default function MuralPage() {
   return (
     <div className="max-w-2xl mx-auto">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Mural de Celebrações</h1>
+        <h1 className="text-2xl font-bold text-gray-100">Mural de Celebrações</h1>
         <button
           onClick={() => setShowForm(!showForm)}
           className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-800 font-medium text-sm"
@@ -162,7 +162,7 @@ export default function MuralPage() {
         <select
           value={filterType}
           onChange={(e) => { setFilterType(e.target.value); setPage(1); }}
-          className="px-3 py-1.5 border border-gray-300 rounded-md text-sm"
+          className="px-3 py-1.5 border border-green-700/40 rounded-md text-sm"
         >
           <option value="">Todos os tipos</option>
           <option value="ACHIEVEMENT">Conquista</option>
@@ -174,13 +174,13 @@ export default function MuralPage() {
 
       {/* Create Form */}
       {showForm && (
-        <div className="bg-white rounded-lg shadow-sm p-5 mb-6">
+        <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-5 mb-6">
           <form onSubmit={handleCreate} className="space-y-3">
             <div>
               <select
                 value={type}
                 onChange={(e) => setType(e.target.value)}
-                className="px-3 py-1.5 border border-gray-300 rounded-md text-sm"
+                className="px-3 py-1.5 border border-green-700/40 rounded-md text-sm"
               >
                 <option value="GENERAL">⭐ Geral</option>
                 <option value="ACHIEVEMENT">🏆 Conquista</option>
@@ -194,11 +194,11 @@ export default function MuralPage() {
               rows={3}
               required
               minLength={5}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
+              className="w-full px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
               placeholder="Compartilhe uma celebração, mencione colegas..."
             />
             {error && (
-              <div className="bg-red-50 text-red-600 text-sm p-2 rounded-md">{error}</div>
+              <div className="bg-red-900/30 text-red-600 text-sm p-2 rounded-md">{error}</div>
             )}
             <button
               type="submit"
@@ -213,8 +213,8 @@ export default function MuralPage() {
 
       {/* Feed */}
       {celebrations.length === 0 ? (
-        <div className="bg-white rounded-lg shadow-sm p-12 text-center">
-          <p className="text-gray-500">Nenhuma celebração ainda.</p>
+        <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-12 text-center">
+          <p className="text-gray-400">Nenhuma celebração ainda.</p>
           <p className="text-sm text-gray-400 mt-1">Seja o primeiro a celebrar algo!</p>
         </div>
       ) : (
@@ -231,10 +231,10 @@ export default function MuralPage() {
             });
 
             return (
-              <div key={c.id} className="bg-white rounded-lg shadow-sm p-5">
+              <div key={c.id} className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-5">
                 {/* Header */}
                 <div className="flex items-start gap-3 mb-3">
-                  <div className="w-10 h-10 rounded-full bg-green-100 text-green-800 flex items-center justify-center text-sm font-bold flex-shrink-0">
+                  <div className="w-10 h-10 rounded-full bg-emerald-900/40 text-emerald-300 flex items-center justify-center text-sm font-bold flex-shrink-0">
                     {c.author.avatarUrl ? (
                       <img src={c.author.avatarUrl} alt="" className="w-10 h-10 rounded-full object-cover" />
                     ) : (
@@ -243,7 +243,7 @@ export default function MuralPage() {
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center gap-2">
-                      <span className="font-medium text-gray-900">{c.author.name}</span>
+                      <span className="font-medium text-gray-100">{c.author.name}</span>
                       <span className="text-xs text-gray-400">
                         {c.author.jobTitle}
                       </span>
@@ -265,7 +265,7 @@ export default function MuralPage() {
                 </div>
 
                 {/* Content */}
-                <p className="text-gray-800 whitespace-pre-wrap mb-3">{c.content}</p>
+                <p className="text-gray-200 whitespace-pre-wrap mb-3">{c.content}</p>
 
                 {/* Reactions */}
                 <div className="flex items-center gap-1 flex-wrap mb-3">
@@ -273,11 +273,11 @@ export default function MuralPage() {
                     <button
                       key={emoji}
                       onClick={() => handleReaction(c.id, emoji)}
-                      className="inline-flex items-center gap-1 px-2 py-0.5 bg-gray-100 hover:bg-gray-200 rounded-full text-sm transition-colors"
+                      className="inline-flex items-center gap-1 px-2 py-0.5 bg-green-900/40 hover:bg-green-800/40 rounded-full text-sm transition-colors"
                       title={data.users.join(', ')}
                     >
                       <span>{emoji}</span>
-                      <span className="text-xs text-gray-600">{data.count}</span>
+                      <span className="text-xs text-gray-400">{data.count}</span>
                     </button>
                   ))}
                   <div className="flex gap-0.5 ml-1">
@@ -285,7 +285,7 @@ export default function MuralPage() {
                       <button
                         key={emoji}
                         onClick={() => handleReaction(c.id, emoji)}
-                        className="w-7 h-7 flex items-center justify-center hover:bg-gray-100 rounded-full transition-colors text-sm opacity-40 hover:opacity-100"
+                        className="w-7 h-7 flex items-center justify-center hover:bg-green-900/40 rounded-full transition-colors text-sm opacity-40 hover:opacity-100"
                       >
                         {emoji}
                       </button>
@@ -295,15 +295,15 @@ export default function MuralPage() {
 
                 {/* Comments */}
                 {c.comments.length > 0 && (
-                  <div className="border-t border-gray-100 pt-3 space-y-2">
+                  <div className="border-t border-green-800/20 pt-3 space-y-2">
                     {c.comments.map((comment) => (
                       <div key={comment.id} className="flex items-start gap-2">
-                        <div className="w-6 h-6 rounded-full bg-gray-200 text-gray-500 flex items-center justify-center text-xs font-bold flex-shrink-0">
+                        <div className="w-6 h-6 rounded-full bg-green-800/40 text-gray-400 flex items-center justify-center text-xs font-bold flex-shrink-0">
                           {comment.user.name[0]}
                         </div>
                         <div>
-                          <span className="text-sm font-medium text-gray-900">{comment.user.name}</span>
-                          <span className="text-sm text-gray-600 ml-1">{comment.content}</span>
+                          <span className="text-sm font-medium text-gray-100">{comment.user.name}</span>
+                          <span className="text-sm text-gray-400 ml-1">{comment.content}</span>
                           <p className="text-xs text-gray-400">
                             {new Date(comment.createdAt).toLocaleDateString('pt-BR')}
                           </p>
@@ -314,7 +314,7 @@ export default function MuralPage() {
                 )}
 
                 {/* Add Comment */}
-                <div className="border-t border-gray-100 pt-3 mt-2">
+                <div className="border-t border-green-800/20 pt-3 mt-2">
                   {commentingId === c.id ? (
                     <div className="flex gap-2">
                       <input
@@ -322,20 +322,20 @@ export default function MuralPage() {
                         value={commentText}
                         onChange={(e) => setCommentText(e.target.value)}
                         placeholder="Escreva um comentário..."
-                        className="flex-1 px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-600"
+                        className="flex-1 px-3 py-1.5 border border-green-700/40 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
                         onKeyDown={(e) => {
                           if (e.key === 'Enter') handleComment(c.id);
                         }}
                       />
                       <button
                         onClick={() => handleComment(c.id)}
-                        className="text-sm text-green-700 hover:text-green-900 font-medium"
+                        className="text-sm text-emerald-400 hover:text-emerald-200 font-medium"
                       >
                         Enviar
                       </button>
                       <button
                         onClick={() => { setCommentingId(null); setCommentText(''); }}
-                        className="text-sm text-gray-400 hover:text-gray-600"
+                        className="text-sm text-gray-400 hover:text-gray-400"
                       >
                         Cancelar
                       </button>
@@ -343,7 +343,7 @@ export default function MuralPage() {
                   ) : (
                     <button
                       onClick={() => setCommentingId(c.id)}
-                      className="text-sm text-gray-400 hover:text-gray-600"
+                      className="text-sm text-gray-400 hover:text-gray-400"
                     >
                       💬 Comentar
                     </button>
@@ -361,17 +361,17 @@ export default function MuralPage() {
           <button
             onClick={() => setPage(Math.max(1, page - 1))}
             disabled={page === 1}
-            className="px-3 py-1.5 border border-gray-300 rounded-md text-sm disabled:opacity-30"
+            className="px-3 py-1.5 border border-green-700/40 rounded-md text-sm disabled:opacity-30"
           >
             Anterior
           </button>
-          <span className="text-sm text-gray-500">
+          <span className="text-sm text-gray-400">
             Página {page} de {totalPages}
           </span>
           <button
             onClick={() => setPage(Math.min(totalPages, page + 1))}
             disabled={page === totalPages}
-            className="px-3 py-1.5 border border-gray-300 rounded-md text-sm disabled:opacity-30"
+            className="px-3 py-1.5 border border-green-700/40 rounded-md text-sm disabled:opacity-30"
           >
             Próxima
           </button>

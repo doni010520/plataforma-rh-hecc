@@ -61,7 +61,7 @@ const levelLabels: Record<string, string> = {
 const levelColors: Record<string, string> = {
   COMPANY: 'bg-purple-100 text-purple-700',
   TEAM: 'bg-blue-100 text-blue-700',
-  INDIVIDUAL: 'bg-green-100 text-green-700',
+  INDIVIDUAL: 'bg-emerald-900/40 text-emerald-400',
 };
 
 const statusLabels: Record<string, string> = {
@@ -72,10 +72,10 @@ const statusLabels: Record<string, string> = {
 };
 
 const statusColors: Record<string, string> = {
-  ON_TRACK: 'bg-green-100 text-green-700',
-  AT_RISK: 'bg-red-100 text-red-700',
+  ON_TRACK: 'bg-emerald-900/40 text-emerald-400',
+  AT_RISK: 'bg-red-900/30 text-red-700',
   ACHIEVED: 'bg-blue-100 text-blue-700',
-  CANCELLED: 'bg-gray-100 text-gray-500',
+  CANCELLED: 'bg-green-900/40 text-gray-400',
 };
 
 const metricLabels: Record<string, string> = {
@@ -242,14 +242,14 @@ export default function ObjectiveDetailPage() {
   if (loading) {
     return (
       <div className="space-y-4">
-        <div className="h-8 w-64 bg-gray-200 rounded animate-pulse" />
-        <div className="h-96 bg-gray-200 rounded animate-pulse" />
+        <div className="h-8 w-64 bg-green-800/40 rounded animate-pulse" />
+        <div className="h-96 bg-green-800/40 rounded animate-pulse" />
       </div>
     );
   }
 
   if (!objective) {
-    return <p className="text-gray-500">Objectivo não encontrado.</p>;
+    return <p className="text-gray-400">Objectivo não encontrado.</p>;
   }
 
   const overallProgress =
@@ -260,7 +260,7 @@ export default function ObjectiveDetailPage() {
   return (
     <div>
       <div className="mb-6">
-        <Link href="/okrs" className="text-sm text-green-700 hover:text-green-900 mb-1 inline-block">
+        <Link href="/okrs" className="text-sm text-emerald-400 hover:text-emerald-200 mb-1 inline-block">
           &larr; Voltar para OKRs
         </Link>
         <div className="flex items-start justify-between">
@@ -276,9 +276,9 @@ export default function ObjectiveDetailPage() {
                 Q{objective.quarter}/{objective.year}
               </span>
             </div>
-            <h1 className="text-2xl font-bold text-gray-900">{objective.title}</h1>
+            <h1 className="text-2xl font-bold text-gray-100">{objective.title}</h1>
             {objective.description && (
-              <p className="text-gray-500 mt-1">{objective.description}</p>
+              <p className="text-gray-400 mt-1">{objective.description}</p>
             )}
             <p className="text-sm text-gray-400 mt-1">
               Dono: {objective.owner.name}
@@ -287,22 +287,22 @@ export default function ObjectiveDetailPage() {
             {objective.parent && (
               <p className="text-sm text-gray-400">
                 Vinculado a:{' '}
-                <Link href={`/okrs/${objective.parent.id}`} className="text-green-700 hover:text-green-900">
+                <Link href={`/okrs/${objective.parent.id}`} className="text-emerald-400 hover:text-emerald-200">
                   {objective.parent.title}
                 </Link>
               </p>
             )}
           </div>
           <div className="text-right">
-            <p className="text-3xl font-bold text-gray-900">{overallProgress.toFixed(0)}%</p>
-            <p className="text-xs text-gray-500">progresso</p>
+            <p className="text-3xl font-bold text-gray-100">{overallProgress.toFixed(0)}%</p>
+            <p className="text-xs text-gray-400">progresso</p>
           </div>
         </div>
       </div>
 
       {/* Status Actions */}
-      <div className="bg-white rounded-lg shadow-sm p-4 mb-6 flex items-center gap-3 flex-wrap">
-        <span className="text-sm font-medium text-gray-700">Alterar status:</span>
+      <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-4 mb-6 flex items-center gap-3 flex-wrap">
+        <span className="text-sm font-medium text-gray-300">Alterar status:</span>
         {(['ON_TRACK', 'AT_RISK', 'ACHIEVED', 'CANCELLED'] as const).map((s) => (
           <button
             key={s}
@@ -310,7 +310,7 @@ export default function ObjectiveDetailPage() {
             disabled={objective.status === s}
             className={`px-3 py-1 rounded-md text-xs font-medium transition-colors ${
               objective.status === s
-                ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                ? 'bg-green-800/40 text-gray-500 cursor-not-allowed'
                 : `${statusColors[s]} hover:opacity-80`
             }`}
           >
@@ -327,25 +327,25 @@ export default function ObjectiveDetailPage() {
       </div>
 
       {error && (
-        <div className="bg-red-50 text-red-600 text-sm p-3 rounded-md mb-4">{error}</div>
+        <div className="bg-red-900/30 text-red-600 text-sm p-3 rounded-md mb-4">{error}</div>
       )}
       {success && (
-        <div className="bg-green-50 text-green-600 text-sm p-3 rounded-md mb-4">{success}</div>
+        <div className="bg-emerald-900/30 text-green-600 text-sm p-3 rounded-md mb-4">{success}</div>
       )}
 
       {/* Overall progress bar */}
-      <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
+      <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-4 mb-6">
         <div className="flex items-center justify-between mb-2">
-          <h3 className="text-sm font-medium text-gray-700">Progresso Geral</h3>
-          <span className="text-sm font-bold text-gray-900">{overallProgress.toFixed(0)}%</span>
+          <h3 className="text-sm font-medium text-gray-300">Progresso Geral</h3>
+          <span className="text-sm font-bold text-gray-100">{overallProgress.toFixed(0)}%</span>
         </div>
-        <div className="w-full bg-gray-200 rounded-full h-3">
+        <div className="w-full bg-green-800/40 rounded-full h-3">
           <div
             className={`h-3 rounded-full transition-all ${
               objective.status === 'ACHIEVED'
-                ? 'bg-green-500'
+                ? 'bg-emerald-900/300'
                 : objective.status === 'AT_RISK'
-                  ? 'bg-red-500'
+                  ? 'bg-red-900/300'
                   : 'bg-green-700'
             }`}
             style={{ width: `${overallProgress}%` }}
@@ -356,37 +356,37 @@ export default function ObjectiveDetailPage() {
       {/* Key Results */}
       <div className="mb-6">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold text-gray-900">
+          <h2 className="text-lg font-semibold text-gray-100">
             Key Results ({objective.keyResults.length})
           </h2>
           <button
             onClick={() => setShowAddKR(!showAddKR)}
-            className="text-sm text-green-700 hover:text-green-900 font-medium"
+            className="text-sm text-emerald-400 hover:text-emerald-200 font-medium"
           >
             {showAddKR ? 'Cancelar' : '+ Adicionar KR'}
           </button>
         </div>
 
         {showAddKR && (
-          <div className="bg-white rounded-lg shadow-sm p-4 mb-4">
+          <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-4 mb-4">
             <form onSubmit={handleAddKR} className="flex flex-wrap gap-2 items-end">
               <div className="flex-1 min-w-[200px]">
-                <label className="block text-xs text-gray-500 mb-1">Título</label>
+                <label className="block text-xs text-gray-400 mb-1">Título</label>
                 <input
                   type="text"
                   value={newKRTitle}
                   onChange={(e) => setNewKRTitle(e.target.value)}
                   required
-                  className="w-full px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-600"
+                  className="w-full px-3 py-1.5 border border-green-700/40 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
                   placeholder="Título do KR"
                 />
               </div>
               <div>
-                <label className="block text-xs text-gray-500 mb-1">Métrica</label>
+                <label className="block text-xs text-gray-400 mb-1">Métrica</label>
                 <select
                   value={newKRMetric}
                   onChange={(e) => setNewKRMetric(e.target.value)}
-                  className="px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-600"
+                  className="px-3 py-1.5 border border-green-700/40 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 >
                   {Object.entries(metricLabels).map(([k, v]) => (
                     <option key={k} value={k}>{v}</option>
@@ -394,22 +394,22 @@ export default function ObjectiveDetailPage() {
                 </select>
               </div>
               <div>
-                <label className="block text-xs text-gray-500 mb-1">Início</label>
+                <label className="block text-xs text-gray-400 mb-1">Início</label>
                 <input
                   type="number"
                   value={newKRStart}
                   onChange={(e) => setNewKRStart(e.target.value)}
-                  className="w-24 px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-600"
+                  className="w-24 px-3 py-1.5 border border-green-700/40 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 />
               </div>
               <div>
-                <label className="block text-xs text-gray-500 mb-1">Meta</label>
+                <label className="block text-xs text-gray-400 mb-1">Meta</label>
                 <input
                   type="number"
                   value={newKRTarget}
                   onChange={(e) => setNewKRTarget(e.target.value)}
                   required
-                  className="w-24 px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-600"
+                  className="w-24 px-3 py-1.5 border border-green-700/40 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 />
               </div>
               <button
@@ -428,32 +428,32 @@ export default function ObjectiveDetailPage() {
             const progress = getProgress(kr);
             const isCheckingIn = checkInKrId === kr.id;
             return (
-              <div key={kr.id} className="bg-white rounded-lg shadow-sm p-5">
+              <div key={kr.id} className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-5">
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex-1">
-                    <h4 className="font-medium text-gray-900">{kr.title}</h4>
-                    <p className="text-sm text-gray-500">
+                    <h4 className="font-medium text-gray-100">{kr.title}</h4>
+                    <p className="text-sm text-gray-400">
                       {metricLabels[kr.metricType]} · Confiança: {kr.confidence}/10
                     </p>
                   </div>
                   <div className="text-right ml-4">
-                    <p className="text-lg font-bold text-gray-900">{progress.toFixed(0)}%</p>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-lg font-bold text-gray-100">{progress.toFixed(0)}%</p>
+                    <p className="text-xs text-gray-400">
                       {formatValue(kr.currentValue, kr.metricType)} / {formatValue(kr.targetValue, kr.metricType)}
                     </p>
                   </div>
                 </div>
 
-                <div className="w-full bg-gray-200 rounded-full h-2.5 mb-3">
+                <div className="w-full bg-green-800/40 rounded-full h-2.5 mb-3">
                   <div
                     className={`h-2.5 rounded-full transition-all ${
                       progress >= 100
-                        ? 'bg-green-500'
+                        ? 'bg-emerald-900/300'
                         : progress >= 70
                           ? 'bg-green-700'
                           : progress >= 30
-                            ? 'bg-yellow-500'
-                            : 'bg-red-500'
+                            ? 'bg-yellow-900/300'
+                            : 'bg-red-900/300'
                     }`}
                     style={{ width: `${progress}%` }}
                   />
@@ -470,7 +470,7 @@ export default function ObjectiveDetailPage() {
                         setCheckInConfidence(kr.confidence.toString());
                       }
                     }}
-                    className="text-sm text-green-700 hover:text-green-900 font-medium"
+                    className="text-sm text-emerald-400 hover:text-emerald-200 font-medium"
                   >
                     {isCheckingIn ? 'Cancelar' : 'Fazer Check-in'}
                   </button>
@@ -478,10 +478,10 @@ export default function ObjectiveDetailPage() {
 
                 {/* Check-in form */}
                 {isCheckingIn && (
-                  <form onSubmit={handleCheckIn} className="mt-4 p-4 bg-gray-50 rounded-md space-y-3">
+                  <form onSubmit={handleCheckIn} className="mt-4 p-4 bg-green-900/30 rounded-md space-y-3">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                        <label className="block text-sm font-medium text-gray-300 mb-1">
                           Novo valor ({metricLabels[kr.metricType]})
                         </label>
                         <input
@@ -490,17 +490,17 @@ export default function ObjectiveDetailPage() {
                           value={checkInValue}
                           onChange={(e) => setCheckInValue(e.target.value)}
                           required
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                          className="w-full px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                        <label className="block text-sm font-medium text-gray-300 mb-1">
                           Confiança (1–10)
                         </label>
                         <select
                           value={checkInConfidence}
                           onChange={(e) => setCheckInConfidence(e.target.value)}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                          className="w-full px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                         >
                           {Object.entries(confidenceLabels).map(([k, v]) => (
                             <option key={k} value={k}>{v}</option>
@@ -509,14 +509,14 @@ export default function ObjectiveDetailPage() {
                       </div>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                      <label className="block text-sm font-medium text-gray-300 mb-1">
                         Nota (opcional)
                       </label>
                       <textarea
                         value={checkInNote}
                         onChange={(e) => setCheckInNote(e.target.value)}
                         rows={2}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                        className="w-full px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                         placeholder="Descreva o progresso..."
                       />
                     </div>
@@ -532,20 +532,20 @@ export default function ObjectiveDetailPage() {
 
                 {/* Check-in history */}
                 {kr.updates.length > 0 && (
-                  <div className="mt-4 border-t border-gray-100 pt-3">
-                    <h5 className="text-xs font-medium text-gray-500 mb-2">
+                  <div className="mt-4 border-t border-green-800/20 pt-3">
+                    <h5 className="text-xs font-medium text-gray-400 mb-2">
                       Histórico de Check-ins ({kr.updates.length})
                     </h5>
                     <div className="space-y-2 max-h-48 overflow-y-auto">
                       {kr.updates.map((u) => (
                         <div key={u.id} className="flex items-start gap-2 text-sm">
                           <div className="w-16 text-right">
-                            <span className="font-medium text-gray-900">
+                            <span className="font-medium text-gray-100">
                               {formatValue(u.value, kr.metricType)}
                             </span>
                           </div>
                           <div className="flex-1">
-                            {u.note && <p className="text-gray-600">{u.note}</p>}
+                            {u.note && <p className="text-gray-400">{u.note}</p>}
                             <p className="text-xs text-gray-400">
                               {u.user.name} · {new Date(u.createdAt).toLocaleDateString('pt-BR')}
                             </p>
@@ -564,7 +564,7 @@ export default function ObjectiveDetailPage() {
       {/* Children objectives */}
       {objective.children.length > 0 && (
         <div>
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">
+          <h2 className="text-lg font-semibold text-gray-100 mb-4">
             Objectivos Vinculados ({objective.children.length})
           </h2>
           <div className="space-y-3">
@@ -576,21 +576,21 @@ export default function ObjectiveDetailPage() {
                 <Link
                   key={child.id}
                   href={`/okrs/${child.id}`}
-                  className="block bg-white rounded-lg shadow-sm p-4 hover:shadow-md transition-shadow"
+                  className="block bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-4 hover:shadow-md transition-shadow"
                 >
                   <div className="flex items-center justify-between">
                     <div>
-                      <h4 className="font-medium text-gray-900">{child.title}</h4>
-                      <p className="text-sm text-gray-500">{child.owner.name}</p>
+                      <h4 className="font-medium text-gray-100">{child.title}</h4>
+                      <p className="text-sm text-gray-400">{child.owner.name}</p>
                     </div>
                     <div className="flex items-center gap-3">
-                      <div className="w-32 bg-gray-200 rounded-full h-2">
+                      <div className="w-32 bg-green-800/40 rounded-full h-2">
                         <div
                           className="h-2 rounded-full bg-green-700 transition-all"
                           style={{ width: `${childProgress}%` }}
                         />
                       </div>
-                      <span className="text-sm font-bold text-gray-900">{childProgress.toFixed(0)}%</span>
+                      <span className="text-sm font-bold text-gray-100">{childProgress.toFixed(0)}%</span>
                     </div>
                   </div>
                 </Link>

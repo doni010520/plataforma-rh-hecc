@@ -115,38 +115,38 @@ export default function ResponderAvaliacaoPage() {
   if (loading) {
     return (
       <div className="space-y-4">
-        <div className="h-8 w-64 bg-gray-200 rounded animate-pulse" />
-        <div className="h-96 bg-gray-200 rounded animate-pulse" />
+        <div className="h-8 w-64 bg-green-800/40 rounded animate-pulse" />
+        <div className="h-96 bg-green-800/40 rounded animate-pulse" />
       </div>
     );
   }
 
   if (!assignment) {
-    return <p className="text-gray-500">Avaliação não encontrada.</p>;
+    return <p className="text-gray-400">Avaliação não encontrada.</p>;
   }
 
   if (assignment.status === 'DONE') {
     return (
-      <div className="bg-white rounded-lg shadow-sm p-6">
-        <h1 className="text-xl font-bold text-gray-900 mb-2">Avaliação Submetida</h1>
-        <p className="text-gray-500">
+      <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-6">
+        <h1 className="text-xl font-bold text-gray-100 mb-2">Avaliação Submetida</h1>
+        <p className="text-gray-400">
           Você já submeteu esta avaliação de <strong>{assignment.evaluatee.name}</strong> no ciclo{' '}
           <strong>{assignment.cycle.name}</strong>.
         </p>
         <div className="mt-4 space-y-3">
           {assignment.answers.map((a) => (
-            <div key={a.id} className="border border-gray-200 rounded-md p-3">
-              <p className="font-medium text-gray-900">{a.criteria.name}</p>
-              <p className="text-sm text-gray-500">
+            <div key={a.id} className="border border-green-800/30 rounded-md p-3">
+              <p className="font-medium text-gray-100">{a.criteria.name}</p>
+              <p className="text-sm text-gray-400">
                 Nota: {a.score}/5 — {a.score ? scoreLabels[a.score] : ''}
               </p>
-              {a.comment && <p className="text-sm text-gray-600 mt-1">{a.comment}</p>}
+              {a.comment && <p className="text-sm text-gray-400 mt-1">{a.comment}</p>}
             </div>
           ))}
         </div>
         <button
           onClick={() => router.push('/avaliacoes')}
-          className="mt-4 text-green-700 hover:text-green-900 font-medium text-sm"
+          className="mt-4 text-emerald-400 hover:text-emerald-200 font-medium text-sm"
         >
           Voltar para avaliações
         </button>
@@ -156,29 +156,29 @@ export default function ResponderAvaliacaoPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-900 mb-2">{assignment.cycle.name}</h1>
-      <p className="text-gray-500 mb-6">
+      <h1 className="text-2xl font-bold text-gray-100 mb-2">{assignment.cycle.name}</h1>
+      <p className="text-gray-400 mb-6">
         Avaliando: <strong>{assignment.evaluatee.name}</strong>
         {assignment.evaluatee.jobTitle && ` — ${assignment.evaluatee.jobTitle}`}
       </p>
 
       {error && (
-        <div className="bg-red-50 text-red-600 text-sm p-3 rounded-md mb-4">{error}</div>
+        <div className="bg-red-900/30 text-red-600 text-sm p-3 rounded-md mb-4">{error}</div>
       )}
       {success && (
-        <div className="bg-green-50 text-green-600 text-sm p-3 rounded-md mb-4">{success}</div>
+        <div className="bg-emerald-900/30 text-green-600 text-sm p-3 rounded-md mb-4">{success}</div>
       )}
 
       <div className="space-y-6">
         {assignment.answers.map((answer) => (
-          <div key={answer.id} className="bg-white rounded-lg shadow-sm p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-1">{answer.criteria.name}</h3>
+          <div key={answer.id} className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-6">
+            <h3 className="text-lg font-semibold text-gray-100 mb-1">{answer.criteria.name}</h3>
             {answer.criteria.description && (
-              <p className="text-sm text-gray-500 mb-4">{answer.criteria.description}</p>
+              <p className="text-sm text-gray-400 mb-4">{answer.criteria.description}</p>
             )}
 
             <div className="mb-4">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium text-gray-300 mb-2">
                 Nota (1 a 5)
               </label>
               <div className="flex gap-2">
@@ -189,8 +189,8 @@ export default function ResponderAvaliacaoPage() {
                     onClick={() => updateAnswer(answer.criteriaId, 'score', score)}
                     className={`flex-1 py-3 rounded-md border-2 text-center transition-colors ${
                       answers[answer.criteriaId]?.score === score
-                        ? 'border-green-700 bg-green-50 text-green-800 font-bold'
-                        : 'border-gray-200 hover:border-gray-300 text-gray-600'
+                        ? 'border-green-700 bg-emerald-900/30 text-emerald-300 font-bold'
+                        : 'border-green-800/30 hover:border-green-700/40 text-gray-400'
                     }`}
                   >
                     <span className="text-lg">{score}</span>
@@ -201,14 +201,14 @@ export default function ResponderAvaliacaoPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-300 mb-1">
                 Comentário (opcional)
               </label>
               <textarea
                 value={answers[answer.criteriaId]?.comment || ''}
                 onChange={(e) => updateAnswer(answer.criteriaId, 'comment', e.target.value)}
                 rows={3}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                className="w-full px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                 placeholder="Descreva suas observações..."
               />
             </div>
@@ -219,14 +219,14 @@ export default function ResponderAvaliacaoPage() {
       <div className="flex gap-3 justify-end mt-6">
         <button
           onClick={() => router.push('/avaliacoes')}
-          className="px-4 py-2 text-gray-600 hover:text-gray-800 font-medium"
+          className="px-4 py-2 text-gray-400 hover:text-gray-200 font-medium"
         >
           Cancelar
         </button>
         <button
           onClick={() => handleSave(false)}
           disabled={saving}
-          className="border border-green-700 text-green-700 px-4 py-2 rounded-md hover:bg-green-50 disabled:opacity-50 font-medium"
+          className="border border-green-700 text-emerald-400 px-4 py-2 rounded-md hover:bg-emerald-900/30 disabled:opacity-50 font-medium"
         >
           {saving ? 'Salvando...' : 'Salvar Rascunho'}
         </button>
