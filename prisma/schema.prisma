@@ -239,6 +239,9 @@ model User {
   userBadges         UserBadge[]          @relation("UserBadges")
 
   @@unique([companyId, email])
+  @@index([companyId])
+  @@index([managerId])
+  @@index([departmentId])
   @@map("users")
 }
 
@@ -257,6 +260,7 @@ model ReviewCycle {
   assignments      ReviewAssignment[]
   developmentPlans DevelopmentPlan[]
 
+  @@index([companyId])
   @@map("review_cycles")
 }
 
@@ -318,6 +322,8 @@ model Feedback {
   fromUser User    @relation("FeedbackFrom", fields: [fromUserId], references: [id])
   toUser   User    @relation("FeedbackTo", fields: [toUserId], references: [id])
 
+  @@index([companyId])
+  @@index([createdAt])
   @@map("feedbacks")
 }
 
@@ -340,6 +346,7 @@ model Objective {
   children   Objective[] @relation("ObjectiveParent")
   keyResults KeyResult[]
 
+  @@index([companyId])
   @@map("objectives")
 }
 
@@ -357,6 +364,7 @@ model KeyResult {
   objective Objective         @relation(fields: [objectiveId], references: [id], onDelete: Cascade)
   updates   KeyResultUpdate[]
 
+  @@index([objectiveId])
   @@map("key_results")
 }
 
@@ -371,6 +379,7 @@ model KeyResultUpdate {
   keyResult KeyResult @relation(fields: [keyResultId], references: [id], onDelete: Cascade)
   user      User      @relation(fields: [userId], references: [id])
 
+  @@index([userId])
   @@map("key_result_updates")
 }
 
@@ -389,6 +398,7 @@ model Survey {
   questions SurveyQuestion[]
   responses SurveyResponse[]
 
+  @@index([companyId])
   @@map("surveys")
 }
 
@@ -403,6 +413,7 @@ model SurveyQuestion {
   survey  Survey         @relation(fields: [surveyId], references: [id], onDelete: Cascade)
   answers SurveyAnswer[]
 
+  @@index([surveyId])
   @@map("survey_questions")
 }
 
@@ -416,6 +427,8 @@ model SurveyResponse {
   user    User?          @relation(fields: [userId], references: [id])
   answers SurveyAnswer[]
 
+  @@index([surveyId])
+  @@index([userId])
   @@map("survey_responses")
 }
 
@@ -444,6 +457,8 @@ model MoodLog {
   user    User    @relation(fields: [userId], references: [id])
 
   @@unique([userId, date])
+  @@index([companyId])
+  @@index([createdAt])
   @@map("mood_logs")
 }
 
@@ -461,6 +476,9 @@ model Celebration {
   comments  CelebrationComment[]
   media     CelebrationMedia[]
 
+  @@index([companyId])
+  @@index([authorId])
+  @@index([createdAt])
   @@map("celebrations")
 }
 
@@ -478,6 +496,7 @@ model CelebrationMedia {
 
   celebration Celebration @relation(fields: [celebrationId], references: [id], onDelete: Cascade)
 
+  @@index([celebrationId])
   @@map("celebration_media")
 }
 
@@ -491,6 +510,7 @@ model CelebrationReaction {
   user        User        @relation(fields: [userId], references: [id])
 
   @@unique([celebrationId, userId])
+  @@index([userId])
   @@map("celebration_reactions")
 }
 
@@ -504,6 +524,8 @@ model CelebrationComment {
   celebration Celebration @relation(fields: [celebrationId], references: [id], onDelete: Cascade)
   user        User        @relation(fields: [userId], references: [id])
 
+  @@index([celebrationId])
+  @@index([userId])
   @@map("celebration_comments")
 }
 
@@ -522,6 +544,8 @@ model Announcement {
   author  User               @relation(fields: [authorId], references: [id])
   reads   AnnouncementRead[]
 
+  @@index([companyId])
+  @@index([authorId])
   @@map("announcements")
 }
 
@@ -535,6 +559,7 @@ model AnnouncementRead {
   user         User         @relation(fields: [userId], references: [id])
 
   @@unique([announcementId, userId])
+  @@index([userId])
   @@map("announcement_reads")
 }
 
@@ -553,6 +578,8 @@ model Notification {
   user    User    @relation(fields: [userId], references: [id])
 
   @@index([userId, read])
+  @@index([companyId])
+  @@index([createdAt])
   @@map("notifications")
 }
 
@@ -599,6 +626,8 @@ model DevelopmentPlan {
   tasks       DevelopmentTask[]
   comments    DevelopmentPlanComment[]
 
+  @@index([companyId])
+  @@index([userId])
   @@map("development_plans")
 }
 
@@ -629,6 +658,7 @@ model DevelopmentPlanComment {
   plan DevelopmentPlan @relation(fields: [planId], references: [id], onDelete: Cascade)
   user User            @relation("PlanComments", fields: [userId], references: [id])
 
+  @@index([userId])
   @@map("development_plan_comments")
 }
 
@@ -680,6 +710,7 @@ model OnboardingTemplate {
   tasks      OnboardingTemplateTask[]
   processes  OnboardingProcess[]
 
+  @@index([companyId])
   @@map("onboarding_templates")
 }
 
@@ -713,6 +744,8 @@ model OnboardingProcess {
   tasks       OnboardingProcessTask[]
   evaluations OnboardingEvaluation[]
 
+  @@index([companyId])
+  @@index([userId])
   @@map("onboarding_processes")
 }
 
@@ -795,6 +828,7 @@ model LearningTrack {
   contents    LearningContent[]
   enrollments TrackEnrollment[]
 
+  @@index([companyId])
   @@map("learning_tracks")
 }
 
@@ -828,6 +862,7 @@ model TrackEnrollment {
   progress ContentProgress[]
 
   @@unique([trackId, userId])
+  @@index([userId])
   @@map("track_enrollments")
 }
 
@@ -896,6 +931,8 @@ model EmployeeDocument {
   company Company @relation(fields: [companyId], references: [id])
   user    User    @relation(fields: [userId], references: [id])
 
+  @@index([companyId])
+  @@index([userId])
   @@map("employee_documents")
 }
 
@@ -916,6 +953,7 @@ model Payslip {
   user    User    @relation(fields: [userId], references: [id])
 
   @@unique([userId, referenceMonth, referenceYear])
+  @@index([companyId])
   @@map("payslips")
 }
 
@@ -937,6 +975,8 @@ model VacationRequest {
   user       User    @relation("UserVacations", fields: [userId], references: [id])
   approvedBy User?   @relation("ApprovedVacations", fields: [approvedById], references: [id])
 
+  @@index([companyId])
+  @@index([userId])
   @@map("vacation_requests")
 }
 
@@ -955,6 +995,8 @@ model SalaryHistory {
   user      User    @relation("UserSalaryHistory", fields: [userId], references: [id])
   createdBy User    @relation("CreatedSalaryChanges", fields: [createdById], references: [id])
 
+  @@index([companyId])
+  @@index([userId])
   @@map("salary_history")
 }
 
@@ -977,6 +1019,8 @@ model JobHistory {
   newDepartment      Department? @relation("NewDepartment", fields: [newDepartmentId], references: [id])
   createdBy          User        @relation("CreatedJobChanges", fields: [createdById], references: [id])
 
+  @@index([companyId])
+  @@index([userId])
   @@map("job_history")
 }
 
@@ -1035,6 +1079,7 @@ model JobPosition {
   stages       RecruitmentStage[]
   applications Application[]
 
+  @@index([companyId])
   @@map("job_positions")
 }
 
@@ -1166,6 +1211,7 @@ model PsychosocialAssessment {
   responses PsychosocialResponse[]
   results   PsychosocialResult[]
 
+  @@index([companyId])
   @@map("psychosocial_assessments")
 }
 
@@ -1192,6 +1238,7 @@ model PsychosocialResponse {
   user       User?                  @relation("PsychosocialResponses", fields: [userId], references: [id])
   answers    PsychosocialAnswer[]
 
+  @@index([userId])
   @@map("psychosocial_responses")
 }
 
@@ -1235,6 +1282,7 @@ model RiskInventory {
   createdBy       User             @relation("CreatedInventories", fields: [createdById], references: [id])
   identifiedRisks IdentifiedRisk[]
 
+  @@index([companyId])
   @@map("risk_inventories")
 }
 
@@ -1284,6 +1332,8 @@ model Complaint {
   author  User?             @relation("Complaints", fields: [authorId], references: [id])
   updates ComplaintUpdate[]
 
+  @@index([companyId])
+  @@index([authorId])
   @@map("complaints")
 }
 
@@ -1298,6 +1348,7 @@ model ComplaintUpdate {
   complaint Complaint @relation(fields: [complaintId], references: [id], onDelete: Cascade)
   author    User      @relation("ComplaintUpdates", fields: [authorId], references: [id])
 
+  @@index([authorId])
   @@map("complaint_updates")
 }
 
@@ -1333,6 +1384,7 @@ model AiAnalysis {
 
   company Company @relation(fields: [companyId], references: [id])
 
+  @@index([companyId])
   @@map("ai_analyses")
 }
 
@@ -1352,6 +1404,8 @@ model AiAlert {
   company Company @relation(fields: [companyId], references: [id])
   user    User?   @relation("AiAlerts", fields: [userId], references: [id])
 
+  @@index([companyId])
+  @@index([userId])
   @@map("ai_alerts")
 }
 
@@ -1385,6 +1439,7 @@ model OneOnOneCycle {
   meetings OneOnOneMeeting[]
 
   @@unique([managerId, employeeId])
+  @@index([companyId])
   @@map("one_on_one_cycles")
 }
 
@@ -1416,6 +1471,7 @@ model OneOnOneTopic {
   meeting OneOnOneMeeting @relation(fields: [meetingId], references: [id], onDelete: Cascade)
   author  User            @relation("OneOnOneTopics", fields: [authorId], references: [id])
 
+  @@index([authorId])
   @@map("one_on_one_topics")
 }
 
@@ -1444,6 +1500,8 @@ model DiscAssessment {
   company Company @relation(fields: [companyId], references: [id])
   user    User    @relation("DiscAssessments", fields: [userId], references: [id])
 
+  @@index([companyId])
+  @@index([userId])
   @@map("disc_assessments")
 }
 
@@ -1469,6 +1527,7 @@ model EnpsSurvey {
   createdBy User           @relation("CreatedEnps", fields: [createdById], references: [id])
   responses EnpsResponse[]
 
+  @@index([companyId])
   @@map("enps_surveys")
 }
 
@@ -1484,6 +1543,7 @@ model EnpsResponse {
   user   User?      @relation("EnpsResponses", fields: [userId], references: [id])
 
   @@unique([surveyId, userId])
+  @@index([userId])
   @@map("enps_responses")
 }
 
@@ -1510,6 +1570,8 @@ model GamificationPoints {
   company Company @relation(fields: [companyId], references: [id])
   user    User    @relation("UserPoints", fields: [userId], references: [id])
 
+  @@index([companyId])
+  @@index([userId])
   @@map("gamification_points")
 }
 
@@ -1527,6 +1589,7 @@ model Badge {
   company    Company     @relation(fields: [companyId], references: [id])
   userBadges UserBadge[]
 
+  @@index([companyId])
   @@map("badges")
 }
 

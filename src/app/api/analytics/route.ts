@@ -24,83 +24,110 @@ export async function GET() {
   }
 
   // ─── Mood x Performance Correlation ───
-  // Get employees with mood data and evaluation scores
-  const employees = await prisma.user.findMany({
-    where: {
-      companyId: user.companyId,
-      active: true,
-      ...(userFilter ? { id: userFilter } : {}),
-    },
-    select: {
-      id: true,
-      name: true,
-      avatarUrl: true,
-      jobTitle: true,
-      department: { select: { name: true } },
-    },
-  });
+  // Fetch all data in bulk queries instead of N+1 per-employee queries
+  const employeeFilter = {
+    companyId: user.companyId,
+    active: true,
+    ...(userFilter ? { id: userFilter } : {}),
+  };
 
-  const correlationData = await Promise.all(
-    employees.map(async (emp) => {
-      // Average mood (last 3 months)
-      const moods = await prisma.moodLog.findMany({
-        where: {
-          userId: emp.id,
-          date: { gte: threeMonthsAgo },
-        },
-        select: { mood: true },
-      });
-      const avgMood =
-        moods.length > 0
-          ? moods.reduce((a, m) => a + m.mood, 0) / moods.length
-          : null;
-
-      // Average performance score (latest closed cycle)
-      const latestCycle = await prisma.reviewCycle.findFirst({
-        where: { companyId: user.companyId, status: 'CLOSED' },
-        orderBy: { endDate: 'desc' },
-        select: { id: true },
-      });
-
-      let avgPerformance: number | null = null;
-      if (latestCycle) {
-        const answers = await prisma.reviewAnswer.findMany({
-          where: {
-            assignment: {
-              cycleId: latestCycle.id,
-              evaluateeId: emp.id,
-              status: 'DONE',
-            },
-          },
-          select: { score: true },
-        });
-        if (answers.length > 0) {
-          avgPerformance =
-            answers.reduce((a, ans) => a + (ans.score ?? 0), 0) / answers.length;
-        }
-      }
-
-      // Recent feedback count
-      const feedbackCount = await prisma.feedback.count({
-        where: {
-          toUserId: emp.id,
-          companyId: user.companyId,
-          createdAt: { gte: threeMonthsAgo },
-        },
-      });
-
-      return {
-        id: emp.id,
-        name: emp.name,
-        avatarUrl: emp.avatarUrl,
-        jobTitle: emp.jobTitle,
-        department: emp.department?.name ?? null,
-        avgMood,
-        avgPerformance,
-        feedbackCount,
-      };
+  const [employees, allMoods, latestCycle, allFeedbackCounts] = await Promise.all([
+    prisma.user.findMany({
+      where: employeeFilter,
+      select: {
+        id: true,
+        name: true,
+        avatarUrl: true,
+        jobTitle: true,
+        department: { select: { name: true } },
+      },
     }),
-  );
+    // Bulk: all moods for all employees in the last 3 months
+    prisma.moodLog.findMany({
+      where: {
+        user: employeeFilter,
+        date: { gte: threeMonthsAgo },
+      },
+      select: { userId: true, mood: true },
+    }),
+    // Single query: latest closed review cycle
+    prisma.reviewCycle.findFirst({
+      where: { companyId: user.companyId, status: 'CLOSED' },
+      orderBy: { endDate: 'desc' },
+      select: { id: true },
+    }),
+    // Bulk: feedback counts grouped by user
+    prisma.feedback.groupBy({
+      by: ['toUserId'],
+      where: {
+        companyId: user.companyId,
+        createdAt: { gte: threeMonthsAgo },
+        ...(userFilter ? { toUserId: userFilter } : {}),
+      },
+      _count: { id: true },
+    }),
+  ]);
+
+  // Build lookup maps for O(1) access
+  const moodsByUser = new Map<string, number[]>();
+  for (const m of allMoods) {
+    const arr = moodsByUser.get(m.userId) || [];
+    arr.push(m.mood);
+    moodsByUser.set(m.userId, arr);
+  }
+
+  const feedbackCountMap = new Map<string, number>();
+  for (const fc of allFeedbackCounts) {
+    feedbackCountMap.set(fc.toUserId, fc._count.id);
+  }
+
+  // Bulk: performance scores from latest cycle (single query instead of N)
+  const performanceByUser = new Map<string, number>();
+  if (latestCycle) {
+    const allAnswers = await prisma.reviewAnswer.findMany({
+      where: {
+        assignment: {
+          cycleId: latestCycle.id,
+          status: 'DONE',
+          evaluatee: employeeFilter,
+        },
+      },
+      select: {
+        score: true,
+        assignment: { select: { evaluateeId: true } },
+      },
+    });
+
+    const scoresByUser = new Map<string, number[]>();
+    for (const ans of allAnswers) {
+      const uid = ans.assignment.evaluateeId;
+      const arr = scoresByUser.get(uid) || [];
+      arr.push(ans.score ?? 0);
+      scoresByUser.set(uid, arr);
+    }
+    scoresByUser.forEach((scores, uid) => {
+      performanceByUser.set(uid, scores.reduce((a: number, b: number) => a + b, 0) / scores.length);
+    });
+  }
+
+  // Assemble correlation data — no additional queries needed
+  const correlationData = employees.map((emp) => {
+    const moods = moodsByUser.get(emp.id);
+    const avgMood = moods && moods.length > 0
+      ? moods.reduce((a, b) => a + b, 0) / moods.length
+      : null;
+
+    return {
+      id: emp.id,
+      name: emp.name,
+      avatarUrl: emp.avatarUrl,
+      jobTitle: emp.jobTitle,
+      department: emp.department?.name ?? null,
+      avgMood,
+      avgPerformance: performanceByUser.get(emp.id) ?? null,
+      feedbackCount: feedbackCountMap.get(emp.id) ?? 0,
+    };
+  });
 
   // ─── At-Risk Employees ───
   // Criteria: mood < 3 OR performance < 2.5 OR no feedback in 3 months
@@ -156,9 +183,12 @@ export async function GET() {
         : null,
   }));
 
-  return NextResponse.json({
+  const response = NextResponse.json({
     correlationData,
     atRiskEmployees: atRiskWithReasons,
     departmentAverages,
   });
+  // Cache for 2 minutes — analytics data is heavy and doesn't change often
+  response.headers.set('Cache-Control', 'private, s-maxage=120, stale-while-revalidate=300');
+  return response;
 }
