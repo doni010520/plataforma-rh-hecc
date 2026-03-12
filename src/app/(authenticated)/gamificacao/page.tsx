@@ -11,6 +11,21 @@ interface LeaderboardEntry {
   rank: number;
 }
 
+interface PointHistoryItem {
+  id: string;
+  points: number;
+  reason: string;
+  sourceType: string;
+  createdAt: string;
+}
+
+interface PointSummaryItem {
+  sourceType: string;
+  label: string;
+  count: number;
+  totalPoints: number;
+}
+
 interface BadgeItem {
   id: string;
   name: string;
@@ -48,6 +63,18 @@ const BADGE_ICONS: Record<string, string> = {
   target: '\uD83C\uDFAF',
 };
 
+const SOURCE_ICONS: Record<string, string> = {
+  SURVEY_COMPLETED: '📋',
+  NR01_COMPLETED: '🛡️',
+  FEEDBACK_SENT: '💬',
+  FEEDBACK_RECEIVED: '📩',
+  MOOD_VOTE: '😊',
+  DISC_COMPLETED: '🎯',
+  ENPS_COMPLETED: '📊',
+  ONE_ON_ONE_COMPLETED: '🤝',
+  MANUAL: '⭐',
+};
+
 const CATEGORY_LABELS: Record<string, string> = {
   ENGAGEMENT: 'Engajamento',
   PERFORMANCE: 'Performance',
@@ -72,13 +99,16 @@ function getRankBadge(rank: number): string {
 }
 
 export default function GamificacaoPage() {
-  const [tab, setTab] = useState<'leaderboard' | 'badges' | 'admin'>('leaderboard');
+  const [tab, setTab] = useState<'leaderboard' | 'meus-pontos' | 'badges' | 'admin'>('leaderboard');
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
   const [currentUser, setCurrentUser] = useState<LeaderboardEntry | null>(null);
   const [badges, setBadges] = useState<BadgeItem[]>([]);
   const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [loading, setLoading] = useState(true);
+  const [pointHistory, setPointHistory] = useState<PointHistoryItem[]>([]);
+  const [pointSummary, setPointSummary] = useState<PointSummaryItem[]>([]);
+  const [grandTotal, setGrandTotal] = useState(0);
 
   // Award points form
   const [pointsUserId, setPointsUserId] = useState('');
@@ -115,6 +145,20 @@ export default function GamificacaoPage() {
     }
   }, []);
 
+  const fetchMyPoints = useCallback(async () => {
+    try {
+      const res = await fetch('/api/gamificacao/meus-pontos');
+      if (res.ok) {
+        const data = await res.json() as { history: PointHistoryItem[]; summary: PointSummaryItem[]; grandTotal: number };
+        setPointHistory(data.history);
+        setPointSummary(data.summary);
+        setGrandTotal(data.grandTotal);
+      }
+    } catch {
+      // ignore
+    }
+  }, []);
+
   const fetchBadges = useCallback(async () => {
     try {
       const res = await fetch('/api/gamificacao/badges');
@@ -130,6 +174,7 @@ export default function GamificacaoPage() {
   useEffect(() => {
     Promise.all([
       fetchLeaderboard(),
+      fetchMyPoints(),
       fetchBadges(),
       fetch('/api/me').then((r) => r.ok ? r.json() : null).then((data) => {
         if (data) setUserInfo({ id: data.id, name: data.name, role: data.role });
@@ -146,7 +191,7 @@ export default function GamificacaoPage() {
     ])
       .catch(() => {})
       .finally(() => setLoading(false));
-  }, [fetchLeaderboard, fetchBadges]);
+  }, [fetchLeaderboard, fetchMyPoints, fetchBadges]);
 
   const handleAwardPoints = async () => {
     if (!pointsUserId || !pointsAmount || !pointsReason) return;
@@ -288,6 +333,14 @@ export default function GamificacaoPage() {
           Ranking
         </button>
         <button
+          onClick={() => setTab('meus-pontos')}
+          className={`flex-1 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+            tab === 'meus-pontos' ? 'bg-green-950/50 backdrop-blur-lg shadow text-gray-100' : 'text-gray-400 hover:text-gray-300'
+          }`}
+        >
+          Meus Pontos
+        </button>
+        <button
           onClick={() => setTab('badges')}
           className={`flex-1 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
             tab === 'badges' ? 'bg-green-950/50 backdrop-blur-lg shadow text-gray-100' : 'text-gray-400 hover:text-gray-300'
@@ -347,6 +400,79 @@ export default function GamificacaoPage() {
               ))}
             </div>
           )}
+        </div>
+      )}
+
+      {/* Meus Pontos Tab */}
+      {tab === 'meus-pontos' && (
+        <div className="space-y-6">
+          {/* Total and Summary */}
+          <div className="bg-gradient-to-r from-emerald-600 to-green-700 rounded-xl p-5 text-white">
+            <div className="flex items-center justify-between mb-4">
+              <div>
+                <p className="text-emerald-100 text-sm">Total de moedas</p>
+                <p className="text-4xl font-bold">{grandTotal.toLocaleString('pt-BR')} 🪙</p>
+              </div>
+              <div className="text-6xl opacity-30">🏆</div>
+            </div>
+            <p className="text-emerald-100 text-xs">Ganhe moedas completando ações na plataforma!</p>
+          </div>
+
+          {/* How to earn points */}
+          {pointSummary.length > 0 && (
+            <div className="bg-green-950/50 backdrop-blur-lg rounded-xl shadow-sm border border-green-800/30 p-5">
+              <h3 className="text-lg font-semibold text-gray-100 mb-4">Como você ganhou seus pontos</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {pointSummary.map((s) => (
+                  <div key={s.sourceType} className="flex items-center gap-3 p-3 rounded-lg bg-green-900/30 border border-green-800/20">
+                    <span className="text-2xl">{SOURCE_ICONS[s.sourceType] || '⭐'}</span>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-gray-200 truncate">{s.label}</p>
+                      <p className="text-xs text-gray-400">{s.count}x completado</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm font-bold text-emerald-400">+{s.totalPoints}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Point History */}
+          <div className="bg-green-950/50 backdrop-blur-lg rounded-xl shadow-sm border border-green-800/30">
+            <div className="p-4 border-b border-green-800/20">
+              <h3 className="text-lg font-semibold text-gray-100">Histórico de pontos</h3>
+            </div>
+            {pointHistory.length === 0 ? (
+              <div className="p-12 text-center text-gray-400">
+                <p className="text-4xl mb-3">🪙</p>
+                <p className="font-medium">Nenhum ponto ainda</p>
+                <p className="text-sm mt-1">Complete pesquisas, avaliações, feedbacks e mais para ganhar moedas!</p>
+              </div>
+            ) : (
+              <div className="divide-y divide-green-800/20">
+                {pointHistory.map((item) => (
+                  <div key={item.id} className="flex items-center gap-3 p-4">
+                    <span className="text-xl">{SOURCE_ICONS[item.sourceType] || '⭐'}</span>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-gray-200">{item.reason}</p>
+                      <p className="text-xs text-gray-500">
+                        {new Date(item.createdAt).toLocaleDateString('pt-BR', {
+                          day: '2-digit',
+                          month: 'short',
+                          year: 'numeric',
+                          hour: '2-digit',
+                          minute: '2-digit',
+                        })}
+                      </p>
+                    </div>
+                    <span className="text-sm font-bold text-emerald-400">+{item.points} 🪙</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       )}
 

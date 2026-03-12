@@ -114,18 +114,18 @@ export default function ResultadosPesquisaPage() {
         </div>
         <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-4">
           <h3 className="text-sm font-medium text-gray-400 mb-1">Perguntas</h3>
-          <p className="text-2xl font-bold text-gray-100">{data.questionResults.length}</p>
+          <p className="text-2xl font-bold text-gray-100">{data.questionResults?.length ?? 0}</p>
         </div>
       </div>
 
       {/* Department Response Rate */}
       <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-6 mb-6">
         <h2 className="text-lg font-semibold text-gray-100 mb-4">Taxa de Resposta por Departamento</h2>
-        {data.departmentStats.length === 0 ? (
+        {(data.departmentStats?.length ?? 0) === 0 ? (
           <p className="text-sm text-gray-400">Nenhum departamento encontrado.</p>
         ) : (
           <div className="space-y-3">
-            {data.departmentStats.map((dept) => (
+            {(data.departmentStats || []).map((dept) => (
               <div key={dept.name}>
                 <div className="flex items-center justify-between mb-1">
                   <span className="text-sm font-medium text-gray-300">{dept.name}</span>
@@ -147,7 +147,7 @@ export default function ResultadosPesquisaPage() {
 
       {/* Question Results */}
       <div className="space-y-6">
-        {data.questionResults.map((qr, i) => (
+        {(data.questionResults || []).map((qr, i) => (
           <div key={qr.questionId} className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-6">
             <h3 className="text-sm font-medium text-gray-400 mb-1">Pergunta {i + 1}</h3>
             <p className="font-semibold text-gray-100 mb-4">{qr.text}</p>
@@ -184,7 +184,7 @@ export default function ResultadosPesquisaPage() {
 
             {qr.type === 'MULTIPLE_CHOICE' && (
               <div className="space-y-2">
-                {Object.entries(qr.distribution).map(([option, count]) => {
+                {Object.entries(qr.distribution ?? {}).map(([option, count]) => {
                   const pct = qr.totalAnswers > 0 ? (count / qr.totalAnswers) * 100 : 0;
                   return (
                     <div key={option} className="flex items-center gap-2">

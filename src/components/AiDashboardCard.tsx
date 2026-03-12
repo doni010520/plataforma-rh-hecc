@@ -32,7 +32,7 @@ export function AiDashboardCard() {
   }, []);
 
   if (!data) return null;
-  if (data.totalAnalyses === 0 && data.totalAlerts === 0) return null;
+  if ((data.totalAnalyses ?? 0) === 0 && (data.totalAlerts ?? 0) === 0) return null;
 
   return (
     <div className="mt-6 bg-gradient-to-br from-green-50/70 to-purple-50/70 backdrop-blur-lg border border-emerald-500/20/50 rounded-2xl p-6">
@@ -50,16 +50,16 @@ export function AiDashboardCard() {
 
       <div className="grid grid-cols-3 gap-3 mb-4">
         <div className="bg-green-950/50 backdrop-blur-lg/70 rounded-lg p-3 text-center">
-          <p className="text-xl font-bold text-emerald-400">{data.totalAnalyses}</p>
+          <p className="text-xl font-bold text-emerald-400">{data.totalAnalyses ?? 0}</p>
           <p className="text-xs text-gray-400">Análises</p>
         </div>
         <div className="bg-green-950/50 backdrop-blur-lg/70 rounded-lg p-3 text-center">
-          <p className="text-xl font-bold text-emerald-400">{data.totalAlerts}</p>
+          <p className="text-xl font-bold text-emerald-400">{data.totalAlerts ?? 0}</p>
           <p className="text-xs text-gray-400">Alertas</p>
         </div>
         <div className="bg-green-950/50 backdrop-blur-lg/70 rounded-lg p-3 text-center">
-          <p className={`text-xl font-bold ${data.unreadAlerts > 0 ? 'text-red-600' : 'text-green-600'}`}>
-            {data.unreadAlerts}
+          <p className={`text-xl font-bold ${(data.unreadAlerts ?? 0) > 0 ? 'text-red-600' : 'text-green-600'}`}>
+            {data.unreadAlerts ?? 0}
           </p>
           <p className="text-xs text-gray-400">Não lidos</p>
         </div>

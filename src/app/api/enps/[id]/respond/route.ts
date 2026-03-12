@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getApiUser, unauthorizedResponse } from '@/lib/auth';
+import { awardPoints } from '@/lib/gamification';
 
 export async function POST(
   request: Request,
@@ -60,6 +61,9 @@ export async function POST(
         comment: typeof comment === 'string' ? comment.trim() : '',
       },
     });
+
+    // Award gamification points automatically
+    awardPoints(user.id, user.companyId, 'ENPS_COMPLETED', params.id);
 
     return NextResponse.json(response, { status: 201 });
   } catch (error) {

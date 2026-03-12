@@ -266,15 +266,15 @@ export default function IAPage() {
           {/* Summary Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="bg-green-950/50 backdrop-blur-lg border rounded-lg p-6 text-center">
-              <p className="text-3xl font-bold text-emerald-400">{dashboard.totalAnalyses}</p>
+              <p className="text-3xl font-bold text-emerald-400">{dashboard.totalAnalyses ?? 0}</p>
               <p className="text-sm text-gray-400 mt-1">Análises Geradas</p>
             </div>
             <div className="bg-green-950/50 backdrop-blur-lg border rounded-lg p-6 text-center">
-              <p className="text-3xl font-bold text-emerald-400">{dashboard.totalAlerts}</p>
+              <p className="text-3xl font-bold text-emerald-400">{dashboard.totalAlerts ?? 0}</p>
               <p className="text-sm text-gray-400 mt-1">Alertas Totais</p>
             </div>
             <div className="bg-green-950/50 backdrop-blur-lg border rounded-lg p-6 text-center">
-              <p className="text-3xl font-bold text-red-600">{dashboard.unreadAlerts}</p>
+              <p className="text-3xl font-bold text-red-600">{dashboard.unreadAlerts ?? 0}</p>
               <p className="text-sm text-gray-400 mt-1">Alertas Não Lidos</p>
             </div>
           </div>
@@ -283,22 +283,22 @@ export default function IAPage() {
           <div className="bg-green-950/50 backdrop-blur-lg border rounded-lg p-6">
             <h2 className="font-semibold text-gray-100 mb-4">Análises por Tipo</h2>
             <div className="space-y-3">
-              {Object.entries(dashboard.analysesByType).map(([type, count]) => (
+              {Object.entries(dashboard.analysesByType ?? {}).map(([type, count]) => (
                 <div key={type} className="flex items-center justify-between">
                   <span className={`px-2 py-1 rounded-full text-xs font-medium ${typeColors[type] || 'bg-green-900/40'}`}>{typeLabels[type] || type}</span>
                   <span className="text-sm font-medium text-gray-100">{count as number}</span>
                 </div>
               ))}
-              {Object.keys(dashboard.analysesByType).length === 0 && <p className="text-sm text-gray-400">Nenhuma análise ainda.</p>}
+              {Object.keys(dashboard.analysesByType ?? {}).length === 0 && <p className="text-sm text-gray-400">Nenhuma análise ainda.</p>}
             </div>
           </div>
 
           {/* Recent Alerts */}
-          {dashboard.recentAlerts.length > 0 && (
+          {(dashboard.recentAlerts?.length ?? 0) > 0 && (
             <div className="bg-green-950/50 backdrop-blur-lg border rounded-lg p-6">
               <h2 className="font-semibold text-gray-100 mb-4">Alertas Recentes</h2>
               <div className="space-y-3">
-                {dashboard.recentAlerts.map(alert => (
+                {(dashboard.recentAlerts || []).map(alert => (
                   <div key={alert.id} className={`flex items-start gap-3 p-3 rounded-lg ${alert.read ? 'bg-green-900/30' : 'bg-emerald-900/30'}`}>
                     <span className={`px-2 py-0.5 rounded-full text-xs font-medium mt-0.5 ${priorityColors[alert.priority]}`}>{priorityLabels[alert.priority]}</span>
                     <div className="flex-1">

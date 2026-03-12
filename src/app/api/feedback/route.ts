@@ -3,6 +3,7 @@ import { getApiUser, unauthorizedResponse } from '@/lib/auth';
 import { createNotification } from '@/lib/notifications';
 import { sendEmail } from '@/lib/email';
 import { feedbackReceivedTemplate } from '@/lib/email-templates';
+import { awardPoints } from '@/lib/gamification';
 import { NextResponse, type NextRequest } from 'next/server';
 
 export async function GET(request: NextRequest) {
@@ -130,6 +131,11 @@ export async function POST(request: Request) {
       feedbackUrl: `${appUrl}/feedback`,
     });
     sendEmail({ to: recipient.email, subject, html }).catch(() => {});
+
+    // Award gamification points: sender gets points for giving feedback
+    awardPoints(user.id, user.companyId, 'FEEDBACK_SENT', feedback.id);
+    // Recipient gets points for receiving feedback
+    awardPoints(toUserId, user.companyId, 'FEEDBACK_RECEIVED', feedback.id);
 
     return NextResponse.json(feedback, { status: 201 });
   } catch (error) {
