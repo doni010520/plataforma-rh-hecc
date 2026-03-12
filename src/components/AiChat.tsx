@@ -109,7 +109,7 @@ export function AiChat({ inline, departmentId }: AiChatProps) {
   // Inline mode: render directly
   if (inline) {
     return (
-      <div className="flex flex-col h-[600px] bg-white border rounded-lg">
+      <div className="flex flex-col h-[600px] bg-green-950/50 backdrop-blur-lg border rounded-lg">
         <ChatHeader onClear={() => setMessages([])} />
         <ChatMessages messages={messages} isStreaming={isStreaming} messagesEndRef={messagesEndRef} />
         <ChatInput
@@ -141,7 +141,7 @@ export function AiChat({ inline, departmentId }: AiChatProps) {
 
       {/* Chat panel */}
       {isOpen && (
-        <div className="fixed bottom-6 right-6 w-[400px] h-[500px] bg-white/80 backdrop-blur-xl border border-white/30 rounded-2xl shadow-2xl flex flex-col z-50">
+        <div className="fixed bottom-6 right-6 w-[400px] h-[500px] bg-green-950/70 backdrop-blur-xl border border-white/30 rounded-2xl shadow-2xl flex flex-col z-50">
           <div className="flex items-center justify-between px-4 py-3 border-b border-white/20 bg-green-700/90 backdrop-blur-sm text-white rounded-t-2xl">
             <h3 className="font-medium text-sm">Assistente IA</h3>
             <div className="flex gap-2">
@@ -198,8 +198,8 @@ function ChatMessages({
           <div
             className={`max-w-[85%] px-3 py-2 rounded-lg text-sm whitespace-pre-wrap ${
               msg.role === 'user'
-                ? 'bg-green-100 text-green-900'
-                : 'bg-gray-100 text-gray-900'
+                ? 'bg-emerald-900/40 text-green-900'
+                : 'bg-green-900/40 text-gray-100'
             }`}
           >
             {msg.content || (isStreaming && i === messages.length - 1 ? (
@@ -238,7 +238,7 @@ function ChatInput({
         onKeyDown={onKeyDown}
         placeholder="Digite sua pergunta..."
         rows={1}
-        className="flex-1 border rounded-lg px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-green-600"
+        className="flex-1 border rounded-lg px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-emerald-500"
         disabled={isStreaming}
       />
       <button

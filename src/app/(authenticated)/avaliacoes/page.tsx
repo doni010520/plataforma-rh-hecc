@@ -39,9 +39,9 @@ const statusLabels: Record<string, string> = {
 };
 
 const statusColors: Record<string, string> = {
-  DRAFT: 'bg-gray-100 text-gray-700',
-  ACTIVE: 'bg-green-100 text-green-700',
-  CLOSED: 'bg-red-100 text-red-700',
+  DRAFT: 'bg-green-900/40 text-gray-300',
+  ACTIVE: 'bg-emerald-900/40 text-emerald-400',
+  CLOSED: 'bg-red-900/30 text-red-700',
 };
 
 export default function AvaliacoesPage() {
@@ -182,8 +182,8 @@ export default function AvaliacoesPage() {
   if (loading) {
     return (
       <div className="space-y-4">
-        <div className="h-8 w-48 bg-gray-200 rounded animate-pulse" />
-        <div className="h-64 bg-gray-200 rounded animate-pulse" />
+        <div className="h-8 w-48 bg-green-800/40 rounded animate-pulse" />
+        <div className="h-64 bg-green-800/40 rounded animate-pulse" />
       </div>
     );
   }
@@ -191,7 +191,7 @@ export default function AvaliacoesPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Avaliações de Desempenho</h1>
+        <h1 className="text-2xl font-bold text-gray-100">Avaliações de Desempenho</h1>
         <button
           onClick={() => setShowForm(!showForm)}
           className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-800 transition-colors font-medium"
@@ -201,31 +201,31 @@ export default function AvaliacoesPage() {
       </div>
 
       {error && (
-        <div className="bg-red-50 text-red-600 text-sm p-3 rounded-md mb-4">{error}</div>
+        <div className="bg-red-900/30 text-red-600 text-sm p-3 rounded-md mb-4">{error}</div>
       )}
 
       {showForm && (
-        <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Novo Ciclo de Avaliação</h2>
+        <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-6 mb-6">
+          <h2 className="text-lg font-semibold text-gray-100 mb-4">Novo Ciclo de Avaliação</h2>
           <form onSubmit={handleCreateCycle} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Nome do Ciclo</label>
+                <label className="block text-sm font-medium text-gray-300 mb-1">Nome do Ciclo</label>
                 <input
                   type="text"
                   value={formName}
                   onChange={(e) => setFormName(e.target.value)}
                   required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                   placeholder="Ex: Avaliação Q1 2026"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Tipo</label>
+                <label className="block text-sm font-medium text-gray-300 mb-1">Tipo</label>
                 <select
                   value={formType}
                   onChange={(e) => setFormType(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                 >
                   <option value="SELF">Autoavaliação</option>
                   <option value="HALF">180° (auto + gestor)</option>
@@ -233,34 +233,34 @@ export default function AvaliacoesPage() {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Data de Início</label>
+                <label className="block text-sm font-medium text-gray-300 mb-1">Data de Início</label>
                 <input
                   type="date"
                   value={formStart}
                   onChange={(e) => setFormStart(e.target.value)}
                   required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Data de Fim</label>
+                <label className="block text-sm font-medium text-gray-300 mb-1">Data de Fim</label>
                 <input
                   type="date"
                   value={formEnd}
                   onChange={(e) => setFormEnd(e.target.value)}
                   required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                 />
               </div>
             </div>
 
             <div>
               <div className="flex items-center justify-between mb-2">
-                <label className="block text-sm font-medium text-gray-700">Critérios de Avaliação</label>
+                <label className="block text-sm font-medium text-gray-300">Critérios de Avaliação</label>
                 <button
                   type="button"
                   onClick={addCriteria}
-                  className="text-green-700 hover:text-green-900 text-sm font-medium"
+                  className="text-emerald-400 hover:text-emerald-200 text-sm font-medium"
                 >
                   + Adicionar Critério
                 </button>
@@ -273,14 +273,14 @@ export default function AvaliacoesPage() {
                       value={c.name}
                       onChange={(e) => updateCriteria(i, 'name', e.target.value)}
                       placeholder="Nome do critério"
-                      className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                      className="flex-1 px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                     />
                     <input
                       type="text"
                       value={c.description}
                       onChange={(e) => updateCriteria(i, 'description', e.target.value)}
                       placeholder="Descrição (opcional)"
-                      className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                      className="flex-1 px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                     />
                     <input
                       type="number"
@@ -288,7 +288,7 @@ export default function AvaliacoesPage() {
                       onChange={(e) => updateCriteria(i, 'weight', parseFloat(e.target.value) || 1)}
                       min={0.1}
                       step={0.1}
-                      className="w-20 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                      className="w-20 px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                       title="Peso"
                     />
                     {formCriteria.length > 1 && (
@@ -309,7 +309,7 @@ export default function AvaliacoesPage() {
               <button
                 type="button"
                 onClick={() => setShowForm(false)}
-                className="px-4 py-2 text-gray-600 hover:text-gray-800 font-medium"
+                className="px-4 py-2 text-gray-400 hover:text-gray-200 font-medium"
               >
                 Cancelar
               </button>
@@ -327,25 +327,25 @@ export default function AvaliacoesPage() {
 
       <div className="space-y-4">
         {cycles.length === 0 && (
-          <div className="bg-white rounded-lg shadow-sm p-8 text-center text-gray-500">
+          <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-8 text-center text-gray-400">
             Nenhum ciclo de avaliação criado ainda.
           </div>
         )}
 
         {cycles.map((cycle) => (
-          <div key={cycle.id} className="bg-white rounded-lg shadow-sm p-6">
+          <div key={cycle.id} className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-6">
             <div className="flex items-start justify-between mb-4">
               <div>
-                <h3 className="text-lg font-semibold text-gray-900">{cycle.name}</h3>
+                <h3 className="text-lg font-semibold text-gray-100">{cycle.name}</h3>
                 <div className="flex items-center gap-3 mt-1">
-                  <span className="text-sm text-gray-500">{typeLabels[cycle.type]}</span>
+                  <span className="text-sm text-gray-400">{typeLabels[cycle.type]}</span>
                   <span
                     className={`inline-flex px-2 py-0.5 text-xs font-medium rounded-full ${statusColors[cycle.status]}`}
                   >
                     {statusLabels[cycle.status]}
                   </span>
                 </div>
-                <p className="text-sm text-gray-500 mt-1">
+                <p className="text-sm text-gray-400 mt-1">
                   {new Date(cycle.startDate).toLocaleDateString('pt-BR')} a{' '}
                   {new Date(cycle.endDate).toLocaleDateString('pt-BR')} &middot;{' '}
                   {cycle._count.assignments} avaliações &middot; {cycle.criteria.length} critérios
@@ -358,7 +358,7 @@ export default function AvaliacoesPage() {
                       onClick={() =>
                         setShowParticipants(showParticipants === cycle.id ? null : cycle.id)
                       }
-                      className="text-sm text-green-700 hover:text-green-900 font-medium"
+                      className="text-sm text-emerald-400 hover:text-emerald-200 font-medium"
                     >
                       Participantes
                     </button>
@@ -381,7 +381,7 @@ export default function AvaliacoesPage() {
                 {(cycle.status === 'ACTIVE' || cycle.status === 'CLOSED') && (
                   <Link
                     href={`/avaliacoes/${cycle.id}/resultados`}
-                    className="text-sm text-green-700 hover:text-green-900 font-medium"
+                    className="text-sm text-emerald-400 hover:text-emerald-200 font-medium"
                   >
                     Resultados
                   </Link>
@@ -390,17 +390,17 @@ export default function AvaliacoesPage() {
             </div>
 
             {showParticipants === cycle.id && (
-              <div className="border-t border-gray-200 pt-4 mt-4">
-                <h4 className="text-sm font-medium text-gray-700 mb-3">Adicionar Participantes</h4>
+              <div className="border-t border-green-800/30 pt-4 mt-4">
+                <h4 className="text-sm font-medium text-gray-300 mb-3">Adicionar Participantes</h4>
                 <div className="flex gap-3 items-end">
                   <div className="flex-1">
-                    <label className="block text-xs text-gray-500 mb-1">
+                    <label className="block text-xs text-gray-400 mb-1">
                       Departamento (vazio = todos)
                     </label>
                     <select
                       value={participantDept}
                       onChange={(e) => setParticipantDept(e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                     >
                       <option value="">Todos os departamentos</option>
                       {departments.map((d) => (

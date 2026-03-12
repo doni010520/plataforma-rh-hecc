@@ -59,7 +59,7 @@ const CATEGORY_LABELS: Record<string, string> = {
 const CATEGORY_COLORS: Record<string, string> = {
   ENGAGEMENT: 'bg-blue-100 text-blue-700',
   PERFORMANCE: 'bg-purple-100 text-purple-700',
-  LEARNING: 'bg-green-100 text-green-700',
+  LEARNING: 'bg-emerald-900/40 text-emerald-400',
   COLLABORATION: 'bg-orange-100 text-orange-700',
   MILESTONE: 'bg-pink-100 text-pink-700',
 };
@@ -231,8 +231,8 @@ export default function GamificacaoPage() {
     return (
       <div className="p-6">
         <div className="animate-pulse space-y-4">
-          <div className="h-8 bg-gray-200 rounded w-48" />
-          <div className="h-64 bg-gray-200 rounded" />
+          <div className="h-8 bg-green-800/40 rounded w-48" />
+          <div className="h-64 bg-green-800/40 rounded" />
         </div>
       </div>
     );
@@ -241,8 +241,8 @@ export default function GamificacaoPage() {
   return (
     <div className="p-6 max-w-5xl mx-auto">
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Gamificacao</h1>
-        <p className="text-sm text-gray-500 mt-1">Pontos, badges e ranking dos colaboradores</p>
+        <h1 className="text-2xl font-bold text-gray-100">Gamificacao</h1>
+        <p className="text-sm text-gray-400 mt-1">Pontos, badges e ranking dos colaboradores</p>
       </div>
 
       {/* My Profile Card */}
@@ -265,7 +265,7 @@ export default function GamificacaoPage() {
                 {badges.filter((b) => b.earned).map((b) => (
                   <span
                     key={b.id}
-                    className="bg-white/20 backdrop-blur rounded-full px-3 py-1 text-sm"
+                    className="bg-green-950/50 backdrop-blur-lg/20 backdrop-blur rounded-full px-3 py-1 text-sm"
                     title={b.name}
                   >
                     {BADGE_ICONS[b.icon] || BADGE_ICONS.star} {b.name}
@@ -278,11 +278,11 @@ export default function GamificacaoPage() {
       )}
 
       {/* Tabs */}
-      <div className="flex gap-1 mb-6 bg-gray-100 rounded-lg p-1">
+      <div className="flex gap-1 mb-6 bg-green-900/40 rounded-lg p-1">
         <button
           onClick={() => setTab('leaderboard')}
           className={`flex-1 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-            tab === 'leaderboard' ? 'bg-white shadow text-gray-900' : 'text-gray-500 hover:text-gray-700'
+            tab === 'leaderboard' ? 'bg-green-950/50 backdrop-blur-lg shadow text-gray-100' : 'text-gray-400 hover:text-gray-300'
           }`}
         >
           Ranking
@@ -290,7 +290,7 @@ export default function GamificacaoPage() {
         <button
           onClick={() => setTab('badges')}
           className={`flex-1 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-            tab === 'badges' ? 'bg-white shadow text-gray-900' : 'text-gray-500 hover:text-gray-700'
+            tab === 'badges' ? 'bg-green-950/50 backdrop-blur-lg shadow text-gray-100' : 'text-gray-400 hover:text-gray-300'
           }`}
         >
           Badges
@@ -299,7 +299,7 @@ export default function GamificacaoPage() {
           <button
             onClick={() => setTab('admin')}
             className={`flex-1 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-              tab === 'admin' ? 'bg-white shadow text-gray-900' : 'text-gray-500 hover:text-gray-700'
+              tab === 'admin' ? 'bg-green-950/50 backdrop-blur-lg shadow text-gray-100' : 'text-gray-400 hover:text-gray-300'
             }`}
           >
             Administrar
@@ -309,9 +309,9 @@ export default function GamificacaoPage() {
 
       {/* Leaderboard Tab */}
       {tab === 'leaderboard' && (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200">
+        <div className="bg-green-950/50 backdrop-blur-lg rounded-xl shadow-sm border border-green-800/30">
           {leaderboard.length === 0 ? (
-            <div className="p-12 text-center text-gray-500">
+            <div className="p-12 text-center text-gray-400">
               Nenhum ponto registrado ainda.
             </div>
           ) : (
@@ -320,12 +320,12 @@ export default function GamificacaoPage() {
                 <div
                   key={entry.userId}
                   className={`flex items-center gap-4 p-4 ${
-                    entry.userId === userInfo?.id ? 'bg-green-50' : ''
+                    entry.userId === userInfo?.id ? 'bg-emerald-900/30' : ''
                   }`}
                 >
                   <div className="w-10 text-center">
                     <span className={`text-lg font-bold ${
-                      entry.rank <= 3 ? 'text-2xl' : 'text-gray-500'
+                      entry.rank <= 3 ? 'text-2xl' : 'text-gray-400'
                     }`}>
                       {getRankBadge(entry.rank)}
                     </span>
@@ -334,14 +334,14 @@ export default function GamificacaoPage() {
                     {entry.userName.charAt(0).toUpperCase()}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="font-medium text-gray-900 truncate">{entry.userName}</p>
+                    <p className="font-medium text-gray-100 truncate">{entry.userName}</p>
                     {entry.jobTitle && (
-                      <p className="text-xs text-gray-500 truncate">{entry.jobTitle}</p>
+                      <p className="text-xs text-gray-400 truncate">{entry.jobTitle}</p>
                     )}
                   </div>
                   <div className="text-right">
-                    <p className="font-bold text-gray-900">{entry.totalPoints.toLocaleString('pt-BR')}</p>
-                    <p className="text-xs text-gray-500">pontos</p>
+                    <p className="font-bold text-gray-100">{entry.totalPoints.toLocaleString('pt-BR')}</p>
+                    <p className="text-xs text-gray-400">pontos</p>
                   </div>
                 </div>
               ))}
@@ -354,7 +354,7 @@ export default function GamificacaoPage() {
       {tab === 'badges' && (
         <div>
           {badges.length === 0 ? (
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-12 text-center text-gray-500">
+            <div className="bg-green-950/50 backdrop-blur-lg rounded-xl shadow-sm border border-green-800/30 p-12 text-center text-gray-400">
               Nenhum badge criado ainda.
             </div>
           ) : (
@@ -362,27 +362,27 @@ export default function GamificacaoPage() {
               {badges.map((badge) => (
                 <div
                   key={badge.id}
-                  className={`bg-white rounded-xl shadow-sm border-2 p-4 transition-all ${
+                  className={`bg-green-950/50 backdrop-blur-lg rounded-xl shadow-sm border-2 p-4 transition-all ${
                     badge.earned
                       ? 'border-green-300 shadow-green-100'
-                      : 'border-gray-200 opacity-60'
+                      : 'border-green-800/30 opacity-60'
                   }`}
                 >
                   <div className="flex items-start gap-3">
                     <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-2xl ${
-                      badge.earned ? 'bg-green-100' : 'bg-gray-100'
+                      badge.earned ? 'bg-emerald-900/40' : 'bg-green-900/40'
                     }`}>
                       {BADGE_ICONS[badge.icon] || BADGE_ICONS.star}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h3 className="font-semibold text-gray-900 truncate">{badge.name}</h3>
+                      <h3 className="font-semibold text-gray-100 truncate">{badge.name}</h3>
                       {badge.description && (
-                        <p className="text-xs text-gray-500 mt-0.5 line-clamp-2">{badge.description}</p>
+                        <p className="text-xs text-gray-400 mt-0.5 line-clamp-2">{badge.description}</p>
                       )}
                     </div>
                   </div>
                   <div className="flex items-center justify-between mt-3">
-                    <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${CATEGORY_COLORS[badge.category] || 'bg-gray-100 text-gray-700'}`}>
+                    <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${CATEGORY_COLORS[badge.category] || 'bg-green-900/40 text-gray-300'}`}>
                       {CATEGORY_LABELS[badge.category] || badge.category}
                     </span>
                     {badge.earned ? (
@@ -407,13 +407,13 @@ export default function GamificacaoPage() {
       {tab === 'admin' && isAdmin && (
         <div className="space-y-6">
           {/* Award Points */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Atribuir Pontos</h3>
+          <div className="bg-green-950/50 backdrop-blur-lg rounded-xl shadow-sm border border-green-800/30 p-5">
+            <h3 className="text-lg font-semibold text-gray-100 mb-4">Atribuir Pontos</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
               <select
                 value={pointsUserId}
                 onChange={(e) => setPointsUserId(e.target.value)}
-                className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-green-600 focus:border-green-600"
+                className="border border-green-700/40 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
               >
                 <option value="">Selecione o colaborador</option>
                 {employees.map((e) => (
@@ -426,7 +426,7 @@ export default function GamificacaoPage() {
                 onChange={(e) => setPointsAmount(e.target.value)}
                 placeholder="Quantidade de pontos"
                 min="1"
-                className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-green-600 focus:border-green-600"
+                className="border border-green-700/40 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
               />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
@@ -435,14 +435,14 @@ export default function GamificacaoPage() {
                 value={pointsReason}
                 onChange={(e) => setPointsReason(e.target.value)}
                 placeholder="Motivo"
-                className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-green-600 focus:border-green-600"
+                className="border border-green-700/40 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
               />
               <input
                 type="text"
                 value={pointsSourceType}
                 onChange={(e) => setPointsSourceType(e.target.value)}
                 placeholder="Tipo (ex: feedback_given, survey_completed)"
-                className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-green-600 focus:border-green-600"
+                className="border border-green-700/40 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
               />
             </div>
             <button
@@ -455,29 +455,29 @@ export default function GamificacaoPage() {
           </div>
 
           {/* Create Badge */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Criar Badge</h3>
+          <div className="bg-green-950/50 backdrop-blur-lg rounded-xl shadow-sm border border-green-800/30 p-5">
+            <h3 className="text-lg font-semibold text-gray-100 mb-4">Criar Badge</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
               <input
                 type="text"
                 value={badgeName}
                 onChange={(e) => setBadgeName(e.target.value)}
                 placeholder="Nome do badge"
-                className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-green-600 focus:border-green-600"
+                className="border border-green-700/40 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
               />
               <input
                 type="text"
                 value={badgeDesc}
                 onChange={(e) => setBadgeDesc(e.target.value)}
                 placeholder="Descricao"
-                className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-green-600 focus:border-green-600"
+                className="border border-green-700/40 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
               />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
               <select
                 value={badgeIcon}
                 onChange={(e) => setBadgeIcon(e.target.value)}
-                className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-green-600 focus:border-green-600"
+                className="border border-green-700/40 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
               >
                 {Object.entries(BADGE_ICONS).map(([key, emoji]) => (
                   <option key={key} value={key}>{emoji} {key}</option>
@@ -486,7 +486,7 @@ export default function GamificacaoPage() {
               <select
                 value={badgeCategory}
                 onChange={(e) => setBadgeCategory(e.target.value)}
-                className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-green-600 focus:border-green-600"
+                className="border border-green-700/40 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
               >
                 {Object.entries(CATEGORY_LABELS).map(([key, label]) => (
                   <option key={key} value={key}>{label}</option>
@@ -498,7 +498,7 @@ export default function GamificacaoPage() {
                 onChange={(e) => setBadgePointsReq(e.target.value)}
                 placeholder="Pontos necessarios"
                 min="0"
-                className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-green-600 focus:border-green-600"
+                className="border border-green-700/40 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
               />
             </div>
             <button
@@ -511,13 +511,13 @@ export default function GamificacaoPage() {
           </div>
 
           {/* Award Badge */}
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">Conceder Badge</h3>
+          <div className="bg-green-950/50 backdrop-blur-lg rounded-xl shadow-sm border border-green-800/30 p-5">
+            <h3 className="text-lg font-semibold text-gray-100 mb-4">Conceder Badge</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
               <select
                 value={awardBadgeId}
                 onChange={(e) => setAwardBadgeId(e.target.value)}
-                className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-green-600 focus:border-green-600"
+                className="border border-green-700/40 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
               >
                 <option value="">Selecione o badge</option>
                 {badges.map((b) => (
@@ -529,7 +529,7 @@ export default function GamificacaoPage() {
               <select
                 value={awardBadgeUserId}
                 onChange={(e) => setAwardBadgeUserId(e.target.value)}
-                className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-green-600 focus:border-green-600"
+                className="border border-green-700/40 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
               >
                 <option value="">Selecione o colaborador</option>
                 {employees.map((e) => (

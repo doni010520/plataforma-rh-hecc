@@ -62,8 +62,8 @@ export default function NotificacoesPage() {
   if (loading) {
     return (
       <div className="space-y-4">
-        <div className="h-8 w-48 bg-gray-200 rounded animate-pulse" />
-        <div className="h-64 bg-gray-200 rounded animate-pulse" />
+        <div className="h-8 w-48 bg-green-800/40 rounded animate-pulse" />
+        <div className="h-64 bg-green-800/40 rounded animate-pulse" />
       </div>
     );
   }
@@ -71,11 +71,11 @@ export default function NotificacoesPage() {
   return (
     <div className="max-w-2xl mx-auto">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Notificações</h1>
+        <h1 className="text-2xl font-bold text-gray-100">Notificações</h1>
         {unreadCount > 0 && (
           <button
             onClick={markAllRead}
-            className="text-sm text-green-700 hover:text-green-900 font-medium"
+            className="text-sm text-emerald-400 hover:text-emerald-200 font-medium"
           >
             Marcar todas como lidas ({unreadCount})
           </button>
@@ -83,13 +83,13 @@ export default function NotificacoesPage() {
       </div>
 
       {/* Filter Tabs */}
-      <div className="flex gap-4 mb-4 border-b border-gray-200">
+      <div className="flex gap-4 mb-4 border-b border-green-800/30">
         <button
           onClick={() => setFilter('all')}
           className={`pb-2 text-sm font-medium border-b-2 transition-colors ${
             filter === 'all'
-              ? 'border-green-700 text-green-700'
-              : 'border-transparent text-gray-500 hover:text-gray-700'
+              ? 'border-green-700 text-emerald-400'
+              : 'border-transparent text-gray-400 hover:text-gray-300'
           }`}
         >
           Todas
@@ -98,8 +98,8 @@ export default function NotificacoesPage() {
           onClick={() => setFilter('unread')}
           className={`pb-2 text-sm font-medium border-b-2 transition-colors ${
             filter === 'unread'
-              ? 'border-green-700 text-green-700'
-              : 'border-transparent text-gray-500 hover:text-gray-700'
+              ? 'border-green-700 text-emerald-400'
+              : 'border-transparent text-gray-400 hover:text-gray-300'
           }`}
         >
           Não lidas
@@ -107,22 +107,22 @@ export default function NotificacoesPage() {
       </div>
 
       {notifications.length === 0 ? (
-        <div className="bg-white rounded-lg shadow-sm p-12 text-center">
+        <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-12 text-center">
           <p className="text-2xl mb-2">🔔</p>
-          <p className="text-gray-500">
+          <p className="text-gray-400">
             {filter === 'unread'
               ? 'Nenhuma notificação não lida.'
               : 'Nenhuma notificação ainda.'}
           </p>
         </div>
       ) : (
-        <div className="bg-white rounded-lg shadow-sm overflow-hidden divide-y divide-gray-100">
+        <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm overflow-hidden divide-y divide-gray-100">
           {notifications.map((n) => (
             <button
               key={n.id}
               onClick={() => handleClick(n)}
-              className={`w-full text-left px-5 py-4 hover:bg-gray-50 transition-colors ${
-                !n.read ? 'bg-green-50/30' : ''
+              className={`w-full text-left px-5 py-4 hover:bg-green-900/30 transition-colors ${
+                !n.read ? 'bg-emerald-900/30/30' : ''
               }`}
               role="listitem"
             >
@@ -132,7 +132,7 @@ export default function NotificacoesPage() {
                 </span>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
-                    <p className={`text-sm ${!n.read ? 'font-semibold text-gray-900' : 'font-medium text-gray-700'}`}>
+                    <p className={`text-sm ${!n.read ? 'font-semibold text-gray-100' : 'font-medium text-gray-300'}`}>
                       {n.title}
                     </p>
                     {!n.read && (
@@ -140,7 +140,7 @@ export default function NotificacoesPage() {
                     )}
                   </div>
                   {n.body && (
-                    <p className="text-sm text-gray-500 mt-0.5">{n.body}</p>
+                    <p className="text-sm text-gray-400 mt-0.5">{n.body}</p>
                   )}
                   <p className="text-xs text-gray-400 mt-1">
                     {new Date(n.createdAt).toLocaleDateString('pt-BR', {

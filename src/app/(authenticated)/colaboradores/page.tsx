@@ -184,7 +184,7 @@ export default function ColaboradoresPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Colaboradores</h1>
+        <h1 className="text-2xl font-bold text-gray-100">Colaboradores</h1>
         <button
           onClick={() => {
             resetForm();
@@ -197,48 +197,48 @@ export default function ColaboradoresPage() {
       </div>
 
       {showForm && (
-        <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">
+        <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-6 mb-6">
+          <h2 className="text-lg font-semibold text-gray-100 mb-4">
             {editingUser ? 'Editar Colaborador' : 'Novo Colaborador'}
           </h2>
           <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Nome</label>
+              <label className="block text-sm font-medium text-gray-300 mb-1">Nome</label>
               <input
                 type="text"
                 value={formName}
                 onChange={(e) => setFormName(e.target.value)}
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                className="w-full px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+              <label className="block text-sm font-medium text-gray-300 mb-1">Email</label>
               <input
                 type="email"
                 value={formEmail}
                 onChange={(e) => setFormEmail(e.target.value)}
                 required
                 disabled={!!editingUser}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent disabled:bg-gray-100"
+                className="w-full px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent disabled:bg-green-900/40"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Cargo</label>
+              <label className="block text-sm font-medium text-gray-300 mb-1">Cargo</label>
               <input
                 type="text"
                 value={formJobTitle}
                 onChange={(e) => setFormJobTitle(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                className="w-full px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                 placeholder="Ex: Analista de RH"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Departamento</label>
+              <label className="block text-sm font-medium text-gray-300 mb-1">Departamento</label>
               <select
                 value={formDeptId}
                 onChange={(e) => setFormDeptId(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                className="w-full px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
               >
                 <option value="">Nenhum</option>
                 {departments.map((d) => (
@@ -249,11 +249,11 @@ export default function ColaboradoresPage() {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Gestor Direto</label>
+              <label className="block text-sm font-medium text-gray-300 mb-1">Gestor Direto</label>
               <select
                 value={formManagerId}
                 onChange={(e) => setFormManagerId(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                className="w-full px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
               >
                 <option value="">Nenhum</option>
                 {managers
@@ -266,11 +266,11 @@ export default function ColaboradoresPage() {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Perfil</label>
+              <label className="block text-sm font-medium text-gray-300 mb-1">Perfil</label>
               <select
                 value={formRole}
                 onChange={(e) => setFormRole(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                className="w-full px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
               >
                 <option value="EMPLOYEE">Colaborador</option>
                 <option value="MANAGER">Gestor</option>
@@ -279,7 +279,7 @@ export default function ColaboradoresPage() {
             </div>
 
             {error && (
-              <div className="col-span-full bg-red-50 text-red-600 text-sm p-3 rounded-md">
+              <div className="col-span-full bg-red-900/30 text-red-600 text-sm p-3 rounded-md">
                 {error}
               </div>
             )}
@@ -288,7 +288,7 @@ export default function ColaboradoresPage() {
               <button
                 type="button"
                 onClick={resetForm}
-                className="px-4 py-2 text-gray-600 hover:text-gray-800 font-medium"
+                className="px-4 py-2 text-gray-400 hover:text-gray-200 font-medium"
               >
                 Cancelar
               </button>
@@ -304,18 +304,18 @@ export default function ColaboradoresPage() {
         </div>
       )}
 
-      <div className="bg-white rounded-lg shadow-sm p-4 mb-4 flex flex-col md:flex-row gap-3">
+      <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-4 mb-4 flex flex-col md:flex-row gap-3">
         <input
           type="text"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Buscar por nome, email ou cargo..."
-          className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
+          className="flex-1 px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
         />
         <select
           value={filterDept}
           onChange={(e) => setFilterDept(e.target.value)}
-          className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
+          className="px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
         >
           <option value="">Todos os departamentos</option>
           {departments.map((d) => (
@@ -326,31 +326,31 @@ export default function ColaboradoresPage() {
         </select>
       </div>
 
-      <div className="bg-white rounded-lg shadow-sm overflow-hidden">
+      <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm overflow-hidden">
         {loading ? (
-          <div className="p-8 text-center text-gray-500">Carregando...</div>
+          <div className="p-8 text-center text-gray-400">Carregando...</div>
         ) : (
           <>
             <div className="overflow-x-auto">
               <table className="w-full">
-                <thead className="bg-gray-50">
+                <thead className="bg-green-900/30">
                   <tr>
-                    <th className="text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="text-left px-6 py-3 text-xs font-medium text-gray-400 uppercase tracking-wider">
                       Nome
                     </th>
-                    <th className="text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="text-left px-6 py-3 text-xs font-medium text-gray-400 uppercase tracking-wider">
                       Cargo
                     </th>
-                    <th className="text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="text-left px-6 py-3 text-xs font-medium text-gray-400 uppercase tracking-wider">
                       Departamento
                     </th>
-                    <th className="text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="text-left px-6 py-3 text-xs font-medium text-gray-400 uppercase tracking-wider">
                       Perfil
                     </th>
-                    <th className="text-left px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="text-left px-6 py-3 text-xs font-medium text-gray-400 uppercase tracking-wider">
                       Status
                     </th>
-                    <th className="text-right px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th className="text-right px-6 py-3 text-xs font-medium text-gray-400 uppercase tracking-wider">
                       Ações
                     </th>
                   </tr>
@@ -358,7 +358,7 @@ export default function ColaboradoresPage() {
                 <tbody className="divide-y divide-gray-200">
                   {colaboradores.length === 0 && (
                     <tr>
-                      <td colSpan={6} className="px-6 py-8 text-center text-gray-500">
+                      <td colSpan={6} className="px-6 py-8 text-center text-gray-400">
                         Nenhum colaborador encontrado.
                       </td>
                     </tr>
@@ -367,12 +367,12 @@ export default function ColaboradoresPage() {
                     <tr key={user.id} className={!user.active ? 'opacity-50' : ''}>
                       <td className="px-6 py-4">
                         <div>
-                          <p className="font-medium text-gray-900">{user.name}</p>
-                          <p className="text-sm text-gray-500">{user.email}</p>
+                          <p className="font-medium text-gray-100">{user.name}</p>
+                          <p className="text-sm text-gray-400">{user.email}</p>
                         </div>
                       </td>
-                      <td className="px-6 py-4 text-gray-600">{user.jobTitle || '—'}</td>
-                      <td className="px-6 py-4 text-gray-600">{user.department?.name || '—'}</td>
+                      <td className="px-6 py-4 text-gray-400">{user.jobTitle || '—'}</td>
+                      <td className="px-6 py-4 text-gray-400">{user.department?.name || '—'}</td>
                       <td className="px-6 py-4">
                         <span
                           className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${
@@ -380,7 +380,7 @@ export default function ColaboradoresPage() {
                               ? 'bg-purple-100 text-purple-700'
                               : user.role === 'MANAGER'
                                 ? 'bg-blue-100 text-blue-700'
-                                : 'bg-gray-100 text-gray-700'
+                                : 'bg-green-900/40 text-gray-300'
                           }`}
                         >
                           {roleLabels[user.role]}
@@ -390,8 +390,8 @@ export default function ColaboradoresPage() {
                         <span
                           className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${
                             user.active
-                              ? 'bg-green-100 text-green-700'
-                              : 'bg-red-100 text-red-700'
+                              ? 'bg-emerald-900/40 text-emerald-400'
+                              : 'bg-red-900/30 text-red-700'
                           }`}
                         >
                           {user.active ? 'Ativo' : 'Inativo'}
@@ -400,7 +400,7 @@ export default function ColaboradoresPage() {
                       <td className="px-6 py-4 text-right space-x-2">
                         <button
                           onClick={() => openEdit(user)}
-                          className="text-green-700 hover:text-green-900 text-sm font-medium"
+                          className="text-emerald-400 hover:text-emerald-200 text-sm font-medium"
                         >
                           Editar
                         </button>
@@ -409,7 +409,7 @@ export default function ColaboradoresPage() {
                           className={`text-sm font-medium ${
                             user.active
                               ? 'text-red-600 hover:text-red-800'
-                              : 'text-green-600 hover:text-green-800'
+                              : 'text-green-600 hover:text-emerald-300'
                           }`}
                         >
                           {user.active ? 'Desativar' : 'Reativar'}
@@ -422,8 +422,8 @@ export default function ColaboradoresPage() {
             </div>
 
             {pagination.totalPages > 1 && (
-              <div className="px-6 py-4 border-t border-gray-200 flex items-center justify-between">
-                <p className="text-sm text-gray-500">
+              <div className="px-6 py-4 border-t border-green-800/30 flex items-center justify-between">
+                <p className="text-sm text-gray-400">
                   Mostrando {(pagination.page - 1) * pagination.limit + 1} a{' '}
                   {Math.min(pagination.page * pagination.limit, pagination.total)} de{' '}
                   {pagination.total} colaboradores
@@ -432,14 +432,14 @@ export default function ColaboradoresPage() {
                   <button
                     onClick={() => fetchColaboradores(pagination.page - 1)}
                     disabled={pagination.page <= 1}
-                    className="px-3 py-1 border border-gray-300 rounded-md text-sm disabled:opacity-50 hover:bg-gray-50"
+                    className="px-3 py-1 border border-green-700/40 rounded-md text-sm disabled:opacity-50 hover:bg-green-900/30"
                   >
                     Anterior
                   </button>
                   <button
                     onClick={() => fetchColaboradores(pagination.page + 1)}
                     disabled={pagination.page >= pagination.totalPages}
-                    className="px-3 py-1 border border-gray-300 rounded-md text-sm disabled:opacity-50 hover:bg-gray-50"
+                    className="px-3 py-1 border border-green-700/40 rounded-md text-sm disabled:opacity-50 hover:bg-green-900/30"
                   >
                     Próxima
                   </button>

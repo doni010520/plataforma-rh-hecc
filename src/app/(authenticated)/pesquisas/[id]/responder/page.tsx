@@ -74,24 +74,24 @@ export default function ResponderPesquisaPage() {
   if (loading) {
     return (
       <div className="space-y-4">
-        <div className="h-8 w-64 bg-gray-200 rounded animate-pulse" />
-        <div className="h-96 bg-gray-200 rounded animate-pulse" />
+        <div className="h-8 w-64 bg-green-800/40 rounded animate-pulse" />
+        <div className="h-96 bg-green-800/40 rounded animate-pulse" />
       </div>
     );
   }
 
   if (!survey) {
-    return <p className="text-gray-500">Pesquisa não encontrada.</p>;
+    return <p className="text-gray-400">Pesquisa não encontrada.</p>;
   }
 
   if (survey.hasResponded) {
     return (
-      <div className="bg-white rounded-lg shadow-sm p-6 text-center">
-        <h1 className="text-xl font-bold text-gray-900 mb-2">Pesquisa já respondida</h1>
-        <p className="text-gray-500 mb-4">Você já respondeu a pesquisa &ldquo;{survey.title}&rdquo;.</p>
+      <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-6 text-center">
+        <h1 className="text-xl font-bold text-gray-100 mb-2">Pesquisa já respondida</h1>
+        <p className="text-gray-400 mb-4">Você já respondeu a pesquisa &ldquo;{survey.title}&rdquo;.</p>
         <button
           onClick={() => router.push('/pesquisas')}
-          className="text-green-700 hover:text-green-900 font-medium"
+          className="text-emerald-400 hover:text-emerald-200 font-medium"
         >
           Voltar para pesquisas
         </button>
@@ -112,9 +112,9 @@ export default function ResponderPesquisaPage() {
   return (
     <div className="max-w-2xl mx-auto">
       <div className="mb-6">
-        <h1 className="text-xl font-bold text-gray-900">{survey.title}</h1>
+        <h1 className="text-xl font-bold text-gray-100">{survey.title}</h1>
         {survey.anonymous && (
-          <p className="text-sm text-gray-500 mt-1">
+          <p className="text-sm text-gray-400 mt-1">
             🔒 Esta pesquisa é anónima. Suas respostas não serão identificadas.
           </p>
         )}
@@ -123,12 +123,12 @@ export default function ResponderPesquisaPage() {
       {/* Progress bar */}
       <div className="mb-8">
         <div className="flex items-center justify-between mb-1">
-          <span className="text-sm text-gray-500">
+          <span className="text-sm text-gray-400">
             Pergunta {currentStep + 1} de {totalQuestions}
           </span>
-          <span className="text-sm font-medium text-gray-700">{progress.toFixed(0)}%</span>
+          <span className="text-sm font-medium text-gray-300">{progress.toFixed(0)}%</span>
         </div>
-        <div className="w-full bg-gray-200 rounded-full h-2">
+        <div className="w-full bg-green-800/40 rounded-full h-2">
           <div
             className="h-2 rounded-full bg-green-700 transition-all"
             style={{ width: `${progress}%` }}
@@ -137,8 +137,8 @@ export default function ResponderPesquisaPage() {
       </div>
 
       {/* Question */}
-      <div className="bg-white rounded-lg shadow-sm p-8 mb-6">
-        <h2 className="text-lg font-semibold text-gray-900 mb-6">{currentQuestion.text}</h2>
+      <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-8 mb-6">
+        <h2 className="text-lg font-semibold text-gray-100 mb-6">{currentQuestion.text}</h2>
 
         {currentQuestion.type === 'SCALE' && (
           <div className="flex gap-3 justify-center">
@@ -149,8 +149,8 @@ export default function ResponderPesquisaPage() {
                 onClick={() => setAnswer(currentQuestion.id, score.toString())}
                 className={`w-16 h-16 rounded-lg border-2 text-center transition-all ${
                   currentAnswer === score.toString()
-                    ? 'border-green-700 bg-green-50 text-green-800 font-bold'
-                    : 'border-gray-200 hover:border-gray-300 text-gray-600'
+                    ? 'border-green-700 bg-emerald-900/30 text-emerald-300 font-bold'
+                    : 'border-green-800/30 hover:border-green-700/40 text-gray-400'
                 }`}
               >
                 <span className="text-xl">{score}</span>
@@ -179,8 +179,8 @@ export default function ResponderPesquisaPage() {
                 onClick={() => setAnswer(currentQuestion.id, option)}
                 className={`block w-full text-left px-4 py-3 rounded-lg border-2 transition-all ${
                   currentAnswer === option
-                    ? 'border-green-700 bg-green-50 text-green-800 font-medium'
-                    : 'border-gray-200 hover:border-gray-300 text-gray-700'
+                    ? 'border-green-700 bg-emerald-900/30 text-emerald-300 font-medium'
+                    : 'border-green-800/30 hover:border-green-700/40 text-gray-300'
                 }`}
               >
                 {option}
@@ -194,14 +194,14 @@ export default function ResponderPesquisaPage() {
             value={currentAnswer}
             onChange={(e) => setAnswer(currentQuestion.id, e.target.value)}
             rows={4}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
+            className="w-full px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
             placeholder="Escreva sua resposta..."
           />
         )}
       </div>
 
       {error && (
-        <div className="bg-red-50 text-red-600 text-sm p-3 rounded-md mb-4">{error}</div>
+        <div className="bg-red-900/30 text-red-600 text-sm p-3 rounded-md mb-4">{error}</div>
       )}
 
       {/* Navigation */}
@@ -209,7 +209,7 @@ export default function ResponderPesquisaPage() {
         <button
           onClick={() => setCurrentStep(Math.max(0, currentStep - 1))}
           disabled={currentStep === 0}
-          className="px-4 py-2 text-gray-600 hover:text-gray-800 font-medium disabled:opacity-30"
+          className="px-4 py-2 text-gray-400 hover:text-gray-200 font-medium disabled:opacity-30"
         >
           &larr; Anterior
         </button>

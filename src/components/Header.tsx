@@ -98,11 +98,11 @@ export function Header({ userName, avatarUrl }: HeaderProps) {
     .slice(0, 2);
 
   return (
-    <header className="fixed top-0 left-0 md:left-64 right-0 h-16 bg-white/60 backdrop-blur-xl border-b border-green-200/30 flex items-center justify-between px-4 md:px-6 z-20">
+    <header className="fixed top-0 left-0 md:left-64 right-0 h-16 bg-green-950/70 backdrop-blur-xl border-b border-emerald-500/10 flex items-center justify-between px-4 md:px-6 z-20">
       {/* Mobile menu button */}
       <button
         onClick={() => document.dispatchEvent(new CustomEvent('toggle-sidebar'))}
-        className="md:hidden p-2 text-gray-600 hover:text-gray-900"
+        className="md:hidden p-2 text-gray-400 hover:text-gray-100"
         aria-label="Abrir menu de navegação"
       >
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -117,7 +117,7 @@ export function Header({ userName, avatarUrl }: HeaderProps) {
         <div className="relative" ref={dropdownRef}>
           <button
             onClick={toggleDropdown}
-            className="relative p-2 text-gray-500 hover:text-gray-700 transition-colors"
+            className="relative p-2 text-gray-400 hover:text-gray-300 transition-colors"
             aria-label={`Notificações${unreadCount > 0 ? ` (${unreadCount} não lidas)` : ''}`}
             aria-expanded={showDropdown}
             aria-haspopup="true"
@@ -133,13 +133,13 @@ export function Header({ userName, avatarUrl }: HeaderProps) {
           </button>
 
           {showDropdown && (
-            <div className="absolute right-0 top-full mt-2 w-80 bg-white/80 backdrop-blur-xl rounded-lg shadow-lg border border-green-200/30 max-h-96 overflow-hidden z-50">
-              <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
-                <h3 className="text-sm font-semibold text-gray-900">Notificações</h3>
+            <div className="absolute right-0 top-full mt-2 w-80 bg-green-950/90 backdrop-blur-xl rounded-lg shadow-lg border border-emerald-500/10 max-h-96 overflow-hidden z-50">
+              <div className="flex items-center justify-between px-4 py-3 border-b border-green-800/30">
+                <h3 className="text-sm font-semibold text-gray-100">Notificações</h3>
                 {unreadCount > 0 && (
                   <button
                     onClick={markAllRead}
-                    className="text-xs text-green-700 hover:text-green-900 font-medium"
+                    className="text-xs text-emerald-400 hover:text-emerald-200 font-medium"
                   >
                     Marcar todas como lidas
                   </button>
@@ -147,14 +147,14 @@ export function Header({ userName, avatarUrl }: HeaderProps) {
               </div>
               <div className="overflow-y-auto max-h-72" role="list">
                 {notifications.length === 0 ? (
-                  <p className="p-4 text-sm text-gray-500 text-center">Nenhuma notificação.</p>
+                  <p className="p-4 text-sm text-gray-400 text-center">Nenhuma notificação.</p>
                 ) : (
                   notifications.map((n) => (
                     <button
                       key={n.id}
                       onClick={() => handleNotificationClick(n)}
-                      className={`w-full text-left px-4 py-3 hover:bg-gray-50 border-b border-gray-50 transition-colors ${
-                        !n.read ? 'bg-green-50/50' : ''
+                      className={`w-full text-left px-4 py-3 hover:bg-green-900/50 border-b border-green-800/20 transition-colors ${
+                        !n.read ? 'bg-emerald-900/30' : ''
                       }`}
                       role="listitem"
                     >
@@ -163,11 +163,11 @@ export function Header({ userName, avatarUrl }: HeaderProps) {
                           <span className="w-2 h-2 rounded-full bg-green-700 flex-shrink-0 mt-1.5" aria-hidden="true" />
                         )}
                         <div className={!n.read ? '' : 'ml-4'}>
-                          <p className="text-sm font-medium text-gray-900">{n.title}</p>
+                          <p className="text-sm font-medium text-gray-100">{n.title}</p>
                           {n.body && (
-                            <p className="text-xs text-gray-500 mt-0.5 line-clamp-2">{n.body}</p>
+                            <p className="text-xs text-gray-400 mt-0.5 line-clamp-2">{n.body}</p>
                           )}
-                          <p className="text-xs text-gray-400 mt-1">
+                          <p className="text-xs text-gray-500 mt-1">
                             {new Date(n.createdAt).toLocaleDateString('pt-BR', {
                               day: '2-digit',
                               month: 'short',
@@ -181,11 +181,11 @@ export function Header({ userName, avatarUrl }: HeaderProps) {
                   ))
                 )}
               </div>
-              <div className="border-t border-gray-100">
+              <div className="border-t border-green-800/30">
                 <Link
                   href="/notificacoes"
                   onClick={() => setShowDropdown(false)}
-                  className="block text-center py-2.5 text-sm text-green-700 hover:text-green-900 font-medium hover:bg-gray-50"
+                  className="block text-center py-2.5 text-sm text-emerald-400 hover:text-emerald-300 font-medium hover:bg-green-900/50"
                 >
                   Ver todas
                 </Link>
@@ -196,7 +196,7 @@ export function Header({ userName, avatarUrl }: HeaderProps) {
 
         {/* User Profile */}
         <Link href="/perfil" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-          <span className="text-sm text-gray-700 font-medium hidden sm:inline">{userName}</span>
+          <span className="text-sm text-gray-300 font-medium hidden sm:inline">{userName}</span>
           {avatarUrl ? (
             <img
               src={avatarUrl}
@@ -204,7 +204,7 @@ export function Header({ userName, avatarUrl }: HeaderProps) {
               className="w-8 h-8 rounded-full object-cover"
             />
           ) : (
-            <div className="w-8 h-8 rounded-full bg-green-100 text-green-800 flex items-center justify-center text-xs font-bold">
+            <div className="w-8 h-8 rounded-full bg-emerald-800 text-emerald-200 flex items-center justify-center text-xs font-bold">
               {initials}
             </div>
           )}
@@ -212,7 +212,7 @@ export function Header({ userName, avatarUrl }: HeaderProps) {
 
         <button
           onClick={handleLogout}
-          className="text-sm text-gray-500 hover:text-gray-700 transition-colors"
+          className="text-sm text-gray-400 hover:text-gray-300 transition-colors"
           aria-label="Sair da conta"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

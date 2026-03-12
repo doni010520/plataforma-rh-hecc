@@ -83,9 +83,9 @@ type Tab = 'documentos' | 'holerites' | 'ferias' | 'salario' | 'cargos';
 
 const docTypeLabels: Record<string, string> = { RG: 'RG', CPF: 'CPF', CTPS: 'CTPS', DIPLOMA: 'Diploma', CERTIFICATE: 'Certificado', CONTRACT: 'Contrato', MEDICAL: 'Atestado Médico', OTHER: 'Outro' };
 const docStatusLabels: Record<string, string> = { PENDING: 'Pendente', APPROVED: 'Aprovado', REJECTED: 'Rejeitado', EXPIRED: 'Expirado' };
-const docStatusColors: Record<string, string> = { PENDING: 'bg-yellow-100 text-yellow-800', APPROVED: 'bg-green-100 text-green-800', REJECTED: 'bg-red-100 text-red-800', EXPIRED: 'bg-gray-100 text-gray-800' };
+const docStatusColors: Record<string, string> = { PENDING: 'bg-yellow-100 text-yellow-300', APPROVED: 'bg-emerald-900/40 text-emerald-300', REJECTED: 'bg-red-900/30 text-red-800', EXPIRED: 'bg-green-900/40 text-gray-200' };
 const vacStatusLabels: Record<string, string> = { PENDING: 'Pendente', APPROVED: 'Aprovada', REJECTED: 'Rejeitada', IN_PROGRESS: 'Em Andamento', COMPLETED: 'Concluída', CANCELLED: 'Cancelada' };
-const vacStatusColors: Record<string, string> = { PENDING: 'bg-yellow-100 text-yellow-800', APPROVED: 'bg-green-100 text-green-800', REJECTED: 'bg-red-100 text-red-800', IN_PROGRESS: 'bg-blue-100 text-blue-800', COMPLETED: 'bg-gray-100 text-gray-800', CANCELLED: 'bg-gray-100 text-gray-800' };
+const vacStatusColors: Record<string, string> = { PENDING: 'bg-yellow-100 text-yellow-300', APPROVED: 'bg-emerald-900/40 text-emerald-300', REJECTED: 'bg-red-900/30 text-red-800', IN_PROGRESS: 'bg-blue-100 text-blue-800', COMPLETED: 'bg-green-900/40 text-gray-200', CANCELLED: 'bg-green-900/40 text-gray-200' };
 const vacTypeLabels: Record<string, string> = { REGULAR: 'Regular', ADVANCE: 'Abono Pecuniário', SPLIT: 'Fracionada' };
 const monthNames = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
 
@@ -229,37 +229,37 @@ export default function DepartamentoPessoalPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">Departamento Pessoal</h1>
+        <h1 className="text-2xl font-bold text-gray-100">Departamento Pessoal</h1>
         <button onClick={() => setShowForm(!showForm)} className="px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-green-800 text-sm font-medium">{addLabels[tab]}</button>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-        <div className="bg-white rounded-lg border border-gray-200 p-4">
-          <h3 className="text-sm font-medium text-gray-500">Documentos</h3>
-          <p className="text-2xl font-bold text-gray-900 mt-1">{docs.length}</p>
+        <div className="bg-green-950/50 backdrop-blur-lg rounded-lg border border-green-800/30 p-4">
+          <h3 className="text-sm font-medium text-gray-400">Documentos</h3>
+          <p className="text-2xl font-bold text-gray-100 mt-1">{docs.length}</p>
         </div>
-        <div className="bg-white rounded-lg border border-gray-200 p-4">
-          <h3 className="text-sm font-medium text-gray-500">Holerites</h3>
-          <p className="text-2xl font-bold text-gray-900 mt-1">{payslips.length}</p>
+        <div className="bg-green-950/50 backdrop-blur-lg rounded-lg border border-green-800/30 p-4">
+          <h3 className="text-sm font-medium text-gray-400">Holerites</h3>
+          <p className="text-2xl font-bold text-gray-100 mt-1">{payslips.length}</p>
         </div>
-        <div className="bg-white rounded-lg border border-gray-200 p-4">
-          <h3 className="text-sm font-medium text-gray-500">Férias Pendentes</h3>
+        <div className="bg-green-950/50 backdrop-blur-lg rounded-lg border border-green-800/30 p-4">
+          <h3 className="text-sm font-medium text-gray-400">Férias Pendentes</h3>
           <p className="text-2xl font-bold text-yellow-600 mt-1">{vacations.filter(v => v.status === 'PENDING').length}</p>
         </div>
-        <div className="bg-white rounded-lg border border-gray-200 p-4">
-          <h3 className="text-sm font-medium text-gray-500">Alterações Salariais</h3>
+        <div className="bg-green-950/50 backdrop-blur-lg rounded-lg border border-green-800/30 p-4">
+          <h3 className="text-sm font-medium text-gray-400">Alterações Salariais</h3>
           <p className="text-2xl font-bold text-green-600 mt-1">{salaryHistory.length}</p>
         </div>
-        <div className="bg-white rounded-lg border border-gray-200 p-4">
-          <h3 className="text-sm font-medium text-gray-500">Mudanças de Cargo</h3>
-          <p className="text-2xl font-bold text-green-700 mt-1">{jobHistory.length}</p>
+        <div className="bg-green-950/50 backdrop-blur-lg rounded-lg border border-green-800/30 p-4">
+          <h3 className="text-sm font-medium text-gray-400">Mudanças de Cargo</h3>
+          <p className="text-2xl font-bold text-emerald-400 mt-1">{jobHistory.length}</p>
         </div>
       </div>
 
-      <div className="border-b border-gray-200">
+      <div className="border-b border-green-800/30">
         <nav className="flex gap-4">
           {tabs.map(t => (
-            <button key={t.key} onClick={() => { setTab(t.key); setShowForm(false); }} className={`pb-2 text-sm font-medium border-b-2 transition-colors ${tab === t.key ? 'border-green-700 text-green-700' : 'border-transparent text-gray-500 hover:text-gray-700'}`}>{t.label} ({t.count})</button>
+            <button key={t.key} onClick={() => { setTab(t.key); setShowForm(false); }} className={`pb-2 text-sm font-medium border-b-2 transition-colors ${tab === t.key ? 'border-green-700 text-emerald-400' : 'border-transparent text-gray-400 hover:text-gray-300'}`}>{t.label} ({t.count})</button>
           ))}
         </nav>
       </div>
@@ -268,26 +268,26 @@ export default function DepartamentoPessoalPage() {
       {tab === 'documentos' && (
         <div className="space-y-4">
           {showForm && (
-            <form onSubmit={handleDocCreate} className="bg-white rounded-lg border border-gray-200 p-4 space-y-3">
+            <form onSubmit={handleDocCreate} className="bg-green-950/50 backdrop-blur-lg rounded-lg border border-green-800/30 p-4 space-y-3">
               <h3 className="text-lg font-semibold">Novo Documento</h3>
               <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
-                <div><label className="block text-sm font-medium text-gray-700 mb-1">Colaborador</label><select value={docUserId} onChange={e => setDocUserId(e.target.value)} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"><option value="">Selecione...</option>{employees.map(e => <option key={e.id} value={e.id}>{e.name}</option>)}</select></div>
-                <div><label className="block text-sm font-medium text-gray-700 mb-1">Nome</label><input type="text" value={docName} onChange={e => setDocName(e.target.value)} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" required /></div>
-                <div><label className="block text-sm font-medium text-gray-700 mb-1">Tipo</label><select value={docType} onChange={e => setDocType(e.target.value)} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">{Object.entries(docTypeLabels).map(([k, v]) => <option key={k} value={k}>{v}</option>)}</select></div>
-                <div><label className="block text-sm font-medium text-gray-700 mb-1">Validade</label><input type="date" value={docExpires} onChange={e => setDocExpires(e.target.value)} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" /></div>
+                <div><label className="block text-sm font-medium text-gray-300 mb-1">Colaborador</label><select value={docUserId} onChange={e => setDocUserId(e.target.value)} className="w-full border border-green-700/40 rounded-lg px-3 py-2 text-sm"><option value="">Selecione...</option>{employees.map(e => <option key={e.id} value={e.id}>{e.name}</option>)}</select></div>
+                <div><label className="block text-sm font-medium text-gray-300 mb-1">Nome</label><input type="text" value={docName} onChange={e => setDocName(e.target.value)} className="w-full border border-green-700/40 rounded-lg px-3 py-2 text-sm" required /></div>
+                <div><label className="block text-sm font-medium text-gray-300 mb-1">Tipo</label><select value={docType} onChange={e => setDocType(e.target.value)} className="w-full border border-green-700/40 rounded-lg px-3 py-2 text-sm">{Object.entries(docTypeLabels).map(([k, v]) => <option key={k} value={k}>{v}</option>)}</select></div>
+                <div><label className="block text-sm font-medium text-gray-300 mb-1">Validade</label><input type="date" value={docExpires} onChange={e => setDocExpires(e.target.value)} className="w-full border border-green-700/40 rounded-lg px-3 py-2 text-sm" /></div>
               </div>
               <div className="flex gap-2">
                 <button type="submit" className="px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-green-800 text-sm">Criar</button>
-                <button type="button" onClick={resetForms} className="px-4 py-2 text-gray-600 hover:text-gray-800 text-sm">Cancelar</button>
+                <button type="button" onClick={resetForms} className="px-4 py-2 text-gray-400 hover:text-gray-200 text-sm">Cancelar</button>
               </div>
             </form>
           )}
           {docs.length === 0 ? (
-            <div className="text-center py-12 bg-gray-50 rounded-lg"><p className="text-gray-500">Nenhum documento encontrado.</p></div>
+            <div className="text-center py-12 bg-green-900/30 rounded-lg"><p className="text-gray-400">Nenhum documento encontrado.</p></div>
           ) : (
-            <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+            <div className="bg-green-950/50 backdrop-blur-lg rounded-lg border border-green-800/30 overflow-hidden">
               <table className="w-full text-sm">
-                <thead className="bg-gray-50"><tr><th className="text-left px-4 py-3 font-medium text-gray-500">Colaborador</th><th className="text-left px-4 py-3 font-medium text-gray-500">Documento</th><th className="text-left px-4 py-3 font-medium text-gray-500">Tipo</th><th className="text-left px-4 py-3 font-medium text-gray-500">Validade</th><th className="text-left px-4 py-3 font-medium text-gray-500">Status</th><th className="text-left px-4 py-3 font-medium text-gray-500">Ações</th></tr></thead>
+                <thead className="bg-green-900/30"><tr><th className="text-left px-4 py-3 font-medium text-gray-400">Colaborador</th><th className="text-left px-4 py-3 font-medium text-gray-400">Documento</th><th className="text-left px-4 py-3 font-medium text-gray-400">Tipo</th><th className="text-left px-4 py-3 font-medium text-gray-400">Validade</th><th className="text-left px-4 py-3 font-medium text-gray-400">Status</th><th className="text-left px-4 py-3 font-medium text-gray-400">Ações</th></tr></thead>
                 <tbody className="divide-y divide-gray-100">
                   {docs.map(d => (
                     <tr key={d.id}>
@@ -297,7 +297,7 @@ export default function DepartamentoPessoalPage() {
                       <td className="px-4 py-3">{d.expiresAt ? new Date(d.expiresAt).toLocaleDateString('pt-BR') : '-'}</td>
                       <td className="px-4 py-3"><span className={`text-xs px-2 py-1 rounded-full font-medium ${docStatusColors[d.status]}`}>{docStatusLabels[d.status]}</span></td>
                       <td className="px-4 py-3 flex gap-1">
-                        {d.status === 'PENDING' && (<><button onClick={() => handleDocStatus(d.id, 'APPROVED')} className="text-green-600 hover:text-green-800 text-xs">Aprovar</button><button onClick={() => handleDocStatus(d.id, 'REJECTED')} className="text-red-600 hover:text-red-800 text-xs">Rejeitar</button></>)}
+                        {d.status === 'PENDING' && (<><button onClick={() => handleDocStatus(d.id, 'APPROVED')} className="text-green-600 hover:text-emerald-300 text-xs">Aprovar</button><button onClick={() => handleDocStatus(d.id, 'REJECTED')} className="text-red-600 hover:text-red-800 text-xs">Rejeitar</button></>)}
                       </td>
                     </tr>
                   ))}
@@ -312,31 +312,31 @@ export default function DepartamentoPessoalPage() {
       {tab === 'holerites' && (
         <div className="space-y-4">
           {showForm && (
-            <form onSubmit={handlePayslipCreate} className="bg-white rounded-lg border border-gray-200 p-4 space-y-3">
+            <form onSubmit={handlePayslipCreate} className="bg-green-950/50 backdrop-blur-lg rounded-lg border border-green-800/30 p-4 space-y-3">
               <h3 className="text-lg font-semibold">Novo Holerite</h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                <div><label className="block text-sm font-medium text-gray-700 mb-1">Colaborador</label><select value={psUserId} onChange={e => setPsUserId(e.target.value)} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" required><option value="">Selecione...</option>{employees.map(e => <option key={e.id} value={e.id}>{e.name}</option>)}</select></div>
-                <div><label className="block text-sm font-medium text-gray-700 mb-1">Mês</label><select value={psMonth} onChange={e => setPsMonth(Number(e.target.value))} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">{monthNames.map((m, i) => <option key={i} value={i + 1}>{m}</option>)}</select></div>
-                <div><label className="block text-sm font-medium text-gray-700 mb-1">Ano</label><input type="number" value={psYear} onChange={e => setPsYear(Number(e.target.value))} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" /></div>
+                <div><label className="block text-sm font-medium text-gray-300 mb-1">Colaborador</label><select value={psUserId} onChange={e => setPsUserId(e.target.value)} className="w-full border border-green-700/40 rounded-lg px-3 py-2 text-sm" required><option value="">Selecione...</option>{employees.map(e => <option key={e.id} value={e.id}>{e.name}</option>)}</select></div>
+                <div><label className="block text-sm font-medium text-gray-300 mb-1">Mês</label><select value={psMonth} onChange={e => setPsMonth(Number(e.target.value))} className="w-full border border-green-700/40 rounded-lg px-3 py-2 text-sm">{monthNames.map((m, i) => <option key={i} value={i + 1}>{m}</option>)}</select></div>
+                <div><label className="block text-sm font-medium text-gray-300 mb-1">Ano</label><input type="number" value={psYear} onChange={e => setPsYear(Number(e.target.value))} className="w-full border border-green-700/40 rounded-lg px-3 py-2 text-sm" /></div>
               </div>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                <div><label className="block text-sm font-medium text-gray-700 mb-1">Sal. Bruto</label><input type="number" step="0.01" value={psGross} onChange={e => setPsGross(Number(e.target.value))} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" required /></div>
-                <div><label className="block text-sm font-medium text-gray-700 mb-1">Descontos</label><input type="number" step="0.01" value={psDeductions} onChange={e => setPsDeductions(Number(e.target.value))} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" /></div>
-                <div><label className="block text-sm font-medium text-gray-700 mb-1">Bônus</label><input type="number" step="0.01" value={psBonuses} onChange={e => setPsBonuses(Number(e.target.value))} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" /></div>
-                <div><label className="block text-sm font-medium text-gray-700 mb-1">Sal. Líquido</label><input type="number" step="0.01" value={psNet} onChange={e => setPsNet(Number(e.target.value))} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" required /></div>
+                <div><label className="block text-sm font-medium text-gray-300 mb-1">Sal. Bruto</label><input type="number" step="0.01" value={psGross} onChange={e => setPsGross(Number(e.target.value))} className="w-full border border-green-700/40 rounded-lg px-3 py-2 text-sm" required /></div>
+                <div><label className="block text-sm font-medium text-gray-300 mb-1">Descontos</label><input type="number" step="0.01" value={psDeductions} onChange={e => setPsDeductions(Number(e.target.value))} className="w-full border border-green-700/40 rounded-lg px-3 py-2 text-sm" /></div>
+                <div><label className="block text-sm font-medium text-gray-300 mb-1">Bônus</label><input type="number" step="0.01" value={psBonuses} onChange={e => setPsBonuses(Number(e.target.value))} className="w-full border border-green-700/40 rounded-lg px-3 py-2 text-sm" /></div>
+                <div><label className="block text-sm font-medium text-gray-300 mb-1">Sal. Líquido</label><input type="number" step="0.01" value={psNet} onChange={e => setPsNet(Number(e.target.value))} className="w-full border border-green-700/40 rounded-lg px-3 py-2 text-sm" required /></div>
               </div>
               <div className="flex gap-2">
                 <button type="submit" className="px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-green-800 text-sm">Criar</button>
-                <button type="button" onClick={resetForms} className="px-4 py-2 text-gray-600 hover:text-gray-800 text-sm">Cancelar</button>
+                <button type="button" onClick={resetForms} className="px-4 py-2 text-gray-400 hover:text-gray-200 text-sm">Cancelar</button>
               </div>
             </form>
           )}
           {payslips.length === 0 ? (
-            <div className="text-center py-12 bg-gray-50 rounded-lg"><p className="text-gray-500">Nenhum holerite encontrado.</p></div>
+            <div className="text-center py-12 bg-green-900/30 rounded-lg"><p className="text-gray-400">Nenhum holerite encontrado.</p></div>
           ) : (
-            <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+            <div className="bg-green-950/50 backdrop-blur-lg rounded-lg border border-green-800/30 overflow-hidden">
               <table className="w-full text-sm">
-                <thead className="bg-gray-50"><tr><th className="text-left px-4 py-3 font-medium text-gray-500">Colaborador</th><th className="text-left px-4 py-3 font-medium text-gray-500">Referência</th><th className="text-right px-4 py-3 font-medium text-gray-500">Bruto</th><th className="text-right px-4 py-3 font-medium text-gray-500">Descontos</th><th className="text-right px-4 py-3 font-medium text-gray-500">Bônus</th><th className="text-right px-4 py-3 font-medium text-gray-500">Líquido</th></tr></thead>
+                <thead className="bg-green-900/30"><tr><th className="text-left px-4 py-3 font-medium text-gray-400">Colaborador</th><th className="text-left px-4 py-3 font-medium text-gray-400">Referência</th><th className="text-right px-4 py-3 font-medium text-gray-400">Bruto</th><th className="text-right px-4 py-3 font-medium text-gray-400">Descontos</th><th className="text-right px-4 py-3 font-medium text-gray-400">Bônus</th><th className="text-right px-4 py-3 font-medium text-gray-400">Líquido</th></tr></thead>
                 <tbody className="divide-y divide-gray-100">
                   {payslips.map(p => (
                     <tr key={p.id}>
@@ -359,42 +359,42 @@ export default function DepartamentoPessoalPage() {
       {tab === 'ferias' && (
         <div className="space-y-4">
           {showForm && (
-            <form onSubmit={handleVacationCreate} className="bg-white rounded-lg border border-gray-200 p-4 space-y-3">
+            <form onSubmit={handleVacationCreate} className="bg-green-950/50 backdrop-blur-lg rounded-lg border border-green-800/30 p-4 space-y-3">
               <h3 className="text-lg font-semibold">Nova Solicitação de Férias</h3>
               <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-                <div><label className="block text-sm font-medium text-gray-700 mb-1">Colaborador</label><select value={vacUserId} onChange={e => setVacUserId(e.target.value)} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"><option value="">Eu mesmo</option>{employees.map(e => <option key={e.id} value={e.id}>{e.name}</option>)}</select></div>
-                <div><label className="block text-sm font-medium text-gray-700 mb-1">Início</label><input type="date" value={vacStart} onChange={e => setVacStart(e.target.value)} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" required /></div>
-                <div><label className="block text-sm font-medium text-gray-700 mb-1">Fim</label><input type="date" value={vacEnd} onChange={e => setVacEnd(e.target.value)} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" required /></div>
-                <div><label className="block text-sm font-medium text-gray-700 mb-1">Dias</label><input type="number" value={vacDays} onChange={e => setVacDays(Number(e.target.value))} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" min={1} max={30} required /></div>
-                <div><label className="block text-sm font-medium text-gray-700 mb-1">Tipo</label><select value={vacType} onChange={e => setVacType(e.target.value)} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm">{Object.entries(vacTypeLabels).map(([k, v]) => <option key={k} value={k}>{v}</option>)}</select></div>
+                <div><label className="block text-sm font-medium text-gray-300 mb-1">Colaborador</label><select value={vacUserId} onChange={e => setVacUserId(e.target.value)} className="w-full border border-green-700/40 rounded-lg px-3 py-2 text-sm"><option value="">Eu mesmo</option>{employees.map(e => <option key={e.id} value={e.id}>{e.name}</option>)}</select></div>
+                <div><label className="block text-sm font-medium text-gray-300 mb-1">Início</label><input type="date" value={vacStart} onChange={e => setVacStart(e.target.value)} className="w-full border border-green-700/40 rounded-lg px-3 py-2 text-sm" required /></div>
+                <div><label className="block text-sm font-medium text-gray-300 mb-1">Fim</label><input type="date" value={vacEnd} onChange={e => setVacEnd(e.target.value)} className="w-full border border-green-700/40 rounded-lg px-3 py-2 text-sm" required /></div>
+                <div><label className="block text-sm font-medium text-gray-300 mb-1">Dias</label><input type="number" value={vacDays} onChange={e => setVacDays(Number(e.target.value))} className="w-full border border-green-700/40 rounded-lg px-3 py-2 text-sm" min={1} max={30} required /></div>
+                <div><label className="block text-sm font-medium text-gray-300 mb-1">Tipo</label><select value={vacType} onChange={e => setVacType(e.target.value)} className="w-full border border-green-700/40 rounded-lg px-3 py-2 text-sm">{Object.entries(vacTypeLabels).map(([k, v]) => <option key={k} value={k}>{v}</option>)}</select></div>
               </div>
-              <div><label className="block text-sm font-medium text-gray-700 mb-1">Observações</label><textarea value={vacNotes} onChange={e => setVacNotes(e.target.value)} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" rows={2} /></div>
+              <div><label className="block text-sm font-medium text-gray-300 mb-1">Observações</label><textarea value={vacNotes} onChange={e => setVacNotes(e.target.value)} className="w-full border border-green-700/40 rounded-lg px-3 py-2 text-sm" rows={2} /></div>
               <div className="flex gap-2">
                 <button type="submit" className="px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-green-800 text-sm">Solicitar</button>
-                <button type="button" onClick={resetForms} className="px-4 py-2 text-gray-600 hover:text-gray-800 text-sm">Cancelar</button>
+                <button type="button" onClick={resetForms} className="px-4 py-2 text-gray-400 hover:text-gray-200 text-sm">Cancelar</button>
               </div>
             </form>
           )}
           {vacations.length === 0 ? (
-            <div className="text-center py-12 bg-gray-50 rounded-lg"><p className="text-gray-500">Nenhuma solicitação de férias encontrada.</p></div>
+            <div className="text-center py-12 bg-green-900/30 rounded-lg"><p className="text-gray-400">Nenhuma solicitação de férias encontrada.</p></div>
           ) : (
             <div className="space-y-2">
               {vacations.map(v => (
-                <div key={v.id} className="bg-white rounded-lg border border-gray-200 p-4 flex items-center justify-between">
+                <div key={v.id} className="bg-green-950/50 backdrop-blur-lg rounded-lg border border-green-800/30 p-4 flex items-center justify-between">
                   <div>
                     <div className="flex items-center gap-2 mb-1">
-                      <span className="font-medium text-gray-900">{v.user.name}</span>
+                      <span className="font-medium text-gray-100">{v.user.name}</span>
                       <span className={`text-xs px-2 py-1 rounded-full font-medium ${vacStatusColors[v.status]}`}>{vacStatusLabels[v.status]}</span>
-                      <span className="text-xs text-gray-500">{vacTypeLabels[v.type]}</span>
+                      <span className="text-xs text-gray-400">{vacTypeLabels[v.type]}</span>
                     </div>
-                    <p className="text-sm text-gray-600">{new Date(v.startDate).toLocaleDateString('pt-BR')} a {new Date(v.endDate).toLocaleDateString('pt-BR')} ({v.daysRequested} dias)</p>
+                    <p className="text-sm text-gray-400">{new Date(v.startDate).toLocaleDateString('pt-BR')} a {new Date(v.endDate).toLocaleDateString('pt-BR')} ({v.daysRequested} dias)</p>
                     {v.notes && <p className="text-xs text-gray-400 mt-1">{v.notes}</p>}
                     {v.approvedBy && <p className="text-xs text-gray-400 mt-1">Aprovado por {v.approvedBy.name}</p>}
                   </div>
                   {v.status === 'PENDING' && (
                     <div className="flex gap-1">
-                      <button onClick={() => handleVacationStatus(v.id, 'APPROVED')} className="px-3 py-1 bg-green-100 text-green-700 rounded text-xs hover:bg-green-200">Aprovar</button>
-                      <button onClick={() => handleVacationStatus(v.id, 'REJECTED')} className="px-3 py-1 bg-red-100 text-red-700 rounded text-xs hover:bg-red-200">Rejeitar</button>
+                      <button onClick={() => handleVacationStatus(v.id, 'APPROVED')} className="px-3 py-1 bg-emerald-900/40 text-emerald-400 rounded text-xs hover:bg-green-200">Aprovar</button>
+                      <button onClick={() => handleVacationStatus(v.id, 'REJECTED')} className="px-3 py-1 bg-red-900/30 text-red-700 rounded text-xs hover:bg-red-200">Rejeitar</button>
                     </div>
                   )}
                 </div>
@@ -408,27 +408,27 @@ export default function DepartamentoPessoalPage() {
       {tab === 'salario' && (
         <div className="space-y-4">
           {showForm && (
-            <form onSubmit={handleSalaryCreate} className="bg-white rounded-lg border border-gray-200 p-4 space-y-3">
+            <form onSubmit={handleSalaryCreate} className="bg-green-950/50 backdrop-blur-lg rounded-lg border border-green-800/30 p-4 space-y-3">
               <h3 className="text-lg font-semibold">Registrar Alteração Salarial</h3>
               <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-                <div><label className="block text-sm font-medium text-gray-700 mb-1">Colaborador</label><select value={shUserId} onChange={e => setShUserId(e.target.value)} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" required><option value="">Selecione...</option>{employees.map(e => <option key={e.id} value={e.id}>{e.name}</option>)}</select></div>
-                <div><label className="block text-sm font-medium text-gray-700 mb-1">Sal. Anterior</label><input type="number" step="0.01" value={shPrevSalary} onChange={e => setShPrevSalary(Number(e.target.value))} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" required /></div>
-                <div><label className="block text-sm font-medium text-gray-700 mb-1">Novo Salário</label><input type="number" step="0.01" value={shNewSalary} onChange={e => setShNewSalary(Number(e.target.value))} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" required /></div>
-                <div><label className="block text-sm font-medium text-gray-700 mb-1">Data Efetiva</label><input type="date" value={shDate} onChange={e => setShDate(e.target.value)} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" required /></div>
-                <div><label className="block text-sm font-medium text-gray-700 mb-1">Motivo</label><input type="text" value={shReason} onChange={e => setShReason(e.target.value)} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" placeholder="Promoção, reajuste..." /></div>
+                <div><label className="block text-sm font-medium text-gray-300 mb-1">Colaborador</label><select value={shUserId} onChange={e => setShUserId(e.target.value)} className="w-full border border-green-700/40 rounded-lg px-3 py-2 text-sm" required><option value="">Selecione...</option>{employees.map(e => <option key={e.id} value={e.id}>{e.name}</option>)}</select></div>
+                <div><label className="block text-sm font-medium text-gray-300 mb-1">Sal. Anterior</label><input type="number" step="0.01" value={shPrevSalary} onChange={e => setShPrevSalary(Number(e.target.value))} className="w-full border border-green-700/40 rounded-lg px-3 py-2 text-sm" required /></div>
+                <div><label className="block text-sm font-medium text-gray-300 mb-1">Novo Salário</label><input type="number" step="0.01" value={shNewSalary} onChange={e => setShNewSalary(Number(e.target.value))} className="w-full border border-green-700/40 rounded-lg px-3 py-2 text-sm" required /></div>
+                <div><label className="block text-sm font-medium text-gray-300 mb-1">Data Efetiva</label><input type="date" value={shDate} onChange={e => setShDate(e.target.value)} className="w-full border border-green-700/40 rounded-lg px-3 py-2 text-sm" required /></div>
+                <div><label className="block text-sm font-medium text-gray-300 mb-1">Motivo</label><input type="text" value={shReason} onChange={e => setShReason(e.target.value)} className="w-full border border-green-700/40 rounded-lg px-3 py-2 text-sm" placeholder="Promoção, reajuste..." /></div>
               </div>
               <div className="flex gap-2">
                 <button type="submit" className="px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-green-800 text-sm">Registrar</button>
-                <button type="button" onClick={resetForms} className="px-4 py-2 text-gray-600 hover:text-gray-800 text-sm">Cancelar</button>
+                <button type="button" onClick={resetForms} className="px-4 py-2 text-gray-400 hover:text-gray-200 text-sm">Cancelar</button>
               </div>
             </form>
           )}
           {salaryHistory.length === 0 ? (
-            <div className="text-center py-12 bg-gray-50 rounded-lg"><p className="text-gray-500">Nenhuma alteração salarial registrada.</p></div>
+            <div className="text-center py-12 bg-green-900/30 rounded-lg"><p className="text-gray-400">Nenhuma alteração salarial registrada.</p></div>
           ) : (
-            <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+            <div className="bg-green-950/50 backdrop-blur-lg rounded-lg border border-green-800/30 overflow-hidden">
               <table className="w-full text-sm">
-                <thead className="bg-gray-50"><tr><th className="text-left px-4 py-3 font-medium text-gray-500">Colaborador</th><th className="text-right px-4 py-3 font-medium text-gray-500">Anterior</th><th className="text-right px-4 py-3 font-medium text-gray-500">Novo</th><th className="text-right px-4 py-3 font-medium text-gray-500">Variação</th><th className="text-left px-4 py-3 font-medium text-gray-500">Motivo</th><th className="text-left px-4 py-3 font-medium text-gray-500">Data</th><th className="text-left px-4 py-3 font-medium text-gray-500">Por</th></tr></thead>
+                <thead className="bg-green-900/30"><tr><th className="text-left px-4 py-3 font-medium text-gray-400">Colaborador</th><th className="text-right px-4 py-3 font-medium text-gray-400">Anterior</th><th className="text-right px-4 py-3 font-medium text-gray-400">Novo</th><th className="text-right px-4 py-3 font-medium text-gray-400">Variação</th><th className="text-left px-4 py-3 font-medium text-gray-400">Motivo</th><th className="text-left px-4 py-3 font-medium text-gray-400">Data</th><th className="text-left px-4 py-3 font-medium text-gray-400">Por</th></tr></thead>
                 <tbody className="divide-y divide-gray-100">
                   {salaryHistory.map(s => {
                     const pct = s.previousSalary > 0 ? (((s.newSalary - s.previousSalary) / s.previousSalary) * 100).toFixed(1) : '0';
@@ -439,7 +439,7 @@ export default function DepartamentoPessoalPage() {
                         <td className="px-4 py-3 text-right">{currency(s.previousSalary)}</td>
                         <td className="px-4 py-3 text-right font-medium">{currency(s.newSalary)}</td>
                         <td className={`px-4 py-3 text-right ${isUp ? 'text-green-600' : 'text-red-600'}`}>{isUp ? '+' : ''}{pct}%</td>
-                        <td className="px-4 py-3 text-gray-500">{s.reason || '-'}</td>
+                        <td className="px-4 py-3 text-gray-400">{s.reason || '-'}</td>
                         <td className="px-4 py-3">{new Date(s.effectiveDate).toLocaleDateString('pt-BR')}</td>
                         <td className="px-4 py-3 text-gray-400">{s.createdBy.name}</td>
                       </tr>
@@ -456,39 +456,39 @@ export default function DepartamentoPessoalPage() {
       {tab === 'cargos' && (
         <div className="space-y-4">
           {showForm && (
-            <form onSubmit={handleJobCreate} className="bg-white rounded-lg border border-gray-200 p-4 space-y-3">
+            <form onSubmit={handleJobCreate} className="bg-green-950/50 backdrop-blur-lg rounded-lg border border-green-800/30 p-4 space-y-3">
               <h3 className="text-lg font-semibold">Registrar Mudança de Cargo</h3>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                <div><label className="block text-sm font-medium text-gray-700 mb-1">Colaborador</label><select value={jhUserId} onChange={e => setJhUserId(e.target.value)} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" required><option value="">Selecione...</option>{employees.map(e => <option key={e.id} value={e.id}>{e.name}</option>)}</select></div>
-                <div><label className="block text-sm font-medium text-gray-700 mb-1">Cargo Anterior</label><input type="text" value={jhPrevTitle} onChange={e => setJhPrevTitle(e.target.value)} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" placeholder="Cargo atual" /></div>
-                <div><label className="block text-sm font-medium text-gray-700 mb-1">Novo Cargo</label><input type="text" value={jhNewTitle} onChange={e => setJhNewTitle(e.target.value)} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" required /></div>
+                <div><label className="block text-sm font-medium text-gray-300 mb-1">Colaborador</label><select value={jhUserId} onChange={e => setJhUserId(e.target.value)} className="w-full border border-green-700/40 rounded-lg px-3 py-2 text-sm" required><option value="">Selecione...</option>{employees.map(e => <option key={e.id} value={e.id}>{e.name}</option>)}</select></div>
+                <div><label className="block text-sm font-medium text-gray-300 mb-1">Cargo Anterior</label><input type="text" value={jhPrevTitle} onChange={e => setJhPrevTitle(e.target.value)} className="w-full border border-green-700/40 rounded-lg px-3 py-2 text-sm" placeholder="Cargo atual" /></div>
+                <div><label className="block text-sm font-medium text-gray-300 mb-1">Novo Cargo</label><input type="text" value={jhNewTitle} onChange={e => setJhNewTitle(e.target.value)} className="w-full border border-green-700/40 rounded-lg px-3 py-2 text-sm" required /></div>
               </div>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                <div><label className="block text-sm font-medium text-gray-700 mb-1">Depto. Anterior</label><select value={jhPrevDeptId} onChange={e => setJhPrevDeptId(e.target.value)} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"><option value="">Nenhum</option>{departments.map(d => <option key={d.id} value={d.id}>{d.name}</option>)}</select></div>
-                <div><label className="block text-sm font-medium text-gray-700 mb-1">Novo Depto.</label><select value={jhNewDeptId} onChange={e => setJhNewDeptId(e.target.value)} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm"><option value="">Nenhum</option>{departments.map(d => <option key={d.id} value={d.id}>{d.name}</option>)}</select></div>
-                <div><label className="block text-sm font-medium text-gray-700 mb-1">Data Efetiva</label><input type="date" value={jhDate} onChange={e => setJhDate(e.target.value)} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" required /></div>
-                <div><label className="block text-sm font-medium text-gray-700 mb-1">Motivo</label><input type="text" value={jhReason} onChange={e => setJhReason(e.target.value)} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" placeholder="Promoção, transferência..." /></div>
+                <div><label className="block text-sm font-medium text-gray-300 mb-1">Depto. Anterior</label><select value={jhPrevDeptId} onChange={e => setJhPrevDeptId(e.target.value)} className="w-full border border-green-700/40 rounded-lg px-3 py-2 text-sm"><option value="">Nenhum</option>{departments.map(d => <option key={d.id} value={d.id}>{d.name}</option>)}</select></div>
+                <div><label className="block text-sm font-medium text-gray-300 mb-1">Novo Depto.</label><select value={jhNewDeptId} onChange={e => setJhNewDeptId(e.target.value)} className="w-full border border-green-700/40 rounded-lg px-3 py-2 text-sm"><option value="">Nenhum</option>{departments.map(d => <option key={d.id} value={d.id}>{d.name}</option>)}</select></div>
+                <div><label className="block text-sm font-medium text-gray-300 mb-1">Data Efetiva</label><input type="date" value={jhDate} onChange={e => setJhDate(e.target.value)} className="w-full border border-green-700/40 rounded-lg px-3 py-2 text-sm" required /></div>
+                <div><label className="block text-sm font-medium text-gray-300 mb-1">Motivo</label><input type="text" value={jhReason} onChange={e => setJhReason(e.target.value)} className="w-full border border-green-700/40 rounded-lg px-3 py-2 text-sm" placeholder="Promoção, transferência..." /></div>
               </div>
               <div className="flex gap-2">
                 <button type="submit" className="px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-green-800 text-sm">Registrar</button>
-                <button type="button" onClick={resetForms} className="px-4 py-2 text-gray-600 hover:text-gray-800 text-sm">Cancelar</button>
+                <button type="button" onClick={resetForms} className="px-4 py-2 text-gray-400 hover:text-gray-200 text-sm">Cancelar</button>
               </div>
             </form>
           )}
           {jobHistory.length === 0 ? (
-            <div className="text-center py-12 bg-gray-50 rounded-lg"><p className="text-gray-500">Nenhuma mudança de cargo registrada.</p></div>
+            <div className="text-center py-12 bg-green-900/30 rounded-lg"><p className="text-gray-400">Nenhuma mudança de cargo registrada.</p></div>
           ) : (
             <div className="space-y-2">
               {jobHistory.map(j => (
-                <div key={j.id} className="bg-white rounded-lg border border-gray-200 p-4">
+                <div key={j.id} className="bg-green-950/50 backdrop-blur-lg rounded-lg border border-green-800/30 p-4">
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="font-medium text-gray-900">{j.user.name}</span>
+                    <span className="font-medium text-gray-100">{j.user.name}</span>
                     <span className="text-xs text-gray-400">{new Date(j.effectiveDate).toLocaleDateString('pt-BR')}</span>
                   </div>
                   <div className="flex items-center gap-2 text-sm">
-                    <span className="text-gray-500">{j.previousJobTitle || 'Sem cargo'}</span>
+                    <span className="text-gray-400">{j.previousJobTitle || 'Sem cargo'}</span>
                     <span className="text-gray-400">→</span>
-                    <span className="font-medium text-green-700">{j.newJobTitle}</span>
+                    <span className="font-medium text-emerald-400">{j.newJobTitle}</span>
                   </div>
                   {(j.previousDepartment || j.newDepartment) && (
                     <div className="flex items-center gap-2 text-xs text-gray-400 mt-1">

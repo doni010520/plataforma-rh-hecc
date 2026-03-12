@@ -38,9 +38,9 @@ const statusLabels: Record<string, string> = {
 };
 
 const statusColors: Record<string, string> = {
-  DRAFT: 'bg-gray-100 text-gray-600',
-  ACTIVE: 'bg-green-100 text-green-700',
-  CLOSED: 'bg-red-100 text-red-600',
+  DRAFT: 'bg-green-900/40 text-gray-400',
+  ACTIVE: 'bg-emerald-900/40 text-emerald-400',
+  CLOSED: 'bg-red-900/30 text-red-600',
 };
 
 const questionBank = [
@@ -172,8 +172,8 @@ export default function PesquisasPage() {
   if (loading) {
     return (
       <div className="space-y-4">
-        <div className="h-8 w-48 bg-gray-200 rounded animate-pulse" />
-        <div className="h-64 bg-gray-200 rounded animate-pulse" />
+        <div className="h-8 w-48 bg-green-800/40 rounded animate-pulse" />
+        <div className="h-64 bg-green-800/40 rounded animate-pulse" />
       </div>
     );
   }
@@ -181,7 +181,7 @@ export default function PesquisasPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Pesquisas</h1>
+        <h1 className="text-2xl font-bold text-gray-100">Pesquisas</h1>
         <button
           onClick={() => setShowForm(!showForm)}
           className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-800 font-medium text-sm"
@@ -191,11 +191,11 @@ export default function PesquisasPage() {
       </div>
 
       {/* Filters */}
-      <div className="bg-white rounded-lg shadow-sm p-4 mb-6">
+      <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-4 mb-6">
         <select
           value={filterStatus}
           onChange={(e) => setFilterStatus(e.target.value)}
-          className="px-3 py-1.5 border border-gray-300 rounded-md text-sm"
+          className="px-3 py-1.5 border border-green-700/40 rounded-md text-sm"
         >
           <option value="">Todos os status</option>
           <option value="DRAFT">Rascunho</option>
@@ -206,27 +206,27 @@ export default function PesquisasPage() {
 
       {/* Create Form */}
       {showForm && (
-        <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Nova Pesquisa</h2>
+        <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-6 mb-6">
+          <h2 className="text-lg font-semibold text-gray-100 mb-4">Nova Pesquisa</h2>
           <form onSubmit={handleCreate} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Título</label>
+                <label className="block text-sm font-medium text-gray-300 mb-1">Título</label>
                 <input
                   type="text"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                   placeholder="Ex: Pesquisa de Clima Q1 2026"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Tipo</label>
+                <label className="block text-sm font-medium text-gray-300 mb-1">Tipo</label>
                 <select
                   value={type}
                   onChange={(e) => setType(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                 >
                   <option value="CLIMATE">Clima</option>
                   <option value="PULSE">Pulso</option>
@@ -240,28 +240,28 @@ export default function PesquisasPage() {
                   id="anonymous"
                   checked={anonymous}
                   onChange={(e) => setAnonymous(e.target.checked)}
-                  className="h-4 w-4 text-green-700 focus:ring-green-600 border-gray-300 rounded"
+                  className="h-4 w-4 text-emerald-400 focus:ring-emerald-500 border-green-700/40 rounded"
                 />
-                <label htmlFor="anonymous" className="text-sm font-medium text-gray-700">
+                <label htmlFor="anonymous" className="text-sm font-medium text-gray-300">
                   Pesquisa anónima
                 </label>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Data início</label>
+                <label className="block text-sm font-medium text-gray-300 mb-1">Data início</label>
                 <input
                   type="date"
                   value={startDate}
                   onChange={(e) => setStartDate(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Data fim</label>
+                <label className="block text-sm font-medium text-gray-300 mb-1">Data fim</label>
                 <input
                   type="date"
                   value={endDate}
                   onChange={(e) => setEndDate(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                 />
               </div>
             </div>
@@ -269,21 +269,21 @@ export default function PesquisasPage() {
             {/* Questions */}
             <div>
               <div className="flex items-center justify-between mb-2">
-                <label className="block text-sm font-medium text-gray-700">
+                <label className="block text-sm font-medium text-gray-300">
                   Perguntas ({questions.length})
                 </label>
                 <div className="flex gap-2">
                   <button
                     type="button"
                     onClick={() => setShowBank(!showBank)}
-                    className="text-sm text-green-700 hover:text-green-900 font-medium"
+                    className="text-sm text-emerald-400 hover:text-emerald-200 font-medium"
                   >
                     {showBank ? 'Fechar banco' : 'Banco de perguntas'}
                   </button>
                   <button
                     type="button"
                     onClick={addQuestion}
-                    className="text-sm text-green-700 hover:text-green-900 font-medium"
+                    className="text-sm text-emerald-400 hover:text-emerald-200 font-medium"
                   >
                     + Adicionar
                   </button>
@@ -291,8 +291,8 @@ export default function PesquisasPage() {
               </div>
 
               {showBank && (
-                <div className="bg-green-50 p-4 rounded-md mb-3 max-h-64 overflow-y-auto">
-                  <p className="text-xs font-medium text-green-800 mb-2">
+                <div className="bg-emerald-900/30 p-4 rounded-md mb-3 max-h-64 overflow-y-auto">
+                  <p className="text-xs font-medium text-emerald-300 mb-2">
                     Clique para adicionar uma pergunta do banco:
                   </p>
                   <div className="space-y-1">
@@ -301,7 +301,7 @@ export default function PesquisasPage() {
                         key={i}
                         type="button"
                         onClick={() => addFromBank(item)}
-                        className="block w-full text-left text-sm text-gray-700 hover:bg-green-100 px-2 py-1 rounded"
+                        className="block w-full text-left text-sm text-gray-300 hover:bg-emerald-900/40 px-2 py-1 rounded"
                       >
                         <span className="text-xs text-green-600 mr-1">[{item.type === 'SCALE' ? '1-5' : 'Texto'}]</span>
                         {item.text}
@@ -313,7 +313,7 @@ export default function PesquisasPage() {
 
               <div className="space-y-3">
                 {questions.map((q, i) => (
-                  <div key={i} className="bg-gray-50 p-3 rounded-md">
+                  <div key={i} className="bg-green-900/30 p-3 rounded-md">
                     <div className="flex items-start gap-2">
                       <span className="text-xs text-gray-400 mt-2 min-w-[20px]">{i + 1}.</span>
                       <div className="flex-1 space-y-2">
@@ -322,13 +322,13 @@ export default function PesquisasPage() {
                           value={q.text}
                           onChange={(e) => updateQuestion(i, 'text', e.target.value)}
                           placeholder="Texto da pergunta"
-                          className="w-full px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-600"
+                          className="w-full px-3 py-1.5 border border-green-700/40 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
                         />
                         <div className="flex gap-2 items-center">
                           <select
                             value={q.type}
                             onChange={(e) => updateQuestion(i, 'type', e.target.value)}
-                            className="px-2 py-1 border border-gray-300 rounded-md text-sm"
+                            className="px-2 py-1 border border-green-700/40 rounded-md text-sm"
                           >
                             <option value="SCALE">Escala (1–5)</option>
                             <option value="MULTIPLE_CHOICE">Múltipla escolha</option>
@@ -346,7 +346,7 @@ export default function PesquisasPage() {
                                 )
                               }
                               placeholder="Opções separadas por vírgula"
-                              className="flex-1 px-2 py-1 border border-gray-300 rounded-md text-sm"
+                              className="flex-1 px-2 py-1 border border-green-700/40 rounded-md text-sm"
                             />
                           )}
                         </div>
@@ -367,7 +367,7 @@ export default function PesquisasPage() {
             </div>
 
             {error && (
-              <div className="bg-red-50 text-red-600 text-sm p-3 rounded-md">{error}</div>
+              <div className="bg-red-900/30 text-red-600 text-sm p-3 rounded-md">{error}</div>
             )}
 
             <button
@@ -383,13 +383,13 @@ export default function PesquisasPage() {
 
       {/* Surveys List */}
       {surveys.length === 0 ? (
-        <div className="bg-white rounded-lg shadow-sm p-12 text-center">
-          <p className="text-gray-500">Nenhuma pesquisa encontrada.</p>
+        <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-12 text-center">
+          <p className="text-gray-400">Nenhuma pesquisa encontrada.</p>
         </div>
       ) : (
         <div className="space-y-4">
           {surveys.map((survey) => (
-            <div key={survey.id} className="bg-white rounded-lg shadow-sm p-5">
+            <div key={survey.id} className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-5">
               <div className="flex items-start justify-between">
                 <div>
                   <div className="flex items-center gap-2 mb-1">
@@ -401,8 +401,8 @@ export default function PesquisasPage() {
                       <span className="text-xs text-gray-400">· Anónima</span>
                     )}
                   </div>
-                  <h3 className="text-lg font-semibold text-gray-900">{survey.title}</h3>
-                  <p className="text-sm text-gray-500">
+                  <h3 className="text-lg font-semibold text-gray-100">{survey.title}</h3>
+                  <p className="text-sm text-gray-400">
                     {survey.questions.length} perguntas · {survey._count.responses} respostas
                   </p>
                   {survey.startDate && (
@@ -431,7 +431,7 @@ export default function PesquisasPage() {
                       </Link>
                       <button
                         onClick={() => handleStatusChange(survey.id, 'CLOSED')}
-                        className="text-sm border border-red-300 text-red-600 px-3 py-1.5 rounded-md hover:bg-red-50 font-medium"
+                        className="text-sm border border-red-300 text-red-600 px-3 py-1.5 rounded-md hover:bg-red-900/30 font-medium"
                       >
                         Encerrar
                       </button>
@@ -440,7 +440,7 @@ export default function PesquisasPage() {
                   {(survey.status === 'ACTIVE' || survey.status === 'CLOSED') && (
                     <Link
                       href={`/pesquisas/${survey.id}/resultados`}
-                      className="text-sm text-green-700 hover:text-green-900 font-medium"
+                      className="text-sm text-emerald-400 hover:text-emerald-200 font-medium"
                     >
                       Resultados
                     </Link>

@@ -31,8 +31,8 @@ const typeLabels: Record<string, string> = {
 };
 
 const typeColors: Record<string, string> = {
-  PRAISE: 'bg-green-100 text-green-700',
-  CONSTRUCTIVE: 'bg-yellow-100 text-yellow-700',
+  PRAISE: 'bg-emerald-900/40 text-emerald-400',
+  CONSTRUCTIVE: 'bg-yellow-100 text-yellow-400',
   REQUEST: 'bg-blue-100 text-blue-700',
 };
 
@@ -146,7 +146,7 @@ export default function FeedbackPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Feedback</h1>
+        <h1 className="text-2xl font-bold text-gray-100">Feedback</h1>
         <button
           onClick={() => setShowForm(!showForm)}
           className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-800 transition-colors font-medium"
@@ -156,21 +156,21 @@ export default function FeedbackPage() {
       </div>
 
       {success && (
-        <div className="bg-green-50 text-green-600 text-sm p-3 rounded-md mb-4">{success}</div>
+        <div className="bg-emerald-900/30 text-green-600 text-sm p-3 rounded-md mb-4">{success}</div>
       )}
 
       {showForm && (
-        <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Novo Feedback</h2>
+        <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-6 mb-6">
+          <h2 className="text-lg font-semibold text-gray-100 mb-4">Novo Feedback</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Destinatário</label>
+                <label className="block text-sm font-medium text-gray-300 mb-1">Destinatário</label>
                 <select
                   value={formTo}
                   onChange={(e) => setFormTo(e.target.value)}
                   required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                 >
                   <option value="">Selecione...</option>
                   {colaboradores.map((c) => (
@@ -181,11 +181,11 @@ export default function FeedbackPage() {
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Tipo</label>
+                <label className="block text-sm font-medium text-gray-300 mb-1">Tipo</label>
                 <select
                   value={formType}
                   onChange={(e) => setFormType(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                 >
                   <option value="PRAISE">Elogio</option>
                   <option value="CONSTRUCTIVE">Construtivo</option>
@@ -195,7 +195,7 @@ export default function FeedbackPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-300 mb-1">
                 Conteúdo <span className="text-gray-400">(mínimo 20 caracteres)</span>
               </label>
               <textarea
@@ -204,14 +204,14 @@ export default function FeedbackPage() {
                 required
                 minLength={20}
                 rows={4}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                className="w-full px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                 placeholder="Descreva seu feedback com detalhes..."
               />
               <p className="text-xs text-gray-400 mt-1">{formContent.length}/20 caracteres mínimo</p>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Visibilidade</label>
+              <label className="block text-sm font-medium text-gray-300 mb-1">Visibilidade</label>
               <div className="flex gap-4">
                 <label className="flex items-center gap-2">
                   <input
@@ -220,9 +220,9 @@ export default function FeedbackPage() {
                     value="PRIVATE"
                     checked={formVisibility === 'PRIVATE'}
                     onChange={(e) => setFormVisibility(e.target.value)}
-                    className="text-green-700"
+                    className="text-emerald-400"
                   />
-                  <span className="text-sm text-gray-700">Privado (apenas o destinatário)</span>
+                  <span className="text-sm text-gray-300">Privado (apenas o destinatário)</span>
                 </label>
                 <label className="flex items-center gap-2">
                   <input
@@ -231,22 +231,22 @@ export default function FeedbackPage() {
                     value="PUBLIC"
                     checked={formVisibility === 'PUBLIC'}
                     onChange={(e) => setFormVisibility(e.target.value)}
-                    className="text-green-700"
+                    className="text-emerald-400"
                   />
-                  <span className="text-sm text-gray-700">Público (visível para gestores)</span>
+                  <span className="text-sm text-gray-300">Público (visível para gestores)</span>
                 </label>
               </div>
             </div>
 
             {error && (
-              <div className="bg-red-50 text-red-600 text-sm p-3 rounded-md">{error}</div>
+              <div className="bg-red-900/30 text-red-600 text-sm p-3 rounded-md">{error}</div>
             )}
 
             <div className="flex gap-3 justify-end">
               <button
                 type="button"
                 onClick={resetForm}
-                className="px-4 py-2 text-gray-600 hover:text-gray-800 font-medium"
+                className="px-4 py-2 text-gray-400 hover:text-gray-200 font-medium"
               >
                 Cancelar
               </button>
@@ -263,11 +263,11 @@ export default function FeedbackPage() {
       )}
 
       <div className="flex items-center gap-4 mb-4">
-        <div className="flex bg-gray-100 rounded-md p-1">
+        <div className="flex bg-green-900/40 rounded-md p-1">
           <button
             onClick={() => setTab('received')}
             className={`px-4 py-1.5 rounded text-sm font-medium transition-colors ${
-              tab === 'received' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500'
+              tab === 'received' ? 'bg-green-950/50 backdrop-blur-lg text-gray-100 shadow-sm' : 'text-gray-400'
             }`}
           >
             Recebidos
@@ -275,7 +275,7 @@ export default function FeedbackPage() {
           <button
             onClick={() => setTab('sent')}
             className={`px-4 py-1.5 rounded text-sm font-medium transition-colors ${
-              tab === 'sent' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500'
+              tab === 'sent' ? 'bg-green-950/50 backdrop-blur-lg text-gray-100 shadow-sm' : 'text-gray-400'
             }`}
           >
             Enviados
@@ -284,7 +284,7 @@ export default function FeedbackPage() {
         <select
           value={filterType}
           onChange={(e) => setFilterType(e.target.value)}
-          className="px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-600"
+          className="px-3 py-1.5 border border-green-700/40 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
         >
           <option value="">Todos os tipos</option>
           <option value="PRAISE">Elogio</option>
@@ -294,7 +294,7 @@ export default function FeedbackPage() {
         <select
           value={filterPeriod}
           onChange={(e) => setFilterPeriod(e.target.value)}
-          className="px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-600"
+          className="px-3 py-1.5 border border-green-700/40 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
         >
           <option value="">Todo período</option>
           <option value="7d">Últimos 7 dias</option>
@@ -305,11 +305,11 @@ export default function FeedbackPage() {
 
       <div className="space-y-4">
         {loading ? (
-          <div className="bg-white rounded-lg shadow-sm p-8 text-center text-gray-500">
+          <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-8 text-center text-gray-400">
             Carregando...
           </div>
         ) : feedbacks.length === 0 ? (
-          <div className="bg-white rounded-lg shadow-sm p-8 text-center text-gray-500">
+          <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-8 text-center text-gray-400">
             {tab === 'received'
               ? 'Nenhum feedback recebido ainda.'
               : 'Nenhum feedback enviado ainda.'}
@@ -320,7 +320,7 @@ export default function FeedbackPage() {
             const personLabel = tab === 'received' ? 'De' : 'Para';
 
             return (
-              <div key={fb.id} className="bg-white rounded-lg shadow-sm p-5">
+              <div key={fb.id} className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-5">
                 <div className="flex items-start gap-4">
                   <div className="flex-shrink-0">
                     {person.avatarUrl ? (
@@ -330,14 +330,14 @@ export default function FeedbackPage() {
                         className="w-10 h-10 rounded-full object-cover"
                       />
                     ) : (
-                      <div className="w-10 h-10 rounded-full bg-green-100 text-green-800 flex items-center justify-center text-sm font-bold">
+                      <div className="w-10 h-10 rounded-full bg-emerald-900/40 text-emerald-300 flex items-center justify-center text-sm font-bold">
                         {initials(person.name)}
                       </div>
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
-                      <span className="text-sm font-medium text-gray-900">
+                      <span className="text-sm font-medium text-gray-100">
                         {personLabel}: {person.name}
                       </span>
                       <span
@@ -349,7 +349,7 @@ export default function FeedbackPage() {
                         <span className="text-xs text-gray-400">🔒 Privado</span>
                       )}
                     </div>
-                    <p className="text-sm text-gray-600 whitespace-pre-wrap">{fb.content}</p>
+                    <p className="text-sm text-gray-400 whitespace-pre-wrap">{fb.content}</p>
                     <p className="text-xs text-gray-400 mt-2">
                       {new Date(fb.createdAt).toLocaleDateString('pt-BR', {
                         day: '2-digit',
