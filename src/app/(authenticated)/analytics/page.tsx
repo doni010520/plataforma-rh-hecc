@@ -76,7 +76,7 @@ export default function AnalyticsPage() {
 
   const tabs = [
     { key: 'overview' as const, label: 'Visão Geral' },
-    { key: 'risk' as const, label: `Em Risco (${data.atRiskEmployees.length})` },
+    { key: 'risk' as const, label: `Em Risco (${data.atRiskEmployees?.length ?? 0})` },
     { key: 'scatter' as const, label: 'Humor × Performance' },
   ];
 
@@ -126,7 +126,7 @@ export default function AnalyticsPage() {
           {/* Department Averages */}
           <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-6 mb-6">
             <h2 className="text-lg font-semibold text-gray-100 mb-4">Médias por Departamento</h2>
-            {data.departmentAverages.length === 0 ? (
+            {(data.departmentAverages?.length ?? 0) === 0 ? (
               <p className="text-sm text-gray-400">Nenhum dado disponível.</p>
             ) : (
               <div className="overflow-x-auto">
@@ -140,7 +140,7 @@ export default function AnalyticsPage() {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-200">
-                    {data.departmentAverages.map((dept) => (
+                    {(data.departmentAverages || []).map((dept) => (
                       <tr key={dept.name} className="hover:bg-green-900/30">
                         <td className="px-4 py-3 font-medium text-gray-100">{dept.name}</td>
                         <td className="px-4 py-3 text-gray-300">{dept.count}</td>
@@ -178,7 +178,7 @@ export default function AnalyticsPage() {
             <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-6">
               <h3 className="text-sm font-semibold text-gray-100 mb-4">Humor por Departamento</h3>
               <div className="space-y-3">
-                {data.departmentAverages
+                {(data.departmentAverages || [])
                   .filter((d) => d.avgMood !== null)
                   .sort((a, b) => (b.avgMood ?? 0) - (a.avgMood ?? 0))
                   .map((dept) => (
@@ -203,7 +203,7 @@ export default function AnalyticsPage() {
             <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-6">
               <h3 className="text-sm font-semibold text-gray-100 mb-4">Performance por Departamento</h3>
               <div className="space-y-3">
-                {data.departmentAverages
+                {(data.departmentAverages || [])
                   .filter((d) => d.avgPerformance !== null)
                   .sort((a, b) => (b.avgPerformance ?? 0) - (a.avgPerformance ?? 0))
                   .map((dept) => (
@@ -229,7 +229,7 @@ export default function AnalyticsPage() {
       {/* At-Risk Tab */}
       {tab === 'risk' && (
         <div>
-          {data.atRiskEmployees.length === 0 ? (
+          {(data.atRiskEmployees?.length ?? 0) === 0 ? (
             <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-12 text-center">
               <p className="text-2xl mb-2">🎉</p>
               <p className="text-gray-300 font-medium">Nenhum colaborador em risco identificado!</p>
@@ -241,12 +241,12 @@ export default function AnalyticsPage() {
             <div className="space-y-4">
               <div className="bg-red-900/30 border border-red-200 rounded-lg p-4 mb-2">
                 <p className="text-sm text-red-800">
-                  <strong>{data.atRiskEmployees.length}</strong> colaborador(es) identificado(s) com indicadores que requerem atenção.
+                  <strong>{data.atRiskEmployees?.length ?? 0}</strong> colaborador(es) identificado(s) com indicadores que requerem atenção.
                   Critérios: humor médio &lt; 3, avaliação média &lt; 2.5, ou sem feedback nos últimos 3 meses.
                 </p>
               </div>
 
-              {data.atRiskEmployees.map((emp) => (
+              {(data.atRiskEmployees || []).map((emp) => (
                 <div
                   key={emp.id}
                   className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-5 border-l-4 border-red-500"
@@ -365,7 +365,7 @@ export default function AnalyticsPage() {
               style={{ left: 0, bottom: 0, width: '60%', height: '50%' }}
             />
             {/* Data points */}
-            {data.correlationData
+            {(data.correlationData || [])
               .filter((emp) => emp.avgMood !== null && emp.avgPerformance !== null)
               .map((emp) => {
                 const x = (emp.avgMood! / 5) * 100;
@@ -414,7 +414,7 @@ export default function AnalyticsPage() {
           </div>
 
           {/* No-data message */}
-          {data.correlationData.filter((e) => e.avgMood !== null && e.avgPerformance !== null).length === 0 && (
+          {(data.correlationData || []).filter((e) => e.avgMood !== null && e.avgPerformance !== null).length === 0 && (
             <div className="absolute inset-0 flex items-center justify-center">
               <p className="text-sm text-gray-400 bg-green-950/50 backdrop-blur-lg px-4 py-2 rounded-lg shadow">
                 Nenhum colaborador com dados de humor e avaliação simultâneos.

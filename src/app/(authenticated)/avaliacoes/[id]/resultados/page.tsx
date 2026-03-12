@@ -74,8 +74,8 @@ export default function ResultadosPage() {
     return <p className="text-gray-400">Resultados não encontrados.</p>;
   }
 
-  const evaluatees = Object.entries(data.summary.byEvaluatee);
-  const departments = Object.entries(data.summary.byDepartment);
+  const evaluatees = Object.entries(data.summary?.byEvaluatee ?? {});
+  const departments = Object.entries(data.summary?.byDepartment ?? {});
   const criteria = data.cycle.criteria;
 
   // 9Box: split into 3x3 grid based on score (1-5 mapped to low/mid/high)

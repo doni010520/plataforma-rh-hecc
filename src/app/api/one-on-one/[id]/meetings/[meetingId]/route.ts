@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getApiUser, unauthorizedResponse } from '@/lib/auth';
+import { awardPoints } from '@/lib/gamification';
 
 export async function GET(
   _request: NextRequest,
@@ -118,6 +119,12 @@ export async function PUT(
         },
       },
     });
+
+    // Award gamification points when meeting is completed — both participants
+    if (body.status === 'COMPLETED') {
+      awardPoints(cycle.managerId, user.companyId, 'ONE_ON_ONE_COMPLETED', meetingId);
+      awardPoints(cycle.employeeId, user.companyId, 'ONE_ON_ONE_COMPLETED', meetingId);
+    }
 
     return NextResponse.json(updated);
   } catch (error) {

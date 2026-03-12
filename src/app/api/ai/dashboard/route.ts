@@ -75,6 +75,13 @@ export async function GET() {
     else if (highRiskAlerts >= 2 || turnoverAnalyses >= 1) riskLevel = 'MEDIUM';
 
     return NextResponse.json({
+      // Flat fields expected by the IA page and AiDashboardCard
+      analysesByType: analysisTypeCounts,
+      recentAlerts: recentAlerts,
+      totalAnalyses: totalAnalyses,
+      totalAlerts: recentAlerts.length,
+      unreadAlerts: unreadAlertCount,
+      // Nested fields for detailed consumers
       analyses: {
         total: totalAnalyses,
         byType: analysisTypeCounts,
@@ -93,6 +100,15 @@ export async function GET() {
     });
   } catch {
     // Tables may not exist yet if migration hasn't run
-    return NextResponse.json(null);
+    return NextResponse.json({
+      analysesByType: {},
+      recentAlerts: [],
+      totalAnalyses: 0,
+      totalAlerts: 0,
+      unreadAlerts: 0,
+      analyses: { total: 0, byType: {}, recent: [] },
+      alerts: { unreadCount: 0, byPriority: {}, recent: [] },
+      riskSummary: { level: 'LOW', highPriorityAlerts: 0, turnoverRiskAnalyses: 0 },
+    });
   }
 }

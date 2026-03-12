@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getApiUser, unauthorizedResponse, hasRole } from '@/lib/auth';
+import { awardPoints } from '@/lib/gamification';
 
 export async function GET(request: NextRequest) {
   const user = await getApiUser();
@@ -145,6 +146,10 @@ export async function POST(request: NextRequest) {
       note: note || '',
     },
   });
+
+  // Award gamification points for daily mood vote (once per day via sourceId)
+  const moodSourceId = `mood_${user.id}_${today.toISOString().split('T')[0]}`;
+  awardPoints(user.id, user.companyId, 'MOOD_VOTE', moodSourceId);
 
   return NextResponse.json(moodLog);
 }

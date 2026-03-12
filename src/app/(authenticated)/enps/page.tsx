@@ -199,7 +199,7 @@ export default function EnpsPage() {
   // Detail view
   if (selectedSurvey) {
     const s = selectedSurvey;
-    const maxDistribution = Math.max(...Object.values(s.distribution), 1);
+    const maxDistribution = Math.max(...Object.values(s.distribution ?? {}), 1);
 
     return (
       <div className="p-6 max-w-4xl mx-auto">

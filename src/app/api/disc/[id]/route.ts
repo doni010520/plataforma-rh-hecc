@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getApiUser, unauthorizedResponse } from '@/lib/auth';
 import { DiscProfile } from '@prisma/client';
+import { awardPoints } from '@/lib/gamification';
 
 export async function GET(
   _request: Request,
@@ -102,6 +103,9 @@ export async function PUT(
       completedAt: new Date(),
     },
   });
+
+  // Award gamification points for completing DISC assessment
+  awardPoints(user.id, user.companyId, 'DISC_COMPLETED', id);
 
   return NextResponse.json(updated);
 }
