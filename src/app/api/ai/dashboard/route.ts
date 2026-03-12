@@ -74,7 +74,7 @@ export async function GET() {
     if (highRiskAlerts >= 5 || turnoverAnalyses >= 3) riskLevel = 'HIGH';
     else if (highRiskAlerts >= 2 || turnoverAnalyses >= 1) riskLevel = 'MEDIUM';
 
-    return NextResponse.json({
+    const response = NextResponse.json({
       // Flat fields expected by the IA page and AiDashboardCard
       analysesByType: analysisTypeCounts,
       recentAlerts: recentAlerts,
@@ -98,6 +98,9 @@ export async function GET() {
         turnoverRiskAnalyses: turnoverAnalyses,
       },
     });
+    // Cache for 60 seconds — AI data doesn't change every request
+    response.headers.set('Cache-Control', 'private, s-maxage=60, stale-while-revalidate=120');
+    return response;
   } catch {
     // Tables may not exist yet if migration hasn't run
     return NextResponse.json({

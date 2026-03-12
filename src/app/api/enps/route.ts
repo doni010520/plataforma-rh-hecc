@@ -47,7 +47,9 @@ export async function GET() {
     };
   });
 
-  return NextResponse.json(surveysWithNps);
+  const response = NextResponse.json(surveysWithNps);
+  response.headers.set('Cache-Control', 'private, s-maxage=60, stale-while-revalidate=120');
+  return response;
 }
 
 export async function POST(request: Request) {

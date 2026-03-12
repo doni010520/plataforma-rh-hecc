@@ -9,94 +9,91 @@ import { AiDashboardCard } from '@/components/AiDashboardCard';
 export default async function DashboardPage() {
   const user = await getCurrentUser();
 
-  const recentFeedbacks = await prisma.feedback.findMany({
-    where: { toUserId: user.id, companyId: user.companyId },
-    orderBy: { createdAt: 'desc' },
-    take: 3,
-    include: {
-      fromUser: { select: { name: true } },
-    },
-  });
-
-  // OKR: Get current quarter objectives for the user
   const currentQuarter = Math.ceil((new Date().getMonth() + 1) / 3);
   const currentYear = new Date().getFullYear();
-
-  const userObjectives = await prisma.objective.findMany({
-    where: {
-      companyId: user.companyId,
-      ownerId: user.id,
-      quarter: currentQuarter,
-      year: currentYear,
-      status: { not: 'CANCELLED' },
-    },
-    include: {
-      keyResults: true,
-    },
-    take: 5,
-  });
-
-  // Today's mood
   const today = new Date();
   today.setHours(0, 0, 0, 0);
-  const todayMood = await prisma.moodLog.findFirst({
-    where: { userId: user.id, date: today },
-  });
 
-  // Active surveys the user hasn't responded to
-  const activeSurveys = await prisma.survey.findMany({
-    where: {
-      companyId: user.companyId,
-      status: 'ACTIVE',
-    },
-    select: { id: true, title: true },
-  });
-
-  const respondedSurveyIds = await prisma.surveyResponse.findMany({
-    where: {
-      userId: user.id,
-      survey: { companyId: user.companyId, status: 'ACTIVE' },
-    },
-    select: { surveyId: true },
-  });
+  // Run ALL independent queries in parallel instead of sequentially
+  const [
+    recentFeedbacks,
+    userObjectives,
+    todayMood,
+    activeSurveys,
+    respondedSurveyIds,
+    pendingAssignments,
+    assessmentData,
+  ] = await Promise.all([
+    prisma.feedback.findMany({
+      where: { toUserId: user.id, companyId: user.companyId },
+      orderBy: { createdAt: 'desc' },
+      take: 3,
+      include: { fromUser: { select: { name: true } } },
+    }),
+    prisma.objective.findMany({
+      where: {
+        companyId: user.companyId,
+        ownerId: user.id,
+        quarter: currentQuarter,
+        year: currentYear,
+        status: { not: 'CANCELLED' },
+      },
+      include: { keyResults: true },
+      take: 5,
+    }),
+    prisma.moodLog.findFirst({
+      where: { userId: user.id, date: today },
+    }),
+    prisma.survey.findMany({
+      where: { companyId: user.companyId, status: 'ACTIVE' },
+      select: { id: true, title: true },
+    }),
+    prisma.surveyResponse.findMany({
+      where: {
+        userId: user.id,
+        survey: { companyId: user.companyId, status: 'ACTIVE' },
+      },
+      select: { surveyId: true },
+    }),
+    prisma.reviewAssignment.findMany({
+      where: {
+        evaluatorId: user.id,
+        status: 'PENDING',
+        cycle: { status: 'ACTIVE', companyId: user.companyId },
+      },
+      include: {
+        cycle: { select: { name: true, endDate: true } },
+        evaluatee: { select: { name: true } },
+      },
+      take: 5,
+    }),
+    // NR-01 assessments - wrapped to handle missing tables
+    (async () => {
+      try {
+        const [active, responded] = await Promise.all([
+          prisma.psychosocialAssessment.findMany({
+            where: { companyId: user.companyId, status: 'ACTIVE' },
+            select: { id: true, title: true },
+          }),
+          prisma.psychosocialResponse.findMany({
+            where: {
+              userId: user.id,
+              assessment: { companyId: user.companyId, status: 'ACTIVE' },
+            },
+            select: { assessmentId: true },
+          }),
+        ]);
+        const respondedSet = new Set(responded.map((r) => r.assessmentId));
+        return active.filter((a) => !respondedSet.has(a.id));
+      } catch {
+        return [] as { id: string; title: string }[];
+      }
+    })(),
+  ]);
 
   const respondedIds = new Set(respondedSurveyIds.map((r) => r.surveyId));
   const pendingSurveys = activeSurveys.filter((s) => !respondedIds.has(s.id));
-
-  // Active NR-01 psychosocial assessments the user hasn't responded to
-  let pendingAssessments: { id: string; title: string }[] = [];
-  try {
-    const activeAssessments = await prisma.psychosocialAssessment.findMany({
-      where: { companyId: user.companyId, status: 'ACTIVE' },
-      select: { id: true, title: true },
-    });
-
-    const respondedAssessmentIds = await prisma.psychosocialResponse.findMany({
-      where: {
-        userId: user.id,
-        assessment: { companyId: user.companyId, status: 'ACTIVE' },
-      },
-      select: { assessmentId: true },
-    });
-
-    const respondedAssessmentSet = new Set(respondedAssessmentIds.map((r) => r.assessmentId));
-    pendingAssessments = activeAssessments.filter((a) => !respondedAssessmentSet.has(a.id));
-  } catch {
-    // Tables may not exist yet if migration hasn't run
-  }
-
-  const pendingAssignments = await prisma.reviewAssignment.findMany({
-    where: {
-      evaluatorId: user.id,
-      status: 'PENDING',
-      cycle: { status: 'ACTIVE', companyId: user.companyId },
-    },
-    include: {
-      cycle: { select: { name: true, endDate: true } },
-      evaluatee: { select: { name: true } },
-    },
-    take: 5,
-  });
+  const pendingAssessments = assessmentData;
 
   const isManager = user.role === 'MANAGER';
   const isAdmin = user.role === 'ADMIN';
