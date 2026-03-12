@@ -370,16 +370,16 @@ export function Sidebar() {
       )}
 
       <aside
-        className={`fixed left-0 top-0 h-screen w-64 bg-white/70 backdrop-blur-xl border-r border-white/20 flex flex-col z-40 transition-transform duration-200 ${
+        className={`fixed left-0 top-0 h-screen w-64 bg-green-950/80 backdrop-blur-xl border-r border-green-800/30 flex flex-col z-40 transition-transform duration-200 ${
           mobileOpen ? 'translate-x-0' : '-translate-x-full'
         } md:translate-x-0`}
         aria-label="Menu de navegação principal"
       >
-        <div className="flex items-center justify-between p-6 border-b border-white/20">
-          <h1 className="text-xl font-bold text-indigo-600">Plataforma RH</h1>
+        <div className="flex items-center justify-between p-6 border-b border-green-800/30">
+          <h1 className="text-xl font-bold text-emerald-400">Plataforma RH</h1>
           <button
             onClick={() => setMobileOpen(false)}
-            className="md:hidden p-1 text-gray-400 hover:text-gray-600"
+            className="md:hidden p-1 text-green-400 hover:text-green-200"
             aria-label="Fechar menu"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -401,8 +401,8 @@ export function Sidebar() {
                     href={item.href}
                     className={`flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium transition-colors ${
                       isActive
-                        ? 'bg-indigo-50 text-indigo-700'
-                        : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                        ? 'bg-emerald-500/20 text-emerald-300'
+                        : 'text-green-100/70 hover:bg-green-800/40 hover:text-green-50'
                     }`}
                     aria-current={isActive ? 'page' : undefined}
                   >

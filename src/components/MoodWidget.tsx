@@ -56,7 +56,7 @@ export default function MoodWidget({ initialMood }: MoodWidgetProps) {
             disabled={saving}
             className={`flex flex-col items-center gap-1 p-2 rounded-lg transition-all ${
               selectedMood === mood
-                ? 'bg-indigo-50 ring-2 ring-indigo-500 scale-110'
+                ? 'bg-green-50 ring-2 ring-green-600 scale-110'
                 : 'hover:bg-gray-50'
             }`}
           >

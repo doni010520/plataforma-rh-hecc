@@ -60,7 +60,7 @@ type Tab = 'vagas' | 'candidatos';
 const statusLabels: Record<string, string> = { OPEN: 'Aberta', CLOSED: 'Fechada', CANCELLED: 'Cancelada', ON_HOLD: 'Em Espera' };
 const statusColors: Record<string, string> = { OPEN: 'bg-green-100 text-green-800', CLOSED: 'bg-gray-100 text-gray-800', CANCELLED: 'bg-red-100 text-red-800', ON_HOLD: 'bg-yellow-100 text-yellow-800' };
 const appStatusLabels: Record<string, string> = { NEW: 'Novo', SCREENING: 'Triagem', INTERVIEW: 'Entrevista', OFFER: 'Proposta', HIRED: 'Contratado', REJECTED: 'Rejeitado', WITHDRAWN: 'Desistiu' };
-const appStatusColors: Record<string, string> = { NEW: 'bg-blue-100 text-blue-800', SCREENING: 'bg-yellow-100 text-yellow-800', INTERVIEW: 'bg-purple-100 text-purple-800', OFFER: 'bg-indigo-100 text-indigo-800', HIRED: 'bg-green-100 text-green-800', REJECTED: 'bg-red-100 text-red-800', WITHDRAWN: 'bg-gray-100 text-gray-800' };
+const appStatusColors: Record<string, string> = { NEW: 'bg-blue-100 text-blue-800', SCREENING: 'bg-yellow-100 text-yellow-800', INTERVIEW: 'bg-purple-100 text-purple-800', OFFER: 'bg-green-100 text-green-900', HIRED: 'bg-green-100 text-green-800', REJECTED: 'bg-red-100 text-red-800', WITHDRAWN: 'bg-gray-100 text-gray-800' };
 
 export default function RecrutamentoPage() {
   const [tab, setTab] = useState<Tab>('vagas');
@@ -193,7 +193,7 @@ export default function RecrutamentoPage() {
     const pos = selectedPosition;
     return (
       <div className="p-6 space-y-6 max-w-6xl mx-auto">
-        <button onClick={() => setSelectedPosition(null)} className="text-indigo-600 hover:underline text-sm">&larr; Voltar</button>
+        <button onClick={() => setSelectedPosition(null)} className="text-green-700 hover:underline text-sm">&larr; Voltar</button>
         <div className="flex items-start justify-between">
           <div>
             <h1 className="text-2xl font-bold text-gray-900">{pos.title}</h1>
@@ -216,7 +216,7 @@ export default function RecrutamentoPage() {
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold text-gray-900">Candidaturas ({pos.applications?.length || 0})</h2>
           {pos.status === 'OPEN' && (
-            <button onClick={() => setShowApplyModal(true)} className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm hover:bg-indigo-700">Adicionar Candidato</button>
+            <button onClick={() => setShowApplyModal(true)} className="px-4 py-2 bg-green-700 text-white rounded-lg text-sm hover:bg-green-800">Adicionar Candidato</button>
           )}
         </div>
 
@@ -228,7 +228,7 @@ export default function RecrutamentoPage() {
               {candidates.map(c => <option key={c.id} value={c.id}>{c.name} ({c.email})</option>)}
             </select>
             <div className="flex gap-2">
-              <button onClick={applyCandidate} disabled={!applyCandidateId} className="px-4 py-2 bg-indigo-600 text-white rounded text-sm hover:bg-indigo-700 disabled:opacity-50">Vincular</button>
+              <button onClick={applyCandidate} disabled={!applyCandidateId} className="px-4 py-2 bg-green-700 text-white rounded text-sm hover:bg-green-800 disabled:opacity-50">Vincular</button>
               <button onClick={() => setShowApplyModal(false)} className="px-4 py-2 bg-gray-200 rounded text-sm hover:bg-gray-300">Cancelar</button>
             </div>
           </div>
@@ -281,7 +281,7 @@ export default function RecrutamentoPage() {
         <h1 className="text-2xl font-bold text-gray-900">Recrutamento & Seleção</h1>
         <button
           onClick={() => { setShowForm(!showForm); }}
-          className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700"
+          className="px-4 py-2 bg-green-700 text-white rounded-lg text-sm font-medium hover:bg-green-800"
         >
           {tab === 'vagas' ? 'Nova Vaga' : 'Novo Candidato'}
         </button>
@@ -295,7 +295,7 @@ export default function RecrutamentoPage() {
               key={key}
               onClick={() => { setTab(key); setShowForm(false); }}
               className={`py-2 px-1 border-b-2 text-sm font-medium transition-colors ${
-                tab === key ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700'
+                tab === key ? 'border-green-600 text-green-700' : 'border-transparent text-gray-500 hover:text-gray-700'
               }`}
             >
               {label}
@@ -351,7 +351,7 @@ export default function RecrutamentoPage() {
             <textarea value={formDesc} onChange={e => setFormDesc(e.target.value)} rows={3} className="w-full border rounded px-3 py-2 text-sm" />
           </div>
           <div className="flex gap-2">
-            <button type="submit" className="px-4 py-2 bg-indigo-600 text-white rounded text-sm hover:bg-indigo-700">Criar Vaga</button>
+            <button type="submit" className="px-4 py-2 bg-green-700 text-white rounded text-sm hover:bg-green-800">Criar Vaga</button>
             <button type="button" onClick={() => setShowForm(false)} className="px-4 py-2 bg-gray-200 rounded text-sm hover:bg-gray-300">Cancelar</button>
           </div>
         </form>
@@ -384,7 +384,7 @@ export default function RecrutamentoPage() {
             <textarea value={candNotes} onChange={e => setCandNotes(e.target.value)} rows={2} className="w-full border rounded px-3 py-2 text-sm" />
           </div>
           <div className="flex gap-2">
-            <button type="submit" className="px-4 py-2 bg-indigo-600 text-white rounded text-sm hover:bg-indigo-700">Criar Candidato</button>
+            <button type="submit" className="px-4 py-2 bg-green-700 text-white rounded text-sm hover:bg-green-800">Criar Candidato</button>
             <button type="button" onClick={() => setShowForm(false)} className="px-4 py-2 bg-gray-200 rounded text-sm hover:bg-gray-300">Cancelar</button>
           </div>
         </form>
@@ -394,7 +394,7 @@ export default function RecrutamentoPage() {
       {tab === 'vagas' && (
         <div className="space-y-3">
           {positions.map(pos => (
-            <div key={pos.id} onClick={() => loadPositionDetail(pos.id)} className="bg-white border rounded-lg p-4 cursor-pointer hover:border-indigo-300 transition-colors">
+            <div key={pos.id} onClick={() => loadPositionDetail(pos.id)} className="bg-white border rounded-lg p-4 cursor-pointer hover:border-green-300 transition-colors">
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="font-medium text-gray-900">{pos.title}</h3>

@@ -333,7 +333,7 @@ export default function OneOnOnePage() {
       <div className="p-6 space-y-6 max-w-4xl mx-auto">
         <button
           onClick={() => setSelectedMeeting(null)}
-          className="text-indigo-600 hover:underline text-sm"
+          className="text-green-700 hover:underline text-sm"
         >
           &larr; Voltar para reuniões
         </button>
@@ -415,7 +415,7 @@ export default function OneOnOnePage() {
                   onClick={() => toggleTopic(t.id)}
                   className={`mt-0.5 w-5 h-5 rounded border flex-shrink-0 flex items-center justify-center ${
                     t.discussed
-                      ? 'bg-indigo-600 border-indigo-600 text-white'
+                      ? 'bg-green-700 border-green-700 text-white'
                       : 'border-gray-300'
                   }`}
                 >
@@ -456,7 +456,7 @@ export default function OneOnOnePage() {
               <button
                 onClick={addTopic}
                 disabled={!newTopicContent.trim()}
-                className="px-3 py-2 bg-indigo-600 text-white rounded text-sm hover:bg-indigo-700 disabled:opacity-50"
+                className="px-3 py-2 bg-green-700 text-white rounded text-sm hover:bg-green-800 disabled:opacity-50"
               >
                 Adicionar
               </button>
@@ -483,7 +483,7 @@ export default function OneOnOnePage() {
           <button
             onClick={saveNotes}
             disabled={saving}
-            className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 disabled:opacity-50"
+            className="px-4 py-2 bg-green-700 text-white rounded-lg text-sm font-medium hover:bg-green-800 disabled:opacity-50"
           >
             {saving ? 'Salvando...' : 'Salvar'}
           </button>
@@ -508,7 +508,7 @@ export default function OneOnOnePage() {
       <div className="p-6 space-y-6 max-w-5xl mx-auto">
         <button
           onClick={() => { setSelectedCycle(null); setMeetings([]); }}
-          className="text-indigo-600 hover:underline text-sm"
+          className="text-green-700 hover:underline text-sm"
         >
           &larr; Voltar para ciclos
         </button>
@@ -530,7 +530,7 @@ export default function OneOnOnePage() {
           <div className="flex gap-2">
             <button
               onClick={() => { setShowMeetingForm(true); setNewScheduledAt(''); }}
-              className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700"
+              className="px-4 py-2 bg-green-700 text-white rounded-lg text-sm font-medium hover:bg-green-800"
             >
               Nova Reunião
             </button>
@@ -564,7 +564,7 @@ export default function OneOnOnePage() {
             <div className="flex gap-2">
               <button
                 type="submit"
-                className="px-4 py-2 bg-indigo-600 text-white rounded text-sm hover:bg-indigo-700"
+                className="px-4 py-2 bg-green-700 text-white rounded text-sm hover:bg-green-800"
               >
                 Criar
               </button>
@@ -585,7 +585,7 @@ export default function OneOnOnePage() {
             <div
               key={m.id}
               onClick={() => loadMeetingDetail(c.id, m.id)}
-              className="bg-white border rounded-lg p-4 cursor-pointer hover:border-indigo-300 transition-colors"
+              className="bg-white border rounded-lg p-4 cursor-pointer hover:border-green-300 transition-colors"
             >
               <div className="flex items-center justify-between">
                 <div>
@@ -632,7 +632,7 @@ export default function OneOnOnePage() {
               setShowCreateForm(!showCreateForm);
               if (!showCreateForm) loadEmployees();
             }}
-            className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700"
+            className="px-4 py-2 bg-green-700 text-white rounded-lg text-sm font-medium hover:bg-green-800"
           >
             Novo Ciclo 1:1
           </button>
@@ -697,7 +697,7 @@ export default function OneOnOnePage() {
           <div className="flex gap-2">
             <button
               type="submit"
-              className="px-4 py-2 bg-indigo-600 text-white rounded text-sm hover:bg-indigo-700"
+              className="px-4 py-2 bg-green-700 text-white rounded text-sm hover:bg-green-800"
             >
               Criar
             </button>
@@ -722,7 +722,7 @@ export default function OneOnOnePage() {
             <div
               key={c.id}
               onClick={() => loadMeetings(c)}
-              className="bg-white border rounded-lg p-4 cursor-pointer hover:border-indigo-300 transition-colors"
+              className="bg-white border rounded-lg p-4 cursor-pointer hover:border-green-300 transition-colors"
             >
               <div className="flex items-center justify-between">
                 <div>

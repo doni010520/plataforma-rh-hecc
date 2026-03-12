@@ -177,7 +177,7 @@ export default function DiscPage() {
   if (loading && phase === 'loading') {
     return (
       <div className="flex justify-center py-20">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600" />
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-700" />
       </div>
     );
   }
@@ -310,15 +310,15 @@ export default function DiscPage() {
           <h3 className="text-lg font-semibold text-gray-900 mb-3">Como funciona?</h3>
           <ul className="space-y-2 text-gray-700 mb-6">
             <li className="flex items-start gap-2">
-              <span className="w-5 h-5 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">1</span>
+              <span className="w-5 h-5 bg-green-100 text-green-800 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">1</span>
               <span>Voce respondera 24 perguntas rapidas</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="w-5 h-5 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">2</span>
+              <span className="w-5 h-5 bg-green-100 text-green-800 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">2</span>
               <span>Em cada pergunta, escolha o comportamento que MAIS e MENOS descreve voce</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="w-5 h-5 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">3</span>
+              <span className="w-5 h-5 bg-green-100 text-green-800 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">3</span>
               <span>Ao final, voce recebera seu perfil DISC com analise detalhada</span>
             </li>
           </ul>
@@ -330,7 +330,7 @@ export default function DiscPage() {
           <button
             onClick={startAssessment}
             disabled={loading}
-            className="w-full sm:w-auto px-8 py-3 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 transition-colors"
+            className="w-full sm:w-auto px-8 py-3 bg-green-700 text-white font-medium rounded-lg hover:bg-green-800 focus:ring-2 focus:ring-green-600 focus:ring-offset-2 disabled:opacity-50 transition-colors"
           >
             {loading ? 'Carregando...' : 'Iniciar Avaliacao'}
           </button>
@@ -358,7 +358,7 @@ export default function DiscPage() {
         {/* Progress Bar */}
         <div className="w-full bg-gray-200 rounded-full h-2.5 mb-8">
           <div
-            className="bg-indigo-600 h-2.5 rounded-full transition-all duration-300"
+            className="bg-green-700 h-2.5 rounded-full transition-all duration-300"
             style={{ width: `${progress}%` }}
           />
         </div>
@@ -456,7 +456,7 @@ export default function DiscPage() {
               type="button"
               onClick={handleNext}
               disabled={!canProceed || submitting}
-              className="px-6 py-2.5 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="px-6 py-2.5 bg-green-700 text-white font-medium rounded-lg hover:bg-green-800 focus:ring-2 focus:ring-green-600 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
               {submitting ? 'Calculando...' : isLast ? 'Finalizar' : 'Proxima'}
             </button>

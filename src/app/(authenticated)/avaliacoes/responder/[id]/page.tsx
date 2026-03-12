@@ -146,7 +146,7 @@ export default function ResponderAvaliacaoPage() {
         </div>
         <button
           onClick={() => router.push('/avaliacoes')}
-          className="mt-4 text-indigo-600 hover:text-indigo-800 font-medium text-sm"
+          className="mt-4 text-green-700 hover:text-green-900 font-medium text-sm"
         >
           Voltar para avaliações
         </button>
@@ -189,7 +189,7 @@ export default function ResponderAvaliacaoPage() {
                     onClick={() => updateAnswer(answer.criteriaId, 'score', score)}
                     className={`flex-1 py-3 rounded-md border-2 text-center transition-colors ${
                       answers[answer.criteriaId]?.score === score
-                        ? 'border-indigo-600 bg-indigo-50 text-indigo-700 font-bold'
+                        ? 'border-green-700 bg-green-50 text-green-800 font-bold'
                         : 'border-gray-200 hover:border-gray-300 text-gray-600'
                     }`}
                   >
@@ -208,7 +208,7 @@ export default function ResponderAvaliacaoPage() {
                 value={answers[answer.criteriaId]?.comment || ''}
                 onChange={(e) => updateAnswer(answer.criteriaId, 'comment', e.target.value)}
                 rows={3}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
                 placeholder="Descreva suas observações..."
               />
             </div>
@@ -226,14 +226,14 @@ export default function ResponderAvaliacaoPage() {
         <button
           onClick={() => handleSave(false)}
           disabled={saving}
-          className="border border-indigo-600 text-indigo-600 px-4 py-2 rounded-md hover:bg-indigo-50 disabled:opacity-50 font-medium"
+          className="border border-green-700 text-green-700 px-4 py-2 rounded-md hover:bg-green-50 disabled:opacity-50 font-medium"
         >
           {saving ? 'Salvando...' : 'Salvar Rascunho'}
         </button>
         <button
           onClick={() => handleSave(true)}
           disabled={saving}
-          className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 disabled:opacity-50 font-medium"
+          className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-800 disabled:opacity-50 font-medium"
         >
           {saving ? 'Submetendo...' : 'Submeter Avaliação'}
         </button>

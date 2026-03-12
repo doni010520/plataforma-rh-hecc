@@ -31,7 +31,7 @@ export default function VagasPage() {
   return (
     <Suspense fallback={
       <div className="flex justify-center py-20">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600" />
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-700" />
       </div>
     }>
       <VagasContent />
@@ -113,7 +113,7 @@ function VagasContent() {
               placeholder="Cargo, palavra-chave..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-green-600 focus:border-green-600"
             />
           </div>
           <div>
@@ -124,7 +124,7 @@ function VagasContent() {
               id="location"
               value={locationFilter}
               onChange={(e) => setLocationFilter(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-green-600 focus:border-green-600"
             >
               <option value="">Todas</option>
               {locations.map((loc) => (
@@ -140,7 +140,7 @@ function VagasContent() {
               id="type"
               value={typeFilter}
               onChange={(e) => setTypeFilter(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-green-600 focus:border-green-600"
             >
               <option value="">Todos</option>
               {types.map((t) => (
@@ -154,7 +154,7 @@ function VagasContent() {
       {/* Results */}
       {loading ? (
         <div className="flex justify-center py-20">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600" />
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-700" />
         </div>
       ) : positions.length === 0 ? (
         <div className="text-center py-20">
@@ -169,7 +169,7 @@ function VagasContent() {
           {Object.entries(grouped).map(([dept, jobs]) => (
             <div key={dept}>
               <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
-                <svg className="w-5 h-5 text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                 </svg>
                 {dept}
@@ -179,9 +179,9 @@ function VagasContent() {
                   <Link
                     key={job.id}
                     href={`/vagas/${job.id}`}
-                    className="bg-white rounded-xl border border-gray-200 p-5 hover:shadow-md hover:border-indigo-200 transition-all group"
+                    className="bg-white rounded-xl border border-gray-200 p-5 hover:shadow-md hover:border-green-200 transition-all group"
                   >
-                    <h3 className="text-lg font-semibold text-gray-900 group-hover:text-indigo-600 transition-colors mb-2">
+                    <h3 className="text-lg font-semibold text-gray-900 group-hover:text-green-700 transition-colors mb-2">
                       {job.title}
                     </h3>
                     <p className="text-sm text-gray-600 line-clamp-2 mb-4">

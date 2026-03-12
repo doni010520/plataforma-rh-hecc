@@ -114,12 +114,12 @@ export default function DepartamentosPage() {
             placeholder="Nome do departamento"
             required
             minLength={2}
-            className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+            className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
           />
           <button
             type="submit"
             disabled={saving}
-            className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors disabled:opacity-50 font-medium"
+            className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-800 transition-colors disabled:opacity-50 font-medium"
           >
             {saving ? 'Salvando...' : 'Adicionar'}
           </button>
@@ -161,7 +161,7 @@ export default function DepartamentosPage() {
                       type="text"
                       value={editingName}
                       onChange={(e) => setEditingName(e.target.value)}
-                      className="px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      className="px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600"
                       autoFocus
                     />
                   ) : (
@@ -175,7 +175,7 @@ export default function DepartamentosPage() {
                       <button
                         onClick={() => handleUpdate(dept.id)}
                         disabled={saving}
-                        className="text-indigo-600 hover:text-indigo-800 text-sm font-medium"
+                        className="text-green-700 hover:text-green-900 text-sm font-medium"
                       >
                         Salvar
                       </button>
@@ -196,7 +196,7 @@ export default function DepartamentosPage() {
                           setEditingId(dept.id);
                           setEditingName(dept.name);
                         }}
-                        className="text-indigo-600 hover:text-indigo-800 text-sm font-medium"
+                        className="text-green-700 hover:text-green-900 text-sm font-medium"
                       >
                         Editar
                       </button>

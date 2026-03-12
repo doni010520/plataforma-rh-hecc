@@ -123,7 +123,7 @@ export default function ManagerDashboard() {
                   <tr key={sub.id} className="hover:bg-gray-50">
                     <td className="px-6 py-3">
                       <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center text-xs font-bold flex-shrink-0">
+                        <div className="w-8 h-8 rounded-full bg-green-100 text-green-800 flex items-center justify-center text-xs font-bold flex-shrink-0">
                           {sub.name
                             .split(' ')
                             .map((n) => n[0])

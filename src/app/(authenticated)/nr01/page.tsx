@@ -209,7 +209,7 @@ export default function NR01Page() {
     const a = selectedAssessment;
     return (
       <div className="p-6 space-y-6 max-w-5xl mx-auto">
-        <button onClick={() => setSelectedAssessment(null)} className="text-indigo-600 hover:underline text-sm">&larr; Voltar</button>
+        <button onClick={() => setSelectedAssessment(null)} className="text-green-700 hover:underline text-sm">&larr; Voltar</button>
         <div className="flex items-start justify-between">
           <div>
             <h1 className="text-2xl font-bold text-gray-900">{a.title}</h1>
@@ -220,15 +220,15 @@ export default function NR01Page() {
 
         <div className="grid grid-cols-3 gap-4">
           <div className="bg-white border rounded-lg p-4 text-center">
-            <p className="text-2xl font-bold text-indigo-600">{a._count?.questions || a.questions?.length || 0}</p>
+            <p className="text-2xl font-bold text-green-700">{a._count?.questions || a.questions?.length || 0}</p>
             <p className="text-sm text-gray-500">Perguntas</p>
           </div>
           <div className="bg-white border rounded-lg p-4 text-center">
-            <p className="text-2xl font-bold text-indigo-600">{a._count?.responses || 0}</p>
+            <p className="text-2xl font-bold text-green-700">{a._count?.responses || 0}</p>
             <p className="text-sm text-gray-500">Respostas</p>
           </div>
           <div className="bg-white border rounded-lg p-4 text-center">
-            <p className="text-2xl font-bold text-indigo-600">{a.anonymous ? 'Sim' : 'Não'}</p>
+            <p className="text-2xl font-bold text-green-700">{a.anonymous ? 'Sim' : 'Não'}</p>
             <p className="text-sm text-gray-500">Anônima</p>
           </div>
         </div>
@@ -276,7 +276,7 @@ export default function NR01Page() {
         <div className="flex gap-2">
           {a.status === 'DRAFT' && <button onClick={() => activateAssessment(a.id)} className="px-4 py-2 bg-green-600 text-white rounded text-sm hover:bg-green-700">Ativar</button>}
           {a.status === 'ACTIVE' && <button onClick={() => closeAssessment(a.id)} className="px-4 py-2 bg-red-600 text-white rounded text-sm hover:bg-red-700">Encerrar</button>}
-          {a.status === 'CLOSED' && <button onClick={() => calculateResults(a.id)} className="px-4 py-2 bg-indigo-600 text-white rounded text-sm hover:bg-indigo-700">Calcular Resultados</button>}
+          {a.status === 'CLOSED' && <button onClick={() => calculateResults(a.id)} className="px-4 py-2 bg-green-700 text-white rounded text-sm hover:bg-green-800">Calcular Resultados</button>}
         </div>
       </div>
     );
@@ -286,7 +286,7 @@ export default function NR01Page() {
     <div className="p-6 space-y-6 max-w-6xl mx-auto">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-gray-900">NR-01 / Riscos Psicossociais</h1>
-        <button onClick={() => setShowForm(!showForm)} className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700">
+        <button onClick={() => setShowForm(!showForm)} className="px-4 py-2 bg-green-700 text-white rounded-lg text-sm font-medium hover:bg-green-800">
           {tab === 'avaliacoes' ? 'Nova Avaliação' : tab === 'inventarios' ? 'Novo Inventário' : 'Nova Denúncia'}
         </button>
       </div>
@@ -295,7 +295,7 @@ export default function NR01Page() {
       <div className="border-b border-gray-200">
         <nav className="flex space-x-8">
           {([['avaliacoes', 'Avaliações Psicossociais'], ['inventarios', 'Inventários de Riscos'], ['denuncias', 'Canal de Denúncias']] as const).map(([key, label]) => (
-            <button key={key} onClick={() => { setTab(key); setShowForm(false); }} className={`py-2 px-1 border-b-2 text-sm font-medium transition-colors ${tab === key ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}>
+            <button key={key} onClick={() => { setTab(key); setShowForm(false); }} className={`py-2 px-1 border-b-2 text-sm font-medium transition-colors ${tab === key ? 'border-green-600 text-green-700' : 'border-transparent text-gray-500 hover:text-gray-700'}`}>
               {label}
             </button>
           ))}
@@ -344,10 +344,10 @@ export default function NR01Page() {
                 )}
               </div>
             ))}
-            <button type="button" onClick={() => setAQuestions([...aQuestions, { text: '', category: '' }])} className="text-sm text-indigo-600 hover:underline">+ Adicionar pergunta</button>
+            <button type="button" onClick={() => setAQuestions([...aQuestions, { text: '', category: '' }])} className="text-sm text-green-700 hover:underline">+ Adicionar pergunta</button>
           </div>
           <div className="flex gap-2">
-            <button type="submit" className="px-4 py-2 bg-indigo-600 text-white rounded text-sm hover:bg-indigo-700">Criar</button>
+            <button type="submit" className="px-4 py-2 bg-green-700 text-white rounded text-sm hover:bg-green-800">Criar</button>
             <button type="button" onClick={() => setShowForm(false)} className="px-4 py-2 bg-gray-200 rounded text-sm hover:bg-gray-300">Cancelar</button>
           </div>
         </form>
@@ -372,7 +372,7 @@ export default function NR01Page() {
             <textarea value={invDesc} onChange={e => setInvDesc(e.target.value)} rows={2} className="w-full border rounded px-3 py-2 text-sm" />
           </div>
           <div className="flex gap-2">
-            <button type="submit" className="px-4 py-2 bg-indigo-600 text-white rounded text-sm hover:bg-indigo-700">Criar</button>
+            <button type="submit" className="px-4 py-2 bg-green-700 text-white rounded text-sm hover:bg-green-800">Criar</button>
             <button type="button" onClick={() => setShowForm(false)} className="px-4 py-2 bg-gray-200 rounded text-sm hover:bg-gray-300">Cancelar</button>
           </div>
         </form>
@@ -405,7 +405,7 @@ export default function NR01Page() {
             <textarea value={compDesc} onChange={e => setCompDesc(e.target.value)} required rows={4} className="w-full border rounded px-3 py-2 text-sm" placeholder="Descreva a situação..." />
           </div>
           <div className="flex gap-2">
-            <button type="submit" className="px-4 py-2 bg-indigo-600 text-white rounded text-sm hover:bg-indigo-700">Enviar</button>
+            <button type="submit" className="px-4 py-2 bg-green-700 text-white rounded text-sm hover:bg-green-800">Enviar</button>
             <button type="button" onClick={() => setShowForm(false)} className="px-4 py-2 bg-gray-200 rounded text-sm hover:bg-gray-300">Cancelar</button>
           </div>
         </form>
@@ -415,7 +415,7 @@ export default function NR01Page() {
       {tab === 'avaliacoes' && (
         <div className="space-y-3">
           {assessments.map(a => (
-            <div key={a.id} onClick={() => loadAssessmentDetail(a.id)} className="bg-white border rounded-lg p-4 cursor-pointer hover:border-indigo-300 transition-colors">
+            <div key={a.id} onClick={() => loadAssessmentDetail(a.id)} className="bg-white border rounded-lg p-4 cursor-pointer hover:border-green-300 transition-colors">
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="font-medium text-gray-900">{a.title}</h3>

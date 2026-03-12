@@ -151,7 +151,7 @@ export default function MuralPage() {
         <h1 className="text-2xl font-bold text-gray-900">Mural de Celebrações</h1>
         <button
           onClick={() => setShowForm(!showForm)}
-          className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 font-medium text-sm"
+          className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-800 font-medium text-sm"
         >
           {showForm ? 'Cancelar' : '+ Celebrar'}
         </button>
@@ -194,7 +194,7 @@ export default function MuralPage() {
               rows={3}
               required
               minLength={5}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
               placeholder="Compartilhe uma celebração, mencione colegas..."
             />
             {error && (
@@ -203,7 +203,7 @@ export default function MuralPage() {
             <button
               type="submit"
               disabled={saving}
-              className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 disabled:opacity-50 font-medium text-sm"
+              className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-800 disabled:opacity-50 font-medium text-sm"
             >
               {saving ? 'Publicando...' : 'Publicar'}
             </button>
@@ -234,7 +234,7 @@ export default function MuralPage() {
               <div key={c.id} className="bg-white rounded-lg shadow-sm p-5">
                 {/* Header */}
                 <div className="flex items-start gap-3 mb-3">
-                  <div className="w-10 h-10 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center text-sm font-bold flex-shrink-0">
+                  <div className="w-10 h-10 rounded-full bg-green-100 text-green-800 flex items-center justify-center text-sm font-bold flex-shrink-0">
                     {c.author.avatarUrl ? (
                       <img src={c.author.avatarUrl} alt="" className="w-10 h-10 rounded-full object-cover" />
                     ) : (
@@ -322,14 +322,14 @@ export default function MuralPage() {
                         value={commentText}
                         onChange={(e) => setCommentText(e.target.value)}
                         placeholder="Escreva um comentário..."
-                        className="flex-1 px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        className="flex-1 px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-600"
                         onKeyDown={(e) => {
                           if (e.key === 'Enter') handleComment(c.id);
                         }}
                       />
                       <button
                         onClick={() => handleComment(c.id)}
-                        className="text-sm text-indigo-600 hover:text-indigo-800 font-medium"
+                        className="text-sm text-green-700 hover:text-green-900 font-medium"
                       >
                         Enviar
                       </button>

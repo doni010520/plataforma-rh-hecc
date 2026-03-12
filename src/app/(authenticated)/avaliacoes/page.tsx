@@ -194,7 +194,7 @@ export default function AvaliacoesPage() {
         <h1 className="text-2xl font-bold text-gray-900">Avaliações de Desempenho</h1>
         <button
           onClick={() => setShowForm(!showForm)}
-          className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors font-medium"
+          className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-800 transition-colors font-medium"
         >
           Novo Ciclo
         </button>
@@ -216,7 +216,7 @@ export default function AvaliacoesPage() {
                   value={formName}
                   onChange={(e) => setFormName(e.target.value)}
                   required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
                   placeholder="Ex: Avaliação Q1 2026"
                 />
               </div>
@@ -225,7 +225,7 @@ export default function AvaliacoesPage() {
                 <select
                   value={formType}
                   onChange={(e) => setFormType(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
                 >
                   <option value="SELF">Autoavaliação</option>
                   <option value="HALF">180° (auto + gestor)</option>
@@ -239,7 +239,7 @@ export default function AvaliacoesPage() {
                   value={formStart}
                   onChange={(e) => setFormStart(e.target.value)}
                   required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
                 />
               </div>
               <div>
@@ -249,7 +249,7 @@ export default function AvaliacoesPage() {
                   value={formEnd}
                   onChange={(e) => setFormEnd(e.target.value)}
                   required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
                 />
               </div>
             </div>
@@ -260,7 +260,7 @@ export default function AvaliacoesPage() {
                 <button
                   type="button"
                   onClick={addCriteria}
-                  className="text-indigo-600 hover:text-indigo-800 text-sm font-medium"
+                  className="text-green-700 hover:text-green-900 text-sm font-medium"
                 >
                   + Adicionar Critério
                 </button>
@@ -273,14 +273,14 @@ export default function AvaliacoesPage() {
                       value={c.name}
                       onChange={(e) => updateCriteria(i, 'name', e.target.value)}
                       placeholder="Nome do critério"
-                      className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
                     />
                     <input
                       type="text"
                       value={c.description}
                       onChange={(e) => updateCriteria(i, 'description', e.target.value)}
                       placeholder="Descrição (opcional)"
-                      className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
                     />
                     <input
                       type="number"
@@ -288,7 +288,7 @@ export default function AvaliacoesPage() {
                       onChange={(e) => updateCriteria(i, 'weight', parseFloat(e.target.value) || 1)}
                       min={0.1}
                       step={0.1}
-                      className="w-20 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-20 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
                       title="Peso"
                     />
                     {formCriteria.length > 1 && (
@@ -316,7 +316,7 @@ export default function AvaliacoesPage() {
               <button
                 type="submit"
                 disabled={saving}
-                className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors disabled:opacity-50 font-medium"
+                className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-800 transition-colors disabled:opacity-50 font-medium"
               >
                 {saving ? 'Criando...' : 'Criar Ciclo'}
               </button>
@@ -358,7 +358,7 @@ export default function AvaliacoesPage() {
                       onClick={() =>
                         setShowParticipants(showParticipants === cycle.id ? null : cycle.id)
                       }
-                      className="text-sm text-indigo-600 hover:text-indigo-800 font-medium"
+                      className="text-sm text-green-700 hover:text-green-900 font-medium"
                     >
                       Participantes
                     </button>
@@ -381,7 +381,7 @@ export default function AvaliacoesPage() {
                 {(cycle.status === 'ACTIVE' || cycle.status === 'CLOSED') && (
                   <Link
                     href={`/avaliacoes/${cycle.id}/resultados`}
-                    className="text-sm text-indigo-600 hover:text-indigo-800 font-medium"
+                    className="text-sm text-green-700 hover:text-green-900 font-medium"
                   >
                     Resultados
                   </Link>
@@ -400,7 +400,7 @@ export default function AvaliacoesPage() {
                     <select
                       value={participantDept}
                       onChange={(e) => setParticipantDept(e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
                     >
                       <option value="">Todos os departamentos</option>
                       {departments.map((d) => (
@@ -413,7 +413,7 @@ export default function AvaliacoesPage() {
                   <button
                     onClick={() => handleAddParticipants(cycle.id)}
                     disabled={addingParticipants}
-                    className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 disabled:opacity-50 font-medium"
+                    className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-800 disabled:opacity-50 font-medium"
                   >
                     {addingParticipants ? 'Adicionando...' : 'Adicionar'}
                   </button>

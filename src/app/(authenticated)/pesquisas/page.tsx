@@ -184,7 +184,7 @@ export default function PesquisasPage() {
         <h1 className="text-2xl font-bold text-gray-900">Pesquisas</h1>
         <button
           onClick={() => setShowForm(!showForm)}
-          className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 font-medium text-sm"
+          className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-800 font-medium text-sm"
         >
           {showForm ? 'Cancelar' : '+ Nova Pesquisa'}
         </button>
@@ -217,7 +217,7 @@ export default function PesquisasPage() {
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
                   placeholder="Ex: Pesquisa de Clima Q1 2026"
                 />
               </div>
@@ -226,7 +226,7 @@ export default function PesquisasPage() {
                 <select
                   value={type}
                   onChange={(e) => setType(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
                 >
                   <option value="CLIMATE">Clima</option>
                   <option value="PULSE">Pulso</option>
@@ -240,7 +240,7 @@ export default function PesquisasPage() {
                   id="anonymous"
                   checked={anonymous}
                   onChange={(e) => setAnonymous(e.target.checked)}
-                  className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+                  className="h-4 w-4 text-green-700 focus:ring-green-600 border-gray-300 rounded"
                 />
                 <label htmlFor="anonymous" className="text-sm font-medium text-gray-700">
                   Pesquisa anónima
@@ -252,7 +252,7 @@ export default function PesquisasPage() {
                   type="date"
                   value={startDate}
                   onChange={(e) => setStartDate(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
                 />
               </div>
               <div>
@@ -261,7 +261,7 @@ export default function PesquisasPage() {
                   type="date"
                   value={endDate}
                   onChange={(e) => setEndDate(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
                 />
               </div>
             </div>
@@ -276,14 +276,14 @@ export default function PesquisasPage() {
                   <button
                     type="button"
                     onClick={() => setShowBank(!showBank)}
-                    className="text-sm text-indigo-600 hover:text-indigo-800 font-medium"
+                    className="text-sm text-green-700 hover:text-green-900 font-medium"
                   >
                     {showBank ? 'Fechar banco' : 'Banco de perguntas'}
                   </button>
                   <button
                     type="button"
                     onClick={addQuestion}
-                    className="text-sm text-indigo-600 hover:text-indigo-800 font-medium"
+                    className="text-sm text-green-700 hover:text-green-900 font-medium"
                   >
                     + Adicionar
                   </button>
@@ -291,8 +291,8 @@ export default function PesquisasPage() {
               </div>
 
               {showBank && (
-                <div className="bg-indigo-50 p-4 rounded-md mb-3 max-h-64 overflow-y-auto">
-                  <p className="text-xs font-medium text-indigo-700 mb-2">
+                <div className="bg-green-50 p-4 rounded-md mb-3 max-h-64 overflow-y-auto">
+                  <p className="text-xs font-medium text-green-800 mb-2">
                     Clique para adicionar uma pergunta do banco:
                   </p>
                   <div className="space-y-1">
@@ -301,9 +301,9 @@ export default function PesquisasPage() {
                         key={i}
                         type="button"
                         onClick={() => addFromBank(item)}
-                        className="block w-full text-left text-sm text-gray-700 hover:bg-indigo-100 px-2 py-1 rounded"
+                        className="block w-full text-left text-sm text-gray-700 hover:bg-green-100 px-2 py-1 rounded"
                       >
-                        <span className="text-xs text-indigo-500 mr-1">[{item.type === 'SCALE' ? '1-5' : 'Texto'}]</span>
+                        <span className="text-xs text-green-600 mr-1">[{item.type === 'SCALE' ? '1-5' : 'Texto'}]</span>
                         {item.text}
                       </button>
                     ))}
@@ -322,7 +322,7 @@ export default function PesquisasPage() {
                           value={q.text}
                           onChange={(e) => updateQuestion(i, 'text', e.target.value)}
                           placeholder="Texto da pergunta"
-                          className="w-full px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                          className="w-full px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-600"
                         />
                         <div className="flex gap-2 items-center">
                           <select
@@ -373,7 +373,7 @@ export default function PesquisasPage() {
             <button
               type="submit"
               disabled={saving}
-              className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 disabled:opacity-50 font-medium"
+              className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-800 disabled:opacity-50 font-medium"
             >
               {saving ? 'Criando...' : 'Criar Pesquisa'}
             </button>
@@ -425,7 +425,7 @@ export default function PesquisasPage() {
                     <>
                       <Link
                         href={`/pesquisas/${survey.id}/responder`}
-                        className="text-sm bg-indigo-600 text-white px-3 py-1.5 rounded-md hover:bg-indigo-700 font-medium"
+                        className="text-sm bg-green-700 text-white px-3 py-1.5 rounded-md hover:bg-green-800 font-medium"
                       >
                         Responder
                       </Link>
@@ -440,7 +440,7 @@ export default function PesquisasPage() {
                   {(survey.status === 'ACTIVE' || survey.status === 'CLOSED') && (
                     <Link
                       href={`/pesquisas/${survey.id}/resultados`}
-                      className="text-sm text-indigo-600 hover:text-indigo-800 font-medium"
+                      className="text-sm text-green-700 hover:text-green-900 font-medium"
                     >
                       Resultados
                     </Link>

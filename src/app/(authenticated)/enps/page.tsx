@@ -205,7 +205,7 @@ export default function EnpsPage() {
       <div className="p-6 max-w-4xl mx-auto">
         <button
           onClick={() => setSelectedSurvey(null)}
-          className="mb-4 text-indigo-600 hover:text-indigo-800 text-sm font-medium flex items-center gap-1"
+          className="mb-4 text-green-700 hover:text-green-900 text-sm font-medium flex items-center gap-1"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -356,13 +356,13 @@ export default function EnpsPage() {
               onChange={(e) => setRespondComment(e.target.value)}
               placeholder="Comentario (opcional)"
               rows={3}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mb-4 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mb-4 focus:ring-2 focus:ring-green-600 focus:border-green-600"
             />
 
             <button
               onClick={handleRespond}
               disabled={respondScore === null || submitting}
-              className="px-6 py-2.5 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium"
+              className="px-6 py-2.5 bg-green-700 text-white rounded-lg hover:bg-green-800 disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium"
             >
               {submitting ? 'Enviando...' : 'Enviar Resposta'}
             </button>
@@ -389,7 +389,7 @@ export default function EnpsPage() {
         {isAdmin && (
           <button
             onClick={() => setShowCreate(!showCreate)}
-            className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 text-sm font-medium"
+            className="px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-green-800 text-sm font-medium"
           >
             Nova Pesquisa
           </button>
@@ -406,12 +406,12 @@ export default function EnpsPage() {
               value={newTitle}
               onChange={(e) => setNewTitle(e.target.value)}
               placeholder="Titulo da pesquisa"
-              className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+              className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-green-600 focus:border-green-600"
             />
             <button
               onClick={handleCreate}
               disabled={creating || !newTitle.trim()}
-              className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 text-sm font-medium"
+              className="px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-green-800 disabled:opacity-50 text-sm font-medium"
             >
               {creating ? 'Criando...' : 'Criar'}
             </button>

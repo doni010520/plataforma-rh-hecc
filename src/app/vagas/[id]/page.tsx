@@ -99,7 +99,7 @@ export default function VagaDetailPage() {
   if (loading) {
     return (
       <div className="flex justify-center py-20">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600" />
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-700" />
       </div>
     );
   }
@@ -111,7 +111,7 @@ export default function VagaDetailPage() {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
         <h2 className="text-xl font-semibold text-gray-900 mb-2">{error || 'Vaga nao encontrada'}</h2>
-        <Link href="/vagas" className="text-indigo-600 hover:text-indigo-700 font-medium">
+        <Link href="/vagas" className="text-green-700 hover:text-green-800 font-medium">
           Voltar para vagas
         </Link>
       </div>
@@ -122,7 +122,7 @@ export default function VagaDetailPage() {
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
       {/* Breadcrumb */}
       <nav className="mb-6">
-        <Link href="/vagas" className="text-indigo-600 hover:text-indigo-700 text-sm font-medium flex items-center gap-1">
+        <Link href="/vagas" className="text-green-700 hover:text-green-800 text-sm font-medium flex items-center gap-1">
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
@@ -192,7 +192,7 @@ export default function VagaDetailPage() {
             </p>
             <Link
               href="/vagas"
-              className="inline-flex items-center gap-2 text-indigo-600 hover:text-indigo-700 font-medium"
+              className="inline-flex items-center gap-2 text-green-700 hover:text-green-800 font-medium"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -216,7 +216,7 @@ export default function VagaDetailPage() {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Seu nome"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-green-600 focus:border-green-600"
                   />
                 </div>
                 <div>
@@ -230,7 +230,7 @@ export default function VagaDetailPage() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="seu@email.com"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-green-600 focus:border-green-600"
                   />
                 </div>
                 <div>
@@ -243,7 +243,7 @@ export default function VagaDetailPage() {
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     placeholder="(11) 99999-9999"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-green-600 focus:border-green-600"
                   />
                 </div>
                 <div>
@@ -256,7 +256,7 @@ export default function VagaDetailPage() {
                     value={linkedIn}
                     onChange={(e) => setLinkedIn(e.target.value)}
                     placeholder="https://linkedin.com/in/seu-perfil"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-green-600 focus:border-green-600"
                   />
                 </div>
               </div>
@@ -270,7 +270,7 @@ export default function VagaDetailPage() {
               <button
                 type="submit"
                 disabled={submitting}
-                className="w-full sm:w-auto px-8 py-3 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="w-full sm:w-auto px-8 py-3 bg-green-700 text-white font-medium rounded-lg hover:bg-green-800 focus:ring-2 focus:ring-green-600 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 {submitting ? 'Enviando...' : 'Enviar Candidatura'}
               </button>

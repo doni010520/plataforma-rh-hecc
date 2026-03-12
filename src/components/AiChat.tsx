@@ -130,7 +130,7 @@ export function AiChat({ inline, departmentId }: AiChatProps) {
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="fixed bottom-6 right-6 w-14 h-14 bg-indigo-600/90 backdrop-blur-sm text-white rounded-full shadow-lg hover:bg-indigo-700 flex items-center justify-center z-50 transition-all hover:scale-105"
+          className="fixed bottom-6 right-6 w-14 h-14 bg-green-700/90 backdrop-blur-sm text-white rounded-full shadow-lg hover:bg-green-800 flex items-center justify-center z-50 transition-all hover:scale-105"
           aria-label="Abrir assistente IA"
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -142,11 +142,11 @@ export function AiChat({ inline, departmentId }: AiChatProps) {
       {/* Chat panel */}
       {isOpen && (
         <div className="fixed bottom-6 right-6 w-[400px] h-[500px] bg-white/80 backdrop-blur-xl border border-white/30 rounded-2xl shadow-2xl flex flex-col z-50">
-          <div className="flex items-center justify-between px-4 py-3 border-b border-white/20 bg-indigo-600/90 backdrop-blur-sm text-white rounded-t-2xl">
+          <div className="flex items-center justify-between px-4 py-3 border-b border-white/20 bg-green-700/90 backdrop-blur-sm text-white rounded-t-2xl">
             <h3 className="font-medium text-sm">Assistente IA</h3>
             <div className="flex gap-2">
-              <button onClick={() => setMessages([])} className="text-indigo-200 hover:text-white text-xs">Limpar</button>
-              <button onClick={() => setIsOpen(false)} className="text-indigo-200 hover:text-white">
+              <button onClick={() => setMessages([])} className="text-green-200 hover:text-white text-xs">Limpar</button>
+              <button onClick={() => setIsOpen(false)} className="text-green-200 hover:text-white">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
@@ -169,9 +169,9 @@ export function AiChat({ inline, departmentId }: AiChatProps) {
 
 function ChatHeader({ onClear }: { onClear: () => void }) {
   return (
-    <div className="flex items-center justify-between px-4 py-3 border-b bg-indigo-600 text-white rounded-t-lg">
+    <div className="flex items-center justify-between px-4 py-3 border-b bg-green-700 text-white rounded-t-lg">
       <h3 className="font-medium text-sm">Assistente IA</h3>
-      <button onClick={onClear} className="text-indigo-200 hover:text-white text-xs">Limpar conversa</button>
+      <button onClick={onClear} className="text-green-200 hover:text-white text-xs">Limpar conversa</button>
     </div>
   );
 }
@@ -198,7 +198,7 @@ function ChatMessages({
           <div
             className={`max-w-[85%] px-3 py-2 rounded-lg text-sm whitespace-pre-wrap ${
               msg.role === 'user'
-                ? 'bg-indigo-100 text-indigo-900'
+                ? 'bg-green-100 text-green-900'
                 : 'bg-gray-100 text-gray-900'
             }`}
           >
@@ -238,13 +238,13 @@ function ChatInput({
         onKeyDown={onKeyDown}
         placeholder="Digite sua pergunta..."
         rows={1}
-        className="flex-1 border rounded-lg px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500"
+        className="flex-1 border rounded-lg px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-green-600"
         disabled={isStreaming}
       />
       <button
         onClick={onSend}
         disabled={isStreaming || !input.trim()}
-        className="px-3 py-2 bg-indigo-600 text-white rounded-lg text-sm hover:bg-indigo-700 disabled:opacity-50"
+        className="px-3 py-2 bg-green-700 text-white rounded-lg text-sm hover:bg-green-800 disabled:opacity-50"
       >
         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />

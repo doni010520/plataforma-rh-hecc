@@ -92,13 +92,13 @@ export default function TrilhasPage() {
   const publishedCount = tracks.filter((t) => t.status === 'PUBLISHED').length;
   const totalEnrollments = tracks.reduce((sum, t) => sum + t._count.enrollments, 0);
 
-  if (loading) return (<div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600" /></div>);
+  if (loading) return (<div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-700" /></div>);
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-gray-900">Trilhas de Desenvolvimento</h1>
-        <button onClick={() => setShowNewTrack(!showNewTrack)} className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 text-sm font-medium">+ Nova Trilha</button>
+        <button onClick={() => setShowNewTrack(!showNewTrack)} className="px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-green-800 text-sm font-medium">+ Nova Trilha</button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -112,7 +112,7 @@ export default function TrilhasPage() {
         </div>
         <div className="bg-white rounded-lg border border-gray-200 p-4">
           <h3 className="text-sm font-medium text-gray-500">Total de Inscrições</h3>
-          <p className="text-2xl font-bold text-indigo-600 mt-1">{totalEnrollments}</p>
+          <p className="text-2xl font-bold text-green-700 mt-1">{totalEnrollments}</p>
         </div>
       </div>
 
@@ -140,7 +140,7 @@ export default function TrilhasPage() {
           <div>
             <div className="flex items-center justify-between mb-2">
               <label className="block text-sm font-medium text-gray-700">Conteúdos da Trilha</label>
-              <button type="button" onClick={addContent} className="text-sm text-indigo-600 hover:text-indigo-800">+ Adicionar Conteúdo</button>
+              <button type="button" onClick={addContent} className="text-sm text-green-700 hover:text-green-900">+ Adicionar Conteúdo</button>
             </div>
             {formContents.map((content, i) => (
               <div key={i} className="flex gap-2 mb-2 items-center">
@@ -155,7 +155,7 @@ export default function TrilhasPage() {
             ))}
           </div>
           <div className="flex gap-2">
-            <button type="submit" className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 text-sm">Criar Trilha</button>
+            <button type="submit" className="px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-green-800 text-sm">Criar Trilha</button>
             <button type="button" onClick={() => setShowNewTrack(false)} className="px-4 py-2 text-gray-600 hover:text-gray-800 text-sm">Cancelar</button>
           </div>
         </form>
@@ -184,7 +184,7 @@ export default function TrilhasPage() {
                 <span className={`text-xs px-2 py-1 rounded-full font-medium ${statusColors[track.status]}`}>{statusLabels[track.status]}</span>
               </div>
               {track.description && <p className="text-sm text-gray-500 mb-2 line-clamp-2">{track.description}</p>}
-              {track.category && <p className="text-xs text-indigo-600 font-medium mb-2">{track.category}</p>}
+              {track.category && <p className="text-xs text-green-700 font-medium mb-2">{track.category}</p>}
               <div className="flex items-center gap-3 text-xs text-gray-400">
                 <span>{track._count.contents} conteúdos</span>
                 <span>{track._count.enrollments} inscritos</span>

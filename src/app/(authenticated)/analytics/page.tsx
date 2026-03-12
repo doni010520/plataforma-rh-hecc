@@ -67,7 +67,7 @@ export default function AnalyticsPage() {
     return (
       <div className="bg-white rounded-lg shadow-sm p-12 text-center">
         <p className="text-gray-500">Sem permissão para acessar analytics.</p>
-        <Link href="/dashboard" className="text-sm text-indigo-600 hover:text-indigo-800 mt-2 inline-block">
+        <Link href="/dashboard" className="text-sm text-green-700 hover:text-green-900 mt-2 inline-block">
           Voltar ao Dashboard
         </Link>
       </div>
@@ -84,7 +84,7 @@ export default function AnalyticsPage() {
     <div>
       <div className="flex items-center justify-between mb-6">
         <div>
-          <Link href="/dashboard" className="text-sm text-indigo-600 hover:text-indigo-800 mb-1 inline-block">
+          <Link href="/dashboard" className="text-sm text-green-700 hover:text-green-900 mb-1 inline-block">
             &larr; Dashboard
           </Link>
           <h1 className="text-2xl font-bold text-gray-900">People Analytics</h1>
@@ -110,7 +110,7 @@ export default function AnalyticsPage() {
               onClick={() => setTab(t.key)}
               className={`pb-3 text-sm font-medium border-b-2 transition-colors ${
                 tab === t.key
-                  ? 'border-indigo-600 text-indigo-600'
+                  ? 'border-green-700 text-green-700'
                   : 'border-transparent text-gray-500 hover:text-gray-700'
               }`}
             >
@@ -214,7 +214,7 @@ export default function AnalyticsPage() {
                       </div>
                       <div className="w-full bg-gray-200 rounded-full h-3">
                         <div
-                          className="h-3 rounded-full bg-indigo-600 transition-all"
+                          className="h-3 rounded-full bg-green-700 transition-all"
                           style={{ width: `${(dept.avgPerformance! / 5) * 100}%` }}
                         />
                       </div>
@@ -377,7 +377,7 @@ export default function AnalyticsPage() {
                     className={`absolute w-3 h-3 rounded-full border-2 ${
                       isRisk
                         ? 'bg-red-500 border-red-600'
-                        : 'bg-indigo-500 border-indigo-600'
+                        : 'bg-green-500 border-green-700'
                     } cursor-pointer hover:scale-150 transition-transform`}
                     style={{
                       left: `${x}%`,
@@ -400,7 +400,7 @@ export default function AnalyticsPage() {
           {/* Legend */}
           <div className="flex items-center gap-6 mt-12 justify-center">
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded-full bg-indigo-500" />
+              <div className="w-3 h-3 rounded-full bg-green-500" />
               <span className="text-xs text-gray-600">Normal</span>
             </div>
             <div className="flex items-center gap-2">

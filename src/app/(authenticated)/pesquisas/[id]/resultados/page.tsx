@@ -87,7 +87,7 @@ export default function ResultadosPesquisaPage() {
   return (
     <div>
       <div className="mb-6">
-        <Link href="/pesquisas" className="text-sm text-indigo-600 hover:text-indigo-800 mb-1 inline-block">
+        <Link href="/pesquisas" className="text-sm text-green-700 hover:text-green-900 mb-1 inline-block">
           &larr; Voltar
         </Link>
         <h1 className="text-2xl font-bold text-gray-900">
@@ -135,7 +135,7 @@ export default function ResultadosPesquisaPage() {
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-3">
                   <div
-                    className="h-3 rounded-full bg-indigo-600 transition-all"
+                    className="h-3 rounded-full bg-green-700 transition-all"
                     style={{ width: `${dept.rate}%` }}
                   />
                 </div>
@@ -156,7 +156,7 @@ export default function ResultadosPesquisaPage() {
             {qr.type === 'SCALE' && (
               <div>
                 <div className="flex items-center gap-3 mb-4">
-                  <span className="text-3xl font-bold text-indigo-600">{qr.avg.toFixed(1)}</span>
+                  <span className="text-3xl font-bold text-green-700">{qr.avg.toFixed(1)}</span>
                   <span className="text-sm text-gray-500">/ 5.0</span>
                 </div>
                 <div className="space-y-2">
@@ -168,7 +168,7 @@ export default function ResultadosPesquisaPage() {
                         <span className="text-sm text-gray-500 w-4">{score}</span>
                         <div className="flex-1 bg-gray-200 rounded-full h-4">
                           <div
-                            className="h-4 rounded-full bg-indigo-500 transition-all"
+                            className="h-4 rounded-full bg-green-500 transition-all"
                             style={{ width: `${pct}%` }}
                           />
                         </div>
@@ -191,7 +191,7 @@ export default function ResultadosPesquisaPage() {
                       <span className="text-sm text-gray-700 min-w-[120px]">{option}</span>
                       <div className="flex-1 bg-gray-200 rounded-full h-4">
                         <div
-                          className="h-4 rounded-full bg-indigo-500 transition-all"
+                          className="h-4 rounded-full bg-green-500 transition-all"
                           style={{ width: `${pct}%` }}
                         />
                       </div>

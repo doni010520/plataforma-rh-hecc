@@ -110,7 +110,7 @@ export default function ResponderNR01Page() {
         </p>
         <button
           onClick={() => router.push('/dashboard')}
-          className="text-indigo-600 hover:text-indigo-800 font-medium"
+          className="text-green-700 hover:text-green-900 font-medium"
         >
           Voltar ao Dashboard
         </button>

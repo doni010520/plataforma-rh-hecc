@@ -149,7 +149,7 @@ export default function FeedbackPage() {
         <h1 className="text-2xl font-bold text-gray-900">Feedback</h1>
         <button
           onClick={() => setShowForm(!showForm)}
-          className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors font-medium"
+          className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-800 transition-colors font-medium"
         >
           Enviar Feedback
         </button>
@@ -170,7 +170,7 @@ export default function FeedbackPage() {
                   value={formTo}
                   onChange={(e) => setFormTo(e.target.value)}
                   required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
                 >
                   <option value="">Selecione...</option>
                   {colaboradores.map((c) => (
@@ -185,7 +185,7 @@ export default function FeedbackPage() {
                 <select
                   value={formType}
                   onChange={(e) => setFormType(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
                 >
                   <option value="PRAISE">Elogio</option>
                   <option value="CONSTRUCTIVE">Construtivo</option>
@@ -204,7 +204,7 @@ export default function FeedbackPage() {
                 required
                 minLength={20}
                 rows={4}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
                 placeholder="Descreva seu feedback com detalhes..."
               />
               <p className="text-xs text-gray-400 mt-1">{formContent.length}/20 caracteres mínimo</p>
@@ -220,7 +220,7 @@ export default function FeedbackPage() {
                     value="PRIVATE"
                     checked={formVisibility === 'PRIVATE'}
                     onChange={(e) => setFormVisibility(e.target.value)}
-                    className="text-indigo-600"
+                    className="text-green-700"
                   />
                   <span className="text-sm text-gray-700">Privado (apenas o destinatário)</span>
                 </label>
@@ -231,7 +231,7 @@ export default function FeedbackPage() {
                     value="PUBLIC"
                     checked={formVisibility === 'PUBLIC'}
                     onChange={(e) => setFormVisibility(e.target.value)}
-                    className="text-indigo-600"
+                    className="text-green-700"
                   />
                   <span className="text-sm text-gray-700">Público (visível para gestores)</span>
                 </label>
@@ -253,7 +253,7 @@ export default function FeedbackPage() {
               <button
                 type="submit"
                 disabled={saving}
-                className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors disabled:opacity-50 font-medium"
+                className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-800 transition-colors disabled:opacity-50 font-medium"
               >
                 {saving ? 'Enviando...' : 'Enviar Feedback'}
               </button>
@@ -284,7 +284,7 @@ export default function FeedbackPage() {
         <select
           value={filterType}
           onChange={(e) => setFilterType(e.target.value)}
-          className="px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          className="px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-600"
         >
           <option value="">Todos os tipos</option>
           <option value="PRAISE">Elogio</option>
@@ -294,7 +294,7 @@ export default function FeedbackPage() {
         <select
           value={filterPeriod}
           onChange={(e) => setFilterPeriod(e.target.value)}
-          className="px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          className="px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-600"
         >
           <option value="">Todo período</option>
           <option value="7d">Últimos 7 dias</option>
@@ -330,7 +330,7 @@ export default function FeedbackPage() {
                         className="w-10 h-10 rounded-full object-cover"
                       />
                     ) : (
-                      <div className="w-10 h-10 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center text-sm font-bold">
+                      <div className="w-10 h-10 rounded-full bg-green-100 text-green-800 flex items-center justify-center text-sm font-bold">
                         {initials(person.name)}
                       </div>
                     )}

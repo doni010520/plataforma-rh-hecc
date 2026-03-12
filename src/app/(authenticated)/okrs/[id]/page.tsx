@@ -260,7 +260,7 @@ export default function ObjectiveDetailPage() {
   return (
     <div>
       <div className="mb-6">
-        <Link href="/okrs" className="text-sm text-indigo-600 hover:text-indigo-800 mb-1 inline-block">
+        <Link href="/okrs" className="text-sm text-green-700 hover:text-green-900 mb-1 inline-block">
           &larr; Voltar para OKRs
         </Link>
         <div className="flex items-start justify-between">
@@ -287,7 +287,7 @@ export default function ObjectiveDetailPage() {
             {objective.parent && (
               <p className="text-sm text-gray-400">
                 Vinculado a:{' '}
-                <Link href={`/okrs/${objective.parent.id}`} className="text-indigo-600 hover:text-indigo-800">
+                <Link href={`/okrs/${objective.parent.id}`} className="text-green-700 hover:text-green-900">
                   {objective.parent.title}
                 </Link>
               </p>
@@ -346,7 +346,7 @@ export default function ObjectiveDetailPage() {
                 ? 'bg-green-500'
                 : objective.status === 'AT_RISK'
                   ? 'bg-red-500'
-                  : 'bg-indigo-600'
+                  : 'bg-green-700'
             }`}
             style={{ width: `${overallProgress}%` }}
           />
@@ -361,7 +361,7 @@ export default function ObjectiveDetailPage() {
           </h2>
           <button
             onClick={() => setShowAddKR(!showAddKR)}
-            className="text-sm text-indigo-600 hover:text-indigo-800 font-medium"
+            className="text-sm text-green-700 hover:text-green-900 font-medium"
           >
             {showAddKR ? 'Cancelar' : '+ Adicionar KR'}
           </button>
@@ -377,7 +377,7 @@ export default function ObjectiveDetailPage() {
                   value={newKRTitle}
                   onChange={(e) => setNewKRTitle(e.target.value)}
                   required
-                  className="w-full px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="w-full px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-600"
                   placeholder="Título do KR"
                 />
               </div>
@@ -386,7 +386,7 @@ export default function ObjectiveDetailPage() {
                 <select
                   value={newKRMetric}
                   onChange={(e) => setNewKRMetric(e.target.value)}
-                  className="px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-600"
                 >
                   {Object.entries(metricLabels).map(([k, v]) => (
                     <option key={k} value={k}>{v}</option>
@@ -399,7 +399,7 @@ export default function ObjectiveDetailPage() {
                   type="number"
                   value={newKRStart}
                   onChange={(e) => setNewKRStart(e.target.value)}
-                  className="w-24 px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="w-24 px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-600"
                 />
               </div>
               <div>
@@ -409,13 +409,13 @@ export default function ObjectiveDetailPage() {
                   value={newKRTarget}
                   onChange={(e) => setNewKRTarget(e.target.value)}
                   required
-                  className="w-24 px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                  className="w-24 px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-600"
                 />
               </div>
               <button
                 type="submit"
                 disabled={savingKR}
-                className="bg-indigo-600 text-white px-4 py-1.5 rounded-md hover:bg-indigo-700 disabled:opacity-50 text-sm font-medium"
+                className="bg-green-700 text-white px-4 py-1.5 rounded-md hover:bg-green-800 disabled:opacity-50 text-sm font-medium"
               >
                 {savingKR ? 'Salvando...' : 'Adicionar'}
               </button>
@@ -450,7 +450,7 @@ export default function ObjectiveDetailPage() {
                       progress >= 100
                         ? 'bg-green-500'
                         : progress >= 70
-                          ? 'bg-indigo-600'
+                          ? 'bg-green-700'
                           : progress >= 30
                             ? 'bg-yellow-500'
                             : 'bg-red-500'
@@ -470,7 +470,7 @@ export default function ObjectiveDetailPage() {
                         setCheckInConfidence(kr.confidence.toString());
                       }
                     }}
-                    className="text-sm text-indigo-600 hover:text-indigo-800 font-medium"
+                    className="text-sm text-green-700 hover:text-green-900 font-medium"
                   >
                     {isCheckingIn ? 'Cancelar' : 'Fazer Check-in'}
                   </button>
@@ -490,7 +490,7 @@ export default function ObjectiveDetailPage() {
                           value={checkInValue}
                           onChange={(e) => setCheckInValue(e.target.value)}
                           required
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
                         />
                       </div>
                       <div>
@@ -500,7 +500,7 @@ export default function ObjectiveDetailPage() {
                         <select
                           value={checkInConfidence}
                           onChange={(e) => setCheckInConfidence(e.target.value)}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
                         >
                           {Object.entries(confidenceLabels).map(([k, v]) => (
                             <option key={k} value={k}>{v}</option>
@@ -516,14 +516,14 @@ export default function ObjectiveDetailPage() {
                         value={checkInNote}
                         onChange={(e) => setCheckInNote(e.target.value)}
                         rows={2}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
                         placeholder="Descreva o progresso..."
                       />
                     </div>
                     <button
                       type="submit"
                       disabled={savingCheckIn}
-                      className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 disabled:opacity-50 font-medium text-sm"
+                      className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-800 disabled:opacity-50 font-medium text-sm"
                     >
                       {savingCheckIn ? 'Registando...' : 'Registar Check-in'}
                     </button>
@@ -586,7 +586,7 @@ export default function ObjectiveDetailPage() {
                     <div className="flex items-center gap-3">
                       <div className="w-32 bg-gray-200 rounded-full h-2">
                         <div
-                          className="h-2 rounded-full bg-indigo-600 transition-all"
+                          className="h-2 rounded-full bg-green-700 transition-all"
                           style={{ width: `${childProgress}%` }}
                         />
                       </div>
