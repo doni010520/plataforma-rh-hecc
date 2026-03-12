@@ -21,6 +21,64 @@ body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
+/* ===== Dark Theme Form Elements ===== */
+/* Fix contrast: browser defaults are white bg + dark text on dark theme */
+select,
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="date"],
+input[type="datetime-local"],
+input[type="time"],
+input[type="search"],
+input[type="tel"],
+input[type="url"],
+textarea {
+  background-color: rgba(10, 30, 20, 0.7) !important;
+  color: #e5e7eb !important;
+  border-color: rgba(52, 211, 153, 0.2) !important;
+}
+
+select option {
+  background-color: #0d1f17;
+  color: #e5e7eb;
+}
+
+/* Placeholder text */
+input::placeholder,
+textarea::placeholder {
+  color: #6b7280 !important;
+}
+
+/* Focus ring */
+select:focus,
+input:focus,
+textarea:focus {
+  outline: none;
+  ring: 2px;
+  border-color: #34d399 !important;
+  box-shadow: 0 0 0 2px rgba(52, 211, 153, 0.25);
+}
+
+/* Disabled fields */
+select:disabled,
+input:disabled,
+textarea:disabled {
+  background-color: rgba(10, 30, 20, 0.4) !important;
+  color: #6b7280 !important;
+  cursor: not-allowed;
+}
+
+/* Autofill styling (Chrome turns inputs yellow) */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 30px #0d1f17 inset !important;
+  -webkit-text-fill-color: #e5e7eb !important;
+  border-color: rgba(52, 211, 153, 0.2) !important;
+}
+
 /* ===== Light Theme Overrides ===== */
 /* When html has .light class, override dark colors globally */
 
@@ -176,7 +234,11 @@ html.light input[type="email"],
 html.light input[type="password"],
 html.light input[type="number"],
 html.light input[type="date"],
+html.light input[type="datetime-local"],
+html.light input[type="time"],
 html.light input[type="search"],
+html.light input[type="tel"],
+html.light input[type="url"],
 html.light textarea {
   background-color: #ffffff !important;
   color: #1f2937 !important;
@@ -186,6 +248,26 @@ html.light textarea {
 html.light select option {
   background-color: #ffffff;
   color: #1f2937;
+}
+
+html.light input::placeholder,
+html.light textarea::placeholder {
+  color: #9ca3af !important;
+}
+
+html.light input:-webkit-autofill,
+html.light input:-webkit-autofill:hover,
+html.light input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 30px #ffffff inset !important;
+  -webkit-text-fill-color: #1f2937 !important;
+  border-color: #d1d5db !important;
+}
+
+html.light select:focus,
+html.light input:focus,
+html.light textarea:focus {
+  border-color: #059669 !important;
+  box-shadow: 0 0 0 2px rgba(5, 150, 105, 0.2);
 }
 
 /* ---- Scrollbar ---- */
