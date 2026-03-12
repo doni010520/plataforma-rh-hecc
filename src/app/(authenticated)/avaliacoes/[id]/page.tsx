@@ -78,7 +78,7 @@ export default function CycleDetailPage() {
     <div>
       <div className="flex items-center justify-between mb-6">
         <div>
-          <Link href="/avaliacoes" className="text-sm text-indigo-600 hover:text-indigo-800 mb-1 inline-block">
+          <Link href="/avaliacoes" className="text-sm text-green-700 hover:text-green-900 mb-1 inline-block">
             &larr; Voltar
           </Link>
           <h1 className="text-2xl font-bold text-gray-900">{cycle.name}</h1>
@@ -86,7 +86,7 @@ export default function CycleDetailPage() {
         {(cycle.status === 'ACTIVE' || cycle.status === 'CLOSED') && (
           <Link
             href={`/avaliacoes/${cycle.id}/resultados`}
-            className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 font-medium text-sm"
+            className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-800 font-medium text-sm"
           >
             Ver Resultados
           </Link>
@@ -107,7 +107,7 @@ export default function CycleDetailPage() {
           <p className="text-2xl font-bold text-gray-900">{completionRate}%</p>
           <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
             <div
-              className="bg-indigo-600 h-2 rounded-full transition-all"
+              className="bg-green-700 h-2 rounded-full transition-all"
               style={{ width: `${completionRate}%` }}
             />
           </div>

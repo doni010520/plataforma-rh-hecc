@@ -190,7 +190,7 @@ export default function ColaboradoresPage() {
             resetForm();
             setShowForm(true);
           }}
-          className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors font-medium"
+          className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-800 transition-colors font-medium"
         >
           Novo Colaborador
         </button>
@@ -209,7 +209,7 @@ export default function ColaboradoresPage() {
                 value={formName}
                 onChange={(e) => setFormName(e.target.value)}
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
               />
             </div>
             <div>
@@ -220,7 +220,7 @@ export default function ColaboradoresPage() {
                 onChange={(e) => setFormEmail(e.target.value)}
                 required
                 disabled={!!editingUser}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent disabled:bg-gray-100"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent disabled:bg-gray-100"
               />
             </div>
             <div>
@@ -229,7 +229,7 @@ export default function ColaboradoresPage() {
                 type="text"
                 value={formJobTitle}
                 onChange={(e) => setFormJobTitle(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
                 placeholder="Ex: Analista de RH"
               />
             </div>
@@ -238,7 +238,7 @@ export default function ColaboradoresPage() {
               <select
                 value={formDeptId}
                 onChange={(e) => setFormDeptId(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
               >
                 <option value="">Nenhum</option>
                 {departments.map((d) => (
@@ -253,7 +253,7 @@ export default function ColaboradoresPage() {
               <select
                 value={formManagerId}
                 onChange={(e) => setFormManagerId(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
               >
                 <option value="">Nenhum</option>
                 {managers
@@ -270,7 +270,7 @@ export default function ColaboradoresPage() {
               <select
                 value={formRole}
                 onChange={(e) => setFormRole(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
               >
                 <option value="EMPLOYEE">Colaborador</option>
                 <option value="MANAGER">Gestor</option>
@@ -295,7 +295,7 @@ export default function ColaboradoresPage() {
               <button
                 type="submit"
                 disabled={saving}
-                className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors disabled:opacity-50 font-medium"
+                className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-800 transition-colors disabled:opacity-50 font-medium"
               >
                 {saving ? 'Salvando...' : editingUser ? 'Salvar Alterações' : 'Cadastrar e Enviar Convite'}
               </button>
@@ -310,12 +310,12 @@ export default function ColaboradoresPage() {
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Buscar por nome, email ou cargo..."
-          className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+          className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
         />
         <select
           value={filterDept}
           onChange={(e) => setFilterDept(e.target.value)}
-          className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+          className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
         >
           <option value="">Todos os departamentos</option>
           {departments.map((d) => (
@@ -400,7 +400,7 @@ export default function ColaboradoresPage() {
                       <td className="px-6 py-4 text-right space-x-2">
                         <button
                           onClick={() => openEdit(user)}
-                          className="text-indigo-600 hover:text-indigo-800 text-sm font-medium"
+                          className="text-green-700 hover:text-green-900 text-sm font-medium"
                         >
                           Editar
                         </button>

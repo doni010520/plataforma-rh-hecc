@@ -138,17 +138,17 @@ export default async function DashboardPage() {
 
       {/* Active Survey Banner */}
       {pendingSurveys.length > 0 && (
-        <div className="mt-6 bg-indigo-50/70 backdrop-blur-lg border border-indigo-200/50 rounded-2xl p-4">
-          <h3 className="text-sm font-semibold text-indigo-800 mb-2">
+        <div className="mt-6 bg-green-50/70 backdrop-blur-lg border border-green-200/50 rounded-2xl p-4">
+          <h3 className="text-sm font-semibold text-green-800 mb-2">
             📋 Pesquisas Activas ({pendingSurveys.length})
           </h3>
           <div className="space-y-2">
             {pendingSurveys.map((s) => (
               <div key={s.id} className="flex items-center justify-between">
-                <span className="text-sm text-indigo-700">{s.title}</span>
+                <span className="text-sm text-green-700">{s.title}</span>
                 <Link
                   href={`/pesquisas/${s.id}/responder`}
-                  className="text-sm bg-indigo-600 text-white px-3 py-1 rounded-md hover:bg-indigo-700 font-medium"
+                  className="text-sm bg-green-700 text-white px-3 py-1 rounded-md hover:bg-green-800 font-medium"
                 >
                   Responder
                 </Link>
@@ -202,7 +202,7 @@ export default async function DashboardPage() {
                 </div>
                 <Link
                   href={`/avaliacoes/responder/${a.id}`}
-                  className="text-sm bg-indigo-600 text-white px-3 py-1.5 rounded-md hover:bg-indigo-700 font-medium"
+                  className="text-sm bg-green-700 text-white px-3 py-1.5 rounded-md hover:bg-green-800 font-medium"
                 >
                   Responder
                 </Link>
@@ -218,7 +218,7 @@ export default async function DashboardPage() {
             <h2 className="text-lg font-semibold text-gray-900">
               Feedbacks Recentes
             </h2>
-            <Link href="/feedback" className="text-sm text-indigo-600 hover:text-indigo-800 font-medium">
+            <Link href="/feedback" className="text-sm text-green-700 hover:text-green-800 font-medium">
               Ver todos
             </Link>
           </div>
@@ -256,14 +256,14 @@ export default async function DashboardPage() {
           <h2 className="text-lg font-semibold text-gray-900">
             Meus OKRs — Q{currentQuarter}/{currentYear}
           </h2>
-          <Link href="/okrs" className="text-sm text-indigo-600 hover:text-indigo-800 font-medium">
+          <Link href="/okrs" className="text-sm text-green-700 hover:text-green-800 font-medium">
             Ver todos
           </Link>
         </div>
         {userObjectives.length === 0 ? (
           <p className="text-gray-500 text-sm">
             Nenhum objectivo definido para este trimestre.{' '}
-            <Link href="/okrs" className="text-indigo-600 hover:text-indigo-800">
+            <Link href="/okrs" className="text-green-700 hover:text-green-800">
               Criar OKR
             </Link>
           </p>
@@ -285,7 +285,7 @@ export default async function DashboardPage() {
                   <div className="flex items-center justify-between mb-1">
                     <Link
                       href={`/okrs/${obj.id}`}
-                      className="text-sm font-medium text-gray-900 hover:text-indigo-600"
+                      className="text-sm font-medium text-gray-900 hover:text-green-700"
                     >
                       {obj.title}
                     </Link>
@@ -307,7 +307,7 @@ export default async function DashboardPage() {
                   <div className="w-full bg-gray-200 rounded-full h-2">
                     <div
                       className={`h-2 rounded-full transition-all ${
-                        obj.status === 'AT_RISK' ? 'bg-red-500' : 'bg-indigo-600'
+                        obj.status === 'AT_RISK' ? 'bg-red-500' : 'bg-green-600'
                       }`}
                       style={{ width: `${progress}%` }}
                     />

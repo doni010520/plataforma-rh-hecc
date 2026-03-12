@@ -136,7 +136,7 @@ export default function ComunicadosPage() {
         {isAdmin && (
           <button
             onClick={() => setShowForm(!showForm)}
-            className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 font-medium text-sm"
+            className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-800 font-medium text-sm"
           >
             {showForm ? 'Cancelar' : '+ Novo Comunicado'}
           </button>
@@ -155,7 +155,7 @@ export default function ComunicadosPage() {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
                 placeholder="Título do comunicado"
               />
             </div>
@@ -166,7 +166,7 @@ export default function ComunicadosPage() {
                 onChange={(e) => setContent(e.target.value)}
                 required
                 rows={5}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
                 placeholder="Conteúdo do comunicado..."
               />
             </div>
@@ -182,7 +182,7 @@ export default function ComunicadosPage() {
                     onClick={() => toggleDept(dept.id)}
                     className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
                       targetDepts.includes(dept.id)
-                        ? 'bg-indigo-600 text-white'
+                        ? 'bg-green-700 text-white'
                         : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                     }`}
                   >
@@ -199,7 +199,7 @@ export default function ComunicadosPage() {
                 type="datetime-local"
                 value={scheduledAt}
                 onChange={(e) => setScheduledAt(e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
               />
             </div>
             {error && (
@@ -208,7 +208,7 @@ export default function ComunicadosPage() {
             <button
               type="submit"
               disabled={saving}
-              className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 disabled:opacity-50 font-medium"
+              className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-800 disabled:opacity-50 font-medium"
             >
               {saving ? 'Criando...' : scheduledAt ? 'Agendar Comunicado' : 'Enviar Agora'}
             </button>
@@ -234,7 +234,7 @@ export default function ComunicadosPage() {
               <div
                 key={a.id}
                 className={`bg-white rounded-lg shadow-sm overflow-hidden ${
-                  !isAdmin && !a.isRead ? 'border-l-4 border-indigo-500' : ''
+                  !isAdmin && !a.isRead ? 'border-l-4 border-green-600' : ''
                 }`}
               >
                 <div
@@ -248,7 +248,7 @@ export default function ComunicadosPage() {
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-1">
                         {!isAdmin && !a.isRead && (
-                          <span className="w-2 h-2 bg-indigo-500 rounded-full flex-shrink-0" />
+                          <span className="w-2 h-2 bg-green-500 rounded-full flex-shrink-0" />
                         )}
                         <h3 className="font-semibold text-gray-900">{a.title}</h3>
                       </div>

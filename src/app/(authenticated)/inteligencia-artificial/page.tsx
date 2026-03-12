@@ -171,7 +171,7 @@ export default function IAPage() {
     const a = selectedAnalysis;
     return (
       <div className="p-6 space-y-6 max-w-4xl mx-auto">
-        <button onClick={() => setSelectedAnalysis(null)} className="text-indigo-600 hover:underline text-sm">&larr; Voltar</button>
+        <button onClick={() => setSelectedAnalysis(null)} className="text-green-700 hover:underline text-sm">&larr; Voltar</button>
         <div className="flex items-start justify-between">
           <h1 className="text-2xl font-bold text-gray-900">{a.title}</h1>
           <span className={`px-2 py-1 rounded-full text-xs font-medium ${typeColors[a.type] || 'bg-gray-100'}`}>{typeLabels[a.type] || a.type}</span>
@@ -202,7 +202,7 @@ export default function IAPage() {
       <div className="border-b border-gray-200">
         <nav className="flex space-x-8">
           {([['dashboard', 'Dashboard'], ['analises', 'Análises'], ['alertas', 'Alertas']] as const).map(([key, label]) => (
-            <button key={key} onClick={() => setTab(key)} className={`py-2 px-1 border-b-2 text-sm font-medium transition-colors ${tab === key ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}>
+            <button key={key} onClick={() => setTab(key)} className={`py-2 px-1 border-b-2 text-sm font-medium transition-colors ${tab === key ? 'border-green-600 text-green-700' : 'border-transparent text-gray-500 hover:text-gray-700'}`}>
               {label}
               {key === 'alertas' && dashboard && dashboard.unreadAlerts > 0 && (
                 <span className="ml-2 inline-flex items-center justify-center px-2 py-0.5 text-xs font-bold leading-none text-white bg-red-500 rounded-full">{dashboard.unreadAlerts}</span>
@@ -234,7 +234,7 @@ export default function IAPage() {
               <button
                 onClick={generateInsights}
                 disabled={!!generating}
-                className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm hover:bg-indigo-700 disabled:opacity-50 flex items-center gap-2"
+                className="px-4 py-2 bg-green-700 text-white rounded-lg text-sm hover:bg-green-800 disabled:opacity-50 flex items-center gap-2"
               >
                 {generating === 'insights' ? (
                   <>
@@ -266,11 +266,11 @@ export default function IAPage() {
           {/* Summary Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="bg-white border rounded-lg p-6 text-center">
-              <p className="text-3xl font-bold text-indigo-600">{dashboard.totalAnalyses}</p>
+              <p className="text-3xl font-bold text-green-700">{dashboard.totalAnalyses}</p>
               <p className="text-sm text-gray-500 mt-1">Análises Geradas</p>
             </div>
             <div className="bg-white border rounded-lg p-6 text-center">
-              <p className="text-3xl font-bold text-indigo-600">{dashboard.totalAlerts}</p>
+              <p className="text-3xl font-bold text-green-700">{dashboard.totalAlerts}</p>
               <p className="text-sm text-gray-500 mt-1">Alertas Totais</p>
             </div>
             <div className="bg-white border rounded-lg p-6 text-center">
@@ -299,7 +299,7 @@ export default function IAPage() {
               <h2 className="font-semibold text-gray-900 mb-4">Alertas Recentes</h2>
               <div className="space-y-3">
                 {dashboard.recentAlerts.map(alert => (
-                  <div key={alert.id} className={`flex items-start gap-3 p-3 rounded-lg ${alert.read ? 'bg-gray-50' : 'bg-indigo-50'}`}>
+                  <div key={alert.id} className={`flex items-start gap-3 p-3 rounded-lg ${alert.read ? 'bg-gray-50' : 'bg-green-50'}`}>
                     <span className={`px-2 py-0.5 rounded-full text-xs font-medium mt-0.5 ${priorityColors[alert.priority]}`}>{priorityLabels[alert.priority]}</span>
                     <div className="flex-1">
                       <p className={`text-sm ${alert.read ? 'text-gray-700' : 'font-medium text-gray-900'}`}>{alert.title}</p>
@@ -325,7 +325,7 @@ export default function IAPage() {
           </div>
           <div className="space-y-3">
             {analyses.map(a => (
-              <div key={a.id} onClick={() => setSelectedAnalysis(a)} className="bg-white border rounded-lg p-4 cursor-pointer hover:border-indigo-300 transition-colors">
+              <div key={a.id} onClick={() => setSelectedAnalysis(a)} className="bg-white border rounded-lg p-4 cursor-pointer hover:border-green-300 transition-colors">
                 <div className="flex items-center justify-between">
                   <div>
                     <h3 className="font-medium text-gray-900">{a.title}</h3>
@@ -347,7 +347,7 @@ export default function IAPage() {
       {tab === 'alertas' && (
         <div className="space-y-3">
           {alerts.map(alert => (
-            <div key={alert.id} className={`bg-white border rounded-lg p-4 ${!alert.read ? 'border-indigo-200' : ''}`}>
+            <div key={alert.id} className={`bg-white border rounded-lg p-4 ${!alert.read ? 'border-green-200' : ''}`}>
               <div className="flex items-start justify-between">
                 <div className="flex items-start gap-3">
                   <span className={`px-2 py-0.5 rounded-full text-xs font-medium mt-0.5 ${priorityColors[alert.priority]}`}>{priorityLabels[alert.priority]}</span>
@@ -360,7 +360,7 @@ export default function IAPage() {
                 <div className="flex items-center gap-2">
                   <span className="text-xs text-gray-400">{new Date(alert.createdAt).toLocaleDateString('pt-BR')}</span>
                   {!alert.read && (
-                    <button onClick={() => markAsRead(alert.id)} className="text-xs px-2 py-1 bg-indigo-100 text-indigo-700 rounded hover:bg-indigo-200">Marcar lido</button>
+                    <button onClick={() => markAsRead(alert.id)} className="text-xs px-2 py-1 bg-green-100 text-green-800 rounded hover:bg-green-200">Marcar lido</button>
                   )}
                   {!alert.dismissedAt && (
                     <button onClick={() => dismissAlert(alert.id)} className="text-xs px-2 py-1 bg-gray-100 text-gray-700 rounded hover:bg-gray-200">Dispensar</button>

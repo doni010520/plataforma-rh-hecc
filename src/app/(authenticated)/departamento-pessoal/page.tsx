@@ -224,13 +224,13 @@ export default function DepartamentoPessoalPage() {
 
   const addLabels: Record<Tab, string> = { documentos: '+ Novo Documento', holerites: '+ Novo Holerite', ferias: '+ Nova Solicitação', salario: '+ Novo Registro', cargos: '+ Novo Registro' };
 
-  if (loading) return (<div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600" /></div>);
+  if (loading) return (<div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-700" /></div>);
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-gray-900">Departamento Pessoal</h1>
-        <button onClick={() => setShowForm(!showForm)} className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 text-sm font-medium">{addLabels[tab]}</button>
+        <button onClick={() => setShowForm(!showForm)} className="px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-green-800 text-sm font-medium">{addLabels[tab]}</button>
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
@@ -252,14 +252,14 @@ export default function DepartamentoPessoalPage() {
         </div>
         <div className="bg-white rounded-lg border border-gray-200 p-4">
           <h3 className="text-sm font-medium text-gray-500">Mudanças de Cargo</h3>
-          <p className="text-2xl font-bold text-indigo-600 mt-1">{jobHistory.length}</p>
+          <p className="text-2xl font-bold text-green-700 mt-1">{jobHistory.length}</p>
         </div>
       </div>
 
       <div className="border-b border-gray-200">
         <nav className="flex gap-4">
           {tabs.map(t => (
-            <button key={t.key} onClick={() => { setTab(t.key); setShowForm(false); }} className={`pb-2 text-sm font-medium border-b-2 transition-colors ${tab === t.key ? 'border-indigo-600 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}>{t.label} ({t.count})</button>
+            <button key={t.key} onClick={() => { setTab(t.key); setShowForm(false); }} className={`pb-2 text-sm font-medium border-b-2 transition-colors ${tab === t.key ? 'border-green-700 text-green-700' : 'border-transparent text-gray-500 hover:text-gray-700'}`}>{t.label} ({t.count})</button>
           ))}
         </nav>
       </div>
@@ -277,7 +277,7 @@ export default function DepartamentoPessoalPage() {
                 <div><label className="block text-sm font-medium text-gray-700 mb-1">Validade</label><input type="date" value={docExpires} onChange={e => setDocExpires(e.target.value)} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" /></div>
               </div>
               <div className="flex gap-2">
-                <button type="submit" className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 text-sm">Criar</button>
+                <button type="submit" className="px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-green-800 text-sm">Criar</button>
                 <button type="button" onClick={resetForms} className="px-4 py-2 text-gray-600 hover:text-gray-800 text-sm">Cancelar</button>
               </div>
             </form>
@@ -326,7 +326,7 @@ export default function DepartamentoPessoalPage() {
                 <div><label className="block text-sm font-medium text-gray-700 mb-1">Sal. Líquido</label><input type="number" step="0.01" value={psNet} onChange={e => setPsNet(Number(e.target.value))} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" required /></div>
               </div>
               <div className="flex gap-2">
-                <button type="submit" className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 text-sm">Criar</button>
+                <button type="submit" className="px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-green-800 text-sm">Criar</button>
                 <button type="button" onClick={resetForms} className="px-4 py-2 text-gray-600 hover:text-gray-800 text-sm">Cancelar</button>
               </div>
             </form>
@@ -370,7 +370,7 @@ export default function DepartamentoPessoalPage() {
               </div>
               <div><label className="block text-sm font-medium text-gray-700 mb-1">Observações</label><textarea value={vacNotes} onChange={e => setVacNotes(e.target.value)} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" rows={2} /></div>
               <div className="flex gap-2">
-                <button type="submit" className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 text-sm">Solicitar</button>
+                <button type="submit" className="px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-green-800 text-sm">Solicitar</button>
                 <button type="button" onClick={resetForms} className="px-4 py-2 text-gray-600 hover:text-gray-800 text-sm">Cancelar</button>
               </div>
             </form>
@@ -418,7 +418,7 @@ export default function DepartamentoPessoalPage() {
                 <div><label className="block text-sm font-medium text-gray-700 mb-1">Motivo</label><input type="text" value={shReason} onChange={e => setShReason(e.target.value)} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" placeholder="Promoção, reajuste..." /></div>
               </div>
               <div className="flex gap-2">
-                <button type="submit" className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 text-sm">Registrar</button>
+                <button type="submit" className="px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-green-800 text-sm">Registrar</button>
                 <button type="button" onClick={resetForms} className="px-4 py-2 text-gray-600 hover:text-gray-800 text-sm">Cancelar</button>
               </div>
             </form>
@@ -470,7 +470,7 @@ export default function DepartamentoPessoalPage() {
                 <div><label className="block text-sm font-medium text-gray-700 mb-1">Motivo</label><input type="text" value={jhReason} onChange={e => setJhReason(e.target.value)} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" placeholder="Promoção, transferência..." /></div>
               </div>
               <div className="flex gap-2">
-                <button type="submit" className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 text-sm">Registrar</button>
+                <button type="submit" className="px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-green-800 text-sm">Registrar</button>
                 <button type="button" onClick={resetForms} className="px-4 py-2 text-gray-600 hover:text-gray-800 text-sm">Cancelar</button>
               </div>
             </form>
@@ -488,7 +488,7 @@ export default function DepartamentoPessoalPage() {
                   <div className="flex items-center gap-2 text-sm">
                     <span className="text-gray-500">{j.previousJobTitle || 'Sem cargo'}</span>
                     <span className="text-gray-400">→</span>
-                    <span className="font-medium text-indigo-600">{j.newJobTitle}</span>
+                    <span className="font-medium text-green-700">{j.newJobTitle}</span>
                   </div>
                   {(j.previousDepartment || j.newDepartment) && (
                     <div className="flex items-center gap-2 text-xs text-gray-400 mt-1">

@@ -98,7 +98,7 @@ export function Header({ userName, avatarUrl }: HeaderProps) {
     .slice(0, 2);
 
   return (
-    <header className="fixed top-0 left-0 md:left-64 right-0 h-16 bg-white/70 backdrop-blur-xl border-b border-white/20 flex items-center justify-between px-4 md:px-6 z-20">
+    <header className="fixed top-0 left-0 md:left-64 right-0 h-16 bg-white/60 backdrop-blur-xl border-b border-green-200/30 flex items-center justify-between px-4 md:px-6 z-20">
       {/* Mobile menu button */}
       <button
         onClick={() => document.dispatchEvent(new CustomEvent('toggle-sidebar'))}
@@ -133,13 +133,13 @@ export function Header({ userName, avatarUrl }: HeaderProps) {
           </button>
 
           {showDropdown && (
-            <div className="absolute right-0 top-full mt-2 w-80 bg-white/80 backdrop-blur-xl rounded-lg shadow-lg border border-white/30 max-h-96 overflow-hidden z-50">
+            <div className="absolute right-0 top-full mt-2 w-80 bg-white/80 backdrop-blur-xl rounded-lg shadow-lg border border-green-200/30 max-h-96 overflow-hidden z-50">
               <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100">
                 <h3 className="text-sm font-semibold text-gray-900">Notificações</h3>
                 {unreadCount > 0 && (
                   <button
                     onClick={markAllRead}
-                    className="text-xs text-indigo-600 hover:text-indigo-800 font-medium"
+                    className="text-xs text-green-700 hover:text-green-900 font-medium"
                   >
                     Marcar todas como lidas
                   </button>
@@ -154,13 +154,13 @@ export function Header({ userName, avatarUrl }: HeaderProps) {
                       key={n.id}
                       onClick={() => handleNotificationClick(n)}
                       className={`w-full text-left px-4 py-3 hover:bg-gray-50 border-b border-gray-50 transition-colors ${
-                        !n.read ? 'bg-indigo-50/50' : ''
+                        !n.read ? 'bg-green-50/50' : ''
                       }`}
                       role="listitem"
                     >
                       <div className="flex items-start gap-2">
                         {!n.read && (
-                          <span className="w-2 h-2 rounded-full bg-indigo-600 flex-shrink-0 mt-1.5" aria-hidden="true" />
+                          <span className="w-2 h-2 rounded-full bg-green-700 flex-shrink-0 mt-1.5" aria-hidden="true" />
                         )}
                         <div className={!n.read ? '' : 'ml-4'}>
                           <p className="text-sm font-medium text-gray-900">{n.title}</p>
@@ -185,7 +185,7 @@ export function Header({ userName, avatarUrl }: HeaderProps) {
                 <Link
                   href="/notificacoes"
                   onClick={() => setShowDropdown(false)}
-                  className="block text-center py-2.5 text-sm text-indigo-600 hover:text-indigo-800 font-medium hover:bg-gray-50"
+                  className="block text-center py-2.5 text-sm text-green-700 hover:text-green-900 font-medium hover:bg-gray-50"
                 >
                   Ver todas
                 </Link>
@@ -204,7 +204,7 @@ export function Header({ userName, avatarUrl }: HeaderProps) {
               className="w-8 h-8 rounded-full object-cover"
             />
           ) : (
-            <div className="w-8 h-8 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center text-xs font-bold">
+            <div className="w-8 h-8 rounded-full bg-green-100 text-green-800 flex items-center justify-center text-xs font-bold">
               {initials}
             </div>
           )}

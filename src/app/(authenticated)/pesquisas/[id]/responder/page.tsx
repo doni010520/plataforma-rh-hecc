@@ -91,7 +91,7 @@ export default function ResponderPesquisaPage() {
         <p className="text-gray-500 mb-4">Você já respondeu a pesquisa &ldquo;{survey.title}&rdquo;.</p>
         <button
           onClick={() => router.push('/pesquisas')}
-          className="text-indigo-600 hover:text-indigo-800 font-medium"
+          className="text-green-700 hover:text-green-900 font-medium"
         >
           Voltar para pesquisas
         </button>
@@ -130,7 +130,7 @@ export default function ResponderPesquisaPage() {
         </div>
         <div className="w-full bg-gray-200 rounded-full h-2">
           <div
-            className="h-2 rounded-full bg-indigo-600 transition-all"
+            className="h-2 rounded-full bg-green-700 transition-all"
             style={{ width: `${progress}%` }}
           />
         </div>
@@ -149,7 +149,7 @@ export default function ResponderPesquisaPage() {
                 onClick={() => setAnswer(currentQuestion.id, score.toString())}
                 className={`w-16 h-16 rounded-lg border-2 text-center transition-all ${
                   currentAnswer === score.toString()
-                    ? 'border-indigo-600 bg-indigo-50 text-indigo-700 font-bold'
+                    ? 'border-green-700 bg-green-50 text-green-800 font-bold'
                     : 'border-gray-200 hover:border-gray-300 text-gray-600'
                 }`}
               >
@@ -179,7 +179,7 @@ export default function ResponderPesquisaPage() {
                 onClick={() => setAnswer(currentQuestion.id, option)}
                 className={`block w-full text-left px-4 py-3 rounded-lg border-2 transition-all ${
                   currentAnswer === option
-                    ? 'border-indigo-600 bg-indigo-50 text-indigo-700 font-medium'
+                    ? 'border-green-700 bg-green-50 text-green-800 font-medium'
                     : 'border-gray-200 hover:border-gray-300 text-gray-700'
                 }`}
               >
@@ -194,7 +194,7 @@ export default function ResponderPesquisaPage() {
             value={currentAnswer}
             onChange={(e) => setAnswer(currentQuestion.id, e.target.value)}
             rows={4}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
             placeholder="Escreva sua resposta..."
           />
         )}
@@ -218,7 +218,7 @@ export default function ResponderPesquisaPage() {
           <button
             onClick={handleSubmit}
             disabled={submitting || !currentAnswer}
-            className="bg-indigo-600 text-white px-6 py-2 rounded-md hover:bg-indigo-700 disabled:opacity-50 font-medium"
+            className="bg-green-700 text-white px-6 py-2 rounded-md hover:bg-green-800 disabled:opacity-50 font-medium"
           >
             {submitting ? 'Enviando...' : 'Enviar Respostas'}
           </button>
@@ -226,7 +226,7 @@ export default function ResponderPesquisaPage() {
           <button
             onClick={() => setCurrentStep(currentStep + 1)}
             disabled={!currentAnswer}
-            className="bg-indigo-600 text-white px-6 py-2 rounded-md hover:bg-indigo-700 disabled:opacity-50 font-medium"
+            className="bg-green-700 text-white px-6 py-2 rounded-md hover:bg-green-800 disabled:opacity-50 font-medium"
           >
             Próxima &rarr;
           </button>

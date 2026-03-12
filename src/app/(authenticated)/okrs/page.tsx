@@ -206,7 +206,7 @@ export default function OKRsPage() {
         <h1 className="text-2xl font-bold text-gray-900">OKRs</h1>
         <button
           onClick={() => setShowForm(!showForm)}
-          className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 font-medium text-sm"
+          className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-800 font-medium text-sm"
         >
           {showForm ? 'Cancelar' : '+ Novo Objectivo'}
         </button>
@@ -220,7 +220,7 @@ export default function OKRsPage() {
             <p className="text-2xl font-bold text-gray-900">{globalProgress.toFixed(0)}%</p>
             <div className="flex-1 bg-gray-200 rounded-full h-3">
               <div
-                className="h-3 rounded-full bg-indigo-600 transition-all"
+                className="h-3 rounded-full bg-green-700 transition-all"
                 style={{ width: `${globalProgress}%` }}
               />
             </div>
@@ -299,7 +299,7 @@ export default function OKRsPage() {
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
                   placeholder="Ex: Aumentar a receita recorrente"
                 />
               </div>
@@ -309,7 +309,7 @@ export default function OKRsPage() {
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   rows={2}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
                   placeholder="Descreva o objectivo..."
                 />
               </div>
@@ -318,7 +318,7 @@ export default function OKRsPage() {
                 <select
                   value={level}
                   onChange={(e) => setLevel(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
                 >
                   <option value="INDIVIDUAL">Individual</option>
                   <option value="TEAM">Equipa</option>
@@ -330,7 +330,7 @@ export default function OKRsPage() {
                 <select
                   value={parentId}
                   onChange={(e) => setParentId(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
                 >
                   <option value="">Nenhum (raiz)</option>
                   {parentOptions.map((o) => (
@@ -345,7 +345,7 @@ export default function OKRsPage() {
                 <select
                   value={quarter}
                   onChange={(e) => setQuarter(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
                 >
                   <option value="1">Q1 (Jan–Mar)</option>
                   <option value="2">Q2 (Abr–Jun)</option>
@@ -358,7 +358,7 @@ export default function OKRsPage() {
                 <select
                   value={year}
                   onChange={(e) => setYear(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
                 >
                   {[2024, 2025, 2026].map((y) => (
                     <option key={y} value={y}>{y}</option>
@@ -374,7 +374,7 @@ export default function OKRsPage() {
                 <button
                   type="button"
                   onClick={addKR}
-                  className="text-sm text-indigo-600 hover:text-indigo-800 font-medium"
+                  className="text-sm text-green-700 hover:text-green-900 font-medium"
                 >
                   + Adicionar KR
                 </button>
@@ -389,13 +389,13 @@ export default function OKRsPage() {
                           value={kr.title}
                           onChange={(e) => updateKR(i, 'title', e.target.value)}
                           placeholder="Título do KR"
-                          className="w-full px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                          className="w-full px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-600"
                         />
                       </div>
                       <select
                         value={kr.metricType}
                         onChange={(e) => updateKR(i, 'metricType', e.target.value)}
-                        className="px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        className="px-3 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-600"
                       >
                         <option value="NUMBER">Número</option>
                         <option value="PERCENTAGE">Percentagem</option>
@@ -408,14 +408,14 @@ export default function OKRsPage() {
                           value={kr.startValue}
                           onChange={(e) => updateKR(i, 'startValue', e.target.value)}
                           placeholder="Início"
-                          className="w-full px-2 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                          className="w-full px-2 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-600"
                         />
                         <input
                           type="number"
                           value={kr.targetValue}
                           onChange={(e) => updateKR(i, 'targetValue', e.target.value)}
                           placeholder="Meta"
-                          className="w-full px-2 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                          className="w-full px-2 py-1.5 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-600"
                         />
                       </div>
                     </div>
@@ -442,7 +442,7 @@ export default function OKRsPage() {
             <button
               type="submit"
               disabled={saving}
-              className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 disabled:opacity-50 font-medium"
+              className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-800 disabled:opacity-50 font-medium"
             >
               {saving ? 'Criando...' : 'Criar Objectivo'}
             </button>
@@ -500,7 +500,7 @@ export default function OKRsPage() {
                         ? 'bg-green-500'
                         : obj.status === 'AT_RISK'
                           ? 'bg-red-500'
-                          : 'bg-indigo-600'
+                          : 'bg-green-700'
                     }`}
                     style={{ width: `${progress}%` }}
                   />
@@ -514,7 +514,7 @@ export default function OKRsPage() {
                       <div key={kr.id} className="flex items-center gap-2">
                         <div className="w-full bg-gray-100 rounded-full h-1.5 flex-1">
                           <div
-                            className="h-1.5 rounded-full bg-indigo-400 transition-all"
+                            className="h-1.5 rounded-full bg-green-500 transition-all"
                             style={{ width: `${krProgress}%` }}
                           />
                         </div>

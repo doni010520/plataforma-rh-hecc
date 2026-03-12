@@ -180,8 +180,8 @@ export default function TrackDetailPage() {
     if (res.ok) fetchData();
   };
 
-  if (loading) return (<div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600" /></div>);
-  if (!track) return (<div className="text-center py-12"><p className="text-gray-500">Trilha não encontrada.</p><Link href="/trilhas" className="text-indigo-600 hover:underline text-sm mt-2 inline-block">Voltar para Trilhas</Link></div>);
+  if (loading) return (<div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-700" /></div>);
+  if (!track) return (<div className="text-center py-12"><p className="text-gray-500">Trilha não encontrada.</p><Link href="/trilhas" className="text-green-700 hover:underline text-sm mt-2 inline-block">Voltar para Trilhas</Link></div>);
 
   const totalContents = track.contents.length;
   const totalDuration = track.contents.reduce((sum, c) => sum + c.durationMinutes, 0);
@@ -189,7 +189,7 @@ export default function TrackDetailPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-2 text-sm text-gray-500">
-        <Link href="/trilhas" className="hover:text-indigo-600">← Voltar para Trilhas</Link>
+        <Link href="/trilhas" className="hover:text-green-700">← Voltar para Trilhas</Link>
       </div>
 
       <div className="bg-white rounded-lg border border-gray-200 p-6">
@@ -200,7 +200,7 @@ export default function TrackDetailPage() {
               <span className={`text-xs px-2 py-1 rounded-full font-medium ${statusColors[track.status]}`}>{statusLabels[track.status]}</span>
             </div>
             {track.description && <p className="text-gray-600 mb-2">{track.description}</p>}
-            {track.category && <p className="text-sm text-indigo-600 font-medium mb-2">{track.category}</p>}
+            {track.category && <p className="text-sm text-green-700 font-medium mb-2">{track.category}</p>}
             <div className="flex items-center gap-4 text-sm text-gray-500">
               <span>{totalContents} conteúdos</span>
               {totalDuration > 0 && <span>{Math.floor(totalDuration / 60)}h{totalDuration % 60 > 0 ? ` ${totalDuration % 60}min` : ''}</span>}
@@ -221,15 +221,15 @@ export default function TrackDetailPage() {
 
       <div className="border-b border-gray-200">
         <nav className="flex gap-4">
-          <button onClick={() => setActiveTab('contents')} className={`pb-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'contents' ? 'border-indigo-600 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}>Conteúdos ({totalContents})</button>
-          <button onClick={() => setActiveTab('enrollments')} className={`pb-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'enrollments' ? 'border-indigo-600 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}>Inscrições ({track.enrollments.length})</button>
+          <button onClick={() => setActiveTab('contents')} className={`pb-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'contents' ? 'border-green-700 text-green-700' : 'border-transparent text-gray-500 hover:text-gray-700'}`}>Conteúdos ({totalContents})</button>
+          <button onClick={() => setActiveTab('enrollments')} className={`pb-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'enrollments' ? 'border-green-700 text-green-700' : 'border-transparent text-gray-500 hover:text-gray-700'}`}>Inscrições ({track.enrollments.length})</button>
         </nav>
       </div>
 
       {activeTab === 'contents' && (
         <div className="space-y-4">
           <div className="flex justify-end">
-            <button onClick={() => setShowAddContent(!showAddContent)} className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 text-sm font-medium">+ Adicionar Conteúdo</button>
+            <button onClick={() => setShowAddContent(!showAddContent)} className="px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-green-800 text-sm font-medium">+ Adicionar Conteúdo</button>
           </div>
 
           {showAddContent && (
@@ -259,7 +259,7 @@ export default function TrackDetailPage() {
                 <textarea value={contentDescription} onChange={(e) => setContentDescription(e.target.value)} className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm" rows={2} />
               </div>
               <div className="flex gap-2">
-                <button type="submit" className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 text-sm">Adicionar</button>
+                <button type="submit" className="px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-green-800 text-sm">Adicionar</button>
                 <button type="button" onClick={() => setShowAddContent(false)} className="px-4 py-2 text-gray-600 hover:text-gray-800 text-sm">Cancelar</button>
               </div>
             </form>
@@ -274,17 +274,17 @@ export default function TrackDetailPage() {
             <div className="space-y-2">
               {track.contents.map((content, index) => (
                 <div key={content.id} className="bg-white rounded-lg border border-gray-200 p-4 flex items-center gap-4">
-                  <span className="w-8 h-8 flex items-center justify-center bg-indigo-100 text-indigo-700 rounded-full text-sm font-bold">{index + 1}</span>
+                  <span className="w-8 h-8 flex items-center justify-center bg-green-100 text-green-800 rounded-full text-sm font-bold">{index + 1}</span>
                   <div className="flex-1">
                     <div className="flex items-center gap-2">
                       <span className="font-medium text-gray-900">{content.title}</span>
                       <span className="text-xs px-2 py-0.5 bg-gray-100 text-gray-600 rounded">{contentTypeLabels[content.type] || content.type}</span>
-                      {content.required && <span className="text-xs px-2 py-0.5 bg-indigo-100 text-indigo-600 rounded">Obrigatório</span>}
+                      {content.required && <span className="text-xs px-2 py-0.5 bg-green-100 text-green-700 rounded">Obrigatório</span>}
                     </div>
                     {content.description && <p className="text-sm text-gray-500 mt-1">{content.description}</p>}
                     <div className="flex items-center gap-3 text-xs text-gray-400 mt-1">
                       {content.durationMinutes > 0 && <span>{content.durationMinutes} min</span>}
-                      {content.contentUrl && <a href={content.contentUrl} target="_blank" rel="noopener noreferrer" className="text-indigo-600 hover:underline">Acessar</a>}
+                      {content.contentUrl && <a href={content.contentUrl} target="_blank" rel="noopener noreferrer" className="text-green-700 hover:underline">Acessar</a>}
                     </div>
                   </div>
                   <button onClick={() => handleDeleteContent(content.id)} className="text-red-400 hover:text-red-600 text-sm">✕</button>
@@ -298,8 +298,8 @@ export default function TrackDetailPage() {
       {activeTab === 'enrollments' && (
         <div className="space-y-4">
           <div className="flex justify-end gap-2">
-            <button onClick={handleSelfEnroll} className="px-4 py-2 border border-indigo-600 text-indigo-600 rounded-lg hover:bg-indigo-50 text-sm font-medium">Inscrever-me</button>
-            <button onClick={() => setShowEnroll(!showEnroll)} className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 text-sm font-medium">+ Inscrever Colaborador</button>
+            <button onClick={handleSelfEnroll} className="px-4 py-2 border border-green-700 text-green-700 rounded-lg hover:bg-green-50 text-sm font-medium">Inscrever-me</button>
+            <button onClick={() => setShowEnroll(!showEnroll)} className="px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-green-800 text-sm font-medium">+ Inscrever Colaborador</button>
           </div>
 
           {showEnroll && (
@@ -311,7 +311,7 @@ export default function TrackDetailPage() {
                   {employees.map((emp) => <option key={emp.id} value={emp.id}>{emp.name}</option>)}
                 </select>
               </div>
-              <button type="submit" className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 text-sm">Inscrever</button>
+              <button type="submit" className="px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-green-800 text-sm">Inscrever</button>
               <button type="button" onClick={() => setShowEnroll(false)} className="px-4 py-2 text-gray-600 hover:text-gray-800 text-sm">Cancelar</button>
             </form>
           )}
@@ -330,7 +330,7 @@ export default function TrackDetailPage() {
                   <div key={enrollment.id} className="bg-white rounded-lg border border-gray-200 p-4">
                     <div className="flex items-center justify-between mb-3">
                       <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-700 font-bold">{enrollment.user.name.charAt(0)}</div>
+                        <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center text-green-800 font-bold">{enrollment.user.name.charAt(0)}</div>
                         <div>
                           <p className="font-medium text-gray-900">{enrollment.user.name}</p>
                           <p className="text-xs text-gray-500">{enrollment.user.jobTitle || 'Sem cargo'}</p>
@@ -344,7 +344,7 @@ export default function TrackDetailPage() {
                         <span>{pct}%</span>
                       </div>
                       <div className="w-full bg-gray-200 rounded-full h-2">
-                        <div className="bg-indigo-600 h-2 rounded-full transition-all" style={{ width: `${pct}%` }} />
+                        <div className="bg-green-700 h-2 rounded-full transition-all" style={{ width: `${pct}%` }} />
                       </div>
                     </div>
                     <div className="space-y-1">

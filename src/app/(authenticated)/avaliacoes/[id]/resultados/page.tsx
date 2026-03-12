@@ -97,7 +97,7 @@ export default function ResultadosPage() {
     <div>
       <div className="flex items-center justify-between mb-6">
         <div>
-          <Link href="/avaliacoes" className="text-sm text-indigo-600 hover:text-indigo-800 mb-1 inline-block">
+          <Link href="/avaliacoes" className="text-sm text-green-700 hover:text-green-900 mb-1 inline-block">
             &larr; Voltar
           </Link>
           <h1 className="text-2xl font-bold text-gray-900">
@@ -108,7 +108,7 @@ export default function ResultadosPage() {
           <AiInterpretation type="avaliacao" targetId={id} />
           <a
             href={`/api/avaliacoes/${id}/export`}
-            className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 font-medium text-sm"
+            className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-800 font-medium text-sm"
           >
             Exportar CSV
           </a>

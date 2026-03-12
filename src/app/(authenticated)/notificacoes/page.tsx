@@ -75,7 +75,7 @@ export default function NotificacoesPage() {
         {unreadCount > 0 && (
           <button
             onClick={markAllRead}
-            className="text-sm text-indigo-600 hover:text-indigo-800 font-medium"
+            className="text-sm text-green-700 hover:text-green-900 font-medium"
           >
             Marcar todas como lidas ({unreadCount})
           </button>
@@ -88,7 +88,7 @@ export default function NotificacoesPage() {
           onClick={() => setFilter('all')}
           className={`pb-2 text-sm font-medium border-b-2 transition-colors ${
             filter === 'all'
-              ? 'border-indigo-600 text-indigo-600'
+              ? 'border-green-700 text-green-700'
               : 'border-transparent text-gray-500 hover:text-gray-700'
           }`}
         >
@@ -98,7 +98,7 @@ export default function NotificacoesPage() {
           onClick={() => setFilter('unread')}
           className={`pb-2 text-sm font-medium border-b-2 transition-colors ${
             filter === 'unread'
-              ? 'border-indigo-600 text-indigo-600'
+              ? 'border-green-700 text-green-700'
               : 'border-transparent text-gray-500 hover:text-gray-700'
           }`}
         >
@@ -122,7 +122,7 @@ export default function NotificacoesPage() {
               key={n.id}
               onClick={() => handleClick(n)}
               className={`w-full text-left px-5 py-4 hover:bg-gray-50 transition-colors ${
-                !n.read ? 'bg-indigo-50/30' : ''
+                !n.read ? 'bg-green-50/30' : ''
               }`}
               role="listitem"
             >
@@ -136,7 +136,7 @@ export default function NotificacoesPage() {
                       {n.title}
                     </p>
                     {!n.read && (
-                      <span className="w-2 h-2 rounded-full bg-indigo-600 flex-shrink-0" aria-label="Não lida" />
+                      <span className="w-2 h-2 rounded-full bg-green-700 flex-shrink-0" aria-label="Não lida" />
                     )}
                   </div>
                   {n.body && (

@@ -247,20 +247,20 @@ export default function GamificacaoPage() {
 
       {/* My Profile Card */}
       {currentUser && (
-        <div className="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl p-5 mb-6 text-white">
+        <div className="bg-gradient-to-r from-green-600 to-purple-600 rounded-xl p-5 mb-6 text-white">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-indigo-100 text-sm">Seu ranking</p>
+              <p className="text-green-100 text-sm">Seu ranking</p>
               <p className="text-3xl font-bold">{getRankBadge(currentUser.rank)}</p>
             </div>
             <div className="text-right">
-              <p className="text-indigo-100 text-sm">Total de pontos</p>
+              <p className="text-green-100 text-sm">Total de pontos</p>
               <p className="text-3xl font-bold">{currentUser.totalPoints.toLocaleString('pt-BR')}</p>
             </div>
           </div>
           {badges.filter((b) => b.earned).length > 0 && (
             <div className="mt-3 pt-3 border-t border-white/20">
-              <p className="text-indigo-100 text-xs mb-2">Seus badges</p>
+              <p className="text-green-100 text-xs mb-2">Seus badges</p>
               <div className="flex flex-wrap gap-2">
                 {badges.filter((b) => b.earned).map((b) => (
                   <span
@@ -320,7 +320,7 @@ export default function GamificacaoPage() {
                 <div
                   key={entry.userId}
                   className={`flex items-center gap-4 p-4 ${
-                    entry.userId === userInfo?.id ? 'bg-indigo-50' : ''
+                    entry.userId === userInfo?.id ? 'bg-green-50' : ''
                   }`}
                 >
                   <div className="w-10 text-center">
@@ -330,7 +330,7 @@ export default function GamificacaoPage() {
                       {getRankBadge(entry.rank)}
                     </span>
                   </div>
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-400 to-purple-500 flex items-center justify-center text-white font-bold text-sm">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-green-500 to-purple-500 flex items-center justify-center text-white font-bold text-sm">
                     {entry.userName.charAt(0).toUpperCase()}
                   </div>
                   <div className="flex-1 min-w-0">
@@ -364,13 +364,13 @@ export default function GamificacaoPage() {
                   key={badge.id}
                   className={`bg-white rounded-xl shadow-sm border-2 p-4 transition-all ${
                     badge.earned
-                      ? 'border-indigo-300 shadow-indigo-100'
+                      ? 'border-green-300 shadow-green-100'
                       : 'border-gray-200 opacity-60'
                   }`}
                 >
                   <div className="flex items-start gap-3">
                     <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-2xl ${
-                      badge.earned ? 'bg-indigo-100' : 'bg-gray-100'
+                      badge.earned ? 'bg-green-100' : 'bg-gray-100'
                     }`}>
                       {BADGE_ICONS[badge.icon] || BADGE_ICONS.star}
                     </div>
@@ -413,7 +413,7 @@ export default function GamificacaoPage() {
               <select
                 value={pointsUserId}
                 onChange={(e) => setPointsUserId(e.target.value)}
-                className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-green-600 focus:border-green-600"
               >
                 <option value="">Selecione o colaborador</option>
                 {employees.map((e) => (
@@ -426,7 +426,7 @@ export default function GamificacaoPage() {
                 onChange={(e) => setPointsAmount(e.target.value)}
                 placeholder="Quantidade de pontos"
                 min="1"
-                className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-green-600 focus:border-green-600"
               />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
@@ -435,20 +435,20 @@ export default function GamificacaoPage() {
                 value={pointsReason}
                 onChange={(e) => setPointsReason(e.target.value)}
                 placeholder="Motivo"
-                className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-green-600 focus:border-green-600"
               />
               <input
                 type="text"
                 value={pointsSourceType}
                 onChange={(e) => setPointsSourceType(e.target.value)}
                 placeholder="Tipo (ex: feedback_given, survey_completed)"
-                className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-green-600 focus:border-green-600"
               />
             </div>
             <button
               onClick={handleAwardPoints}
               disabled={awardingPoints || !pointsUserId || !pointsAmount || !pointsReason}
-              className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 text-sm font-medium"
+              className="px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-green-800 disabled:opacity-50 text-sm font-medium"
             >
               {awardingPoints ? 'Atribuindo...' : 'Atribuir Pontos'}
             </button>
@@ -463,21 +463,21 @@ export default function GamificacaoPage() {
                 value={badgeName}
                 onChange={(e) => setBadgeName(e.target.value)}
                 placeholder="Nome do badge"
-                className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-green-600 focus:border-green-600"
               />
               <input
                 type="text"
                 value={badgeDesc}
                 onChange={(e) => setBadgeDesc(e.target.value)}
                 placeholder="Descricao"
-                className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-green-600 focus:border-green-600"
               />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
               <select
                 value={badgeIcon}
                 onChange={(e) => setBadgeIcon(e.target.value)}
-                className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-green-600 focus:border-green-600"
               >
                 {Object.entries(BADGE_ICONS).map(([key, emoji]) => (
                   <option key={key} value={key}>{emoji} {key}</option>
@@ -486,7 +486,7 @@ export default function GamificacaoPage() {
               <select
                 value={badgeCategory}
                 onChange={(e) => setBadgeCategory(e.target.value)}
-                className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-green-600 focus:border-green-600"
               >
                 {Object.entries(CATEGORY_LABELS).map(([key, label]) => (
                   <option key={key} value={key}>{label}</option>
@@ -498,13 +498,13 @@ export default function GamificacaoPage() {
                 onChange={(e) => setBadgePointsReq(e.target.value)}
                 placeholder="Pontos necessarios"
                 min="0"
-                className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-green-600 focus:border-green-600"
               />
             </div>
             <button
               onClick={handleCreateBadge}
               disabled={creatingBadge || !badgeName.trim()}
-              className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 text-sm font-medium"
+              className="px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-green-800 disabled:opacity-50 text-sm font-medium"
             >
               {creatingBadge ? 'Criando...' : 'Criar Badge'}
             </button>
@@ -517,7 +517,7 @@ export default function GamificacaoPage() {
               <select
                 value={awardBadgeId}
                 onChange={(e) => setAwardBadgeId(e.target.value)}
-                className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-green-600 focus:border-green-600"
               >
                 <option value="">Selecione o badge</option>
                 {badges.map((b) => (
@@ -529,7 +529,7 @@ export default function GamificacaoPage() {
               <select
                 value={awardBadgeUserId}
                 onChange={(e) => setAwardBadgeUserId(e.target.value)}
-                className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+                className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-green-600 focus:border-green-600"
               >
                 <option value="">Selecione o colaborador</option>
                 {employees.map((e) => (
@@ -540,7 +540,7 @@ export default function GamificacaoPage() {
             <button
               onClick={handleAwardBadge}
               disabled={awardingBadge || !awardBadgeId || !awardBadgeUserId}
-              className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 disabled:opacity-50 text-sm font-medium"
+              className="px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-green-800 disabled:opacity-50 text-sm font-medium"
             >
               {awardingBadge ? 'Concedendo...' : 'Conceder Badge'}
             </button>

@@ -172,14 +172,14 @@ export default function PerfilPage() {
                       className="w-20 h-20 rounded-full object-cover"
                     />
                   ) : (
-                    <div className="w-20 h-20 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center text-xl font-bold">
+                    <div className="w-20 h-20 rounded-full bg-green-100 text-green-800 flex items-center justify-center text-xl font-bold">
                       {initials}
                     </div>
                   )}
                   <button
                     type="button"
                     onClick={() => fileInputRef.current?.click()}
-                    className="absolute bottom-0 right-0 w-7 h-7 bg-indigo-600 text-white rounded-full flex items-center justify-center hover:bg-indigo-700 transition-colors"
+                    className="absolute bottom-0 right-0 w-7 h-7 bg-green-700 text-white rounded-full flex items-center justify-center hover:bg-green-800 transition-colors"
                     aria-label="Alterar avatar"
                   >
                     <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -214,7 +214,7 @@ export default function PerfilPage() {
                   onChange={(e) => setName(e.target.value)}
                   required
                   minLength={2}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
                 />
               </div>
 
@@ -224,7 +224,7 @@ export default function PerfilPage() {
                   type="text"
                   value={jobTitle}
                   onChange={(e) => setJobTitle(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
                   placeholder="Ex: Analista de RH"
                 />
               </div>
@@ -250,7 +250,7 @@ export default function PerfilPage() {
               <button
                 type="submit"
                 disabled={saving}
-                className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition-colors disabled:opacity-50 font-medium"
+                className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-800 transition-colors disabled:opacity-50 font-medium"
               >
                 {saving ? 'Salvando...' : 'Salvar Alterações'}
               </button>

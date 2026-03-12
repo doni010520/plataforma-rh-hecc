@@ -82,7 +82,7 @@ export default function AdminDashboard() {
         <h2 className="text-lg font-bold text-gray-900">Painel Administrativo</h2>
         <Link
           href="/analytics"
-          className="text-sm text-indigo-600 hover:text-indigo-800 font-medium"
+          className="text-sm text-green-700 hover:text-green-900 font-medium"
         >
           People Analytics →
         </Link>
@@ -170,7 +170,7 @@ export default function AdminDashboard() {
                   <div>
                     <Link
                       href={`/avaliacoes/${cycle.id}`}
-                      className="text-sm font-medium text-gray-900 hover:text-indigo-600"
+                      className="text-sm font-medium text-gray-900 hover:text-green-700"
                     >
                       {cycle.name}
                     </Link>
@@ -182,7 +182,7 @@ export default function AdminDashboard() {
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-3">
                   <div
-                    className="h-3 rounded-full bg-indigo-600 transition-all"
+                    className="h-3 rounded-full bg-green-700 transition-all"
                     style={{ width: `${cycle.progress}%` }}
                   />
                 </div>
@@ -201,7 +201,7 @@ export default function AdminDashboard() {
           <h3 className="text-sm font-semibold text-gray-900">
             Mapa de OKRs da Empresa
           </h3>
-          <Link href="/okrs" className="text-sm text-indigo-600 hover:text-indigo-800 font-medium">
+          <Link href="/okrs" className="text-sm text-green-700 hover:text-green-900 font-medium">
             Ver todos
           </Link>
         </div>
@@ -225,7 +225,7 @@ export default function AdminDashboard() {
                 <div className="flex-1 min-w-0">
                   <Link
                     href={`/okrs/${okr.id}`}
-                    className="text-sm font-medium text-gray-900 hover:text-indigo-600 truncate block"
+                    className="text-sm font-medium text-gray-900 hover:text-green-700 truncate block"
                   >
                     {okr.title}
                   </Link>
@@ -246,7 +246,7 @@ export default function AdminDashboard() {
                   <div className="flex-1 bg-gray-200 rounded-full h-2">
                     <div
                       className={`h-2 rounded-full transition-all ${
-                        okr.status === 'AT_RISK' ? 'bg-red-500' : 'bg-indigo-600'
+                        okr.status === 'AT_RISK' ? 'bg-red-500' : 'bg-green-700'
                       }`}
                       style={{ width: `${okr.progress}%` }}
                     />
