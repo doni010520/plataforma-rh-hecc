@@ -131,6 +131,11 @@ model Company {
   complaints              Complaint[]
   aiAnalyses              AiAnalysis[]
   aiAlerts                AiAlert[]
+  oneOnOneCycles          OneOnOneCycle[]
+  enpsSurveys             EnpsSurvey[]
+  gamificationPoints      GamificationPoints[]
+  badges                  Badge[]
+  discAssessments         DiscAssessment[]
 
   @@map("companies")
 }
@@ -221,6 +226,17 @@ model User {
   complaintUpdates      ComplaintUpdate[]        @relation("ComplaintUpdates")
 
   aiAlerts AiAlert[] @relation("AiAlerts")
+
+  managerOneOnOnes  OneOnOneCycle[] @relation("ManagerOneOnOnes")
+  employeeOneOnOnes OneOnOneCycle[] @relation("EmployeeOneOnOnes")
+  oneOnOneTopics    OneOnOneTopic[] @relation("OneOnOneTopics")
+
+  discAssessments DiscAssessment[] @relation("DiscAssessments")
+
+  createdEnpsSurveys EnpsSurvey[]         @relation("CreatedEnps")
+  enpsResponses      EnpsResponse[]       @relation("EnpsResponses")
+  gamificationPoints GamificationPoints[] @relation("UserPoints")
+  userBadges         UserBadge[]          @relation("UserBadges")
 
   @@unique([companyId, email])
   @@map("users")
@@ -1319,4 +1335,193 @@ model AiAlert {
   user    User?   @relation("AiAlerts", fields: [userId], references: [id])
 
   @@map("ai_alerts")
+}
+
+// ========== FASE 17: 1:1 MEETINGS ==========
+
+enum OneOnOneFrequency {
+  WEEKLY
+  BIWEEKLY
+  MONTHLY
+}
+
+enum OneOnOneStatus {
+  SCHEDULED
+  COMPLETED
+  CANCELLED
+}
+
+model OneOnOneCycle {
+  id         String            @id @default(uuid())
+  companyId  String            @map("company_id")
+  managerId  String            @map("manager_id")
+  employeeId String            @map("employee_id")
+  frequency  OneOnOneFrequency @default(BIWEEKLY)
+  dayOfWeek  Int               @default(1) @map("day_of_week")
+  active     Boolean           @default(true)
+  createdAt  DateTime          @default(now()) @map("created_at")
+
+  company  Company           @relation(fields: [companyId], references: [id])
+  manager  User              @relation("ManagerOneOnOnes", fields: [managerId], references: [id])
+  employee User              @relation("EmployeeOneOnOnes", fields: [employeeId], references: [id])
+  meetings OneOnOneMeeting[]
+
+  @@unique([managerId, employeeId])
+  @@map("one_on_one_cycles")
+}
+
+model OneOnOneMeeting {
+  id            String         @id @default(uuid())
+  cycleId       String         @map("cycle_id")
+  scheduledAt   DateTime       @map("scheduled_at")
+  status        OneOnOneStatus @default(SCHEDULED)
+  managerNotes  String         @default("") @map("manager_notes")
+  employeeNotes String         @default("") @map("employee_notes")
+  actionItems   String         @default("") @map("action_items")
+  completedAt   DateTime?      @map("completed_at")
+  createdAt     DateTime       @default(now()) @map("created_at")
+
+  cycle  OneOnOneCycle   @relation(fields: [cycleId], references: [id], onDelete: Cascade)
+  topics OneOnOneTopic[]
+
+  @@map("one_on_one_meetings")
+}
+
+model OneOnOneTopic {
+  id        String  @id @default(uuid())
+  meetingId String  @map("meeting_id")
+  authorId  String  @map("author_id")
+  content   String
+  discussed Boolean @default(false)
+  order     Int     @default(0)
+
+  meeting OneOnOneMeeting @relation(fields: [meetingId], references: [id], onDelete: Cascade)
+  author  User            @relation("OneOnOneTopics", fields: [authorId], references: [id])
+
+  @@map("one_on_one_topics")
+}
+
+// ========== FASE 20: DISC ==========
+
+enum DiscProfile {
+  D // Dominance
+  I // Influence
+  S // Steadiness
+  C // Conscientiousness
+}
+
+model DiscAssessment {
+  id             String       @id @default(uuid())
+  companyId      String       @map("company_id")
+  userId         String       @map("user_id")
+  answers        String       @default("[]") // JSON array of answers
+  profileD       Float        @default(0) @map("profile_d")
+  profileI       Float        @default(0) @map("profile_i")
+  profileS       Float        @default(0) @map("profile_s")
+  profileC       Float        @default(0) @map("profile_c")
+  primaryProfile DiscProfile? @map("primary_profile")
+  completedAt    DateTime?    @map("completed_at")
+  createdAt      DateTime     @default(now()) @map("created_at")
+
+  company Company @relation(fields: [companyId], references: [id])
+  user    User    @relation("DiscAssessments", fields: [userId], references: [id])
+
+  @@map("disc_assessments")
+}
+
+// ========== FASE 18: eNPS ==========
+
+enum EnpsSurveyStatus {
+  DRAFT
+  ACTIVE
+  CLOSED
+}
+
+model EnpsSurvey {
+  id          String           @id @default(uuid())
+  companyId   String           @map("company_id")
+  title       String
+  status      EnpsSurveyStatus @default(DRAFT)
+  startDate   DateTime?        @map("start_date")
+  endDate     DateTime?        @map("end_date")
+  createdById String           @map("created_by_id")
+  createdAt   DateTime         @default(now()) @map("created_at")
+
+  company   Company        @relation(fields: [companyId], references: [id])
+  createdBy User           @relation("CreatedEnps", fields: [createdById], references: [id])
+  responses EnpsResponse[]
+
+  @@map("enps_surveys")
+}
+
+model EnpsResponse {
+  id        String   @id @default(uuid())
+  surveyId  String   @map("survey_id")
+  userId    String?  @map("user_id")
+  score     Int      // 0-10
+  comment   String   @default("")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  survey EnpsSurvey @relation(fields: [surveyId], references: [id], onDelete: Cascade)
+  user   User?      @relation("EnpsResponses", fields: [userId], references: [id])
+
+  @@unique([surveyId, userId])
+  @@map("enps_responses")
+}
+
+// ========== FASE 19: GAMIFICACAO ==========
+
+enum BadgeCategory {
+  ENGAGEMENT
+  PERFORMANCE
+  LEARNING
+  COLLABORATION
+  MILESTONE
+}
+
+model GamificationPoints {
+  id         String   @id @default(uuid())
+  companyId  String   @map("company_id")
+  userId     String   @map("user_id")
+  points     Int      @default(0)
+  reason     String
+  sourceType String   @default("") @map("source_type")
+  sourceId   String?  @map("source_id")
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  company Company @relation(fields: [companyId], references: [id])
+  user    User    @relation("UserPoints", fields: [userId], references: [id])
+
+  @@map("gamification_points")
+}
+
+model Badge {
+  id             String        @id @default(uuid())
+  companyId      String        @map("company_id")
+  name           String
+  description    String        @default("")
+  icon           String        @default("star")
+  category       BadgeCategory @default(ENGAGEMENT)
+  pointsRequired Int           @default(0) @map("points_required")
+  criteria       String        @default("")
+  createdAt      DateTime      @default(now()) @map("created_at")
+
+  company    Company     @relation(fields: [companyId], references: [id])
+  userBadges UserBadge[]
+
+  @@map("badges")
+}
+
+model UserBadge {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  badgeId   String   @map("badge_id")
+  awardedAt DateTime @default(now()) @map("awarded_at")
+  awardedBy String?  @map("awarded_by")
+
+  user  User  @relation("UserBadges", fields: [userId], references: [id])
+  badge Badge @relation(fields: [badgeId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, badgeId])
+  @@map("user_badges")
 }
