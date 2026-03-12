@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { Suspense, useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 
@@ -28,6 +28,18 @@ interface JobPosition {
 }
 
 export default function VagasPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex justify-center py-20">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600" />
+      </div>
+    }>
+      <VagasContent />
+    </Suspense>
+  );
+}
+
+function VagasContent() {
   const searchParams = useSearchParams();
   const companySlug = searchParams.get('company');
 
