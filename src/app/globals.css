@@ -392,6 +392,91 @@ html.light [class*="hover\\:text-emerald-400"]:hover {
 html.light [class*="hover\\:text-red-800"]:hover {
   color: #991b1b !important;
 }
+html.light [class*="hover\\:text-gray-300"]:hover {
+  color: #1f2937 !important;
+}
+html.light [class*="hover\\:text-gray-100"]:hover {
+  color: #111827 !important;
+}
+html.light [class*="hover\\:text-white"]:hover {
+  color: #1f2937 !important;
+}
+
+/* Green-200 text (AI chat buttons, etc.) — invisible on light backgrounds */
+html.light [class*="text-green-200"] {
+  color: #047857 !important;
+}
+html.light [class*="hover\\:text-green-200"]:hover {
+  color: #065f46 !important;
+}
+
+/* Green-300 text */
+html.light [class*="text-green-300"] {
+  color: #059669 !important;
+}
+
+/* ---- Hover background overrides ---- */
+html.light [class*="hover\\:bg-green-950"]:hover {
+  background-color: rgba(236, 253, 245, 0.6) !important;
+}
+html.light [class*="hover\\:bg-emerald-900"]:hover {
+  background-color: rgba(209, 250, 229, 0.5) !important;
+}
+html.light [class*="hover\\:bg-green-900\\/50"]:hover {
+  background-color: rgba(236, 253, 245, 0.6) !important;
+}
+html.light [class*="hover\\:opacity-80"]:hover {
+  opacity: 0.7;
+}
+
+/* ---- All links and interactive text in light mode ---- */
+html.light a[class*="text-emerald-400"] {
+  color: #059669 !important;
+}
+html.light a[class*="text-emerald-400"]:hover {
+  color: #047857 !important;
+  text-decoration: underline;
+}
+
+/* ---- Cards with border hover ---- */
+html.light [class*="border-green-800\\/30"] {
+  border-color: rgba(209, 213, 219, 0.6) !important;
+}
+html.light [class*="border-green-800\\/20"] {
+  border-color: rgba(229, 231, 235, 0.5) !important;
+}
+html.light [class*="border-white\\/30"] {
+  border-color: rgba(209, 213, 219, 0.6) !important;
+}
+html.light [class*="border-white\\/20"] {
+  border-color: rgba(229, 231, 235, 0.5) !important;
+}
+
+/* ---- Green-700 header bar in AI chat stays dark in light mode ---- */
+html.light [class*="bg-green-700\\/90"] {
+  background-color: #059669 !important;
+  color: #ffffff !important;
+}
+
+/* ---- Progress bars ---- */
+html.light [class*="bg-green-800\\/40"] {
+  background-color: rgba(229, 231, 235, 0.6) !important;
+}
+
+/* ---- Mood widget & interactive buttons ---- */
+html.light button[class*="bg-green-950"] {
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  border: 1px solid #d1d5db !important;
+}
+html.light button[class*="bg-green-950"]:hover {
+  background-color: rgba(236, 253, 245, 0.8) !important;
+  border-color: #10b981 !important;
+}
+
+/* ---- Skeleton/loading pulse ---- */
+html.light [class*="animate-pulse"] [class*="bg-green-800"] {
+  background-color: #e5e7eb !important;
+}
 
 /* ---- Card shadows in light mode ---- */
 html.light [class*="bg-green-950"],
@@ -435,6 +520,12 @@ html.light [class*="backdrop-blur"] {
 /* ---- Notification dropdown in light ---- */
 html.light [class*="bg-green-950\\/90"] {
   background-color: rgba(255, 255, 255, 0.95) !important;
+  border-color: #d1d5db !important;
+}
+
+/* Green-700 dot in notifications */
+html.light [class*="bg-green-700"]:not(button):not(a) {
+  background-color: #059669 !important;
 }
 
 /* ---- Shadows in light mode ---- */
