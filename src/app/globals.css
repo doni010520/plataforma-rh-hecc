@@ -94,10 +94,22 @@ html.light {
   --success: #059669;
 }
 
-/* Body gradient */
+/* Body gradient — must override the Tailwind bg-gradient-to-br classes on body */
 html.light body {
-  background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 50%, #f0fdf4 100%) !important;
-  color: #1f2937;
+  background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 50%, #f8fafc 100%) !important;
+  background-image: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 50%, #f8fafc 100%) !important;
+  color: #1f2937 !important;
+}
+
+/* Override Tailwind gradient utilities on body in light mode */
+html.light .from-gray-900 {
+  --tw-gradient-from: #f0fdf4 !important;
+}
+html.light .via-green-950 {
+  --tw-gradient-stops: #f0fdf4, #ecfdf5, #f8fafc !important;
+}
+html.light .to-gray-900 {
+  --tw-gradient-to: #f8fafc !important;
 }
 
 /* ---- Background overrides ---- */
@@ -286,16 +298,114 @@ html.light ::-webkit-scrollbar-thumb:hover {
 
 /* ---- Button overrides ---- */
 
-html.light [class*="bg-green-700"]:not([class*="text-"]) {
+/* ALL green-700 buttons (including those with text-white) */
+html.light [class*="bg-green-700"] {
   background-color: #059669 !important;
+  color: #ffffff !important;
 }
 
 html.light [class*="hover\\:bg-green-800"]:hover {
   background-color: #047857 !important;
+  color: #ffffff !important;
 }
 
 html.light [class*="hover\\:bg-green-900"]:hover {
   background-color: rgba(236, 253, 245, 0.8) !important;
+}
+
+/* hover:bg-green-200 (approve buttons etc.) */
+html.light [class*="hover\\:bg-green-200"]:hover {
+  background-color: #d1fae5 !important;
+}
+
+/* Yellow buttons (NR-01 etc.) */
+html.light [class*="bg-yellow-600"] {
+  background-color: #d97706 !important;
+  color: #ffffff !important;
+}
+html.light [class*="hover\\:bg-yellow-700"]:hover {
+  background-color: #b45309 !important;
+}
+
+/* ---- Status badge overrides ---- */
+
+/* Yellow-100 bg (pending evals badge) */
+html.light [class*="bg-yellow-100"] {
+  background-color: #fef3c7 !important;
+}
+html.light [class*="text-yellow-400"] {
+  color: #b45309 !important;
+}
+html.light [class*="text-yellow-300"] {
+  color: #ca8a04 !important;
+}
+html.light [class*="text-yellow-600"] {
+  color: #92400e !important;
+}
+
+/* Blue backgrounds + text */
+html.light [class*="bg-blue-900"] {
+  background-color: rgba(219, 234, 254, 0.6) !important;
+}
+html.light [class*="bg-blue-100"] {
+  background-color: #dbeafe !important;
+}
+html.light [class*="text-blue-400"] {
+  color: #2563eb !important;
+}
+html.light [class*="text-blue-800"] {
+  color: #1e40af !important;
+}
+
+/* Red text for deductions, rejections */
+html.light [class*="text-red-600"] {
+  color: #dc2626 !important;
+}
+html.light [class*="text-red-800"] {
+  color: #991b1b !important;
+}
+html.light [class*="text-red-400"] {
+  color: #ef4444 !important;
+}
+
+/* Green text for positive values */
+html.light [class*="text-green-600"] {
+  color: #059669 !important;
+}
+html.light [class*="text-green-400"] {
+  color: #10b981 !important;
+}
+
+/* Orange text (zero feedback warning) */
+html.light [class*="text-orange-500"] {
+  color: #ea580c !important;
+}
+
+/* ---- Additional hover text overrides ---- */
+
+html.light [class*="hover\\:text-emerald-300"]:hover {
+  color: #059669 !important;
+}
+html.light [class*="hover\\:text-emerald-400"]:hover {
+  color: #047857 !important;
+}
+html.light [class*="hover\\:text-red-800"]:hover {
+  color: #991b1b !important;
+}
+
+/* ---- Card shadows in light mode ---- */
+html.light [class*="bg-green-950"],
+html.light [class*="bg-emerald-900"],
+html.light [class*="bg-yellow-900"],
+html.light [class*="bg-red-900"],
+html.light [class*="bg-blue-900"] {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+  border-color: rgba(229, 231, 235, 0.8) !important;
+}
+
+/* ---- Divide colors (table rows) ---- */
+html.light [class*="divide-gray-200"] > * + * {
+  border-color: #e5e7eb !important;
 }
 
 /* ---- Theme toggle button ---- */

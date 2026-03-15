@@ -9,8 +9,9 @@ function ensurePgBouncerParams(url: string | undefined): string | undefined {
       if (!parsed.searchParams.has('pgbouncer')) {
         parsed.searchParams.set('pgbouncer', 'true');
       }
+      // Allow up to 5 connections per client to handle Promise.all parallel queries
       if (!parsed.searchParams.has('connection_limit')) {
-        parsed.searchParams.set('connection_limit', '1');
+        parsed.searchParams.set('connection_limit', '5');
       }
       return parsed.toString();
     }

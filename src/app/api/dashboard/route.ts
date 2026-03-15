@@ -331,7 +331,7 @@ export async function GET(request: NextRequest) {
         title: obj.title,
         level: obj.level,
         status: obj.status,
-        owner: obj.owner.name,
+        owner: obj.owner?.name ?? 'Sem dono',
         progress: Math.round(progress),
         keyResultsCount: krs.length,
       };
