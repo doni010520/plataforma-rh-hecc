@@ -91,7 +91,8 @@ export function Header({ userName, avatarUrl }: HeaderProps) {
     router.refresh();
   }
 
-  const initials = userName
+  const displayName = userName || 'Usuário';
+  const initials = displayName
     .split(' ')
     .map((n) => n[0])
     .join('')
@@ -200,11 +201,11 @@ export function Header({ userName, avatarUrl }: HeaderProps) {
 
         {/* User Profile */}
         <Link href="/perfil" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
-          <span className="text-sm text-gray-300 font-medium hidden sm:inline">{userName}</span>
+          <span className="text-sm text-gray-300 font-medium hidden sm:inline">{displayName}</span>
           {avatarUrl ? (
             <img
               src={avatarUrl}
-              alt={userName}
+              alt={displayName}
               className="w-8 h-8 rounded-full object-cover"
             />
           ) : (

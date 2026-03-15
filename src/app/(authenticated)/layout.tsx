@@ -13,7 +13,7 @@ export default async function AuthenticatedLayout({
   return (
     <div className="min-h-screen">
       <Sidebar />
-      <Header userName={user.name} avatarUrl={user.avatarUrl} />
+      <Header userName={user.name ?? 'Usuário'} avatarUrl={user.avatarUrl} />
       <main className="md:ml-64 mt-16 p-4 md:p-6">{children}</main>
       <AiChatWrapper />
     </div>
