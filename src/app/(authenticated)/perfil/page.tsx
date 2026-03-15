@@ -148,7 +148,7 @@ export default function PerfilPage() {
     return <p className="text-gray-400">Erro ao carregar perfil.</p>;
   }
 
-  const initials = user.name
+  const initials = (user.name || '?')
     .split(' ')
     .map((n) => n[0])
     .join('')

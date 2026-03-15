@@ -254,7 +254,7 @@ export default function AnalyticsPage() {
                   <div className="flex items-start justify-between">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-full bg-red-900/30 text-red-700 flex items-center justify-center text-sm font-bold flex-shrink-0">
-                        {emp.name
+                        {(emp.name || '?')
                           .split(' ')
                           .map((n) => n[0])
                           .join('')
