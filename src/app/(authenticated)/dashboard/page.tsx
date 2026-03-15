@@ -106,7 +106,7 @@ export default async function DashboardPage() {
         <div className="bg-green-950/50 backdrop-blur-lg border border-emerald-500/10 rounded-2xl shadow-sm p-6">
           <h3 className="text-sm font-medium text-gray-400 mb-1">Bem-vindo(a)</h3>
           <p className="text-xl font-semibold text-gray-100">{user.name}</p>
-          <p className="text-sm text-gray-400 mt-1">{user.company.name}</p>
+          <p className="text-sm text-gray-400 mt-1">{user.company?.name ?? 'Sem empresa'}</p>
         </div>
 
         <div className="bg-green-950/50 backdrop-blur-lg border border-emerald-500/10 rounded-2xl shadow-sm p-6">
@@ -190,11 +190,11 @@ export default async function DashboardPage() {
               >
                 <div>
                   <p className="text-sm font-medium text-gray-100">
-                    Avaliar: {a.evaluatee.name}
+                    Avaliar: {a.evaluatee?.name ?? 'N/A'}
                   </p>
                   <p className="text-xs text-gray-500">
-                    {a.cycle.name} &middot; Prazo:{' '}
-                    {new Date(a.cycle.endDate).toLocaleDateString('pt-BR')}
+                    {a.cycle?.name ?? ''} &middot; Prazo:{' '}
+                    {a.cycle?.endDate ? new Date(a.cycle.endDate).toLocaleDateString('pt-BR') : '—'}
                   </p>
                 </div>
                 <Link
@@ -224,7 +224,7 @@ export default async function DashboardPage() {
               <div key={fb.id} className="border border-green-800/30 rounded-md p-3">
                 <div className="flex items-center gap-2 mb-1">
                   <span className="text-sm font-medium text-gray-100">
-                    {fb.fromUser.name}
+                    {fb.fromUser?.name ?? 'Anônimo'}
                   </span>
                   <span
                     className={`inline-flex px-2 py-0.5 text-xs font-medium rounded-full ${
