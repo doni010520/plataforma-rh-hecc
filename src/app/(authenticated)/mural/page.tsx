@@ -426,13 +426,13 @@ export default function MuralPage() {
                     {c.author.avatarUrl ? (
                       <img src={c.author.avatarUrl} alt="" className="w-10 h-10 rounded-full object-cover" />
                     ) : (
-                      c.author.name.split(' ').map((n) => n[0]).join('').toUpperCase().slice(0, 2)
+                      (c.author?.name || '?').split(' ').map((n) => n[0]).join('').toUpperCase().slice(0, 2)
                     )}
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center gap-2">
-                      <span className="font-medium text-gray-100">{c.author.name}</span>
-                      <span className="text-xs text-gray-400">{c.author.jobTitle}</span>
+                      <span className="font-medium text-gray-100">{c.author?.name || 'Usuário'}</span>
+                      <span className="text-xs text-gray-400">{c.author?.jobTitle}</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <span className="text-xs text-gray-400">
@@ -536,10 +536,10 @@ export default function MuralPage() {
                     {(c.comments || []).map((comment) => (
                       <div key={comment.id} className="flex items-start gap-2">
                         <div className="w-6 h-6 rounded-full bg-green-800/40 text-gray-400 flex items-center justify-center text-xs font-bold flex-shrink-0">
-                          {comment.user.name[0]}
+                          {(comment.user?.name || '?')[0]}
                         </div>
                         <div>
-                          <span className="text-sm font-medium text-gray-100">{comment.user.name}</span>
+                          <span className="text-sm font-medium text-gray-100">{comment.user?.name || 'Usuário'}</span>
                           <span className="text-sm text-gray-400 ml-1">{comment.content}</span>
                           <p className="text-xs text-gray-400">
                             {new Date(comment.createdAt).toLocaleDateString('pt-BR')}

@@ -136,7 +136,7 @@ export default function FeedbackPage() {
   }
 
   const initials = (name: string) =>
-    name
+    (name || '?')
       .split(' ')
       .map((n) => n[0])
       .join('')
