@@ -45,6 +45,7 @@ export async function GET(request: NextRequest) {
       include: {
         department: { select: { id: true, name: true } },
         manager: { select: { id: true, name: true } },
+        company: { select: { name: true } },
       },
     }),
     prisma.user.count({ where }),

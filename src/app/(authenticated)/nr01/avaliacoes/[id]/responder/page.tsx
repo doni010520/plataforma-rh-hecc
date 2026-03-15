@@ -148,7 +148,7 @@ export default function ResponderNR01Page() {
         </div>
         <div className="w-full bg-green-800/40 rounded-full h-2">
           <div
-            className="h-2 rounded-full bg-yellow-900/300 transition-all"
+            className="h-2 rounded-full bg-yellow-600 transition-all"
             style={{ width: `${progress}%` }}
           />
         </div>
@@ -164,16 +164,16 @@ export default function ResponderNR01Page() {
         <h2 className="text-lg font-semibold text-gray-100 mb-6">{currentQuestion.text}</h2>
 
         {/* Scale 1-5 */}
-        <div className="flex gap-3 justify-center">
+        <div className="flex flex-col sm:flex-row gap-3 justify-center">
           {[1, 2, 3, 4, 5].map((score) => (
             <button
               key={score}
               type="button"
               onClick={() => setAnswer(currentQuestion.id, score.toString())}
-              className={`w-16 h-16 rounded-lg border-2 text-center transition-all ${
+              className={`flex-1 min-w-[64px] py-3 px-2 rounded-lg border-2 text-center transition-all ${
                 currentAnswer === score.toString()
                   ? 'border-yellow-500 bg-yellow-900/30 text-yellow-400 font-bold'
-                  : 'border-green-800/30 hover:border-green-700/40 text-gray-400'
+                  : 'border-green-800/30 hover:border-yellow-600/40 text-gray-400'
               }`}
             >
               <span className="text-xl">{score}</span>

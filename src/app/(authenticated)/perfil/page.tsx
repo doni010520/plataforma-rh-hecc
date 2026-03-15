@@ -10,7 +10,7 @@ interface UserProfile {
   jobTitle: string | null;
   avatarUrl: string | null;
   department: { id: string; name: string } | null;
-  company: { name: string };
+  company: { name: string } | null;
   createdAt: string;
 }
 
@@ -264,7 +264,7 @@ export default function PerfilPage() {
             <dl className="space-y-3">
               <div>
                 <dt className="text-xs text-gray-400">Empresa</dt>
-                <dd className="text-sm font-medium text-gray-100">{user.company.name}</dd>
+                <dd className="text-sm font-medium text-gray-100">{user.company?.name || 'Não definida'}</dd>
               </div>
               <div>
                 <dt className="text-xs text-gray-400">Departamento</dt>
