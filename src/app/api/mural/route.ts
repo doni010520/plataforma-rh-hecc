@@ -27,7 +27,8 @@ export async function GET(request: NextRequest) {
           include: { user: { select: { id: true, name: true } } },
         },
         comments: {
-          orderBy: { createdAt: 'asc' },
+          orderBy: { createdAt: 'desc' },
+          take: 3,
           include: { user: { select: { id: true, name: true, avatarUrl: true } } },
         },
         media: {

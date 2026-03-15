@@ -52,6 +52,7 @@ export async function GET(request: Request) {
       companyId: user.companyId,
     },
     orderBy: { createdAt: 'desc' },
+    take: 50,
     include: {
       fromUser: { select: { id: true, name: true, avatarUrl: true } },
     },
