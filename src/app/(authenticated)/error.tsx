@@ -1,6 +1,7 @@
 'use client';
 
 export default function AuthenticatedError({
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   error,
   reset,
 }: {
