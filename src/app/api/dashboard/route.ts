@@ -82,61 +82,54 @@ export async function GET(request: NextRequest) {
       },
     });
 
-    // Per-subordinate status — batch queries instead of N+1
-    const [allPendingEvals, allOkrCounts, allFeedbackCounts] = await Promise.all([
-      activeCycleIds.length > 0
-        ? prisma.reviewAssignment.groupBy({
-            by: ['evaluatorId'],
+    // Per-subordinate status — parallel queries per subordinate
+    const subordinateStatus = await Promise.all(
+      subordinates.map(async (sub) => {
+        const mood = teamMoodToday.find((m) => m.userId === sub.id);
+
+        const [pendingEvals, okrCount, recentFeedbackCount] = await Promise.all([
+          activeCycleIds.length > 0
+            ? prisma.reviewAssignment.count({
+                where: {
+                  evaluatorId: sub.id,
+                  cycleId: { in: activeCycleIds },
+                  status: 'PENDING',
+                },
+              })
+            : Promise.resolve(0),
+          prisma.objective.count({
             where: {
-              evaluatorId: { in: subordinateIds },
-              cycleId: { in: activeCycleIds },
-              status: 'PENDING',
+              ownerId: sub.id,
+              companyId: user.companyId,
+              quarter: currentQuarter,
+              year: currentYear,
+              status: { not: 'CANCELLED' },
             },
-            _count: true,
-          })
-        : Promise.resolve([]),
-      prisma.objective.groupBy({
-        by: ['ownerId'],
-        where: {
-          ownerId: { in: subordinateIds },
-          companyId: user.companyId,
-          quarter: currentQuarter,
-          year: currentYear,
-          status: { not: 'CANCELLED' },
-        },
-        _count: true,
-      }),
-      prisma.feedback.groupBy({
-        by: ['toUserId'],
-        where: {
-          toUserId: { in: subordinateIds },
-          companyId: user.companyId,
-          createdAt: {
-            gte: new Date(now.getFullYear(), now.getMonth() - 1, 1),
-          },
-        },
-        _count: true,
-      }),
-    ]);
+          }),
+          prisma.feedback.count({
+            where: {
+              toUserId: sub.id,
+              companyId: user.companyId,
+              createdAt: {
+                gte: new Date(now.getFullYear(), now.getMonth() - 1, 1),
+              },
+            },
+          }),
+        ]);
 
-    const pendingEvalsMap = new Map(allPendingEvals.map((e) => [e.evaluatorId, e._count]));
-    const okrCountMap = new Map(allOkrCounts.map((o) => [o.ownerId, o._count]));
-    const feedbackCountMap = new Map(allFeedbackCounts.map((f) => [f.toUserId, f._count]));
-
-    const subordinateStatus = subordinates.map((sub) => {
-      const mood = teamMoodToday.find((m) => m.userId === sub.id);
-      return {
-        id: sub.id,
-        name: sub.name,
-        avatarUrl: sub.avatarUrl,
-        jobTitle: sub.jobTitle,
-        department: sub.department?.name ?? null,
-        todayMood: mood?.mood ?? null,
-        pendingEvals: pendingEvalsMap.get(sub.id) ?? 0,
-        okrCount: okrCountMap.get(sub.id) ?? 0,
-        recentFeedbackCount: feedbackCountMap.get(sub.id) ?? 0,
-      };
-    });
+        return {
+          id: sub.id,
+          name: sub.name,
+          avatarUrl: sub.avatarUrl,
+          jobTitle: sub.jobTitle,
+          department: sub.department?.name ?? null,
+          todayMood: mood?.mood ?? null,
+          pendingEvals,
+          okrCount,
+          recentFeedbackCount,
+        };
+      }),
+    );
 
     return NextResponse.json({
       teamSize: subordinates.length,
@@ -271,33 +264,26 @@ export async function GET(request: NextRequest) {
       },
     });
 
-    // Batch query for cycle completion instead of N+1
-    const cycleIds = activeCycles.map((c) => c.id);
-    const doneAssignments = cycleIds.length > 0
-      ? await prisma.reviewAssignment.groupBy({
-          by: ['cycleId'],
-          where: { cycleId: { in: cycleIds }, status: 'DONE' },
-          _count: true,
-        })
-      : [];
-    const doneMap = new Map(doneAssignments.map((d) => [d.cycleId, d._count]));
-
-    const cyclesWithProgress = activeCycles.map((cycle) => {
-      const done = doneMap.get(cycle.id) ?? 0;
-      return {
-        id: cycle.id,
-        name: cycle.name,
-        type: cycle.type,
-        startDate: cycle.startDate,
-        endDate: cycle.endDate,
-        totalAssignments: cycle._count.assignments,
-        completedAssignments: done,
-        progress:
-          cycle._count.assignments > 0
-            ? (done / cycle._count.assignments) * 100
-            : 0,
-      };
-    });
+    const cyclesWithProgress = await Promise.all(
+      activeCycles.map(async (cycle) => {
+        const done = await prisma.reviewAssignment.count({
+          where: { cycleId: cycle.id, status: 'DONE' },
+        });
+        return {
+          id: cycle.id,
+          name: cycle.name,
+          type: cycle.type,
+          startDate: cycle.startDate,
+          endDate: cycle.endDate,
+          totalAssignments: cycle._count.assignments,
+          completedAssignments: done,
+          progress:
+            cycle._count.assignments > 0
+              ? (done / cycle._count.assignments) * 100
+              : 0,
+        };
+      }),
+    );
 
     // Company OKR map
     const companyOkrs = await prisma.objective.findMany({
