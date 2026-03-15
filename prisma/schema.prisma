@@ -291,6 +291,9 @@ model ReviewAssignment {
   answers   ReviewAnswer[]
 
   @@unique([cycleId, evaluatorId, evaluateeId])
+  @@index([evaluatorId])
+  @@index([evaluateeId])
+  @@index([cycleId, status])
   @@map("review_assignments")
 }
 
@@ -324,6 +327,8 @@ model Feedback {
 
   @@index([companyId])
   @@index([createdAt])
+  @@index([toUserId])
+  @@index([fromUserId, companyId])
   @@map("feedbacks")
 }
 
@@ -459,6 +464,7 @@ model MoodLog {
   @@unique([userId, date])
   @@index([companyId])
   @@index([createdAt])
+  @@index([companyId, date])
   @@map("mood_logs")
 }
 

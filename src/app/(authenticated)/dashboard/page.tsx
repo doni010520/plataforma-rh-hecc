@@ -320,13 +320,8 @@ export default async function DashboardPage() {
       {(isManager || isAdmin) && <AiDashboardCard />}
 
       {/* Role-specific Dashboard Sections */}
-      {isManager && <ManagerDashboard />}
-      {isAdmin && (
-        <>
-          <ManagerDashboard />
-          <AdminDashboard />
-        </>
-      )}
+      {(isManager || isAdmin) && <ManagerDashboard />}
+      {isAdmin && <AdminDashboard />}
     </div>
   );
 }
