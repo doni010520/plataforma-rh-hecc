@@ -75,7 +75,7 @@ const statusColors: Record<string, string> = {
   ON_TRACK: 'bg-emerald-900/40 text-emerald-400',
   AT_RISK: 'bg-red-900/30 text-red-700',
   ACHIEVED: 'bg-blue-100 text-blue-700',
-  CANCELLED: 'bg-green-900/40 text-gray-400',
+  CANCELLED: 'bg-gray-800/40 text-gray-400',
 };
 
 const metricLabels: Record<string, string> = {
@@ -242,8 +242,8 @@ export default function ObjectiveDetailPage() {
   if (loading) {
     return (
       <div className="space-y-4">
-        <div className="h-8 w-64 bg-green-800/40 rounded animate-pulse" />
-        <div className="h-96 bg-green-800/40 rounded animate-pulse" />
+        <div className="h-8 w-64 bg-gray-700/40 rounded animate-pulse" />
+        <div className="h-96 bg-gray-700/40 rounded animate-pulse" />
       </div>
     );
   }
@@ -301,7 +301,7 @@ export default function ObjectiveDetailPage() {
       </div>
 
       {/* Status Actions */}
-      <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-4 mb-6 flex items-center gap-3 flex-wrap">
+      <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-4 mb-6 flex items-center gap-3 flex-wrap">
         <span className="text-sm font-medium text-gray-300">Alterar status:</span>
         {(['ON_TRACK', 'AT_RISK', 'ACHIEVED', 'CANCELLED'] as const).map((s) => (
           <button
@@ -310,7 +310,7 @@ export default function ObjectiveDetailPage() {
             disabled={objective.status === s}
             className={`px-3 py-1 rounded-md text-xs font-medium transition-colors ${
               objective.status === s
-                ? 'bg-green-800/40 text-gray-500 cursor-not-allowed'
+                ? 'bg-gray-700/40 text-gray-500 cursor-not-allowed'
                 : `${statusColors[s]} hover:opacity-80`
             }`}
           >
@@ -334,12 +334,12 @@ export default function ObjectiveDetailPage() {
       )}
 
       {/* Overall progress bar */}
-      <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-4 mb-6">
+      <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-4 mb-6">
         <div className="flex items-center justify-between mb-2">
           <h3 className="text-sm font-medium text-gray-300">Progresso Geral</h3>
           <span className="text-sm font-bold text-gray-100">{overallProgress.toFixed(0)}%</span>
         </div>
-        <div className="w-full bg-green-800/40 rounded-full h-3">
+        <div className="w-full bg-gray-700/40 rounded-full h-3">
           <div
             className={`h-3 rounded-full transition-all ${
               objective.status === 'ACHIEVED'
@@ -368,7 +368,7 @@ export default function ObjectiveDetailPage() {
         </div>
 
         {showAddKR && (
-          <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-4 mb-4">
+          <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-4 mb-4">
             <form onSubmit={handleAddKR} className="flex flex-wrap gap-2 items-end">
               <div className="flex-1 min-w-[200px]">
                 <label className="block text-xs text-gray-400 mb-1">Título</label>
@@ -377,7 +377,7 @@ export default function ObjectiveDetailPage() {
                   value={newKRTitle}
                   onChange={(e) => setNewKRTitle(e.target.value)}
                   required
-                  className="w-full px-3 py-1.5 border border-green-700/40 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-full px-3 py-1.5 border border-gray-600/40 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
                   placeholder="Título do KR"
                 />
               </div>
@@ -386,7 +386,7 @@ export default function ObjectiveDetailPage() {
                 <select
                   value={newKRMetric}
                   onChange={(e) => setNewKRMetric(e.target.value)}
-                  className="px-3 py-1.5 border border-green-700/40 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="px-3 py-1.5 border border-gray-600/40 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 >
                   {Object.entries(metricLabels).map(([k, v]) => (
                     <option key={k} value={k}>{v}</option>
@@ -399,7 +399,7 @@ export default function ObjectiveDetailPage() {
                   type="number"
                   value={newKRStart}
                   onChange={(e) => setNewKRStart(e.target.value)}
-                  className="w-24 px-3 py-1.5 border border-green-700/40 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-24 px-3 py-1.5 border border-gray-600/40 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 />
               </div>
               <div>
@@ -409,13 +409,13 @@ export default function ObjectiveDetailPage() {
                   value={newKRTarget}
                   onChange={(e) => setNewKRTarget(e.target.value)}
                   required
-                  className="w-24 px-3 py-1.5 border border-green-700/40 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  className="w-24 px-3 py-1.5 border border-gray-600/40 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
                 />
               </div>
               <button
                 type="submit"
                 disabled={savingKR}
-                className="bg-green-700 text-white px-4 py-1.5 rounded-md hover:bg-green-800 disabled:opacity-50 text-sm font-medium"
+                className="bg-green-700 text-white px-4 py-1.5 rounded-md hover:bg-gray-700 disabled:opacity-50 text-sm font-medium"
               >
                 {savingKR ? 'Salvando...' : 'Adicionar'}
               </button>
@@ -428,7 +428,7 @@ export default function ObjectiveDetailPage() {
             const progress = getProgress(kr);
             const isCheckingIn = checkInKrId === kr.id;
             return (
-              <div key={kr.id} className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-5">
+              <div key={kr.id} className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-5">
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex-1">
                     <h4 className="font-medium text-gray-100">{kr.title}</h4>
@@ -444,7 +444,7 @@ export default function ObjectiveDetailPage() {
                   </div>
                 </div>
 
-                <div className="w-full bg-green-800/40 rounded-full h-2.5 mb-3">
+                <div className="w-full bg-gray-700/40 rounded-full h-2.5 mb-3">
                   <div
                     className={`h-2.5 rounded-full transition-all ${
                       progress >= 100
@@ -478,7 +478,7 @@ export default function ObjectiveDetailPage() {
 
                 {/* Check-in form */}
                 {isCheckingIn && (
-                  <form onSubmit={handleCheckIn} className="mt-4 p-4 bg-green-900/30 rounded-md space-y-3">
+                  <form onSubmit={handleCheckIn} className="mt-4 p-4 bg-gray-800/30 rounded-md space-y-3">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       <div>
                         <label className="block text-sm font-medium text-gray-300 mb-1">
@@ -490,7 +490,7 @@ export default function ObjectiveDetailPage() {
                           value={checkInValue}
                           onChange={(e) => setCheckInValue(e.target.value)}
                           required
-                          className="w-full px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                          className="w-full px-3 py-2 border border-gray-600/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                         />
                       </div>
                       <div>
@@ -500,7 +500,7 @@ export default function ObjectiveDetailPage() {
                         <select
                           value={checkInConfidence}
                           onChange={(e) => setCheckInConfidence(e.target.value)}
-                          className="w-full px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                          className="w-full px-3 py-2 border border-gray-600/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                         >
                           {Object.entries(confidenceLabels).map(([k, v]) => (
                             <option key={k} value={k}>{v}</option>
@@ -516,14 +516,14 @@ export default function ObjectiveDetailPage() {
                         value={checkInNote}
                         onChange={(e) => setCheckInNote(e.target.value)}
                         rows={2}
-                        className="w-full px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                        className="w-full px-3 py-2 border border-gray-600/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                         placeholder="Descreva o progresso..."
                       />
                     </div>
                     <button
                       type="submit"
                       disabled={savingCheckIn}
-                      className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-800 disabled:opacity-50 font-medium text-sm"
+                      className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-gray-700 disabled:opacity-50 font-medium text-sm"
                     >
                       {savingCheckIn ? 'Registando...' : 'Registar Check-in'}
                     </button>
@@ -532,7 +532,7 @@ export default function ObjectiveDetailPage() {
 
                 {/* Check-in history */}
                 {kr.updates.length > 0 && (
-                  <div className="mt-4 border-t border-green-800/20 pt-3">
+                  <div className="mt-4 border-t border-gray-700/20 pt-3">
                     <h5 className="text-xs font-medium text-gray-400 mb-2">
                       Histórico de Check-ins ({kr.updates.length})
                     </h5>
@@ -576,7 +576,7 @@ export default function ObjectiveDetailPage() {
                 <Link
                   key={child.id}
                   href={`/okrs/${child.id}`}
-                  className="block bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-4 hover:shadow-md transition-shadow"
+                  className="block bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-4 hover:shadow-md transition-shadow"
                 >
                   <div className="flex items-center justify-between">
                     <div>
@@ -584,7 +584,7 @@ export default function ObjectiveDetailPage() {
                       <p className="text-sm text-gray-400">{child.owner.name}</p>
                     </div>
                     <div className="flex items-center gap-3">
-                      <div className="w-32 bg-green-800/40 rounded-full h-2">
+                      <div className="w-32 bg-gray-700/40 rounded-full h-2">
                         <div
                           className="h-2 rounded-full bg-green-700 transition-all"
                           style={{ width: `${childProgress}%` }}

@@ -15,7 +15,7 @@ interface DashboardData {
 }
 
 const priorityColors: Record<string, string> = {
-  LOW: 'bg-green-900/40 text-gray-300',
+  LOW: 'bg-gray-800/40 text-gray-300',
   MEDIUM: 'bg-yellow-100 text-yellow-400',
   HIGH: 'bg-orange-100 text-orange-700',
   URGENT: 'bg-red-900/30 text-red-700',
@@ -49,15 +49,15 @@ export function AiDashboardCard() {
       </div>
 
       <div className="grid grid-cols-3 gap-3 mb-4">
-        <div className="bg-green-950/50 backdrop-blur-lg/70 rounded-lg p-3 text-center">
+        <div className="bg-gray-900/50 backdrop-blur-lg/70 rounded-lg p-3 text-center">
           <p className="text-xl font-bold text-emerald-400">{data.totalAnalyses ?? 0}</p>
           <p className="text-xs text-gray-400">Análises</p>
         </div>
-        <div className="bg-green-950/50 backdrop-blur-lg/70 rounded-lg p-3 text-center">
+        <div className="bg-gray-900/50 backdrop-blur-lg/70 rounded-lg p-3 text-center">
           <p className="text-xl font-bold text-emerald-400">{data.totalAlerts ?? 0}</p>
           <p className="text-xs text-gray-400">Alertas</p>
         </div>
-        <div className="bg-green-950/50 backdrop-blur-lg/70 rounded-lg p-3 text-center">
+        <div className="bg-gray-900/50 backdrop-blur-lg/70 rounded-lg p-3 text-center">
           <p className={`text-xl font-bold ${(data.unreadAlerts ?? 0) > 0 ? 'text-red-600' : 'text-green-600'}`}>
             {data.unreadAlerts ?? 0}
           </p>
@@ -69,7 +69,7 @@ export function AiDashboardCard() {
         <div className="space-y-2">
           {(data.recentAlerts || []).slice(0, 3).map(alert => (
             <div key={alert.id} className="flex items-center gap-2 text-sm">
-              <span className={`px-1.5 py-0.5 rounded text-xs font-medium ${priorityColors[alert.priority] || 'bg-green-900/40'}`}>
+              <span className={`px-1.5 py-0.5 rounded text-xs font-medium ${priorityColors[alert.priority] || 'bg-gray-800/40'}`}>
                 {alert.priority === 'URGENT' ? '!' : alert.priority === 'HIGH' ? '!!' : ''}
               </span>
               <span className="text-gray-300 line-clamp-1">{alert.title}</span>

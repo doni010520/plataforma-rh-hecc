@@ -115,8 +115,8 @@ export default function ResponderAvaliacaoPage() {
   if (loading) {
     return (
       <div className="space-y-4">
-        <div className="h-8 w-64 bg-green-800/40 rounded animate-pulse" />
-        <div className="h-96 bg-green-800/40 rounded animate-pulse" />
+        <div className="h-8 w-64 bg-gray-700/40 rounded animate-pulse" />
+        <div className="h-96 bg-gray-700/40 rounded animate-pulse" />
       </div>
     );
   }
@@ -127,7 +127,7 @@ export default function ResponderAvaliacaoPage() {
 
   if (assignment.status === 'DONE') {
     return (
-      <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-6">
+      <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-6">
         <h1 className="text-xl font-bold text-gray-100 mb-2">Avaliação Submetida</h1>
         <p className="text-gray-400">
           Você já submeteu esta avaliação de <strong>{assignment.evaluatee.name}</strong> no ciclo{' '}
@@ -135,7 +135,7 @@ export default function ResponderAvaliacaoPage() {
         </p>
         <div className="mt-4 space-y-3">
           {assignment.answers.map((a) => (
-            <div key={a.id} className="border border-green-800/30 rounded-md p-3">
+            <div key={a.id} className="border border-gray-700/30 rounded-md p-3">
               <p className="font-medium text-gray-100">{a.criteria.name}</p>
               <p className="text-sm text-gray-400">
                 Nota: {a.score}/5 — {a.score ? scoreLabels[a.score] : ''}
@@ -171,7 +171,7 @@ export default function ResponderAvaliacaoPage() {
 
       <div className="space-y-6">
         {assignment.answers.map((answer) => (
-          <div key={answer.id} className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-6">
+          <div key={answer.id} className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-6">
             <h3 className="text-lg font-semibold text-gray-100 mb-1">{answer.criteria.name}</h3>
             {answer.criteria.description && (
               <p className="text-sm text-gray-400 mb-4">{answer.criteria.description}</p>
@@ -189,8 +189,8 @@ export default function ResponderAvaliacaoPage() {
                     onClick={() => updateAnswer(answer.criteriaId, 'score', score)}
                     className={`flex-1 py-3 rounded-md border-2 text-center transition-colors ${
                       answers[answer.criteriaId]?.score === score
-                        ? 'border-green-700 bg-emerald-900/30 text-emerald-300 font-bold'
-                        : 'border-green-800/30 hover:border-green-700/40 text-gray-400'
+                        ? 'border-gray-600 bg-emerald-900/30 text-emerald-300 font-bold'
+                        : 'border-gray-700/30 hover:border-gray-600/40 text-gray-400'
                     }`}
                   >
                     <span className="text-lg">{score}</span>
@@ -208,7 +208,7 @@ export default function ResponderAvaliacaoPage() {
                 value={answers[answer.criteriaId]?.comment || ''}
                 onChange={(e) => updateAnswer(answer.criteriaId, 'comment', e.target.value)}
                 rows={3}
-                className="w-full px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-600/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                 placeholder="Descreva suas observações..."
               />
             </div>
@@ -226,14 +226,14 @@ export default function ResponderAvaliacaoPage() {
         <button
           onClick={() => handleSave(false)}
           disabled={saving}
-          className="border border-green-700 text-emerald-400 px-4 py-2 rounded-md hover:bg-emerald-900/30 disabled:opacity-50 font-medium"
+          className="border border-gray-600 text-emerald-400 px-4 py-2 rounded-md hover:bg-emerald-900/30 disabled:opacity-50 font-medium"
         >
           {saving ? 'Salvando...' : 'Salvar Rascunho'}
         </button>
         <button
           onClick={() => handleSave(true)}
           disabled={saving}
-          className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-800 disabled:opacity-50 font-medium"
+          className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-gray-700 disabled:opacity-50 font-medium"
         >
           {saving ? 'Submetendo...' : 'Submeter Avaliação'}
         </button>

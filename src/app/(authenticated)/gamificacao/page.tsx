@@ -276,8 +276,8 @@ export default function GamificacaoPage() {
     return (
       <div className="p-6">
         <div className="animate-pulse space-y-4">
-          <div className="h-8 bg-green-800/40 rounded w-48" />
-          <div className="h-64 bg-green-800/40 rounded" />
+          <div className="h-8 bg-gray-700/40 rounded w-48" />
+          <div className="h-64 bg-gray-700/40 rounded" />
         </div>
       </div>
     );
@@ -295,22 +295,22 @@ export default function GamificacaoPage() {
         <div className="bg-gradient-to-r from-green-600 to-purple-600 rounded-xl p-5 mb-6 text-white">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-green-100 text-sm">Seu ranking</p>
+              <p className="text-gray-100 text-sm">Seu ranking</p>
               <p className="text-3xl font-bold">{getRankBadge(currentUser.rank)}</p>
             </div>
             <div className="text-right">
-              <p className="text-green-100 text-sm">Total de pontos</p>
+              <p className="text-gray-100 text-sm">Total de pontos</p>
               <p className="text-3xl font-bold">{currentUser.totalPoints.toLocaleString('pt-BR')}</p>
             </div>
           </div>
           {badges.filter((b) => b.earned).length > 0 && (
             <div className="mt-3 pt-3 border-t border-white/20">
-              <p className="text-green-100 text-xs mb-2">Seus badges</p>
+              <p className="text-gray-100 text-xs mb-2">Seus badges</p>
               <div className="flex flex-wrap gap-2">
                 {badges.filter((b) => b.earned).map((b) => (
                   <span
                     key={b.id}
-                    className="bg-green-950/50 backdrop-blur-lg/20 backdrop-blur rounded-full px-3 py-1 text-sm"
+                    className="bg-gray-900/50 backdrop-blur-lg/20 backdrop-blur rounded-full px-3 py-1 text-sm"
                     title={b.name}
                   >
                     {BADGE_ICONS[b.icon] || BADGE_ICONS.star} {b.name}
@@ -323,11 +323,11 @@ export default function GamificacaoPage() {
       )}
 
       {/* Tabs */}
-      <div className="flex gap-1 mb-6 bg-green-900/40 rounded-lg p-1">
+      <div className="flex gap-1 mb-6 bg-gray-800/40 rounded-lg p-1">
         <button
           onClick={() => setTab('leaderboard')}
           className={`flex-1 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-            tab === 'leaderboard' ? 'bg-green-950/50 backdrop-blur-lg shadow text-gray-100' : 'text-gray-400 hover:text-gray-300'
+            tab === 'leaderboard' ? 'bg-gray-900/50 backdrop-blur-lg shadow text-gray-100' : 'text-gray-400 hover:text-gray-300'
           }`}
         >
           Ranking
@@ -335,7 +335,7 @@ export default function GamificacaoPage() {
         <button
           onClick={() => setTab('meus-pontos')}
           className={`flex-1 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-            tab === 'meus-pontos' ? 'bg-green-950/50 backdrop-blur-lg shadow text-gray-100' : 'text-gray-400 hover:text-gray-300'
+            tab === 'meus-pontos' ? 'bg-gray-900/50 backdrop-blur-lg shadow text-gray-100' : 'text-gray-400 hover:text-gray-300'
           }`}
         >
           Meus Pontos
@@ -343,7 +343,7 @@ export default function GamificacaoPage() {
         <button
           onClick={() => setTab('badges')}
           className={`flex-1 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-            tab === 'badges' ? 'bg-green-950/50 backdrop-blur-lg shadow text-gray-100' : 'text-gray-400 hover:text-gray-300'
+            tab === 'badges' ? 'bg-gray-900/50 backdrop-blur-lg shadow text-gray-100' : 'text-gray-400 hover:text-gray-300'
           }`}
         >
           Badges
@@ -352,7 +352,7 @@ export default function GamificacaoPage() {
           <button
             onClick={() => setTab('admin')}
             className={`flex-1 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-              tab === 'admin' ? 'bg-green-950/50 backdrop-blur-lg shadow text-gray-100' : 'text-gray-400 hover:text-gray-300'
+              tab === 'admin' ? 'bg-gray-900/50 backdrop-blur-lg shadow text-gray-100' : 'text-gray-400 hover:text-gray-300'
             }`}
           >
             Administrar
@@ -362,7 +362,7 @@ export default function GamificacaoPage() {
 
       {/* Leaderboard Tab */}
       {tab === 'leaderboard' && (
-        <div className="bg-green-950/50 backdrop-blur-lg rounded-xl shadow-sm border border-green-800/30">
+        <div className="bg-gray-900/50 backdrop-blur-lg rounded-xl shadow-sm border border-gray-700/30">
           {leaderboard.length === 0 ? (
             <div className="p-12 text-center text-gray-400">
               Nenhum ponto registrado ainda.
@@ -420,11 +420,11 @@ export default function GamificacaoPage() {
 
           {/* How to earn points */}
           {pointSummary.length > 0 && (
-            <div className="bg-green-950/50 backdrop-blur-lg rounded-xl shadow-sm border border-green-800/30 p-5">
+            <div className="bg-gray-900/50 backdrop-blur-lg rounded-xl shadow-sm border border-gray-700/30 p-5">
               <h3 className="text-lg font-semibold text-gray-100 mb-4">Como você ganhou seus pontos</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {pointSummary.map((s) => (
-                  <div key={s.sourceType} className="flex items-center gap-3 p-3 rounded-lg bg-green-900/30 border border-green-800/20">
+                  <div key={s.sourceType} className="flex items-center gap-3 p-3 rounded-lg bg-gray-800/30 border border-gray-700/20">
                     <span className="text-2xl">{SOURCE_ICONS[s.sourceType] || '⭐'}</span>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium text-gray-200 truncate">{s.label}</p>
@@ -440,8 +440,8 @@ export default function GamificacaoPage() {
           )}
 
           {/* Point History */}
-          <div className="bg-green-950/50 backdrop-blur-lg rounded-xl shadow-sm border border-green-800/30">
-            <div className="p-4 border-b border-green-800/20">
+          <div className="bg-gray-900/50 backdrop-blur-lg rounded-xl shadow-sm border border-gray-700/30">
+            <div className="p-4 border-b border-gray-700/20">
               <h3 className="text-lg font-semibold text-gray-100">Histórico de pontos</h3>
             </div>
             {pointHistory.length === 0 ? (
@@ -480,7 +480,7 @@ export default function GamificacaoPage() {
       {tab === 'badges' && (
         <div>
           {badges.length === 0 ? (
-            <div className="bg-green-950/50 backdrop-blur-lg rounded-xl shadow-sm border border-green-800/30 p-12 text-center text-gray-400">
+            <div className="bg-gray-900/50 backdrop-blur-lg rounded-xl shadow-sm border border-gray-700/30 p-12 text-center text-gray-400">
               Nenhum badge criado ainda.
             </div>
           ) : (
@@ -488,15 +488,15 @@ export default function GamificacaoPage() {
               {badges.map((badge) => (
                 <div
                   key={badge.id}
-                  className={`bg-green-950/50 backdrop-blur-lg rounded-xl shadow-sm border-2 p-4 transition-all ${
+                  className={`bg-gray-900/50 backdrop-blur-lg rounded-xl shadow-sm border-2 p-4 transition-all ${
                     badge.earned
                       ? 'border-green-300 shadow-green-100'
-                      : 'border-green-800/30 opacity-60'
+                      : 'border-gray-700/30 opacity-60'
                   }`}
                 >
                   <div className="flex items-start gap-3">
                     <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-2xl ${
-                      badge.earned ? 'bg-emerald-900/40' : 'bg-green-900/40'
+                      badge.earned ? 'bg-emerald-900/40' : 'bg-gray-800/40'
                     }`}>
                       {BADGE_ICONS[badge.icon] || BADGE_ICONS.star}
                     </div>
@@ -508,7 +508,7 @@ export default function GamificacaoPage() {
                     </div>
                   </div>
                   <div className="flex items-center justify-between mt-3">
-                    <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${CATEGORY_COLORS[badge.category] || 'bg-green-900/40 text-gray-300'}`}>
+                    <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${CATEGORY_COLORS[badge.category] || 'bg-gray-800/40 text-gray-300'}`}>
                       {CATEGORY_LABELS[badge.category] || badge.category}
                     </span>
                     {badge.earned ? (
@@ -533,13 +533,13 @@ export default function GamificacaoPage() {
       {tab === 'admin' && isAdmin && (
         <div className="space-y-6">
           {/* Award Points */}
-          <div className="bg-green-950/50 backdrop-blur-lg rounded-xl shadow-sm border border-green-800/30 p-5">
+          <div className="bg-gray-900/50 backdrop-blur-lg rounded-xl shadow-sm border border-gray-700/30 p-5">
             <h3 className="text-lg font-semibold text-gray-100 mb-4">Atribuir Pontos</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
               <select
                 value={pointsUserId}
                 onChange={(e) => setPointsUserId(e.target.value)}
-                className="border border-green-700/40 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                className="border border-gray-600/40 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
               >
                 <option value="">Selecione o colaborador</option>
                 {employees.map((e) => (
@@ -552,7 +552,7 @@ export default function GamificacaoPage() {
                 onChange={(e) => setPointsAmount(e.target.value)}
                 placeholder="Quantidade de pontos"
                 min="1"
-                className="border border-green-700/40 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                className="border border-gray-600/40 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
               />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
@@ -561,27 +561,27 @@ export default function GamificacaoPage() {
                 value={pointsReason}
                 onChange={(e) => setPointsReason(e.target.value)}
                 placeholder="Motivo"
-                className="border border-green-700/40 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                className="border border-gray-600/40 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
               />
               <input
                 type="text"
                 value={pointsSourceType}
                 onChange={(e) => setPointsSourceType(e.target.value)}
                 placeholder="Tipo (ex: feedback_given, survey_completed)"
-                className="border border-green-700/40 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                className="border border-gray-600/40 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
               />
             </div>
             <button
               onClick={handleAwardPoints}
               disabled={awardingPoints || !pointsUserId || !pointsAmount || !pointsReason}
-              className="px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-green-800 disabled:opacity-50 text-sm font-medium"
+              className="px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-gray-700 disabled:opacity-50 text-sm font-medium"
             >
               {awardingPoints ? 'Atribuindo...' : 'Atribuir Pontos'}
             </button>
           </div>
 
           {/* Create Badge */}
-          <div className="bg-green-950/50 backdrop-blur-lg rounded-xl shadow-sm border border-green-800/30 p-5">
+          <div className="bg-gray-900/50 backdrop-blur-lg rounded-xl shadow-sm border border-gray-700/30 p-5">
             <h3 className="text-lg font-semibold text-gray-100 mb-4">Criar Badge</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
               <input
@@ -589,21 +589,21 @@ export default function GamificacaoPage() {
                 value={badgeName}
                 onChange={(e) => setBadgeName(e.target.value)}
                 placeholder="Nome do badge"
-                className="border border-green-700/40 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                className="border border-gray-600/40 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
               />
               <input
                 type="text"
                 value={badgeDesc}
                 onChange={(e) => setBadgeDesc(e.target.value)}
                 placeholder="Descricao"
-                className="border border-green-700/40 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                className="border border-gray-600/40 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
               />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
               <select
                 value={badgeIcon}
                 onChange={(e) => setBadgeIcon(e.target.value)}
-                className="border border-green-700/40 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                className="border border-gray-600/40 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
               >
                 {Object.entries(BADGE_ICONS).map(([key, emoji]) => (
                   <option key={key} value={key}>{emoji} {key}</option>
@@ -612,7 +612,7 @@ export default function GamificacaoPage() {
               <select
                 value={badgeCategory}
                 onChange={(e) => setBadgeCategory(e.target.value)}
-                className="border border-green-700/40 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                className="border border-gray-600/40 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
               >
                 {Object.entries(CATEGORY_LABELS).map(([key, label]) => (
                   <option key={key} value={key}>{label}</option>
@@ -624,26 +624,26 @@ export default function GamificacaoPage() {
                 onChange={(e) => setBadgePointsReq(e.target.value)}
                 placeholder="Pontos necessarios"
                 min="0"
-                className="border border-green-700/40 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                className="border border-gray-600/40 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
               />
             </div>
             <button
               onClick={handleCreateBadge}
               disabled={creatingBadge || !badgeName.trim()}
-              className="px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-green-800 disabled:opacity-50 text-sm font-medium"
+              className="px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-gray-700 disabled:opacity-50 text-sm font-medium"
             >
               {creatingBadge ? 'Criando...' : 'Criar Badge'}
             </button>
           </div>
 
           {/* Award Badge */}
-          <div className="bg-green-950/50 backdrop-blur-lg rounded-xl shadow-sm border border-green-800/30 p-5">
+          <div className="bg-gray-900/50 backdrop-blur-lg rounded-xl shadow-sm border border-gray-700/30 p-5">
             <h3 className="text-lg font-semibold text-gray-100 mb-4">Conceder Badge</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
               <select
                 value={awardBadgeId}
                 onChange={(e) => setAwardBadgeId(e.target.value)}
-                className="border border-green-700/40 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                className="border border-gray-600/40 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
               >
                 <option value="">Selecione o badge</option>
                 {badges.map((b) => (
@@ -655,7 +655,7 @@ export default function GamificacaoPage() {
               <select
                 value={awardBadgeUserId}
                 onChange={(e) => setAwardBadgeUserId(e.target.value)}
-                className="border border-green-700/40 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                className="border border-gray-600/40 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
               >
                 <option value="">Selecione o colaborador</option>
                 {employees.map((e) => (
@@ -666,7 +666,7 @@ export default function GamificacaoPage() {
             <button
               onClick={handleAwardBadge}
               disabled={awardingBadge || !awardBadgeId || !awardBadgeUserId}
-              className="px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-green-800 disabled:opacity-50 text-sm font-medium"
+              className="px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-gray-700 disabled:opacity-50 text-sm font-medium"
             >
               {awardingBadge ? 'Concedendo...' : 'Conceder Badge'}
             </button>

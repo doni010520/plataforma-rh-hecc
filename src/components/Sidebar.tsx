@@ -302,29 +302,62 @@ const navItems = [
   },
 ];
 
-// Nav items hidden from EMPLOYEE role
-const employeeHiddenPaths = ['/inteligencia-artificial'];
+// Map href to module key used in permissions
+const hrefToModule: Record<string, string> = {
+  '/dashboard': 'dashboard',
+  '/colaboradores': 'colaboradores',
+  '/departamentos': 'departamentos',
+  '/avaliacoes': 'avaliacoes',
+  '/feedback': 'feedback',
+  '/one-on-one': 'one-on-one',
+  '/okrs': 'okrs',
+  '/pdi': 'pdi',
+  '/onboarding': 'onboarding',
+  '/trilhas': 'trilhas',
+  '/departamento-pessoal': 'departamento-pessoal',
+  '/recrutamento': 'recrutamento',
+  '/nr01': 'nr01',
+  '/inteligencia-artificial': 'inteligencia-artificial',
+  '/pesquisas': 'pesquisas',
+  '/mural': 'mural',
+  '/enps': 'enps',
+  '/gamificacao': 'gamificacao',
+  '/comunicados': 'comunicados',
+  '/analytics': 'analytics',
+  '/disc': 'disc',
+};
 
-export function Sidebar() {
+interface SidebarProps {
+  userRole?: string;
+}
+
+export function Sidebar({ userRole: serverRole }: SidebarProps) {
   const pathname = usePathname();
   const [unreadCount, setUnreadCount] = useState(0);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [userRole, setUserRole] = useState<string | null>(null);
+  const [employeeModules, setEmployeeModules] = useState<Record<string, boolean> | null>(null);
+
+  // Use server-provided role directly — no need for /api/me call
+  const userRole = serverRole ?? null;
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const [unreadRes, meRes] = await Promise.all([
-          fetch('/api/comunicados/unread'),
-          fetch('/api/me'),
-        ]);
-        if (unreadRes.ok) {
-          const data = await unreadRes.json();
+        // Only fetch permissions if user is EMPLOYEE (avoids unnecessary call for ADMIN/MANAGER)
+        const fetches: Promise<Response>[] = [fetch('/api/comunicados/unread')];
+        if (userRole === 'EMPLOYEE') {
+          fetches.push(fetch('/api/settings/permissions'));
+        }
+
+        const results = await Promise.all(fetches);
+
+        if (results[0].ok) {
+          const data = await results[0].json();
           setUnreadCount(data.count ?? 0);
         }
-        if (meRes.ok) {
-          const me = await meRes.json();
-          setUserRole(me.role);
+        if (userRole === 'EMPLOYEE' && results[1]?.ok) {
+          const perms = await results[1].json();
+          setEmployeeModules(perms.employeeModules);
         }
       } catch {
         // ignore — sidebar should not break if the fetch fails
@@ -341,7 +374,7 @@ export function Sidebar() {
       } catch {}
     }, 60_000);
     return () => clearInterval(interval);
-  }, []);
+  }, [userRole]);
 
   const handleToggle = useCallback(() => {
     setMobileOpen((prev) => !prev);
@@ -370,16 +403,16 @@ export function Sidebar() {
       )}
 
       <aside
-        className={`fixed left-0 top-0 h-screen w-64 bg-green-950/80 backdrop-blur-xl border-r border-green-800/30 flex flex-col z-40 transition-transform duration-200 sidebar-light ${
+        className={`fixed left-0 top-0 h-screen w-64 bg-gray-900/80 backdrop-blur-xl border-r border-gray-700/30 flex flex-col z-40 transition-transform duration-200 sidebar-light ${
           mobileOpen ? 'translate-x-0' : '-translate-x-full'
         } md:translate-x-0`}
         aria-label="Menu de navegação principal"
       >
-        <div className="flex items-center justify-between p-6 border-b border-green-800/30">
+        <div className="flex items-center justify-between p-6 border-b border-gray-700/30">
           <h1 className="text-xl font-bold text-emerald-400">Plataforma RH</h1>
           <button
             onClick={() => setMobileOpen(false)}
-            className="md:hidden p-1 text-green-400 hover:text-green-200"
+            className="md:hidden p-1 text-gray-400 hover:text-gray-200"
             aria-label="Fechar menu"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -391,7 +424,10 @@ export function Sidebar() {
         <nav className="flex-1 overflow-y-auto py-4" aria-label="Navegação">
           <ul className="space-y-1 px-3" role="list">
             {navItems.filter((item) => {
-              if (userRole === 'EMPLOYEE' && employeeHiddenPaths.includes(item.href)) return false;
+              if (userRole === 'EMPLOYEE' && employeeModules) {
+                const moduleKey = hrefToModule[item.href];
+                if (moduleKey && employeeModules[moduleKey] === false) return false;
+              }
               return true;
             }).map((item) => {
               const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
@@ -402,7 +438,7 @@ export function Sidebar() {
                     className={`flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium transition-colors ${
                       isActive
                         ? 'bg-emerald-500/20 text-emerald-300'
-                        : 'text-green-100/70 hover:bg-green-800/40 hover:text-green-50'
+                        : 'text-gray-300 hover:bg-gray-700/40 hover:text-gray-100'
                     }`}
                     aria-current={isActive ? 'page' : undefined}
                   >
@@ -417,6 +453,52 @@ export function Sidebar() {
                 </li>
               );
             })}
+          </ul>
+
+          {/* Admin-only section */}
+          {userRole === 'ADMIN' && (
+            <>
+              <div className="mx-3 my-3 border-t border-gray-700/30" />
+              <ul className="space-y-1 px-3" role="list">
+                <li>
+                  <Link
+                    href="/permissoes"
+                    className={`flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium transition-colors ${
+                      pathname === '/permissoes'
+                        ? 'bg-emerald-500/20 text-emerald-300'
+                        : 'text-gray-300 hover:bg-gray-700/40 hover:text-gray-100'
+                    }`}
+                    aria-current={pathname === '/permissoes' ? 'page' : undefined}
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                    </svg>
+                    <span>Permissões</span>
+                  </Link>
+                </li>
+              </ul>
+            </>
+          )}
+
+          {/* Help link — always visible */}
+          <div className="mx-3 my-3 border-t border-gray-700/30" />
+          <ul className="space-y-1 px-3 pb-4" role="list">
+            <li>
+              <Link
+                href="/ajuda"
+                className={`flex items-center gap-3 px-3 py-2.5 rounded-md text-sm font-medium transition-colors ${
+                  pathname === '/ajuda'
+                    ? 'bg-emerald-500/20 text-emerald-300'
+                    : 'text-gray-300 hover:bg-gray-700/40 hover:text-gray-100'
+                }`}
+                aria-current={pathname === '/ajuda' ? 'page' : undefined}
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span>Ajuda</span>
+              </Link>
+            </li>
           </ul>
         </nav>
       </aside>

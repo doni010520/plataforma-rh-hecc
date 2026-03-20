@@ -103,19 +103,19 @@ export default async function DashboardPage() {
       <h1 className="text-2xl font-bold text-gray-100 mb-6">Dashboard</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div className="bg-green-950/50 backdrop-blur-lg border border-emerald-500/10 rounded-2xl shadow-sm p-6">
+        <div className="bg-gray-900/50 backdrop-blur-lg border border-emerald-500/10 rounded-2xl shadow-sm p-6">
           <h3 className="text-sm font-medium text-gray-400 mb-1">Bem-vindo(a)</h3>
           <p className="text-xl font-semibold text-gray-100">{user.name}</p>
           <p className="text-sm text-gray-400 mt-1">{user.company?.name ?? 'Sem empresa'}</p>
         </div>
 
-        <div className="bg-green-950/50 backdrop-blur-lg border border-emerald-500/10 rounded-2xl shadow-sm p-6">
+        <div className="bg-gray-900/50 backdrop-blur-lg border border-emerald-500/10 rounded-2xl shadow-sm p-6">
           <h3 className="text-sm font-medium text-gray-400 mb-1">Cargo</h3>
           <p className="text-xl font-semibold text-gray-100">{user.jobTitle || 'Não definido'}</p>
           <p className="text-sm text-gray-400 mt-1">{user.department?.name || 'Sem departamento'}</p>
         </div>
 
-        <div className="bg-green-950/50 backdrop-blur-lg border border-emerald-500/10 rounded-2xl shadow-sm p-6">
+        <div className="bg-gray-900/50 backdrop-blur-lg border border-emerald-500/10 rounded-2xl shadow-sm p-6">
           <h3 className="text-sm font-medium text-gray-400 mb-1">Perfil</h3>
           <p className="text-xl font-semibold text-gray-100">
             {user.role === 'ADMIN'
@@ -145,7 +145,7 @@ export default async function DashboardPage() {
                 <span className="text-sm text-emerald-400">{s.title}</span>
                 <Link
                   href={`/pesquisas/${s.id}/responder`}
-                  className="text-sm bg-green-700 text-white px-3 py-1 rounded-md hover:bg-green-800 font-medium"
+                  className="text-sm bg-green-700 text-white px-3 py-1 rounded-md hover:bg-gray-700 font-medium"
                 >
                   Responder
                 </Link>
@@ -178,7 +178,7 @@ export default async function DashboardPage() {
       )}
 
       {pendingAssignments.length > 0 && (
-        <div className="mt-8 bg-green-950/50 backdrop-blur-lg border border-emerald-500/10 rounded-lg p-6">
+        <div className="mt-8 bg-gray-900/50 backdrop-blur-lg border border-emerald-500/10 rounded-lg p-6">
           <h2 className="text-lg font-semibold text-gray-100 mb-4">
             Avaliações Pendentes ({pendingAssignments.length})
           </h2>
@@ -186,7 +186,7 @@ export default async function DashboardPage() {
             {pendingAssignments.map((a) => (
               <div
                 key={a.id}
-                className="flex items-center justify-between border border-green-800/30 rounded-md p-3"
+                className="flex items-center justify-between border border-gray-700/30 rounded-md p-3"
               >
                 <div>
                   <p className="text-sm font-medium text-gray-100">
@@ -199,7 +199,7 @@ export default async function DashboardPage() {
                 </div>
                 <Link
                   href={`/avaliacoes/responder/${a.id}`}
-                  className="text-sm bg-green-700 text-white px-3 py-1.5 rounded-md hover:bg-green-800 font-medium"
+                  className="text-sm bg-green-700 text-white px-3 py-1.5 rounded-md hover:bg-gray-700 font-medium"
                 >
                   Responder
                 </Link>
@@ -210,7 +210,7 @@ export default async function DashboardPage() {
       )}
 
       {recentFeedbacks.length > 0 && (
-        <div className="mt-8 bg-green-950/50 backdrop-blur-lg border border-emerald-500/10 rounded-lg p-6">
+        <div className="mt-8 bg-gray-900/50 backdrop-blur-lg border border-emerald-500/10 rounded-lg p-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-gray-100">
               Feedbacks Recentes
@@ -221,7 +221,7 @@ export default async function DashboardPage() {
           </div>
           <div className="space-y-3">
             {recentFeedbacks.map((fb) => (
-              <div key={fb.id} className="border border-green-800/30 rounded-md p-3">
+              <div key={fb.id} className="border border-gray-700/30 rounded-md p-3">
                 <div className="flex items-center gap-2 mb-1">
                   <span className="text-sm font-medium text-gray-100">
                     {fb.fromUser?.name ?? 'Anônimo'}
@@ -248,7 +248,7 @@ export default async function DashboardPage() {
         </div>
       )}
 
-      <div className="mt-8 bg-green-950/50 backdrop-blur-lg border border-emerald-500/10 rounded-lg p-6">
+      <div className="mt-8 bg-gray-900/50 backdrop-blur-lg border border-emerald-500/10 rounded-lg p-6">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-semibold text-gray-100">
             Meus OKRs — Q{currentQuarter}/{currentYear}
@@ -292,7 +292,7 @@ export default async function DashboardPage() {
                           ? 'bg-red-900/30 text-red-400'
                           : obj.status === 'ACHIEVED'
                             ? 'bg-emerald-900/40 text-emerald-400'
-                            : 'bg-green-900/40 text-gray-400'
+                            : 'bg-gray-800/40 text-gray-400'
                       }`}>
                         {obj.status === 'ON_TRACK' ? 'No Caminho'
                           : obj.status === 'AT_RISK' ? 'Em Risco'
@@ -301,7 +301,7 @@ export default async function DashboardPage() {
                       <span className="text-sm font-bold text-gray-100">{progress.toFixed(0)}%</span>
                     </div>
                   </div>
-                  <div className="w-full bg-green-800/40 rounded-full h-2">
+                  <div className="w-full bg-gray-700/40 rounded-full h-2">
                     <div
                       className={`h-2 rounded-full transition-all ${
                         obj.status === 'AT_RISK' ? 'bg-red-500' : 'bg-green-600'

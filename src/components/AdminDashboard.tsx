@@ -68,8 +68,8 @@ export default function AdminDashboard() {
   if (loading) {
     return (
       <div className="space-y-4 mt-8">
-        <div className="h-8 w-64 bg-green-800/40 rounded animate-pulse" />
-        <div className="h-64 bg-green-800/40 rounded animate-pulse" />
+        <div className="h-8 w-64 bg-gray-700/40 rounded animate-pulse" />
+        <div className="h-64 bg-gray-700/40 rounded animate-pulse" />
       </div>
     );
   }
@@ -90,17 +90,17 @@ export default function AdminDashboard() {
 
       {/* KPI Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-5">
+        <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-5">
           <h3 className="text-sm font-medium text-gray-400 mb-1">Total Colaboradores</h3>
           <p className="text-3xl font-bold text-gray-100">{data.totalEmployees}</p>
           <p className="text-xs text-gray-400">activos na plataforma</p>
         </div>
-        <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-5">
+        <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-5">
           <h3 className="text-sm font-medium text-gray-400 mb-1">Taxa de Engajamento</h3>
           <p className="text-3xl font-bold text-gray-100">{data.engagementRate}%</p>
           <p className="text-xs text-gray-400">últimos 30 dias</p>
         </div>
-        <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-5">
+        <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-5">
           <h3 className="text-sm font-medium text-gray-400 mb-1">eNPS Interno</h3>
           <p className={`text-3xl font-bold ${data.nps !== null ? (data.nps >= 0 ? 'text-green-600' : 'text-red-600') : 'text-gray-400'}`}>
             {data.nps !== null ? `${data.nps > 0 ? '+' : ''}${data.nps}` : '—'}
@@ -112,7 +112,7 @@ export default function AdminDashboard() {
       </div>
 
       {/* Mood Evolution Chart */}
-      <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-6 mb-6">
+      <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-6 mb-6">
         <h3 className="text-sm font-semibold text-gray-100 mb-4">
           Evolução do Humor da Empresa (últimas 8 semanas)
         </h3>
@@ -156,7 +156,7 @@ export default function AdminDashboard() {
       </div>
 
       {/* Active Review Cycles */}
-      <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-6 mb-6">
+      <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-6 mb-6">
         <h3 className="text-sm font-semibold text-gray-100 mb-4">
           Ciclos de Avaliação Activos
         </h3>
@@ -180,7 +180,7 @@ export default function AdminDashboard() {
                     {cycle.completedAssignments}/{cycle.totalAssignments} ({cycle.progress.toFixed(0)}%)
                   </span>
                 </div>
-                <div className="w-full bg-green-800/40 rounded-full h-3">
+                <div className="w-full bg-gray-700/40 rounded-full h-3">
                   <div
                     className="h-3 rounded-full bg-green-700 transition-all"
                     style={{ width: `${cycle.progress}%` }}
@@ -196,7 +196,7 @@ export default function AdminDashboard() {
       </div>
 
       {/* OKR Map */}
-      <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-6">
+      <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-6">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-sm font-semibold text-gray-100">
             Mapa de OKRs da Empresa
@@ -217,7 +217,7 @@ export default function AdminDashboard() {
                       ? 'bg-purple-100 text-purple-700'
                       : okr.level === 'TEAM'
                         ? 'bg-blue-100 text-blue-700'
-                        : 'bg-green-900/40 text-gray-400'
+                        : 'bg-gray-800/40 text-gray-400'
                   }`}
                 >
                   {levelLabels[okr.level] || okr.level}
@@ -237,13 +237,13 @@ export default function AdminDashboard() {
                       ? 'bg-red-900/30 text-red-700'
                       : okr.status === 'ACHIEVED'
                         ? 'bg-emerald-900/40 text-emerald-400'
-                        : 'bg-green-900/40 text-gray-400'
+                        : 'bg-gray-800/40 text-gray-400'
                   }`}
                 >
                   {statusLabels[okr.status] || okr.status}
                 </span>
                 <div className="w-24 flex items-center gap-2">
-                  <div className="flex-1 bg-green-800/40 rounded-full h-2">
+                  <div className="flex-1 bg-gray-700/40 rounded-full h-2">
                     <div
                       className={`h-2 rounded-full transition-all ${
                         okr.status === 'AT_RISK' ? 'bg-red-900/300' : 'bg-green-700'
@@ -273,7 +273,7 @@ export default function AdminDashboard() {
           <a
             key={item.module}
             href={`/api/export?module=${item.module}`}
-            className="inline-flex items-center gap-1 px-3 py-1.5 border border-green-700/40 rounded-md text-sm text-gray-300 hover:bg-green-900/30 transition-colors"
+            className="inline-flex items-center gap-1 px-3 py-1.5 border border-gray-600/40 rounded-md text-sm text-gray-300 hover:bg-gray-800/30 transition-colors"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />

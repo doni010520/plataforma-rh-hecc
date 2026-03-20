@@ -29,7 +29,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${inter.className} bg-gradient-to-br from-gray-900 via-green-950 to-gray-900 min-h-screen`}>
+      <body className={`${inter.className} bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 min-h-screen`}>
         <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>

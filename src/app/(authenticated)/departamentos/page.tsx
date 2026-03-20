@@ -94,8 +94,8 @@ export default function DepartamentosPage() {
   if (loading) {
     return (
       <div className="space-y-4">
-        <div className="h-8 w-48 bg-green-800/40 rounded animate-pulse" />
-        <div className="h-64 bg-green-800/40 rounded animate-pulse" />
+        <div className="h-8 w-48 bg-gray-700/40 rounded animate-pulse" />
+        <div className="h-64 bg-gray-700/40 rounded animate-pulse" />
       </div>
     );
   }
@@ -104,7 +104,7 @@ export default function DepartamentosPage() {
     <div>
       <h1 className="text-2xl font-bold text-gray-100 mb-6">Departamentos</h1>
 
-      <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-6 mb-6">
+      <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-6 mb-6">
         <h2 className="text-lg font-semibold text-gray-100 mb-4">Novo Departamento</h2>
         <form onSubmit={handleCreate} className="flex gap-3">
           <input
@@ -114,12 +114,12 @@ export default function DepartamentosPage() {
             placeholder="Nome do departamento"
             required
             minLength={2}
-            className="flex-1 px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+            className="flex-1 px-3 py-2 border border-gray-600/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
           />
           <button
             type="submit"
             disabled={saving}
-            className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-800 transition-colors disabled:opacity-50 font-medium"
+            className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition-colors disabled:opacity-50 font-medium"
           >
             {saving ? 'Salvando...' : 'Adicionar'}
           </button>
@@ -130,9 +130,9 @@ export default function DepartamentosPage() {
         <div className="bg-red-900/30 text-red-600 text-sm p-3 rounded-md mb-4">{error}</div>
       )}
 
-      <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm overflow-hidden">
+      <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm overflow-hidden">
         <table className="w-full">
-          <thead className="bg-green-900/30">
+          <thead className="bg-gray-800/30">
             <tr>
               <th className="text-left px-6 py-3 text-xs font-medium text-gray-400 uppercase tracking-wider">
                 Nome
@@ -161,7 +161,7 @@ export default function DepartamentosPage() {
                       type="text"
                       value={editingName}
                       onChange={(e) => setEditingName(e.target.value)}
-                      className="px-2 py-1 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                      className="px-2 py-1 border border-gray-600/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500"
                       autoFocus
                     />
                   ) : (

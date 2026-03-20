@@ -1,3 +1,4 @@
+import { cache } from 'react';
 import { createClient } from '@/lib/supabase/server';
 import { prisma } from '@/lib/prisma';
 import { redirect } from 'next/navigation';
@@ -12,7 +13,10 @@ export async function getSession() {
   return user;
 }
 
-export async function getCurrentUser() {
+// React.cache() deduplicates calls within the same request lifecycle.
+// When AuthenticatedLayout AND the page both call getCurrentUser(),
+// only ONE actual DB query + auth check is performed.
+export const getCurrentUser = cache(async () => {
   const session = await getSession();
   if (!session) {
     redirect('/login');
@@ -28,9 +32,9 @@ export async function getCurrentUser() {
   }
 
   return user;
-}
+});
 
-export async function getApiUser() {
+export const getApiUser = cache(async () => {
   const session = await getSession();
   if (!session) {
     return null;
@@ -42,7 +46,7 @@ export async function getApiUser() {
   });
 
   return user;
-}
+});
 
 export function unauthorizedResponse(message = 'Não autorizado.') {
   return NextResponse.json({ error: message }, { status: 401 });

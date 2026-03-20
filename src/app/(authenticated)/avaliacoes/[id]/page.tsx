@@ -54,8 +54,8 @@ export default function CycleDetailPage() {
   if (loading) {
     return (
       <div className="space-y-4">
-        <div className="h-8 w-64 bg-green-800/40 rounded animate-pulse" />
-        <div className="h-96 bg-green-800/40 rounded animate-pulse" />
+        <div className="h-8 w-64 bg-gray-700/40 rounded animate-pulse" />
+        <div className="h-96 bg-gray-700/40 rounded animate-pulse" />
       </div>
     );
   }
@@ -86,7 +86,7 @@ export default function CycleDetailPage() {
         {(cycle.status === 'ACTIVE' || cycle.status === 'CLOSED') && (
           <Link
             href={`/avaliacoes/${cycle.id}/resultados`}
-            className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-800 font-medium text-sm"
+            className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-gray-700 font-medium text-sm"
           >
             Ver Resultados
           </Link>
@@ -94,18 +94,18 @@ export default function CycleDetailPage() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-4">
+        <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-4">
           <p className="text-sm text-gray-400">Total de Avaliações</p>
           <p className="text-2xl font-bold text-gray-100">{totalAssignments}</p>
         </div>
-        <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-4">
+        <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-4">
           <p className="text-sm text-gray-400">Respondidas</p>
           <p className="text-2xl font-bold text-green-600">{doneAssignments}</p>
         </div>
-        <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-4">
+        <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-4">
           <p className="text-sm text-gray-400">Taxa de Preenchimento</p>
           <p className="text-2xl font-bold text-gray-100">{completionRate}%</p>
-          <div className="w-full bg-green-800/40 rounded-full h-2 mt-2">
+          <div className="w-full bg-gray-700/40 rounded-full h-2 mt-2">
             <div
               className="bg-green-700 h-2 rounded-full transition-all"
               style={{ width: `${completionRate}%` }}
@@ -114,12 +114,12 @@ export default function CycleDetailPage() {
         </div>
       </div>
 
-      <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm overflow-hidden">
-        <div className="px-6 py-4 border-b border-green-800/30">
+      <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm overflow-hidden">
+        <div className="px-6 py-4 border-b border-gray-700/30">
           <h2 className="font-semibold text-gray-100">Status por Colaborador</h2>
         </div>
         <table className="w-full">
-          <thead className="bg-green-900/30">
+          <thead className="bg-gray-800/30">
             <tr>
               <th className="text-left px-6 py-3 text-xs font-medium text-gray-400 uppercase">
                 Avaliado

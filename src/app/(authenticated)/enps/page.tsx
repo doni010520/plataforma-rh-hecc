@@ -42,7 +42,7 @@ function getNpsColor(score: number | null): string {
 }
 
 function getNpsBgColor(score: number | null): string {
-  if (score === null) return 'bg-green-900/40 text-gray-400';
+  if (score === null) return 'bg-gray-800/40 text-gray-400';
   if (score >= 50) return 'bg-emerald-900/40 text-emerald-300';
   if (score >= 0) return 'bg-yellow-100 text-yellow-300';
   return 'bg-red-900/30 text-red-800';
@@ -65,10 +65,10 @@ function getStatusLabel(status: string): string {
 
 function getStatusColor(status: string): string {
   switch (status) {
-    case 'DRAFT': return 'bg-green-900/40 text-gray-300';
+    case 'DRAFT': return 'bg-gray-800/40 text-gray-300';
     case 'ACTIVE': return 'bg-emerald-900/40 text-emerald-400';
     case 'CLOSED': return 'bg-red-900/30 text-red-700';
-    default: return 'bg-green-900/40 text-gray-300';
+    default: return 'bg-gray-800/40 text-gray-300';
   }
 }
 
@@ -189,8 +189,8 @@ export default function EnpsPage() {
     return (
       <div className="p-6">
         <div className="animate-pulse space-y-4">
-          <div className="h-8 bg-green-800/40 rounded w-48" />
-          <div className="h-32 bg-green-800/40 rounded" />
+          <div className="h-8 bg-gray-700/40 rounded w-48" />
+          <div className="h-32 bg-gray-700/40 rounded" />
         </div>
       </div>
     );
@@ -213,7 +213,7 @@ export default function EnpsPage() {
           Voltar
         </button>
 
-        <div className="bg-green-950/50 backdrop-blur-lg rounded-xl shadow-sm border border-green-800/30 p-6 mb-6">
+        <div className="bg-gray-900/50 backdrop-blur-lg rounded-xl shadow-sm border border-gray-700/30 p-6 mb-6">
           <div className="flex items-start justify-between mb-4">
             <div>
               <h1 className="text-2xl font-bold text-gray-100">{s.title}</h1>
@@ -229,7 +229,7 @@ export default function EnpsPage() {
 
           {/* NPS Score */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-            <div className="bg-green-900/30 rounded-lg p-4 text-center">
+            <div className="bg-gray-800/30 rounded-lg p-4 text-center">
               <p className="text-sm text-gray-400 mb-1">NPS Score</p>
               <p className={`text-4xl font-bold ${getNpsColor(s.npsScore)}`}>
                 {s.npsScore !== null ? s.npsScore : '—'}
@@ -239,7 +239,7 @@ export default function EnpsPage() {
               <p className="text-sm text-green-600 mb-1">Promotores (9-10)</p>
               <p className="text-2xl font-bold text-emerald-400">{s.promoters}</p>
               {s.totalResponses > 0 && (
-                <p className="text-xs text-green-500">
+                <p className="text-xs text-gray-500">
                   {Math.round((s.promoters / s.totalResponses) * 100)}%
                 </p>
               )}
@@ -274,7 +274,7 @@ export default function EnpsPage() {
                 return (
                   <div key={score} className="flex items-center gap-2">
                     <span className="w-6 text-right text-sm text-gray-400 font-medium">{score}</span>
-                    <div className="flex-1 bg-green-900/40 rounded-full h-5 relative">
+                    <div className="flex-1 bg-gray-800/40 rounded-full h-5 relative">
                       <div
                         className={`h-5 rounded-full ${getScoreColor(score)} transition-all`}
                         style={{ width: `${width}%`, minWidth: count > 0 ? '8px' : '0' }}
@@ -316,7 +316,7 @@ export default function EnpsPage() {
 
         {/* Response form */}
         {s.status === 'ACTIVE' && !s.hasResponded && (
-          <div className="bg-green-950/50 backdrop-blur-lg rounded-xl shadow-sm border border-green-800/30 p-6">
+          <div className="bg-gray-900/50 backdrop-blur-lg rounded-xl shadow-sm border border-gray-700/30 p-6">
             <h3 className="text-lg font-semibold text-gray-100 mb-4">Responder Pesquisa</h3>
             <p className="text-sm text-gray-400 mb-4">
               Em uma escala de 0 a 10, o quanto voce recomendaria esta empresa como um bom lugar para trabalhar?
@@ -324,7 +324,7 @@ export default function EnpsPage() {
 
             <div className="flex flex-wrap gap-2 mb-4">
               {Array.from({ length: 11 }, (_, i) => i).map((score) => {
-                let bgClass = 'bg-green-900/40 text-gray-300 hover:bg-green-800/40';
+                let bgClass = 'bg-gray-800/40 text-gray-300 hover:bg-gray-700/40';
                 if (respondScore === score) {
                   if (score >= 9) bgClass = 'bg-green-600 text-white';
                   else if (score >= 7) bgClass = 'bg-yellow-900/300 text-white';
@@ -356,13 +356,13 @@ export default function EnpsPage() {
               onChange={(e) => setRespondComment(e.target.value)}
               placeholder="Comentario (opcional)"
               rows={3}
-              className="w-full border border-green-700/40 rounded-lg px-3 py-2 text-sm mb-4 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+              className="w-full border border-gray-600/40 rounded-lg px-3 py-2 text-sm mb-4 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
             />
 
             <button
               onClick={handleRespond}
               disabled={respondScore === null || submitting}
-              className="px-6 py-2.5 bg-green-700 text-white rounded-lg hover:bg-green-800 disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium"
+              className="px-6 py-2.5 bg-green-700 text-white rounded-lg hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium"
             >
               {submitting ? 'Enviando...' : 'Enviar Resposta'}
             </button>
@@ -389,7 +389,7 @@ export default function EnpsPage() {
         {isAdmin && (
           <button
             onClick={() => setShowCreate(!showCreate)}
-            className="px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-green-800 text-sm font-medium"
+            className="px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-gray-700 text-sm font-medium"
           >
             Nova Pesquisa
           </button>
@@ -398,7 +398,7 @@ export default function EnpsPage() {
 
       {/* Create form */}
       {showCreate && (
-        <div className="bg-green-950/50 backdrop-blur-lg rounded-xl shadow-sm border border-green-800/30 p-4 mb-6">
+        <div className="bg-gray-900/50 backdrop-blur-lg rounded-xl shadow-sm border border-gray-700/30 p-4 mb-6">
           <h3 className="text-sm font-semibold text-gray-300 mb-3">Criar Pesquisa eNPS</h3>
           <div className="flex gap-2">
             <input
@@ -406,12 +406,12 @@ export default function EnpsPage() {
               value={newTitle}
               onChange={(e) => setNewTitle(e.target.value)}
               placeholder="Titulo da pesquisa"
-              className="flex-1 border border-green-700/40 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+              className="flex-1 border border-gray-600/40 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
             />
             <button
               onClick={handleCreate}
               disabled={creating || !newTitle.trim()}
-              className="px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-green-800 disabled:opacity-50 text-sm font-medium"
+              className="px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-gray-700 disabled:opacity-50 text-sm font-medium"
             >
               {creating ? 'Criando...' : 'Criar'}
             </button>
@@ -421,7 +421,7 @@ export default function EnpsPage() {
 
       {/* Surveys list */}
       {surveys.length === 0 ? (
-        <div className="bg-green-950/50 backdrop-blur-lg rounded-xl shadow-sm border border-green-800/30 p-12 text-center">
+        <div className="bg-gray-900/50 backdrop-blur-lg rounded-xl shadow-sm border border-gray-700/30 p-12 text-center">
           <p className="text-gray-400">Nenhuma pesquisa eNPS encontrada.</p>
         </div>
       ) : (
@@ -430,7 +430,7 @@ export default function EnpsPage() {
             <button
               key={survey.id}
               onClick={() => loadSurveyDetail(survey.id)}
-              className="w-full text-left bg-green-950/50 backdrop-blur-lg rounded-xl shadow-sm border border-green-800/30 p-4 hover:shadow-md transition-shadow"
+              className="w-full text-left bg-gray-900/50 backdrop-blur-lg rounded-xl shadow-sm border border-gray-700/30 p-4 hover:shadow-md transition-shadow"
             >
               <div className="flex items-center justify-between">
                 <div className="flex-1">
@@ -458,7 +458,7 @@ export default function EnpsPage() {
 
       {loadingDetail && (
         <div className="fixed inset-0 bg-black/20 flex items-center justify-center z-50">
-          <div className="bg-green-950/50 backdrop-blur-lg rounded-lg p-6 shadow-xl">
+          <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg p-6 shadow-xl">
             <p className="text-gray-400">Carregando...</p>
           </div>
         </div>

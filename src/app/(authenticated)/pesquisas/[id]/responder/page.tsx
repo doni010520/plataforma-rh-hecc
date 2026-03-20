@@ -74,8 +74,8 @@ export default function ResponderPesquisaPage() {
   if (loading) {
     return (
       <div className="space-y-4">
-        <div className="h-8 w-64 bg-green-800/40 rounded animate-pulse" />
-        <div className="h-96 bg-green-800/40 rounded animate-pulse" />
+        <div className="h-8 w-64 bg-gray-700/40 rounded animate-pulse" />
+        <div className="h-96 bg-gray-700/40 rounded animate-pulse" />
       </div>
     );
   }
@@ -86,7 +86,7 @@ export default function ResponderPesquisaPage() {
 
   if (survey.hasResponded) {
     return (
-      <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-6 text-center">
+      <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-6 text-center">
         <h1 className="text-xl font-bold text-gray-100 mb-2">Pesquisa já respondida</h1>
         <p className="text-gray-400 mb-4">Você já respondeu a pesquisa &ldquo;{survey.title}&rdquo;.</p>
         <button
@@ -128,7 +128,7 @@ export default function ResponderPesquisaPage() {
           </span>
           <span className="text-sm font-medium text-gray-300">{progress.toFixed(0)}%</span>
         </div>
-        <div className="w-full bg-green-800/40 rounded-full h-2">
+        <div className="w-full bg-gray-700/40 rounded-full h-2">
           <div
             className="h-2 rounded-full bg-green-700 transition-all"
             style={{ width: `${progress}%` }}
@@ -137,7 +137,7 @@ export default function ResponderPesquisaPage() {
       </div>
 
       {/* Question */}
-      <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-8 mb-6">
+      <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-8 mb-6">
         <h2 className="text-lg font-semibold text-gray-100 mb-6">{currentQuestion.text}</h2>
 
         {currentQuestion.type === 'SCALE' && (
@@ -149,8 +149,8 @@ export default function ResponderPesquisaPage() {
                 onClick={() => setAnswer(currentQuestion.id, score.toString())}
                 className={`w-16 h-16 rounded-lg border-2 text-center transition-all ${
                   currentAnswer === score.toString()
-                    ? 'border-green-700 bg-emerald-900/30 text-emerald-300 font-bold'
-                    : 'border-green-800/30 hover:border-green-700/40 text-gray-400'
+                    ? 'border-gray-600 bg-emerald-900/30 text-emerald-300 font-bold'
+                    : 'border-gray-700/30 hover:border-gray-600/40 text-gray-400'
                 }`}
               >
                 <span className="text-xl">{score}</span>
@@ -179,8 +179,8 @@ export default function ResponderPesquisaPage() {
                 onClick={() => setAnswer(currentQuestion.id, option)}
                 className={`block w-full text-left px-4 py-3 rounded-lg border-2 transition-all ${
                   currentAnswer === option
-                    ? 'border-green-700 bg-emerald-900/30 text-emerald-300 font-medium'
-                    : 'border-green-800/30 hover:border-green-700/40 text-gray-300'
+                    ? 'border-gray-600 bg-emerald-900/30 text-emerald-300 font-medium'
+                    : 'border-gray-700/30 hover:border-gray-600/40 text-gray-300'
                 }`}
               >
                 {option}
@@ -194,7 +194,7 @@ export default function ResponderPesquisaPage() {
             value={currentAnswer}
             onChange={(e) => setAnswer(currentQuestion.id, e.target.value)}
             rows={4}
-            className="w-full px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+            className="w-full px-3 py-2 border border-gray-600/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
             placeholder="Escreva sua resposta..."
           />
         )}
@@ -218,7 +218,7 @@ export default function ResponderPesquisaPage() {
           <button
             onClick={handleSubmit}
             disabled={submitting || !currentAnswer}
-            className="bg-green-700 text-white px-6 py-2 rounded-md hover:bg-green-800 disabled:opacity-50 font-medium"
+            className="bg-green-700 text-white px-6 py-2 rounded-md hover:bg-gray-700 disabled:opacity-50 font-medium"
           >
             {submitting ? 'Enviando...' : 'Enviar Respostas'}
           </button>
@@ -226,7 +226,7 @@ export default function ResponderPesquisaPage() {
           <button
             onClick={() => setCurrentStep(currentStep + 1)}
             disabled={!currentAnswer}
-            className="bg-green-700 text-white px-6 py-2 rounded-md hover:bg-green-800 disabled:opacity-50 font-medium"
+            className="bg-green-700 text-white px-6 py-2 rounded-md hover:bg-gray-700 disabled:opacity-50 font-medium"
           >
             Próxima &rarr;
           </button>

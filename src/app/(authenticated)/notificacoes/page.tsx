@@ -62,8 +62,8 @@ export default function NotificacoesPage() {
   if (loading) {
     return (
       <div className="space-y-4">
-        <div className="h-8 w-48 bg-green-800/40 rounded animate-pulse" />
-        <div className="h-64 bg-green-800/40 rounded animate-pulse" />
+        <div className="h-8 w-48 bg-gray-700/40 rounded animate-pulse" />
+        <div className="h-64 bg-gray-700/40 rounded animate-pulse" />
       </div>
     );
   }
@@ -83,12 +83,12 @@ export default function NotificacoesPage() {
       </div>
 
       {/* Filter Tabs */}
-      <div className="flex gap-4 mb-4 border-b border-green-800/30">
+      <div className="flex gap-4 mb-4 border-b border-gray-700/30">
         <button
           onClick={() => setFilter('all')}
           className={`pb-2 text-sm font-medium border-b-2 transition-colors ${
             filter === 'all'
-              ? 'border-green-700 text-emerald-400'
+              ? 'border-gray-600 text-emerald-400'
               : 'border-transparent text-gray-400 hover:text-gray-300'
           }`}
         >
@@ -98,7 +98,7 @@ export default function NotificacoesPage() {
           onClick={() => setFilter('unread')}
           className={`pb-2 text-sm font-medium border-b-2 transition-colors ${
             filter === 'unread'
-              ? 'border-green-700 text-emerald-400'
+              ? 'border-gray-600 text-emerald-400'
               : 'border-transparent text-gray-400 hover:text-gray-300'
           }`}
         >
@@ -107,7 +107,7 @@ export default function NotificacoesPage() {
       </div>
 
       {notifications.length === 0 ? (
-        <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-12 text-center">
+        <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-12 text-center">
           <p className="text-2xl mb-2">🔔</p>
           <p className="text-gray-400">
             {filter === 'unread'
@@ -116,12 +116,12 @@ export default function NotificacoesPage() {
           </p>
         </div>
       ) : (
-        <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm overflow-hidden divide-y divide-gray-100">
+        <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm overflow-hidden divide-y divide-gray-100">
           {notifications.map((n) => (
             <button
               key={n.id}
               onClick={() => handleClick(n)}
-              className={`w-full text-left px-5 py-4 hover:bg-green-900/30 transition-colors ${
+              className={`w-full text-left px-5 py-4 hover:bg-gray-800/30 transition-colors ${
                 !n.read ? 'bg-emerald-900/30/30' : ''
               }`}
               role="listitem"

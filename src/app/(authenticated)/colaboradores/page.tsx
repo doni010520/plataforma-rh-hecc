@@ -49,6 +49,7 @@ export default function ColaboradoresPage() {
   const [formDeptId, setFormDeptId] = useState('');
   const [formManagerId, setFormManagerId] = useState('');
   const [formRole, setFormRole] = useState('EMPLOYEE');
+  const [currentUserRole, setCurrentUserRole] = useState<string | null>(null);
 
   const fetchColaboradores = useCallback(
     async (page = 1) => {
@@ -88,6 +89,9 @@ export default function ColaboradoresPage() {
   useEffect(() => {
     fetchDepartments();
     fetchManagers();
+    fetch('/api/me').then(r => r.ok ? r.json() : null).then(me => {
+      if (me) setCurrentUserRole(me.role);
+    }).catch(() => {});
   }, [fetchDepartments, fetchManagers]);
 
   useEffect(() => {
@@ -185,19 +189,21 @@ export default function ColaboradoresPage() {
     <div>
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold text-gray-100">Colaboradores</h1>
-        <button
-          onClick={() => {
-            resetForm();
-            setShowForm(true);
-          }}
-          className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-800 transition-colors font-medium"
-        >
-          Novo Colaborador
-        </button>
+        {currentUserRole === 'ADMIN' && (
+          <button
+            onClick={() => {
+              resetForm();
+              setShowForm(true);
+            }}
+            className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition-colors font-medium"
+          >
+            Novo Colaborador
+          </button>
+        )}
       </div>
 
       {showForm && (
-        <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-6 mb-6">
+        <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-6 mb-6">
           <h2 className="text-lg font-semibold text-gray-100 mb-4">
             {editingUser ? 'Editar Colaborador' : 'Novo Colaborador'}
           </h2>
@@ -209,7 +215,7 @@ export default function ColaboradoresPage() {
                 value={formName}
                 onChange={(e) => setFormName(e.target.value)}
                 required
-                className="w-full px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-600/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
               />
             </div>
             <div>
@@ -220,7 +226,7 @@ export default function ColaboradoresPage() {
                 onChange={(e) => setFormEmail(e.target.value)}
                 required
                 disabled={!!editingUser}
-                className="w-full px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent disabled:bg-green-900/40"
+                className="w-full px-3 py-2 border border-gray-600/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent disabled:bg-gray-800/40"
               />
             </div>
             <div>
@@ -229,7 +235,7 @@ export default function ColaboradoresPage() {
                 type="text"
                 value={formJobTitle}
                 onChange={(e) => setFormJobTitle(e.target.value)}
-                className="w-full px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-600/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                 placeholder="Ex: Analista de RH"
               />
             </div>
@@ -238,7 +244,7 @@ export default function ColaboradoresPage() {
               <select
                 value={formDeptId}
                 onChange={(e) => setFormDeptId(e.target.value)}
-                className="w-full px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-600/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
               >
                 <option value="">Nenhum</option>
                 {departments.map((d) => (
@@ -253,7 +259,7 @@ export default function ColaboradoresPage() {
               <select
                 value={formManagerId}
                 onChange={(e) => setFormManagerId(e.target.value)}
-                className="w-full px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-600/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
               >
                 <option value="">Nenhum</option>
                 {managers
@@ -270,7 +276,7 @@ export default function ColaboradoresPage() {
               <select
                 value={formRole}
                 onChange={(e) => setFormRole(e.target.value)}
-                className="w-full px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-600/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
               >
                 <option value="EMPLOYEE">Colaborador</option>
                 <option value="MANAGER">Gestor</option>
@@ -295,7 +301,7 @@ export default function ColaboradoresPage() {
               <button
                 type="submit"
                 disabled={saving}
-                className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-800 transition-colors disabled:opacity-50 font-medium"
+                className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition-colors disabled:opacity-50 font-medium"
               >
                 {saving ? 'Salvando...' : editingUser ? 'Salvar Alterações' : 'Cadastrar e Enviar Convite'}
               </button>
@@ -304,18 +310,18 @@ export default function ColaboradoresPage() {
         </div>
       )}
 
-      <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-4 mb-4 flex flex-col md:flex-row gap-3">
+      <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-4 mb-4 flex flex-col md:flex-row gap-3">
         <input
           type="text"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Buscar por nome, email ou cargo..."
-          className="flex-1 px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+          className="flex-1 px-3 py-2 border border-gray-600/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
         />
         <select
           value={filterDept}
           onChange={(e) => setFilterDept(e.target.value)}
-          className="px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+          className="px-3 py-2 border border-gray-600/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
         >
           <option value="">Todos os departamentos</option>
           {departments.map((d) => (
@@ -326,14 +332,14 @@ export default function ColaboradoresPage() {
         </select>
       </div>
 
-      <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm overflow-hidden">
+      <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm overflow-hidden">
         {loading ? (
           <div className="p-8 text-center text-gray-400">Carregando...</div>
         ) : (
           <>
             <div className="overflow-x-auto">
               <table className="w-full">
-                <thead className="bg-green-900/30">
+                <thead className="bg-gray-800/30">
                   <tr>
                     <th className="text-left px-6 py-3 text-xs font-medium text-gray-400 uppercase tracking-wider">
                       Nome
@@ -350,9 +356,11 @@ export default function ColaboradoresPage() {
                     <th className="text-left px-6 py-3 text-xs font-medium text-gray-400 uppercase tracking-wider">
                       Status
                     </th>
-                    <th className="text-right px-6 py-3 text-xs font-medium text-gray-400 uppercase tracking-wider">
-                      Ações
-                    </th>
+                    {currentUserRole === 'ADMIN' && (
+                      <th className="text-right px-6 py-3 text-xs font-medium text-gray-400 uppercase tracking-wider">
+                        Ações
+                      </th>
+                    )}
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
@@ -380,7 +388,7 @@ export default function ColaboradoresPage() {
                               ? 'bg-purple-100 text-purple-700'
                               : user.role === 'MANAGER'
                                 ? 'bg-blue-100 text-blue-700'
-                                : 'bg-green-900/40 text-gray-300'
+                                : 'bg-gray-800/40 text-gray-300'
                           }`}
                         >
                           {roleLabels[user.role]}
@@ -398,22 +406,26 @@ export default function ColaboradoresPage() {
                         </span>
                       </td>
                       <td className="px-6 py-4 text-right space-x-2">
-                        <button
-                          onClick={() => openEdit(user)}
-                          className="text-emerald-400 hover:text-emerald-200 text-sm font-medium"
-                        >
-                          Editar
-                        </button>
-                        <button
-                          onClick={() => handleToggleActive(user)}
-                          className={`text-sm font-medium ${
-                            user.active
-                              ? 'text-red-600 hover:text-red-800'
-                              : 'text-green-600 hover:text-emerald-300'
-                          }`}
-                        >
-                          {user.active ? 'Desativar' : 'Reativar'}
-                        </button>
+                        {currentUserRole === 'ADMIN' && (
+                          <>
+                            <button
+                              onClick={() => openEdit(user)}
+                              className="text-emerald-400 hover:text-emerald-200 text-sm font-medium"
+                            >
+                              Editar
+                            </button>
+                            <button
+                              onClick={() => handleToggleActive(user)}
+                              className={`text-sm font-medium ${
+                                user.active
+                                  ? 'text-red-600 hover:text-red-800'
+                                  : 'text-green-600 hover:text-emerald-300'
+                              }`}
+                            >
+                              {user.active ? 'Desativar' : 'Reativar'}
+                            </button>
+                          </>
+                        )}
                       </td>
                     </tr>
                   ))}
@@ -422,7 +434,7 @@ export default function ColaboradoresPage() {
             </div>
 
             {pagination.totalPages > 1 && (
-              <div className="px-6 py-4 border-t border-green-800/30 flex items-center justify-between">
+              <div className="px-6 py-4 border-t border-gray-700/30 flex items-center justify-between">
                 <p className="text-sm text-gray-400">
                   Mostrando {(pagination.page - 1) * pagination.limit + 1} a{' '}
                   {Math.min(pagination.page * pagination.limit, pagination.total)} de{' '}
@@ -432,14 +444,14 @@ export default function ColaboradoresPage() {
                   <button
                     onClick={() => fetchColaboradores(pagination.page - 1)}
                     disabled={pagination.page <= 1}
-                    className="px-3 py-1 border border-green-700/40 rounded-md text-sm disabled:opacity-50 hover:bg-green-900/30"
+                    className="px-3 py-1 border border-gray-600/40 rounded-md text-sm disabled:opacity-50 hover:bg-gray-800/30"
                   >
                     Anterior
                   </button>
                   <button
                     onClick={() => fetchColaboradores(pagination.page + 1)}
                     disabled={pagination.page >= pagination.totalPages}
-                    className="px-3 py-1 border border-green-700/40 rounded-md text-sm disabled:opacity-50 hover:bg-green-900/30"
+                    className="px-3 py-1 border border-gray-600/40 rounded-md text-sm disabled:opacity-50 hover:bg-gray-800/30"
                   >
                     Próxima
                   </button>

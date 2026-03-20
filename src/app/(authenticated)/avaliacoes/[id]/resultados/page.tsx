@@ -40,7 +40,7 @@ const boxLabels = [
 
 const boxColors = [
   ['bg-yellow-100', 'bg-blue-100', 'bg-emerald-900/40'],
-  ['bg-orange-100', 'bg-green-900/40', 'bg-blue-100'],
+  ['bg-orange-100', 'bg-gray-800/40', 'bg-blue-100'],
   ['bg-red-900/30', 'bg-orange-100', 'bg-yellow-100'],
 ];
 
@@ -64,8 +64,8 @@ export default function ResultadosPage() {
   if (loading) {
     return (
       <div className="space-y-4">
-        <div className="h-8 w-64 bg-green-800/40 rounded animate-pulse" />
-        <div className="h-96 bg-green-800/40 rounded animate-pulse" />
+        <div className="h-8 w-64 bg-gray-700/40 rounded animate-pulse" />
+        <div className="h-96 bg-gray-700/40 rounded animate-pulse" />
       </div>
     );
   }
@@ -108,7 +108,7 @@ export default function ResultadosPage() {
           <AiInterpretation type="avaliacao" targetId={id} />
           <a
             href={`/api/avaliacoes/${id}/export`}
-            className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-800 font-medium text-sm"
+            className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-gray-700 font-medium text-sm"
           >
             Exportar CSV
           </a>
@@ -116,7 +116,7 @@ export default function ResultadosPage() {
       </div>
 
       {/* 9Box Grid */}
-      <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-6 mb-6">
+      <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-6 mb-6">
         <h2 className="text-lg font-semibold text-gray-100 mb-4">Matriz 9Box</h2>
         <div className="mb-2 flex items-center gap-2">
           <span className="text-xs text-gray-400 writing-mode-vertical transform -rotate-90 origin-center">
@@ -158,7 +158,7 @@ export default function ResultadosPage() {
       </div>
 
       {/* Mapa de Calor por Departamento */}
-      <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-6 mb-6">
+      <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-6 mb-6">
         <h2 className="text-lg font-semibold text-gray-100 mb-4">Mapa de Calor por Departamento</h2>
         {departments.length === 0 ? (
           <p className="text-gray-400 text-sm">Nenhum resultado disponível.</p>
@@ -175,7 +175,7 @@ export default function ResultadosPage() {
                       {info.avg.toFixed(2)} / 5.0 ({info.scores.length} avaliados)
                     </span>
                   </div>
-                  <div className="w-full bg-green-800/40 rounded-full h-4">
+                  <div className="w-full bg-gray-700/40 rounded-full h-4">
                     <div
                       className="h-4 rounded-full transition-all"
                       style={{
@@ -192,13 +192,13 @@ export default function ResultadosPage() {
       </div>
 
       {/* Tabela Individual */}
-      <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm overflow-hidden">
-        <div className="px-6 py-4 border-b border-green-800/30">
+      <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm overflow-hidden">
+        <div className="px-6 py-4 border-b border-gray-700/30">
           <h2 className="font-semibold text-gray-100">Resultados Individuais</h2>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-green-900/30">
+            <thead className="bg-gray-800/30">
               <tr>
                 <th className="text-left px-6 py-3 text-xs font-medium text-gray-400 uppercase">
                   Colaborador

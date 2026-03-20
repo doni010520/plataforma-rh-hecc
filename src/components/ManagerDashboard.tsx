@@ -48,8 +48,8 @@ export default function ManagerDashboard() {
   if (loading) {
     return (
       <div className="space-y-4 mt-8">
-        <div className="h-8 w-64 bg-green-800/40 rounded animate-pulse" />
-        <div className="h-48 bg-green-800/40 rounded animate-pulse" />
+        <div className="h-8 w-64 bg-gray-700/40 rounded animate-pulse" />
+        <div className="h-48 bg-gray-700/40 rounded animate-pulse" />
       </div>
     );
   }
@@ -62,12 +62,12 @@ export default function ManagerDashboard() {
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-        <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-5">
+        <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-5">
           <h3 className="text-sm font-medium text-gray-400 mb-1">Equipa</h3>
           <p className="text-2xl font-bold text-gray-100">{data.teamSize}</p>
           <p className="text-xs text-gray-400">colaboradores</p>
         </div>
-        <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-5">
+        <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-5">
           <h3 className="text-sm font-medium text-gray-400 mb-1">Humor Médio Hoje</h3>
           <p className="text-2xl font-bold text-gray-100">
             {data.teamMoodAvg !== null ? (
@@ -81,7 +81,7 @@ export default function ManagerDashboard() {
           </p>
           <p className="text-xs text-gray-400">de 5.0</p>
         </div>
-        <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-5">
+        <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-5">
           <h3 className="text-sm font-medium text-gray-400 mb-1">Avaliações</h3>
           <p className="text-2xl font-bold text-gray-100">
             {data.evalRate.toFixed(0)}%
@@ -90,7 +90,7 @@ export default function ManagerDashboard() {
             {data.evalDone}/{data.evalTotal} respondidas
           </p>
         </div>
-        <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-5">
+        <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-5">
           <h3 className="text-sm font-medium text-gray-400 mb-1">OKRs em Risco</h3>
           <p className={`text-2xl font-bold ${data.atRiskOkrs > 0 ? 'text-red-600' : 'text-green-600'}`}>
             {data.atRiskOkrs}
@@ -100,8 +100,8 @@ export default function ManagerDashboard() {
       </div>
 
       {/* Subordinate Status Table */}
-      <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm overflow-hidden">
-        <div className="px-6 py-4 border-b border-green-800/30">
+      <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm overflow-hidden">
+        <div className="px-6 py-4 border-b border-gray-700/30">
           <h3 className="text-sm font-semibold text-gray-100">Status dos Liderados</h3>
         </div>
         {(data.subordinateStatus?.length ?? 0) === 0 ? (
@@ -109,7 +109,7 @@ export default function ManagerDashboard() {
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
-              <thead className="bg-green-900/30 text-left">
+              <thead className="bg-gray-800/30 text-left">
                 <tr>
                   <th className="px-6 py-3 text-xs font-medium text-gray-400 uppercase">Colaborador</th>
                   <th className="px-6 py-3 text-xs font-medium text-gray-400 uppercase">Humor</th>
@@ -120,7 +120,7 @@ export default function ManagerDashboard() {
               </thead>
               <tbody className="divide-y divide-gray-200">
                 {(data.subordinateStatus || []).map((sub) => (
-                  <tr key={sub.id} className="hover:bg-green-900/30">
+                  <tr key={sub.id} className="hover:bg-gray-800/30">
                     <td className="px-6 py-3">
                       <div className="flex items-center gap-2">
                         <div className="w-8 h-8 rounded-full bg-emerald-900/40 text-emerald-300 flex items-center justify-center text-xs font-bold flex-shrink-0">

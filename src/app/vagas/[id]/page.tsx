@@ -99,7 +99,7 @@ export default function VagaDetailPage() {
   if (loading) {
     return (
       <div className="flex justify-center py-20">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-700" />
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-600" />
       </div>
     );
   }
@@ -131,7 +131,7 @@ export default function VagaDetailPage() {
       </nav>
 
       {/* Position Detail */}
-      <div className="bg-green-950/50 backdrop-blur-lg rounded-xl shadow-sm border border-green-800/30 p-6 sm:p-8 mb-8">
+      <div className="bg-gray-900/50 backdrop-blur-lg rounded-xl shadow-sm border border-gray-700/30 p-6 sm:p-8 mb-8">
         <div className="mb-6">
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-100 mb-3">{position.title}</h1>
           <div className="flex flex-wrap gap-3 mb-4">
@@ -160,7 +160,7 @@ export default function VagaDetailPage() {
                 {position.type}
               </span>
             )}
-            <span className="inline-flex items-center gap-1.5 text-sm bg-green-900/30 text-gray-400 px-3 py-1 rounded-full">
+            <span className="inline-flex items-center gap-1.5 text-sm bg-gray-800/30 text-gray-400 px-3 py-1 rounded-full">
               {position.vacancies} vaga{position.vacancies !== 1 ? 's' : ''}
             </span>
           </div>
@@ -169,7 +169,7 @@ export default function VagaDetailPage() {
           </p>
         </div>
 
-        <div className="border-t border-green-800/20 pt-6">
+        <div className="border-t border-gray-700/20 pt-6">
           <h2 className="text-lg font-semibold text-gray-100 mb-3">Descricao da Vaga</h2>
           <div className="prose prose-sm max-w-none text-gray-300 whitespace-pre-wrap">
             {position.description || 'Descricao nao disponivel.'}
@@ -178,7 +178,7 @@ export default function VagaDetailPage() {
       </div>
 
       {/* Application Form */}
-      <div className="bg-green-950/50 backdrop-blur-lg rounded-xl shadow-sm border border-green-800/30 p-6 sm:p-8" id="candidatar">
+      <div className="bg-gray-900/50 backdrop-blur-lg rounded-xl shadow-sm border border-gray-700/30 p-6 sm:p-8" id="candidatar">
         {submitted ? (
           <div className="text-center py-8">
             <div className="w-16 h-16 bg-emerald-900/40 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -216,7 +216,7 @@ export default function VagaDetailPage() {
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="Seu nome"
-                    className="w-full px-3 py-2 border border-green-700/40 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                    className="w-full px-3 py-2 border border-gray-600/40 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                   />
                 </div>
                 <div>
@@ -230,7 +230,7 @@ export default function VagaDetailPage() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="seu@email.com"
-                    className="w-full px-3 py-2 border border-green-700/40 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                    className="w-full px-3 py-2 border border-gray-600/40 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                   />
                 </div>
                 <div>
@@ -243,7 +243,7 @@ export default function VagaDetailPage() {
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     placeholder="(11) 99999-9999"
-                    className="w-full px-3 py-2 border border-green-700/40 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                    className="w-full px-3 py-2 border border-gray-600/40 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                   />
                 </div>
                 <div>
@@ -256,7 +256,7 @@ export default function VagaDetailPage() {
                     value={linkedIn}
                     onChange={(e) => setLinkedIn(e.target.value)}
                     placeholder="https://linkedin.com/in/seu-perfil"
-                    className="w-full px-3 py-2 border border-green-700/40 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+                    className="w-full px-3 py-2 border border-gray-600/40 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
                   />
                 </div>
               </div>
@@ -270,7 +270,7 @@ export default function VagaDetailPage() {
               <button
                 type="submit"
                 disabled={submitting}
-                className="w-full sm:w-auto px-8 py-3 bg-green-700 text-white font-medium rounded-lg hover:bg-green-800 focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="w-full sm:w-auto px-8 py-3 bg-green-700 text-white font-medium rounded-lg hover:bg-gray-700 focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 {submitting ? 'Enviando...' : 'Enviar Candidatura'}
               </button>

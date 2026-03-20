@@ -9,7 +9,7 @@ export default function VagasLayout({ children }: { children: React.ReactNode })
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-green-50/20 flex flex-col">
       {/* Header */}
-      <header className="bg-green-950/70 backdrop-blur-md border-b border-green-800/30 sticky top-0 z-50">
+      <header className="bg-gray-900/70 backdrop-blur-md border-b border-gray-700/30 sticky top-0 z-50">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 bg-green-700 rounded-lg flex items-center justify-center">
@@ -29,7 +29,7 @@ export default function VagasLayout({ children }: { children: React.ReactNode })
       <main className="flex-1">{children}</main>
 
       {/* Footer */}
-      <footer className="bg-green-950/50 backdrop-blur-lg border-t border-green-800/30 mt-auto">
+      <footer className="bg-gray-900/50 backdrop-blur-lg border-t border-gray-700/30 mt-auto">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-2 text-gray-400 text-sm">
