@@ -100,17 +100,21 @@ export function Header({ userName, avatarUrl }: HeaderProps) {
     .slice(0, 2);
 
   return (
-    <header className="fixed top-0 left-0 md:left-64 right-0 h-16 bg-gray-900/80 backdrop-blur-xl border-b border-gray-700/40 shadow-sm flex items-center justify-between px-4 md:px-6 z-20 header-light">
-      {/* Mobile menu button */}
-      <button
-        onClick={() => document.dispatchEvent(new CustomEvent('toggle-sidebar'))}
-        className="md:hidden p-2 text-gray-400 hover:text-gray-100"
-        aria-label="Abrir menu de navegação"
-      >
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
-      </button>
+    <header className="fixed top-0 left-0 right-0 h-16 bg-gray-900/70 backdrop-blur-2xl border-b border-white/[0.06] shadow-[0_1px_12px_rgba(0,0,0,0.3)] flex items-center justify-between px-4 md:px-6 z-50 header-light">
+      {/* Left side: hamburger (mobile) + logo */}
+      <div className="flex items-center gap-3">
+        <button
+          onClick={() => document.dispatchEvent(new CustomEvent('toggle-sidebar'))}
+          className="md:hidden p-2 text-gray-400 hover:text-gray-100"
+          aria-label="Abrir menu de navegação"
+        >
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/feedflow-dark.svg" alt="FeedFlow" className="h-7 hidden md:block" />
+      </div>
 
       <div className="flex-1" />
 
