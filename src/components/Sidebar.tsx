@@ -409,7 +409,8 @@ export function Sidebar({ userRole: serverRole }: SidebarProps) {
         aria-label="Menu de navegação principal"
       >
         <div className="flex items-center justify-between p-6 border-b border-gray-700/30">
-          <h1 className="text-xl font-bold text-emerald-400">Plataforma RH</h1>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/feedflow-dark.svg" alt="FeedFlow" className="h-8" />
           <button
             onClick={() => setMobileOpen(false)}
             className="md:hidden p-1 text-gray-400 hover:text-gray-200"

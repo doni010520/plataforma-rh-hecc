@@ -6,8 +6,8 @@ import { ThemeProvider } from '@/contexts/ThemeContext';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'Plataforma RH — Gestão de Pessoas',
-  description: 'Plataforma de gestão de pessoas: avaliação de desempenho, feedback, OKRs e muito mais.',
+  title: 'FeedFlow — Gestão de Pessoas',
+  description: 'FeedFlow: plataforma de gestão de pessoas com avaliação de desempenho, feedback, OKRs e muito mais.',
 };
 
 export default function RootLayout({
