@@ -123,10 +123,19 @@ export async function POST(request: Request) {
     }
 
     const supabase = getSupabaseAdmin();
-    const { data: inviteData, error: inviteError } =
-      await supabase.auth.admin.inviteUserByEmail(emailLower);
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://plataforma-rh-hecc.vercel.app';
 
-    if (inviteError || !inviteData.user) {
+    // Use generateLink() instead of inviteUserByEmail() to prevent Supabase
+    // from sending its default generic email. We send our branded email via Resend.
+    const { data: linkData, error: linkError } =
+      await supabase.auth.admin.generateLink({
+        type: 'invite',
+        email: emailLower,
+        options: { redirectTo: `${appUrl}/dashboard` },
+      });
+
+    if (linkError || !linkData.user) {
+      // Fallback: create user directly if generateLink fails
       const { data: signUpData, error: signUpError } = await supabase.auth.admin.createUser({
         email: emailLower,
         email_confirm: true,
@@ -156,12 +165,13 @@ export async function POST(request: Request) {
         },
       });
 
-      const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+      // Send branded email with login link (no invite token available)
       const { subject, html } = colaboradorInviteTemplate({
         employeeName: name.trim(),
         companyName: user.company.name,
         inviterName: user.name,
-        loginUrl: `${appUrl}/login`,
+        actionUrl: `${appUrl}/login`,
+        actionLabel: 'Acessar Plataforma',
       });
       sendEmail({ to: emailLower, subject, html }).catch(() => {});
 
@@ -170,7 +180,7 @@ export async function POST(request: Request) {
 
     const colaborador = await prisma.user.create({
       data: {
-        authId: inviteData.user.id,
+        authId: linkData.user.id,
         companyId: user.companyId,
         email: emailLower,
         name: name.trim(),
@@ -185,12 +195,15 @@ export async function POST(request: Request) {
       },
     });
 
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+    // Send branded invite email with magic link via Resend
+    // linkData.properties.action_link contains the invite acceptance URL
+    const inviteLink = linkData.properties?.action_link || `${appUrl}/login`;
     const { subject, html } = colaboradorInviteTemplate({
       employeeName: name.trim(),
       companyName: user.company.name,
       inviterName: user.name,
-      loginUrl: `${appUrl}/login`,
+      actionUrl: inviteLink,
+      actionLabel: 'Aceitar Convite e Criar Senha',
     });
     sendEmail({ to: emailLower, subject, html }).catch(() => {});
 
