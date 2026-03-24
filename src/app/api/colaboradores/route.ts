@@ -60,7 +60,7 @@ export async function GET(request: NextRequest) {
   ]);
 
   // Check which users have logged in via Supabase Auth
-  let loggedInAuthIds: Set<string> = new Set();
+  const loggedInAuthIds: Set<string> = new Set();
   try {
     const supabase = getSupabaseAdmin();
     const authIds = colaboradores.map((c) => c.authId).filter(Boolean);
