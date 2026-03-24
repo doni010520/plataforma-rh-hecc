@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
+import { AiRobot } from './AiRobot';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -126,28 +127,9 @@ export function AiChat({ inline, departmentId }: AiChatProps) {
   // Floating mode
   return (
     <>
-      {/* Toggle button — AI Agent FAB */}
+      {/* Animated AI Robot FAB */}
       {!isOpen && (
-        <div className="fixed bottom-6 right-6 z-50 group">
-          {/* Tooltip */}
-          <div className="absolute bottom-full right-0 mb-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
-            <div className="bg-gray-900 text-white text-xs rounded-lg px-3 py-2 shadow-xl border border-white/10 whitespace-nowrap">
-              <p className="font-semibold text-emerald-400">Agente IA FeedFlow</p>
-              <p className="text-gray-300 mt-0.5">Insights, análises de risco e muito mais</p>
-            </div>
-          </div>
-          <button
-            onClick={() => setIsOpen(true)}
-            className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-500 text-white pl-3 pr-4 py-2.5 rounded-full shadow-lg shadow-emerald-900/30 transition-all hover:scale-105 hover:shadow-emerald-800/40"
-            aria-label="Abrir agente IA"
-          >
-            {/* Robot icon */}
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.8}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 2a1 1 0 011 1v2h-2V3a1 1 0 011-1zM8.5 8a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm7 0a1.5 1.5 0 100 3 1.5 1.5 0 000-3zM9 16h6M4 8h16a2 2 0 012 2v6a2 2 0 01-2 2h-1l-1 4H6l-1-4H4a2 2 0 01-2-2v-6a2 2 0 012-2z" />
-            </svg>
-            <span className="text-sm font-medium">Agente IA</span>
-          </button>
-        </div>
+        <AiRobot onClick={() => setIsOpen(true)} />
       )}
 
       {/* Chat panel */}
