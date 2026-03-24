@@ -14,6 +14,7 @@ interface UserData {
   role: string;
   jobTitle: string | null;
   active: boolean;
+  hasLoggedIn?: boolean;
   department: Department | null;
   manager: { id: string; name: string } | null;
 }
@@ -435,14 +436,16 @@ export default function ColaboradoresPage() {
                             >
                               Editar
                             </button>
-                            <button
-                              onClick={() => handleResendInvite(user.id, user.name)}
-                              disabled={resendingInvite === user.id}
-                              className="text-blue-400 hover:text-blue-300 hover:bg-blue-500/10 text-sm font-medium px-2 py-1 rounded transition-colors disabled:opacity-50"
-                              title="Reenviar email de convite"
-                            >
-                              {resendingInvite === user.id ? '...' : 'Reenviar'}
-                            </button>
+                            {!user.hasLoggedIn && (
+                              <button
+                                onClick={() => handleResendInvite(user.id, user.name)}
+                                disabled={resendingInvite === user.id}
+                                className="text-blue-400 hover:text-blue-300 hover:bg-blue-500/10 text-sm font-medium px-2 py-1 rounded transition-colors disabled:opacity-50"
+                                title="Reenviar email de convite"
+                              >
+                                {resendingInvite === user.id ? '...' : 'Reenviar'}
+                              </button>
+                            )}
                             <button
                               onClick={() => handleToggleActive(user)}
                               className={`text-sm font-medium px-2 py-1 rounded transition-colors ${

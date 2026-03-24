@@ -59,8 +59,32 @@ export async function GET(request: NextRequest) {
     prisma.user.count({ where }),
   ]);
 
+  // Check which users have logged in via Supabase Auth
+  let loggedInAuthIds: Set<string> = new Set();
+  try {
+    const supabase = getSupabaseAdmin();
+    const authIds = colaboradores.map((c) => c.authId).filter(Boolean);
+    if (authIds.length > 0) {
+      const checks = await Promise.all(
+        authIds.map((authId) => supabase.auth.admin.getUserById(authId))
+      );
+      checks.forEach((result) => {
+        if (result.data?.user?.last_sign_in_at) {
+          loggedInAuthIds.add(result.data.user.id);
+        }
+      });
+    }
+  } catch {
+    // If Supabase check fails, don't block the response
+  }
+
+  const enrichedColaboradores = colaboradores.map((c) => ({
+    ...c,
+    hasLoggedIn: loggedInAuthIds.has(c.authId),
+  }));
+
   return NextResponse.json({
-    data: colaboradores,
+    data: enrichedColaboradores,
     pagination: {
       page,
       limit,
