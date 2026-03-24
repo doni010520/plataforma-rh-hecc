@@ -1,6 +1,6 @@
-# HECC Plataforma RH
+# FeedFlow
 
-Plataforma completa de gestão de pessoas para o HECC (Hospital Estadual da Criança e do Adolescente), desenvolvida com Next.js 14, Supabase e PostgreSQL.
+Plataforma completa de gestão de pessoas, desenvolvida com Next.js 14, Supabase e PostgreSQL.
 
 ## Stack Tecnológica
 
@@ -99,7 +99,7 @@ src/
 
 1. Admin cadastra colaborador em `/colaboradores`
 2. Sistema gera link via `supabase.auth.admin.generateLink()`
-3. Email personalizado enviado via Resend (marca HECC, tema escuro + esmeralda)
+3. Email personalizado enviado via Resend (marca FeedFlow, tema escuro + esmeralda)
 4. Colaborador clica "Aceitar Convite" → Supabase valida token
 5. Redireciona para `/auth/confirmar` → captura sessão (client-side)
 6. Redireciona para `/aceitar-convite` → formulário de criar senha
@@ -199,4 +199,4 @@ O schema Prisma contém **52 modelos** incluindo:
 
 ## Licença
 
-Projeto proprietário — HECC / FESF-SUS.
+Projeto proprietário — FeedFlow.

@@ -86,7 +86,7 @@ export default function AceitarConvitePage() {
               {userName ? (
                 <>Bem-vindo(a), <span className="text-emerald-400 font-medium">{userName}</span>!</>
               ) : (
-                'Bem-vindo(a) à Plataforma RH!'
+                'Bem-vindo(a) ao FeedFlow!'
               )}
             </p>
             <p className="text-gray-500 mt-1 text-sm">

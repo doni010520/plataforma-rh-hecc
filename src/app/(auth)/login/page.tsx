@@ -38,7 +38,8 @@ export default function LoginPage() {
       <div className="w-full max-w-md">
         <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-md p-8">
           <div className="text-center mb-8">
-            <h1 className="text-2xl font-bold text-gray-100">Plataforma RH</h1>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/feedflow-dark.svg" alt="FeedFlow" className="h-10 mx-auto" />
             <p className="text-gray-400 mt-2">Faça login para continuar</p>
           </div>
 

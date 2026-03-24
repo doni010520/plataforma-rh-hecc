@@ -20,7 +20,7 @@ function baseLayout(content: string): string {
         <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;background-color:#1f2937;border-radius:12px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.3);">
           <tr>
             <td style="background: linear-gradient(135deg, #059669 0%, #10b981 100%);padding:28px 32px;">
-              <h1 style="margin:0;color:#ffffff;font-size:22px;font-weight:700;letter-spacing:-0.3px;">HECC Plataforma RH</h1>
+              <h1 style="margin:0;color:#ffffff;font-size:22px;font-weight:700;letter-spacing:-0.3px;">FeedFlow</h1>
             </td>
           </tr>
           <tr>
@@ -31,7 +31,7 @@ function baseLayout(content: string): string {
           <tr>
             <td style="padding:16px 32px;background-color:#f3f4f6;border-top:1px solid #374151;">
               <p style="margin:0;font-size:12px;color:#6b7280;text-align:center;">
-                Este email foi enviado automaticamente pela HECC Plataforma RH. Não responda.
+                Este email foi enviado automaticamente pela FeedFlow. Não responda.
               </p>
             </td>
           </tr>
@@ -69,14 +69,14 @@ export function colaboradorInviteTemplate(params: {
   const { employeeName, companyName, inviterName, actionUrl, actionLabel } = params;
 
   return {
-    subject: `${companyName} — Você foi convidado(a) para a Plataforma RH`,
+    subject: `${companyName} — Você foi convidado(a) para a FeedFlow`,
     html: baseLayout(`
       <h2 style="margin:0 0 16px;color:#f3f4f6;font-size:20px;font-weight:600;">
         Olá, ${escapeHtml(employeeName)}! 👋
       </h2>
       <p style="margin:0 0 12px;color:#d1d5db;font-size:14px;line-height:1.7;">
         <strong style="color:#10b981;">${escapeHtml(inviterName)}</strong> convidou você para fazer parte da equipe de
-        <strong style="color:#10b981;">${escapeHtml(companyName)}</strong> na HECC Plataforma RH.
+        <strong style="color:#10b981;">${escapeHtml(companyName)}</strong> na FeedFlow.
       </p>
       <p style="margin:0 0 8px;color:#d1d5db;font-size:14px;line-height:1.7;">
         Na plataforma você poderá:
@@ -112,13 +112,13 @@ export function registrationConfirmationTemplate(params: {
   const { adminName, companyName, loginUrl } = params;
 
   return {
-    subject: 'Bem-vindo(a) à HECC Plataforma RH!',
+    subject: 'Bem-vindo(a) à FeedFlow!',
     html: baseLayout(`
       <h2 style="margin:0 0 16px;color:#f3f4f6;font-size:18px;font-weight:600;">
         Bem-vindo(a), ${escapeHtml(adminName)}!
       </h2>
       <p style="margin:0 0 12px;color:#d1d5db;font-size:14px;line-height:1.6;">
-        A empresa <strong>${escapeHtml(companyName)}</strong> foi cadastrada com sucesso na HECC Plataforma RH.
+        A empresa <strong>${escapeHtml(companyName)}</strong> foi cadastrada com sucesso na FeedFlow.
       </p>
       <p style="margin:0 0 12px;color:#d1d5db;font-size:14px;line-height:1.6;">
         Você é o administrador da conta. Comece configurando sua equipe:
