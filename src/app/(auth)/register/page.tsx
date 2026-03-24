@@ -70,7 +70,7 @@ export default function RegisterPage() {
         <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-md p-8">
           <div className="text-center mb-8">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/feedflow-dark.svg" alt="FeedFlow" className="h-10 mx-auto mb-4" />
+            <img src="/feedflow-dark.svg" alt="FeedFlow" className="h-12 mx-auto mb-4" />
             <h1 className="text-2xl font-bold text-gray-100">Cadastrar Empresa</h1>
             <p className="text-gray-400 mt-2">Crie sua conta e comece a usar</p>
           </div>

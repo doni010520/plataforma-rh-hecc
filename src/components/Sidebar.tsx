@@ -411,7 +411,9 @@ export function Sidebar({ userRole: serverRole }: SidebarProps) {
         {/* Mobile: close button + logo */}
         <div className="flex items-center justify-between px-4 py-3 border-b border-gray-700/30 md:hidden">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/feedflow-dark.svg" alt="FeedFlow" className="h-7" />
+          <img src="/feedflow-dark.svg" alt="FeedFlow" className="h-9 dark:block hidden" />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/feedflow-primary.svg" alt="FeedFlow" className="h-9 dark:hidden block" />
           <button
             onClick={() => setMobileOpen(false)}
             className="p-1 text-gray-400 hover:text-gray-200"

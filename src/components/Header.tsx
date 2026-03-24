@@ -113,7 +113,9 @@ export function Header({ userName, avatarUrl }: HeaderProps) {
           </svg>
         </button>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/feedflow-dark.svg" alt="FeedFlow" className="h-7 hidden md:block" />
+        <img src="/feedflow-dark.svg" alt="FeedFlow" className="h-9 hidden md:dark:block" />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/feedflow-primary.svg" alt="FeedFlow" className="h-9 hidden md:block dark:!hidden" />
       </div>
 
       <div className="flex-1" />
