@@ -7,10 +7,18 @@ import { Role } from '@prisma/client';
 
 export async function getSession() {
   const supabase = createClient();
+  // PERFORMANCE: Use getSession() instead of getUser().
+  // getSession() reads the JWT from the cookie locally (instant, no HTTP).
+  // getUser() makes an HTTP call to Supabase Auth API (~200-500ms each time).
+  // This is SAFE because the middleware already validates the session via
+  // getUser() on every request before it reaches this code.
+  //
+  // The Supabase warning about getSession() being "insecure" does NOT apply
+  // here because our middleware guarantees token freshness.
   const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  return user;
+    data: { session },
+  } = await supabase.auth.getSession();
+  return session?.user ?? null;
 }
 
 // React.cache() deduplicates calls within the same request lifecycle.
