@@ -265,6 +265,23 @@ export function Sidebar({ userRole: serverRole }: SidebarProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [employeeModules, setEmployeeModules] = useState<Record<string, boolean> | null>(null);
 
+  // Collapsible sections — persist in localStorage
+  const [collapsedSections, setCollapsedSections] = useState<Record<string, boolean>>(() => {
+    if (typeof window === 'undefined') return {};
+    try {
+      const saved = localStorage.getItem('sidebar-collapsed');
+      return saved ? JSON.parse(saved) : {};
+    } catch { return {}; }
+  });
+
+  const toggleSection = useCallback((title: string) => {
+    setCollapsedSections((prev) => {
+      const next = { ...prev, [title]: !prev[title] };
+      try { localStorage.setItem('sidebar-collapsed', JSON.stringify(next)); } catch {}
+      return next;
+    });
+  }, []);
+
   // Use server-provided role directly — no need for /api/me call
   const userRole = serverRole ?? null;
 
@@ -363,36 +380,53 @@ export function Sidebar({ userRole: serverRole }: SidebarProps) {
               return true;
             });
             if (filteredItems.length === 0) return null;
+            const isCollapsed = collapsedSections[section.title] ?? false;
+            // If current page is in this section, force it open
+            const hasActivePage = filteredItems.some((item) => pathname === item.href || pathname.startsWith(item.href + '/'));
+            const showItems = hasActivePage || !isCollapsed;
             return (
               <div key={section.title}>
                 {sIdx > 0 && <div className="mx-3 my-2 border-t border-gray-700/20" />}
-                <p className="px-6 pt-2 pb-1 text-[10px] font-semibold uppercase tracking-wider text-gray-500 section-label-light">{section.title}</p>
-                <ul className="space-y-0.5 px-3" role="list">
-                  {filteredItems.map((item) => {
-                    const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
-                    return (
-                      <li key={item.href}>
-                        <Link
-                          href={item.href}
-                          className={`flex items-center gap-2.5 px-3 py-2 rounded-md text-[13px] font-medium transition-colors ${
-                            isActive
-                              ? 'bg-emerald-500/20 text-emerald-300'
-                              : 'text-gray-300 hover:bg-gray-700/40 hover:text-gray-100'
-                          }`}
-                          aria-current={isActive ? 'page' : undefined}
-                        >
-                          {item.icon}
-                          <span className="flex-1">{item.label}</span>
-                          {item.href === '/comunicados' && unreadCount > 0 && (
-                            <span className="ml-auto inline-flex items-center justify-center px-2 py-0.5 text-xs font-bold leading-none text-white bg-red-500 rounded-full">
-                              {unreadCount > 99 ? '99+' : unreadCount}
-                            </span>
-                          )}
-                        </Link>
-                      </li>
-                    );
-                  })}
-                </ul>
+                <button
+                  onClick={() => toggleSection(section.title)}
+                  className="w-full flex items-center justify-between px-6 pt-2 pb-1 group"
+                >
+                  <span className="text-[10px] font-semibold uppercase tracking-wider text-gray-500 section-label-light group-hover:text-gray-400 transition-colors">{section.title}</span>
+                  <svg
+                    className={`w-3 h-3 text-gray-600 transition-transform duration-200 ${showItems ? 'rotate-0' : '-rotate-90'}`}
+                    fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+                {showItems && (
+                  <ul className="space-y-0.5 px-3" role="list">
+                    {filteredItems.map((item) => {
+                      const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
+                      return (
+                        <li key={item.href}>
+                          <Link
+                            href={item.href}
+                            className={`flex items-center gap-2.5 px-3 py-2 rounded-md text-[13px] font-medium transition-colors ${
+                              isActive
+                                ? 'bg-emerald-500/20 text-emerald-300'
+                                : 'text-gray-300 hover:bg-gray-700/40 hover:text-gray-100'
+                            }`}
+                            aria-current={isActive ? 'page' : undefined}
+                          >
+                            {item.icon}
+                            <span className="flex-1">{item.label}</span>
+                            {item.href === '/comunicados' && unreadCount > 0 && (
+                              <span className="ml-auto inline-flex items-center justify-center px-2 py-0.5 text-xs font-bold leading-none text-white bg-red-500 rounded-full">
+                                {unreadCount > 99 ? '99+' : unreadCount}
+                              </span>
+                            )}
+                          </Link>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                )}
               </div>
             );
           })}
