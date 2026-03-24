@@ -39,7 +39,9 @@ export default function LoginPage() {
         <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-md p-8">
           <div className="text-center mb-8">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/feedflow-dark.svg" alt="FeedFlow" className="h-12 mx-auto" />
+            <img src="/feedflow-dark.svg" alt="FeedFlow" className="h-12 mx-auto logo-dark" />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/feedflow-primary.svg" alt="FeedFlow" className="h-12 mx-auto logo-light" />
             <p className="text-gray-400 mt-2">Faça login para continuar</p>
           </div>
 

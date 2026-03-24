@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ===== Logo dark/light switching ===== */
+/* Default (dark): show dark logo, hide light logo */
+.logo-dark { display: inline-block; }
+.logo-light { display: none; }
+
+/* Light mode: show light logo, hide dark logo */
+html.light .logo-dark { display: none; }
+html.light .logo-light { display: inline-block; }
+
 /* ===== Dark Theme (default) — gray base + emerald accents ===== */
 :root {
   --primary: #34d399;
