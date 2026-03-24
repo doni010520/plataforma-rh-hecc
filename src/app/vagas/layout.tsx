@@ -13,7 +13,7 @@ export default function VagasLayout({ children }: { children: React.ReactNode })
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/feedflow-dark.svg" alt="FeedFlow" className="h-8" />
+            <img src="/feedflow-dark.svg" alt="FeedFlow" className="h-9" />
             <div>
               <h1 className="text-lg font-bold text-gray-100">Trabalhe Conosco</h1>
             </div>
