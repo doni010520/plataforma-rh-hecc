@@ -121,7 +121,7 @@ export async function POST(request: Request) {
       title: `Novo ${typeLabel} recebido`,
       body: `${user.name} enviou um ${typeLabel} para você.`,
       link: '/feedback',
-    }).catch(() => {});
+    }).catch((err: Error) => console.error('[Email] Send failed:', err.message));
 
     const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
     const { subject, html } = feedbackReceivedTemplate({
@@ -130,7 +130,7 @@ export async function POST(request: Request) {
       feedbackType: typeLabel,
       feedbackUrl: `${appUrl}/feedback`,
     });
-    sendEmail({ to: recipient.email, subject, html }).catch(() => {});
+    sendEmail({ to: recipient.email, subject, html }).catch((err: Error) => console.error('[Email] Send failed:', err.message));
 
     // Award gamification points: sender gets points for giving feedback
     awardPoints(user.id, user.companyId, 'FEEDBACK_SENT', feedback.id);

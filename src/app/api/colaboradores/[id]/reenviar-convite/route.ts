@@ -82,9 +82,10 @@ export async function POST(
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Resend invite error:', error);
+    const message = error instanceof Error ? error.message : String(error);
+    console.error('Resend invite error:', message);
     return NextResponse.json(
-      { error: 'Erro interno ao reenviar convite.' },
+      { error: `Erro ao reenviar convite: ${message}` },
       { status: 500 },
     );
   }
