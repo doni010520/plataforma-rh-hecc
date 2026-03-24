@@ -58,9 +58,9 @@ interface ApplicationFull {
 type Tab = 'vagas' | 'candidatos';
 
 const statusLabels: Record<string, string> = { OPEN: 'Aberta', CLOSED: 'Fechada', CANCELLED: 'Cancelada', ON_HOLD: 'Em Espera' };
-const statusColors: Record<string, string> = { OPEN: 'bg-emerald-900/40 text-emerald-300', CLOSED: 'bg-green-900/40 text-gray-200', CANCELLED: 'bg-red-900/30 text-red-800', ON_HOLD: 'bg-yellow-100 text-yellow-300' };
+const statusColors: Record<string, string> = { OPEN: 'bg-emerald-900/40 text-emerald-300', CLOSED: 'bg-gray-800/40 text-gray-200', CANCELLED: 'bg-red-900/30 text-red-800', ON_HOLD: 'bg-yellow-100 text-yellow-300' };
 const appStatusLabels: Record<string, string> = { NEW: 'Novo', SCREENING: 'Triagem', INTERVIEW: 'Entrevista', OFFER: 'Proposta', HIRED: 'Contratado', REJECTED: 'Rejeitado', WITHDRAWN: 'Desistiu' };
-const appStatusColors: Record<string, string> = { NEW: 'bg-blue-100 text-blue-800', SCREENING: 'bg-yellow-100 text-yellow-300', INTERVIEW: 'bg-purple-100 text-purple-800', OFFER: 'bg-emerald-900/40 text-green-900', HIRED: 'bg-emerald-900/40 text-emerald-300', REJECTED: 'bg-red-900/30 text-red-800', WITHDRAWN: 'bg-green-900/40 text-gray-200' };
+const appStatusColors: Record<string, string> = { NEW: 'bg-blue-100 text-blue-800', SCREENING: 'bg-yellow-100 text-yellow-300', INTERVIEW: 'bg-purple-100 text-purple-800', OFFER: 'bg-emerald-900/40 text-green-900', HIRED: 'bg-emerald-900/40 text-emerald-300', REJECTED: 'bg-red-900/30 text-red-800', WITHDRAWN: 'bg-gray-800/40 text-gray-200' };
 
 export default function RecrutamentoPage() {
   const [tab, setTab] = useState<Tab>('vagas');
@@ -201,9 +201,9 @@ export default function RecrutamentoPage() {
             {pos.salaryMin && <p className="text-sm text-gray-400 mt-1">Faixa salarial: {currency(pos.salaryMin)} - {pos.salaryMax ? currency(pos.salaryMax) : '...'}</p>}
           </div>
           <div className="flex gap-2">
-            <span className={`px-2 py-1 rounded-full text-xs font-medium ${statusColors[pos.status] || 'bg-green-900/40'}`}>{statusLabels[pos.status] || pos.status}</span>
+            <span className={`px-2 py-1 rounded-full text-xs font-medium ${statusColors[pos.status] || 'bg-gray-800/40'}`}>{statusLabels[pos.status] || pos.status}</span>
             {pos.status === 'OPEN' && (
-              <button onClick={() => updatePositionStatus(pos.id, 'CLOSED')} className="text-xs px-3 py-1 bg-green-800/40 rounded hover:bg-green-700/40">Fechar Vaga</button>
+              <button onClick={() => updatePositionStatus(pos.id, 'CLOSED')} className="text-xs px-3 py-1 bg-gray-700/40 rounded hover:bg-green-700/40">Fechar Vaga</button>
             )}
             {pos.status === 'CLOSED' && (
               <button onClick={() => updatePositionStatus(pos.id, 'OPEN')} className="text-xs px-3 py-1 bg-green-200 rounded hover:bg-green-300">Reabrir</button>
@@ -216,34 +216,34 @@ export default function RecrutamentoPage() {
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold text-gray-100">Candidaturas ({pos.applications?.length || 0})</h2>
           {pos.status === 'OPEN' && (
-            <button onClick={() => setShowApplyModal(true)} className="px-4 py-2 bg-green-700 text-white rounded-lg text-sm hover:bg-green-800">Adicionar Candidato</button>
+            <button onClick={() => setShowApplyModal(true)} className="px-4 py-2 bg-green-700 text-white rounded-lg text-sm hover:bg-gray-700">Adicionar Candidato</button>
           )}
         </div>
 
         {showApplyModal && (
-          <div className="bg-green-950/50 backdrop-blur-lg border rounded-lg p-4 space-y-3">
+          <div className="bg-gray-900/50 backdrop-blur-lg border rounded-lg p-4 space-y-3">
             <h3 className="font-medium">Vincular Candidato</h3>
             <select value={applyCandidateId} onChange={e => setApplyCandidateId(e.target.value)} className="w-full border rounded px-3 py-2 text-sm">
               <option value="">Selecione...</option>
               {candidates.map(c => <option key={c.id} value={c.id}>{c.name} ({c.email})</option>)}
             </select>
             <div className="flex gap-2">
-              <button onClick={applyCandidate} disabled={!applyCandidateId} className="px-4 py-2 bg-green-700 text-white rounded text-sm hover:bg-green-800 disabled:opacity-50">Vincular</button>
-              <button onClick={() => setShowApplyModal(false)} className="px-4 py-2 bg-green-800/40 rounded text-sm hover:bg-green-700/40">Cancelar</button>
+              <button onClick={applyCandidate} disabled={!applyCandidateId} className="px-4 py-2 bg-green-700 text-white rounded text-sm hover:bg-gray-700 disabled:opacity-50">Vincular</button>
+              <button onClick={() => setShowApplyModal(false)} className="px-4 py-2 bg-gray-700/40 rounded text-sm hover:bg-green-700/40">Cancelar</button>
             </div>
           </div>
         )}
 
         <div className="space-y-3">
           {pos.applications?.map(app => (
-            <div key={app.id} className="bg-green-950/50 backdrop-blur-lg border rounded-lg p-4">
+            <div key={app.id} className="bg-gray-900/50 backdrop-blur-lg border rounded-lg p-4">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="font-medium text-gray-100">{app.candidate.name}</p>
                   <p className="text-sm text-gray-400">{app.candidate.email} {app.candidate.phone && `· ${app.candidate.phone}`}</p>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${appStatusColors[app.status] || 'bg-green-900/40'}`}>{appStatusLabels[app.status] || app.status}</span>
+                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${appStatusColors[app.status] || 'bg-gray-800/40'}`}>{appStatusLabels[app.status] || app.status}</span>
                   <select
                     value={app.status}
                     onChange={e => updateAppStatus(app.id, e.target.value)}
@@ -281,14 +281,14 @@ export default function RecrutamentoPage() {
         <h1 className="text-2xl font-bold text-gray-100">Recrutamento & Seleção</h1>
         <button
           onClick={() => { setShowForm(!showForm); }}
-          className="px-4 py-2 bg-green-700 text-white rounded-lg text-sm font-medium hover:bg-green-800"
+          className="px-4 py-2 bg-green-700 text-white rounded-lg text-sm font-medium hover:bg-gray-700"
         >
           {tab === 'vagas' ? 'Nova Vaga' : 'Novo Candidato'}
         </button>
       </div>
 
       {/* Tabs */}
-      <div className="border-b border-green-800/30">
+      <div className="border-b border-gray-700/30">
         <nav className="flex space-x-8">
           {([['vagas', 'Vagas'], ['candidatos', 'Candidatos']] as const).map(([key, label]) => (
             <button
@@ -306,7 +306,7 @@ export default function RecrutamentoPage() {
 
       {/* Create Position Form */}
       {showForm && tab === 'vagas' && (
-        <form onSubmit={createPosition} className="bg-green-950/50 backdrop-blur-lg border rounded-lg p-6 space-y-4">
+        <form onSubmit={createPosition} className="bg-gray-900/50 backdrop-blur-lg border rounded-lg p-6 space-y-4">
           <h2 className="font-semibold text-gray-100">Nova Vaga</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
@@ -351,15 +351,15 @@ export default function RecrutamentoPage() {
             <textarea value={formDesc} onChange={e => setFormDesc(e.target.value)} rows={3} className="w-full border rounded px-3 py-2 text-sm" />
           </div>
           <div className="flex gap-2">
-            <button type="submit" className="px-4 py-2 bg-green-700 text-white rounded text-sm hover:bg-green-800">Criar Vaga</button>
-            <button type="button" onClick={() => setShowForm(false)} className="px-4 py-2 bg-green-800/40 rounded text-sm hover:bg-green-700/40">Cancelar</button>
+            <button type="submit" className="px-4 py-2 bg-green-700 text-white rounded text-sm hover:bg-gray-700">Criar Vaga</button>
+            <button type="button" onClick={() => setShowForm(false)} className="px-4 py-2 bg-gray-700/40 rounded text-sm hover:bg-green-700/40">Cancelar</button>
           </div>
         </form>
       )}
 
       {/* Create Candidate Form */}
       {showForm && tab === 'candidatos' && (
-        <form onSubmit={createCandidate} className="bg-green-950/50 backdrop-blur-lg border rounded-lg p-6 space-y-4">
+        <form onSubmit={createCandidate} className="bg-gray-900/50 backdrop-blur-lg border rounded-lg p-6 space-y-4">
           <h2 className="font-semibold text-gray-100">Novo Candidato</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
@@ -384,8 +384,8 @@ export default function RecrutamentoPage() {
             <textarea value={candNotes} onChange={e => setCandNotes(e.target.value)} rows={2} className="w-full border rounded px-3 py-2 text-sm" />
           </div>
           <div className="flex gap-2">
-            <button type="submit" className="px-4 py-2 bg-green-700 text-white rounded text-sm hover:bg-green-800">Criar Candidato</button>
-            <button type="button" onClick={() => setShowForm(false)} className="px-4 py-2 bg-green-800/40 rounded text-sm hover:bg-green-700/40">Cancelar</button>
+            <button type="submit" className="px-4 py-2 bg-green-700 text-white rounded text-sm hover:bg-gray-700">Criar Candidato</button>
+            <button type="button" onClick={() => setShowForm(false)} className="px-4 py-2 bg-gray-700/40 rounded text-sm hover:bg-green-700/40">Cancelar</button>
           </div>
         </form>
       )}
@@ -394,7 +394,7 @@ export default function RecrutamentoPage() {
       {tab === 'vagas' && (
         <div className="space-y-3">
           {positions.map(pos => (
-            <div key={pos.id} onClick={() => loadPositionDetail(pos.id)} className="bg-green-950/50 backdrop-blur-lg border rounded-lg p-4 cursor-pointer hover:border-green-300 transition-colors">
+            <div key={pos.id} onClick={() => loadPositionDetail(pos.id)} className="bg-gray-900/50 backdrop-blur-lg border rounded-lg p-4 cursor-pointer hover:border-green-300 transition-colors">
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="font-medium text-gray-100">{pos.title}</h3>
@@ -402,7 +402,7 @@ export default function RecrutamentoPage() {
                 </div>
                 <div className="flex items-center gap-3">
                   <span className="text-sm text-gray-400">{pos._count.applications} candidatura(s)</span>
-                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${statusColors[pos.status] || 'bg-green-900/40'}`}>{statusLabels[pos.status] || pos.status}</span>
+                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${statusColors[pos.status] || 'bg-gray-800/40'}`}>{statusLabels[pos.status] || pos.status}</span>
                 </div>
               </div>
             </div>
@@ -413,9 +413,9 @@ export default function RecrutamentoPage() {
 
       {/* Candidates List */}
       {tab === 'candidatos' && (
-        <div className="bg-green-950/50 backdrop-blur-lg border rounded-lg overflow-hidden">
+        <div className="bg-gray-900/50 backdrop-blur-lg border rounded-lg overflow-hidden">
           <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-green-900/30">
+            <thead className="bg-gray-800/30">
               <tr>
                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase">Nome</th>
                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-400 uppercase">Email</th>
@@ -426,7 +426,7 @@ export default function RecrutamentoPage() {
             </thead>
             <tbody className="divide-y divide-gray-200">
               {candidates.map(c => (
-                <tr key={c.id} className="hover:bg-green-900/30">
+                <tr key={c.id} className="hover:bg-gray-800/30">
                   <td className="px-4 py-3 text-sm font-medium text-gray-100">{c.name}</td>
                   <td className="px-4 py-3 text-sm text-gray-400">{c.email}</td>
                   <td className="px-4 py-3 text-sm text-gray-400">{c.phone || '-'}</td>

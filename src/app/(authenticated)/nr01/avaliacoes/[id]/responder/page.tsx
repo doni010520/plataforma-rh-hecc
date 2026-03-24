@@ -82,8 +82,8 @@ export default function ResponderNR01Page() {
   if (loading) {
     return (
       <div className="space-y-4 max-w-2xl mx-auto">
-        <div className="h-8 w-64 bg-green-800/40 rounded animate-pulse" />
-        <div className="h-96 bg-green-800/40 rounded animate-pulse" />
+        <div className="h-8 w-64 bg-gray-700/40 rounded animate-pulse" />
+        <div className="h-96 bg-gray-700/40 rounded animate-pulse" />
       </div>
     );
   }
@@ -94,7 +94,7 @@ export default function ResponderNR01Page() {
 
   if (assessment.hasResponded || submitted) {
     return (
-      <div className="max-w-2xl mx-auto bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-8 text-center">
+      <div className="max-w-2xl mx-auto bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-8 text-center">
         <div className="w-16 h-16 bg-emerald-900/40 rounded-full flex items-center justify-center mx-auto mb-4">
           <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
@@ -146,7 +146,7 @@ export default function ResponderNR01Page() {
           </span>
           <span className="text-sm font-medium text-gray-300">{progress.toFixed(0)}%</span>
         </div>
-        <div className="w-full bg-green-800/40 rounded-full h-2">
+        <div className="w-full bg-gray-700/40 rounded-full h-2">
           <div
             className="h-2 rounded-full bg-yellow-600 transition-all"
             style={{ width: `${progress}%` }}
@@ -155,7 +155,7 @@ export default function ResponderNR01Page() {
       </div>
 
       {/* Question */}
-      <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-8 mb-6">
+      <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-8 mb-6">
         {currentQuestion.category && (
           <span className="text-xs font-medium text-yellow-400 bg-yellow-900/30 px-2 py-0.5 rounded mb-3 inline-block">
             {currentQuestion.category}
@@ -173,7 +173,7 @@ export default function ResponderNR01Page() {
               className={`flex-1 min-w-[64px] py-3 px-2 rounded-lg border-2 text-center transition-all ${
                 currentAnswer === score.toString()
                   ? 'border-yellow-500 bg-yellow-900/30 text-yellow-400 font-bold'
-                  : 'border-green-800/30 hover:border-yellow-600/40 text-gray-400'
+                  : 'border-gray-700/30 hover:border-yellow-600/40 text-gray-400'
               }`}
             >
               <span className="text-xl">{score}</span>

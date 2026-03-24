@@ -2,13 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ===== Dark Theme (default) ===== */
+/* ===== Dark Theme (default) — gray base + emerald accents ===== */
 :root {
   --primary: #34d399;
   --primary-hover: #10b981;
-  --background: #0a0f0d;
+  --background: #111827;
   --foreground: #e5e7eb;
-  --card: rgba(20, 30, 25, 0.7);
+  --card: rgba(31, 41, 55, 0.7);
   --border: rgba(52, 211, 153, 0.15);
   --muted: #9ca3af;
   --error: #f87171;
@@ -35,13 +35,13 @@ input[type="search"],
 input[type="tel"],
 input[type="url"],
 textarea {
-  background-color: rgba(10, 30, 20, 0.7) !important;
+  background-color: rgba(31, 41, 55, 0.7) !important;
   color: #e5e7eb !important;
-  border-color: rgba(52, 211, 153, 0.2) !important;
+  border-color: rgba(75, 85, 99, 0.4) !important;
 }
 
 select option {
-  background-color: #0d1f17;
+  background-color: #1f2937;
   color: #e5e7eb;
 }
 
@@ -65,7 +65,7 @@ textarea:focus {
 select:disabled,
 input:disabled,
 textarea:disabled {
-  background-color: rgba(10, 30, 20, 0.4) !important;
+  background-color: rgba(31, 41, 55, 0.4) !important;
   color: #6b7280 !important;
   cursor: not-allowed;
 }
@@ -74,9 +74,9 @@ textarea:disabled {
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus {
-  -webkit-box-shadow: 0 0 0 30px #0d1f17 inset !important;
+  -webkit-box-shadow: 0 0 0 30px #1f2937 inset !important;
   -webkit-text-fill-color: #e5e7eb !important;
-  border-color: rgba(52, 211, 153, 0.2) !important;
+  border-color: rgba(75, 85, 99, 0.4) !important;
 }
 
 /* ===== Light Theme Overrides ===== */
@@ -105,7 +105,7 @@ html.light body {
 html.light .from-gray-900 {
   --tw-gradient-from: #f0fdf4 !important;
 }
-html.light .via-green-950 {
+html.light .via-gray-800 {
   --tw-gradient-stops: #f0fdf4, #ecfdf5, #f8fafc !important;
 }
 html.light .to-gray-900 {
@@ -114,19 +114,19 @@ html.light .to-gray-900 {
 
 /* ---- Background overrides ---- */
 
-/* Main card backgrounds: green-950/XX → white/light */
-html.light [class*="bg-green-950"] {
-  background-color: rgba(255, 255, 255, 0.85) !important;
-}
-
-/* Gray-900 backgrounds → light */
+/* Main card backgrounds: gray-900 → white/light */
 html.light [class*="bg-gray-900"] {
   background-color: #f9fafb !important;
 }
 
-/* Green-900 backgrounds (hover, active states) → light green */
-html.light [class*="bg-green-900"] {
-  background-color: rgba(236, 253, 245, 0.7) !important;
+/* Gray-800 backgrounds → light */
+html.light [class*="bg-gray-800"] {
+  background-color: rgba(255, 255, 255, 0.85) !important;
+}
+
+/* Gray-700 backgrounds → light gray */
+html.light [class*="bg-gray-700"] {
+  background-color: rgba(229, 231, 235, 0.5) !important;
 }
 
 /* Emerald-900 backgrounds → light emerald */
@@ -137,11 +137,6 @@ html.light [class*="bg-emerald-900"] {
 /* Emerald-800 → lighter */
 html.light [class*="bg-emerald-800"] {
   background-color: #059669 !important;
-}
-
-/* Green-800 backgrounds (skeleton, dividers) → light gray */
-html.light [class*="bg-green-800"] {
-  background-color: rgba(229, 231, 235, 0.5) !important;
 }
 
 /* Red backgrounds - keep red tones but lighter */
@@ -213,8 +208,8 @@ html.light [class*="text-green-900"] {
 
 /* ---- Border overrides ---- */
 
-html.light [class*="border-green-800"],
-html.light [class*="border-green-700"] {
+html.light [class*="border-gray-700"],
+html.light [class*="border-gray-600"] {
   border-color: rgba(229, 231, 235, 0.6) !important;
 }
 
@@ -309,7 +304,11 @@ html.light [class*="hover\\:bg-green-800"]:hover {
   color: #ffffff !important;
 }
 
-html.light [class*="hover\\:bg-green-900"]:hover {
+html.light [class*="hover\\:bg-gray-700"]:hover {
+  background-color: rgba(229, 231, 235, 0.5) !important;
+}
+
+html.light [class*="hover\\:bg-gray-800"]:hover {
   background-color: rgba(236, 253, 245, 0.8) !important;
 }
 
@@ -416,13 +415,13 @@ html.light [class*="text-green-300"] {
 }
 
 /* ---- Hover background overrides ---- */
-html.light [class*="hover\\:bg-green-950"]:hover {
+html.light [class*="hover\\:bg-gray-900"]:hover {
   background-color: rgba(236, 253, 245, 0.6) !important;
 }
 html.light [class*="hover\\:bg-emerald-900"]:hover {
   background-color: rgba(209, 250, 229, 0.5) !important;
 }
-html.light [class*="hover\\:bg-green-900\\/50"]:hover {
+html.light [class*="hover\\:bg-gray-800"]:hover {
   background-color: rgba(236, 253, 245, 0.6) !important;
 }
 html.light [class*="hover\\:opacity-80"]:hover {
@@ -439,10 +438,10 @@ html.light a[class*="text-emerald-400"]:hover {
 }
 
 /* ---- Cards with border hover ---- */
-html.light [class*="border-green-800\\/30"] {
+html.light [class*="border-gray-700\\/30"] {
   border-color: rgba(209, 213, 219, 0.6) !important;
 }
-html.light [class*="border-green-800\\/20"] {
+html.light [class*="border-gray-700\\/20"] {
   border-color: rgba(229, 231, 235, 0.5) !important;
 }
 html.light [class*="border-white\\/30"] {
@@ -452,34 +451,38 @@ html.light [class*="border-white\\/20"] {
   border-color: rgba(229, 231, 235, 0.5) !important;
 }
 
-/* ---- Green-700 header bar in AI chat stays dark in light mode ---- */
+/* ---- Emerald header bar in AI chat stays dark in light mode ---- */
+html.light [class*="bg-emerald-700\\/90"],
 html.light [class*="bg-green-700\\/90"] {
   background-color: #059669 !important;
   color: #ffffff !important;
 }
 
 /* ---- Progress bars ---- */
-html.light [class*="bg-green-800\\/40"] {
+html.light [class*="bg-gray-700\\/40"] {
   background-color: rgba(229, 231, 235, 0.6) !important;
 }
 
 /* ---- Mood widget & interactive buttons ---- */
-html.light button[class*="bg-green-950"] {
+html.light button[class*="bg-gray-900"],
+html.light button[class*="bg-gray-800"] {
   background-color: rgba(255, 255, 255, 0.9) !important;
   border: 1px solid #d1d5db !important;
 }
-html.light button[class*="bg-green-950"]:hover {
+html.light button[class*="bg-gray-900"]:hover,
+html.light button[class*="bg-gray-800"]:hover {
   background-color: rgba(236, 253, 245, 0.8) !important;
   border-color: #10b981 !important;
 }
 
 /* ---- Skeleton/loading pulse ---- */
-html.light [class*="animate-pulse"] [class*="bg-green-800"] {
+html.light [class*="animate-pulse"] [class*="bg-gray-700"] {
   background-color: #e5e7eb !important;
 }
 
 /* ---- Card shadows in light mode ---- */
-html.light [class*="bg-green-950"],
+html.light [class*="bg-gray-800"],
+html.light [class*="bg-gray-900"],
 html.light [class*="bg-emerald-900"],
 html.light [class*="bg-yellow-900"],
 html.light [class*="bg-red-900"],
@@ -518,7 +521,7 @@ html.light [class*="backdrop-blur"] {
 }
 
 /* ---- Notification dropdown in light ---- */
-html.light [class*="bg-green-950\\/90"] {
+html.light [class*="bg-gray-900\\/90"] {
   background-color: rgba(255, 255, 255, 0.95) !important;
   border-color: #d1d5db !important;
 }

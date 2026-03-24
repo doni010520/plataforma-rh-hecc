@@ -23,13 +23,13 @@ export default function AuthenticatedError({
         <div className="flex gap-3 justify-center">
           <button
             onClick={() => reset()}
-            className="bg-green-700 text-white px-6 py-2 rounded-md hover:bg-green-800 font-medium"
+            className="bg-green-700 text-white px-6 py-2 rounded-md hover:bg-gray-700 font-medium"
           >
             Tentar novamente
           </button>
           <a
             href="/dashboard"
-            className="border border-green-700/40 text-gray-300 px-6 py-2 rounded-md hover:bg-green-900/30 font-medium"
+            className="border border-gray-600/40 text-gray-300 px-6 py-2 rounded-md hover:bg-gray-800/30 font-medium"
           >
             Ir ao Dashboard
           </a>

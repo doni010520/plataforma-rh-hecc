@@ -39,7 +39,7 @@ const statusLabels: Record<string, string> = {
 };
 
 const statusColors: Record<string, string> = {
-  DRAFT: 'bg-green-900/40 text-gray-300',
+  DRAFT: 'bg-gray-800/40 text-gray-300',
   ACTIVE: 'bg-emerald-900/40 text-emerald-400',
   CLOSED: 'bg-red-900/30 text-red-700',
 };
@@ -182,8 +182,8 @@ export default function AvaliacoesPage() {
   if (loading) {
     return (
       <div className="space-y-4">
-        <div className="h-8 w-48 bg-green-800/40 rounded animate-pulse" />
-        <div className="h-64 bg-green-800/40 rounded animate-pulse" />
+        <div className="h-8 w-48 bg-gray-700/40 rounded animate-pulse" />
+        <div className="h-64 bg-gray-700/40 rounded animate-pulse" />
       </div>
     );
   }
@@ -194,7 +194,7 @@ export default function AvaliacoesPage() {
         <h1 className="text-2xl font-bold text-gray-100">Avaliações de Desempenho</h1>
         <button
           onClick={() => setShowForm(!showForm)}
-          className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-800 transition-colors font-medium"
+          className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition-colors font-medium"
         >
           Novo Ciclo
         </button>
@@ -205,7 +205,7 @@ export default function AvaliacoesPage() {
       )}
 
       {showForm && (
-        <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-6 mb-6">
+        <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-6 mb-6">
           <h2 className="text-lg font-semibold text-gray-100 mb-4">Novo Ciclo de Avaliação</h2>
           <form onSubmit={handleCreateCycle} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -216,7 +216,7 @@ export default function AvaliacoesPage() {
                   value={formName}
                   onChange={(e) => setFormName(e.target.value)}
                   required
-                  className="w-full px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-600/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                   placeholder="Ex: Avaliação Q1 2026"
                 />
               </div>
@@ -225,7 +225,7 @@ export default function AvaliacoesPage() {
                 <select
                   value={formType}
                   onChange={(e) => setFormType(e.target.value)}
-                  className="w-full px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-600/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                 >
                   <option value="SELF">Autoavaliação</option>
                   <option value="HALF">180° (auto + gestor)</option>
@@ -239,7 +239,7 @@ export default function AvaliacoesPage() {
                   value={formStart}
                   onChange={(e) => setFormStart(e.target.value)}
                   required
-                  className="w-full px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-600/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                 />
               </div>
               <div>
@@ -249,7 +249,7 @@ export default function AvaliacoesPage() {
                   value={formEnd}
                   onChange={(e) => setFormEnd(e.target.value)}
                   required
-                  className="w-full px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-600/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                 />
               </div>
             </div>
@@ -273,14 +273,14 @@ export default function AvaliacoesPage() {
                       value={c.name}
                       onChange={(e) => updateCriteria(i, 'name', e.target.value)}
                       placeholder="Nome do critério"
-                      className="flex-1 px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                      className="flex-1 px-3 py-2 border border-gray-600/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                     />
                     <input
                       type="text"
                       value={c.description}
                       onChange={(e) => updateCriteria(i, 'description', e.target.value)}
                       placeholder="Descrição (opcional)"
-                      className="flex-1 px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                      className="flex-1 px-3 py-2 border border-gray-600/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                     />
                     <input
                       type="number"
@@ -288,7 +288,7 @@ export default function AvaliacoesPage() {
                       onChange={(e) => updateCriteria(i, 'weight', parseFloat(e.target.value) || 1)}
                       min={0.1}
                       step={0.1}
-                      className="w-20 px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                      className="w-20 px-3 py-2 border border-gray-600/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                       title="Peso"
                     />
                     {formCriteria.length > 1 && (
@@ -316,7 +316,7 @@ export default function AvaliacoesPage() {
               <button
                 type="submit"
                 disabled={saving}
-                className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-800 transition-colors disabled:opacity-50 font-medium"
+                className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition-colors disabled:opacity-50 font-medium"
               >
                 {saving ? 'Criando...' : 'Criar Ciclo'}
               </button>
@@ -327,13 +327,13 @@ export default function AvaliacoesPage() {
 
       <div className="space-y-4">
         {cycles.length === 0 && (
-          <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-8 text-center text-gray-400">
+          <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-8 text-center text-gray-400">
             Nenhum ciclo de avaliação criado ainda.
           </div>
         )}
 
         {cycles.map((cycle) => (
-          <div key={cycle.id} className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-6">
+          <div key={cycle.id} className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-6">
             <div className="flex items-start justify-between mb-4">
               <div>
                 <h3 className="text-lg font-semibold text-gray-100">{cycle.name}</h3>
@@ -390,7 +390,7 @@ export default function AvaliacoesPage() {
             </div>
 
             {showParticipants === cycle.id && (
-              <div className="border-t border-green-800/30 pt-4 mt-4">
+              <div className="border-t border-gray-700/30 pt-4 mt-4">
                 <h4 className="text-sm font-medium text-gray-300 mb-3">Adicionar Participantes</h4>
                 <div className="flex gap-3 items-end">
                   <div className="flex-1">
@@ -400,7 +400,7 @@ export default function AvaliacoesPage() {
                     <select
                       value={participantDept}
                       onChange={(e) => setParticipantDept(e.target.value)}
-                      className="w-full px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                      className="w-full px-3 py-2 border border-gray-600/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                     >
                       <option value="">Todos os departamentos</option>
                       {departments.map((d) => (
@@ -413,7 +413,7 @@ export default function AvaliacoesPage() {
                   <button
                     onClick={() => handleAddParticipants(cycle.id)}
                     disabled={addingParticipants}
-                    className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-800 disabled:opacity-50 font-medium"
+                    className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-gray-700 disabled:opacity-50 font-medium"
                   >
                     {addingParticipants ? 'Adicionando...' : 'Adicionar'}
                   </button>

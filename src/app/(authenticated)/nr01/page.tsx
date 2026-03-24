@@ -83,11 +83,11 @@ const defaultNr01Questions: { text: string; category: string }[] = [
 ];
 
 const assessmentStatusLabels: Record<string, string> = { DRAFT: 'Rascunho', ACTIVE: 'Ativa', CLOSED: 'Encerrada' };
-const assessmentStatusColors: Record<string, string> = { DRAFT: 'bg-green-900/40 text-gray-200', ACTIVE: 'bg-emerald-900/40 text-emerald-300', CLOSED: 'bg-red-900/30 text-red-800' };
+const assessmentStatusColors: Record<string, string> = { DRAFT: 'bg-gray-800/40 text-gray-200', ACTIVE: 'bg-emerald-900/40 text-emerald-300', CLOSED: 'bg-red-900/30 text-red-800' };
 const riskLabels: Record<string, string> = { LOW: 'Baixo', MEDIUM: 'Médio', HIGH: 'Alto', CRITICAL: 'Crítico' };
 const riskColors: Record<string, string> = { LOW: 'bg-emerald-900/40 text-emerald-300', MEDIUM: 'bg-yellow-100 text-yellow-300', HIGH: 'bg-orange-100 text-orange-800', CRITICAL: 'bg-red-900/30 text-red-800' };
 const complaintStatusLabels: Record<string, string> = { OPEN: 'Aberta', INVESTIGATING: 'Em Investigação', RESOLVED: 'Resolvida', DISMISSED: 'Arquivada' };
-const complaintStatusColors: Record<string, string> = { OPEN: 'bg-blue-100 text-blue-800', INVESTIGATING: 'bg-yellow-100 text-yellow-300', RESOLVED: 'bg-emerald-900/40 text-emerald-300', DISMISSED: 'bg-green-900/40 text-gray-200' };
+const complaintStatusColors: Record<string, string> = { OPEN: 'bg-blue-100 text-blue-800', INVESTIGATING: 'bg-yellow-100 text-yellow-300', RESOLVED: 'bg-emerald-900/40 text-emerald-300', DISMISSED: 'bg-gray-800/40 text-gray-200' };
 
 export default function NR01Page() {
   const [tab, setTab] = useState<Tab>('avaliacoes');
@@ -219,15 +219,15 @@ export default function NR01Page() {
         </div>
 
         <div className="grid grid-cols-3 gap-4">
-          <div className="bg-green-950/50 backdrop-blur-lg border rounded-lg p-4 text-center">
+          <div className="bg-gray-900/50 backdrop-blur-lg border rounded-lg p-4 text-center">
             <p className="text-2xl font-bold text-emerald-400">{a._count?.questions || a.questions?.length || 0}</p>
             <p className="text-sm text-gray-400">Perguntas</p>
           </div>
-          <div className="bg-green-950/50 backdrop-blur-lg border rounded-lg p-4 text-center">
+          <div className="bg-gray-900/50 backdrop-blur-lg border rounded-lg p-4 text-center">
             <p className="text-2xl font-bold text-emerald-400">{a._count?.responses || 0}</p>
             <p className="text-sm text-gray-400">Respostas</p>
           </div>
-          <div className="bg-green-950/50 backdrop-blur-lg border rounded-lg p-4 text-center">
+          <div className="bg-gray-900/50 backdrop-blur-lg border rounded-lg p-4 text-center">
             <p className="text-2xl font-bold text-emerald-400">{a.anonymous ? 'Sim' : 'Não'}</p>
             <p className="text-sm text-gray-400">Anônima</p>
           </div>
@@ -238,7 +238,7 @@ export default function NR01Page() {
             <h2 className="text-lg font-semibold text-gray-100 mb-3">Perguntas</h2>
             <div className="space-y-2">
               {a.questions.map((q: Question, i: number) => (
-                <div key={q.id} className="bg-green-950/50 backdrop-blur-lg border rounded p-3 flex gap-3">
+                <div key={q.id} className="bg-gray-900/50 backdrop-blur-lg border rounded p-3 flex gap-3">
                   <span className="text-sm font-medium text-gray-400 w-6">{i + 1}.</span>
                   <div>
                     <p className="text-sm text-gray-100">{q.text}</p>
@@ -258,7 +258,7 @@ export default function NR01Page() {
             </div>
             <div className="space-y-2">
               {a.results.map((r: Result) => (
-                <div key={r.id} className="bg-green-950/50 backdrop-blur-lg border rounded p-4 flex items-center justify-between">
+                <div key={r.id} className="bg-gray-900/50 backdrop-blur-lg border rounded p-4 flex items-center justify-between">
                   <div>
                     <p className="font-medium text-gray-100">{r.category}</p>
                     <p className="text-sm text-gray-400">{r.totalResponses} respostas</p>
@@ -276,7 +276,7 @@ export default function NR01Page() {
         <div className="flex gap-2">
           {a.status === 'DRAFT' && <button onClick={() => activateAssessment(a.id)} className="px-4 py-2 bg-green-600 text-white rounded text-sm hover:bg-green-700">Ativar</button>}
           {a.status === 'ACTIVE' && <button onClick={() => closeAssessment(a.id)} className="px-4 py-2 bg-red-600 text-white rounded text-sm hover:bg-red-700">Encerrar</button>}
-          {a.status === 'CLOSED' && <button onClick={() => calculateResults(a.id)} className="px-4 py-2 bg-green-700 text-white rounded text-sm hover:bg-green-800">Calcular Resultados</button>}
+          {a.status === 'CLOSED' && <button onClick={() => calculateResults(a.id)} className="px-4 py-2 bg-green-700 text-white rounded text-sm hover:bg-gray-700">Calcular Resultados</button>}
         </div>
       </div>
     );
@@ -286,13 +286,13 @@ export default function NR01Page() {
     <div className="p-6 space-y-6 max-w-6xl mx-auto">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-gray-100">NR-01 / Riscos Psicossociais</h1>
-        <button onClick={() => setShowForm(!showForm)} className="px-4 py-2 bg-green-700 text-white rounded-lg text-sm font-medium hover:bg-green-800">
+        <button onClick={() => setShowForm(!showForm)} className="px-4 py-2 bg-green-700 text-white rounded-lg text-sm font-medium hover:bg-gray-700">
           {tab === 'avaliacoes' ? 'Nova Avaliação' : tab === 'inventarios' ? 'Novo Inventário' : 'Nova Denúncia'}
         </button>
       </div>
 
       {/* Tabs */}
-      <div className="border-b border-green-800/30">
+      <div className="border-b border-gray-700/30">
         <nav className="flex space-x-8">
           {([['avaliacoes', 'Avaliações Psicossociais'], ['inventarios', 'Inventários de Riscos'], ['denuncias', 'Canal de Denúncias']] as const).map(([key, label]) => (
             <button key={key} onClick={() => { setTab(key); setShowForm(false); }} className={`py-2 px-1 border-b-2 text-sm font-medium transition-colors ${tab === key ? 'border-green-600 text-emerald-400' : 'border-transparent text-gray-400 hover:text-gray-300'}`}>
@@ -304,7 +304,7 @@ export default function NR01Page() {
 
       {/* Assessment Form */}
       {showForm && tab === 'avaliacoes' && (
-        <form onSubmit={createAssessment} className="bg-green-950/50 backdrop-blur-lg border rounded-lg p-6 space-y-4">
+        <form onSubmit={createAssessment} className="bg-gray-900/50 backdrop-blur-lg border rounded-lg p-6 space-y-4">
           <h2 className="font-semibold text-gray-100">Nova Avaliação Psicossocial</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
@@ -347,15 +347,15 @@ export default function NR01Page() {
             <button type="button" onClick={() => setAQuestions([...aQuestions, { text: '', category: '' }])} className="text-sm text-emerald-400 hover:underline">+ Adicionar pergunta</button>
           </div>
           <div className="flex gap-2">
-            <button type="submit" className="px-4 py-2 bg-green-700 text-white rounded text-sm hover:bg-green-800">Criar</button>
-            <button type="button" onClick={() => setShowForm(false)} className="px-4 py-2 bg-green-800/40 rounded text-sm hover:bg-green-700/40">Cancelar</button>
+            <button type="submit" className="px-4 py-2 bg-green-700 text-white rounded text-sm hover:bg-gray-700">Criar</button>
+            <button type="button" onClick={() => setShowForm(false)} className="px-4 py-2 bg-gray-700/40 rounded text-sm hover:bg-green-700/40">Cancelar</button>
           </div>
         </form>
       )}
 
       {/* Inventory Form */}
       {showForm && tab === 'inventarios' && (
-        <form onSubmit={createInventory} className="bg-green-950/50 backdrop-blur-lg border rounded-lg p-6 space-y-4">
+        <form onSubmit={createInventory} className="bg-gray-900/50 backdrop-blur-lg border rounded-lg p-6 space-y-4">
           <h2 className="font-semibold text-gray-100">Novo Inventário de Riscos</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
@@ -372,15 +372,15 @@ export default function NR01Page() {
             <textarea value={invDesc} onChange={e => setInvDesc(e.target.value)} rows={2} className="w-full border rounded px-3 py-2 text-sm" />
           </div>
           <div className="flex gap-2">
-            <button type="submit" className="px-4 py-2 bg-green-700 text-white rounded text-sm hover:bg-green-800">Criar</button>
-            <button type="button" onClick={() => setShowForm(false)} className="px-4 py-2 bg-green-800/40 rounded text-sm hover:bg-green-700/40">Cancelar</button>
+            <button type="submit" className="px-4 py-2 bg-green-700 text-white rounded text-sm hover:bg-gray-700">Criar</button>
+            <button type="button" onClick={() => setShowForm(false)} className="px-4 py-2 bg-gray-700/40 rounded text-sm hover:bg-green-700/40">Cancelar</button>
           </div>
         </form>
       )}
 
       {/* Complaint Form */}
       {showForm && tab === 'denuncias' && (
-        <form onSubmit={createComplaint} className="bg-green-950/50 backdrop-blur-lg border rounded-lg p-6 space-y-4">
+        <form onSubmit={createComplaint} className="bg-gray-900/50 backdrop-blur-lg border rounded-lg p-6 space-y-4">
           <h2 className="font-semibold text-gray-100">Nova Denúncia</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
@@ -405,8 +405,8 @@ export default function NR01Page() {
             <textarea value={compDesc} onChange={e => setCompDesc(e.target.value)} required rows={4} className="w-full border rounded px-3 py-2 text-sm" placeholder="Descreva a situação..." />
           </div>
           <div className="flex gap-2">
-            <button type="submit" className="px-4 py-2 bg-green-700 text-white rounded text-sm hover:bg-green-800">Enviar</button>
-            <button type="button" onClick={() => setShowForm(false)} className="px-4 py-2 bg-green-800/40 rounded text-sm hover:bg-green-700/40">Cancelar</button>
+            <button type="submit" className="px-4 py-2 bg-green-700 text-white rounded text-sm hover:bg-gray-700">Enviar</button>
+            <button type="button" onClick={() => setShowForm(false)} className="px-4 py-2 bg-gray-700/40 rounded text-sm hover:bg-green-700/40">Cancelar</button>
           </div>
         </form>
       )}
@@ -415,7 +415,7 @@ export default function NR01Page() {
       {tab === 'avaliacoes' && (
         <div className="space-y-3">
           {assessments.map(a => (
-            <div key={a.id} onClick={() => loadAssessmentDetail(a.id)} className="bg-green-950/50 backdrop-blur-lg border rounded-lg p-4 cursor-pointer hover:border-green-300 transition-colors">
+            <div key={a.id} onClick={() => loadAssessmentDetail(a.id)} className="bg-gray-900/50 backdrop-blur-lg border rounded-lg p-4 cursor-pointer hover:border-green-300 transition-colors">
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="font-medium text-gray-100">{a.title}</h3>
@@ -436,7 +436,7 @@ export default function NR01Page() {
       {tab === 'inventarios' && (
         <div className="space-y-3">
           {inventories.map(inv => (
-            <div key={inv.id} className="bg-green-950/50 backdrop-blur-lg border rounded-lg p-4">
+            <div key={inv.id} className="bg-gray-900/50 backdrop-blur-lg border rounded-lg p-4">
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="font-medium text-gray-100">{inv.title}</h3>
@@ -454,7 +454,7 @@ export default function NR01Page() {
       {tab === 'denuncias' && (
         <div className="space-y-3">
           {complaints.map(c => (
-            <div key={c.id} className="bg-green-950/50 backdrop-blur-lg border rounded-lg p-4">
+            <div key={c.id} className="bg-gray-900/50 backdrop-blur-lg border rounded-lg p-4">
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">
                   <span className={`px-2 py-1 rounded-full text-xs font-medium ${complaintStatusColors[c.status]}`}>{complaintStatusLabels[c.status]}</span>

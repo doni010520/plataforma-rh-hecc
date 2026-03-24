@@ -57,15 +57,15 @@ export default function AnalyticsPage() {
   if (loading) {
     return (
       <div className="space-y-4">
-        <div className="h-8 w-64 bg-green-800/40 rounded animate-pulse" />
-        <div className="h-96 bg-green-800/40 rounded animate-pulse" />
+        <div className="h-8 w-64 bg-gray-700/40 rounded animate-pulse" />
+        <div className="h-96 bg-gray-700/40 rounded animate-pulse" />
       </div>
     );
   }
 
   if (!data) {
     return (
-      <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-12 text-center">
+      <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-12 text-center">
         <p className="text-gray-400">Sem permissão para acessar analytics.</p>
         <Link href="/dashboard" className="text-sm text-emerald-400 hover:text-emerald-200 mt-2 inline-block">
           Voltar ao Dashboard
@@ -92,7 +92,7 @@ export default function AnalyticsPage() {
         </div>
         <a
           href="/api/export?module=analytics"
-          className="inline-flex items-center gap-1 px-4 py-2 border border-green-700/40 rounded-md text-sm text-gray-300 hover:bg-green-900/30 transition-colors"
+          className="inline-flex items-center gap-1 px-4 py-2 border border-gray-600/40 rounded-md text-sm text-gray-300 hover:bg-gray-800/30 transition-colors"
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -102,7 +102,7 @@ export default function AnalyticsPage() {
       </div>
 
       {/* Tabs */}
-      <div className="border-b border-green-800/30 mb-6">
+      <div className="border-b border-gray-700/30 mb-6">
         <nav className="flex gap-6">
           {tabs.map((t) => (
             <button
@@ -110,7 +110,7 @@ export default function AnalyticsPage() {
               onClick={() => setTab(t.key)}
               className={`pb-3 text-sm font-medium border-b-2 transition-colors ${
                 tab === t.key
-                  ? 'border-green-700 text-emerald-400'
+                  ? 'border-gray-600 text-emerald-400'
                   : 'border-transparent text-gray-400 hover:text-gray-300'
               }`}
             >
@@ -124,14 +124,14 @@ export default function AnalyticsPage() {
       {tab === 'overview' && (
         <div>
           {/* Department Averages */}
-          <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-6 mb-6">
+          <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-6 mb-6">
             <h2 className="text-lg font-semibold text-gray-100 mb-4">Médias por Departamento</h2>
             {(data.departmentAverages?.length ?? 0) === 0 ? (
               <p className="text-sm text-gray-400">Nenhum dado disponível.</p>
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
-                  <thead className="bg-green-900/30 text-left">
+                  <thead className="bg-gray-800/30 text-left">
                     <tr>
                       <th className="px-4 py-3 text-xs font-medium text-gray-400 uppercase">Departamento</th>
                       <th className="px-4 py-3 text-xs font-medium text-gray-400 uppercase">Colaboradores</th>
@@ -141,7 +141,7 @@ export default function AnalyticsPage() {
                   </thead>
                   <tbody className="divide-y divide-gray-200">
                     {(data.departmentAverages || []).map((dept) => (
-                      <tr key={dept.name} className="hover:bg-green-900/30">
+                      <tr key={dept.name} className="hover:bg-gray-800/30">
                         <td className="px-4 py-3 font-medium text-gray-100">{dept.name}</td>
                         <td className="px-4 py-3 text-gray-300">{dept.count}</td>
                         <td className="px-4 py-3">
@@ -175,7 +175,7 @@ export default function AnalyticsPage() {
 
           {/* Department Visual Bars */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-6">
+            <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-6">
               <h3 className="text-sm font-semibold text-gray-100 mb-4">Humor por Departamento</h3>
               <div className="space-y-3">
                 {(data.departmentAverages || [])
@@ -187,7 +187,7 @@ export default function AnalyticsPage() {
                         <span className="text-sm text-gray-300">{dept.name}</span>
                         <span className="text-sm font-medium text-gray-100">{dept.avgMood!.toFixed(1)}</span>
                       </div>
-                      <div className="w-full bg-green-800/40 rounded-full h-3">
+                      <div className="w-full bg-gray-700/40 rounded-full h-3">
                         <div
                           className={`h-3 rounded-full transition-all ${
                             dept.avgMood! < 3 ? 'bg-red-900/300' : dept.avgMood! >= 4 ? 'bg-emerald-900/300' : 'bg-yellow-900/300'
@@ -200,7 +200,7 @@ export default function AnalyticsPage() {
               </div>
             </div>
 
-            <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-6">
+            <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-6">
               <h3 className="text-sm font-semibold text-gray-100 mb-4">Performance por Departamento</h3>
               <div className="space-y-3">
                 {(data.departmentAverages || [])
@@ -212,7 +212,7 @@ export default function AnalyticsPage() {
                         <span className="text-sm text-gray-300">{dept.name}</span>
                         <span className="text-sm font-medium text-gray-100">{dept.avgPerformance!.toFixed(1)}</span>
                       </div>
-                      <div className="w-full bg-green-800/40 rounded-full h-3">
+                      <div className="w-full bg-gray-700/40 rounded-full h-3">
                         <div
                           className="h-3 rounded-full bg-green-700 transition-all"
                           style={{ width: `${(dept.avgPerformance! / 5) * 100}%` }}
@@ -230,7 +230,7 @@ export default function AnalyticsPage() {
       {tab === 'risk' && (
         <div>
           {(data.atRiskEmployees?.length ?? 0) === 0 ? (
-            <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-12 text-center">
+            <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-12 text-center">
               <p className="text-2xl mb-2">🎉</p>
               <p className="text-gray-300 font-medium">Nenhum colaborador em risco identificado!</p>
               <p className="text-sm text-gray-400 mt-1">
@@ -249,7 +249,7 @@ export default function AnalyticsPage() {
               {(data.atRiskEmployees || []).map((emp) => (
                 <div
                   key={emp.id}
-                  className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-5 border-l-4 border-red-500"
+                  className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-5 border-l-4 border-red-500"
                 >
                   <div className="flex items-start justify-between">
                     <div className="flex items-center gap-3">
@@ -314,7 +314,7 @@ export default function AnalyticsPage() {
 
       {/* Scatter Plot Tab (Mood x Performance) */}
       {tab === 'scatter' && (
-        <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-6">
+        <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-6">
           <h2 className="text-lg font-semibold text-gray-100 mb-2">
             Correlação Humor × Performance
           </h2>
@@ -323,7 +323,7 @@ export default function AnalyticsPage() {
           </p>
 
           {/* CSS-only scatter plot */}
-          <div className="relative w-full h-80 border-l-2 border-b-2 border-green-700/40">
+          <div className="relative w-full h-80 border-l-2 border-b-2 border-gray-600/40">
             {/* Y-axis labels */}
             {[1, 2, 3, 4, 5].map((v) => (
               <div
@@ -348,14 +348,14 @@ export default function AnalyticsPage() {
             {[1, 2, 3, 4, 5].map((v) => (
               <div
                 key={`h-${v}`}
-                className="absolute w-full border-t border-green-800/20"
+                className="absolute w-full border-t border-gray-700/20"
                 style={{ bottom: `${(v / 5) * 100}%` }}
               />
             ))}
             {[1, 2, 3, 4, 5].map((v) => (
               <div
                 key={`v-${v}`}
-                className="absolute h-full border-l border-green-800/20"
+                className="absolute h-full border-l border-gray-700/20"
                 style={{ left: `${(v / 5) * 100}%` }}
               />
             ))}
@@ -377,7 +377,7 @@ export default function AnalyticsPage() {
                     className={`absolute w-3 h-3 rounded-full border-2 ${
                       isRisk
                         ? 'bg-red-900/300 border-red-600'
-                        : 'bg-emerald-900/300 border-green-700'
+                        : 'bg-emerald-900/300 border-gray-600'
                     } cursor-pointer hover:scale-150 transition-transform`}
                     style={{
                       left: `${x}%`,
@@ -416,7 +416,7 @@ export default function AnalyticsPage() {
           {/* No-data message */}
           {(data.correlationData || []).filter((e) => e.avgMood !== null && e.avgPerformance !== null).length === 0 && (
             <div className="absolute inset-0 flex items-center justify-center">
-              <p className="text-sm text-gray-400 bg-green-950/50 backdrop-blur-lg px-4 py-2 rounded-lg shadow">
+              <p className="text-sm text-gray-400 bg-gray-900/50 backdrop-blur-lg px-4 py-2 rounded-lg shadow">
                 Nenhum colaborador com dados de humor e avaliação simultâneos.
               </p>
             </div>

@@ -38,7 +38,7 @@ const statusLabels: Record<string, string> = {
 };
 
 const statusColors: Record<string, string> = {
-  DRAFT: 'bg-green-900/40 text-gray-400',
+  DRAFT: 'bg-gray-800/40 text-gray-400',
   ACTIVE: 'bg-emerald-900/40 text-emerald-400',
   CLOSED: 'bg-red-900/30 text-red-600',
 };
@@ -172,8 +172,8 @@ export default function PesquisasPage() {
   if (loading) {
     return (
       <div className="space-y-4">
-        <div className="h-8 w-48 bg-green-800/40 rounded animate-pulse" />
-        <div className="h-64 bg-green-800/40 rounded animate-pulse" />
+        <div className="h-8 w-48 bg-gray-700/40 rounded animate-pulse" />
+        <div className="h-64 bg-gray-700/40 rounded animate-pulse" />
       </div>
     );
   }
@@ -184,18 +184,18 @@ export default function PesquisasPage() {
         <h1 className="text-2xl font-bold text-gray-100">Pesquisas</h1>
         <button
           onClick={() => setShowForm(!showForm)}
-          className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-800 font-medium text-sm"
+          className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-gray-700 font-medium text-sm"
         >
           {showForm ? 'Cancelar' : '+ Nova Pesquisa'}
         </button>
       </div>
 
       {/* Filters */}
-      <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-4 mb-6">
+      <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-4 mb-6">
         <select
           value={filterStatus}
           onChange={(e) => setFilterStatus(e.target.value)}
-          className="px-3 py-1.5 border border-green-700/40 rounded-md text-sm"
+          className="px-3 py-1.5 border border-gray-600/40 rounded-md text-sm"
         >
           <option value="">Todos os status</option>
           <option value="DRAFT">Rascunho</option>
@@ -206,7 +206,7 @@ export default function PesquisasPage() {
 
       {/* Create Form */}
       {showForm && (
-        <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-6 mb-6">
+        <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-6 mb-6">
           <h2 className="text-lg font-semibold text-gray-100 mb-4">Nova Pesquisa</h2>
           <form onSubmit={handleCreate} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -217,7 +217,7 @@ export default function PesquisasPage() {
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   required
-                  className="w-full px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-600/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                   placeholder="Ex: Pesquisa de Clima Q1 2026"
                 />
               </div>
@@ -226,7 +226,7 @@ export default function PesquisasPage() {
                 <select
                   value={type}
                   onChange={(e) => setType(e.target.value)}
-                  className="w-full px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-600/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                 >
                   <option value="CLIMATE">Clima</option>
                   <option value="PULSE">Pulso</option>
@@ -240,7 +240,7 @@ export default function PesquisasPage() {
                   id="anonymous"
                   checked={anonymous}
                   onChange={(e) => setAnonymous(e.target.checked)}
-                  className="h-4 w-4 text-emerald-400 focus:ring-emerald-500 border-green-700/40 rounded"
+                  className="h-4 w-4 text-emerald-400 focus:ring-emerald-500 border-gray-600/40 rounded"
                 />
                 <label htmlFor="anonymous" className="text-sm font-medium text-gray-300">
                   Pesquisa anónima
@@ -252,7 +252,7 @@ export default function PesquisasPage() {
                   type="date"
                   value={startDate}
                   onChange={(e) => setStartDate(e.target.value)}
-                  className="w-full px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-600/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                 />
               </div>
               <div>
@@ -261,7 +261,7 @@ export default function PesquisasPage() {
                   type="date"
                   value={endDate}
                   onChange={(e) => setEndDate(e.target.value)}
-                  className="w-full px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-600/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                 />
               </div>
             </div>
@@ -313,7 +313,7 @@ export default function PesquisasPage() {
 
               <div className="space-y-3">
                 {questions.map((q, i) => (
-                  <div key={i} className="bg-green-900/30 p-3 rounded-md">
+                  <div key={i} className="bg-gray-800/30 p-3 rounded-md">
                     <div className="flex items-start gap-2">
                       <span className="text-xs text-gray-400 mt-2 min-w-[20px]">{i + 1}.</span>
                       <div className="flex-1 space-y-2">
@@ -322,13 +322,13 @@ export default function PesquisasPage() {
                           value={q.text}
                           onChange={(e) => updateQuestion(i, 'text', e.target.value)}
                           placeholder="Texto da pergunta"
-                          className="w-full px-3 py-1.5 border border-green-700/40 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                          className="w-full px-3 py-1.5 border border-gray-600/40 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
                         />
                         <div className="flex gap-2 items-center">
                           <select
                             value={q.type}
                             onChange={(e) => updateQuestion(i, 'type', e.target.value)}
-                            className="px-2 py-1 border border-green-700/40 rounded-md text-sm"
+                            className="px-2 py-1 border border-gray-600/40 rounded-md text-sm"
                           >
                             <option value="SCALE">Escala (1–5)</option>
                             <option value="MULTIPLE_CHOICE">Múltipla escolha</option>
@@ -346,7 +346,7 @@ export default function PesquisasPage() {
                                 )
                               }
                               placeholder="Opções separadas por vírgula"
-                              className="flex-1 px-2 py-1 border border-green-700/40 rounded-md text-sm"
+                              className="flex-1 px-2 py-1 border border-gray-600/40 rounded-md text-sm"
                             />
                           )}
                         </div>
@@ -373,7 +373,7 @@ export default function PesquisasPage() {
             <button
               type="submit"
               disabled={saving}
-              className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-800 disabled:opacity-50 font-medium"
+              className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-gray-700 disabled:opacity-50 font-medium"
             >
               {saving ? 'Criando...' : 'Criar Pesquisa'}
             </button>
@@ -383,13 +383,13 @@ export default function PesquisasPage() {
 
       {/* Surveys List */}
       {surveys.length === 0 ? (
-        <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-12 text-center">
+        <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-12 text-center">
           <p className="text-gray-400">Nenhuma pesquisa encontrada.</p>
         </div>
       ) : (
         <div className="space-y-4">
           {surveys.map((survey) => (
-            <div key={survey.id} className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-5">
+            <div key={survey.id} className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-5">
               <div className="flex items-start justify-between">
                 <div>
                   <div className="flex items-center gap-2 mb-1">
@@ -425,7 +425,7 @@ export default function PesquisasPage() {
                     <>
                       <Link
                         href={`/pesquisas/${survey.id}/responder`}
-                        className="text-sm bg-green-700 text-white px-3 py-1.5 rounded-md hover:bg-green-800 font-medium"
+                        className="text-sm bg-green-700 text-white px-3 py-1.5 rounded-md hover:bg-gray-700 font-medium"
                       >
                         Responder
                       </Link>

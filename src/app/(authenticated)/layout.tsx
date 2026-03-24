@@ -10,12 +10,22 @@ export default async function AuthenticatedLayout({
 }) {
   const user = await getCurrentUser();
 
+  // Pass user data to client components to avoid redundant API calls
+  const userData = {
+    id: user.id,
+    name: user.name ?? 'Usuário',
+    email: user.email,
+    role: user.role,
+    avatarUrl: user.avatarUrl,
+    companyId: user.companyId,
+  };
+
   return (
     <div className="min-h-screen">
-      <Sidebar />
-      <Header userName={user.name ?? 'Usuário'} avatarUrl={user.avatarUrl} />
+      <Sidebar userRole={userData.role} />
+      <Header userName={userData.name} avatarUrl={userData.avatarUrl} />
       <main className="md:ml-64 mt-16 p-4 md:p-6">{children}</main>
-      <AiChatWrapper />
+      <AiChatWrapper userRole={userData.role} />
     </div>
   );
 }

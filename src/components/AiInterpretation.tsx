@@ -58,7 +58,7 @@ export function AiInterpretation({ type, targetId }: AiInterpretationProps) {
         <button
           onClick={interpret}
           disabled={loading}
-          className="inline-flex items-center gap-2 px-4 py-2 bg-green-700 text-white rounded-lg text-sm font-medium hover:bg-green-800 disabled:opacity-50 transition-colors"
+          className="inline-flex items-center gap-2 px-4 py-2 bg-green-700 text-white rounded-lg text-sm font-medium hover:bg-gray-700 disabled:opacity-50 transition-colors"
         >
           {loading ? (
             <>
@@ -137,7 +137,7 @@ export function AiInterpretation({ type, targetId }: AiInterpretationProps) {
                   <ul className="space-y-1">
                     {result.recommendations.map((r, i) => (
                       <li key={i} className="flex items-start gap-2 text-sm text-gray-300">
-                        <span className="text-green-500 mt-0.5">→</span>
+                        <span className="text-gray-500 mt-0.5">→</span>
                         {r}
                       </li>
                     ))}

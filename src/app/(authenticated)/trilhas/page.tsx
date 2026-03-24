@@ -22,7 +22,7 @@ interface Employee {
 }
 
 const statusLabels: Record<string, string> = { DRAFT: 'Rascunho', PUBLISHED: 'Publicada', ARCHIVED: 'Arquivada' };
-const statusColors: Record<string, string> = { DRAFT: 'bg-green-900/40 text-gray-200', PUBLISHED: 'bg-emerald-900/40 text-emerald-300', ARCHIVED: 'bg-yellow-100 text-yellow-300' };
+const statusColors: Record<string, string> = { DRAFT: 'bg-gray-800/40 text-gray-200', PUBLISHED: 'bg-emerald-900/40 text-emerald-300', ARCHIVED: 'bg-yellow-100 text-yellow-300' };
 const contentTypeLabels: Record<string, string> = { VIDEO: 'Vídeo', ARTICLE: 'Artigo', COURSE: 'Curso', PODCAST: 'Podcast', BOOK: 'Livro', OTHER: 'Outro' };
 
 export default function TrilhasPage() {
@@ -92,50 +92,50 @@ export default function TrilhasPage() {
   const publishedCount = tracks.filter((t) => t.status === 'PUBLISHED').length;
   const totalEnrollments = tracks.reduce((sum, t) => sum + t._count.enrollments, 0);
 
-  if (loading) return (<div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-700" /></div>);
+  if (loading) return (<div className="flex items-center justify-center h-64"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-600" /></div>);
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-gray-100">Trilhas de Desenvolvimento</h1>
-        <button onClick={() => setShowNewTrack(!showNewTrack)} className="px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-green-800 text-sm font-medium">+ Nova Trilha</button>
+        <button onClick={() => setShowNewTrack(!showNewTrack)} className="px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-gray-700 text-sm font-medium">+ Nova Trilha</button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-green-950/50 backdrop-blur-lg rounded-lg border border-green-800/30 p-4">
+        <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg border border-gray-700/30 p-4">
           <h3 className="text-sm font-medium text-gray-400">Total de Trilhas</h3>
           <p className="text-2xl font-bold text-gray-100 mt-1">{tracks.length}</p>
         </div>
-        <div className="bg-green-950/50 backdrop-blur-lg rounded-lg border border-green-800/30 p-4">
+        <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg border border-gray-700/30 p-4">
           <h3 className="text-sm font-medium text-gray-400">Publicadas</h3>
           <p className="text-2xl font-bold text-green-600 mt-1">{publishedCount}</p>
         </div>
-        <div className="bg-green-950/50 backdrop-blur-lg rounded-lg border border-green-800/30 p-4">
+        <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg border border-gray-700/30 p-4">
           <h3 className="text-sm font-medium text-gray-400">Total de Inscrições</h3>
           <p className="text-2xl font-bold text-emerald-400 mt-1">{totalEnrollments}</p>
         </div>
       </div>
 
       {showNewTrack && (
-        <form onSubmit={handleCreate} className="bg-green-950/50 backdrop-blur-lg rounded-lg border border-green-800/30 p-6 space-y-4">
+        <form onSubmit={handleCreate} className="bg-gray-900/50 backdrop-blur-lg rounded-lg border border-gray-700/30 p-6 space-y-4">
           <h2 className="text-lg font-semibold text-gray-100">Nova Trilha de Desenvolvimento</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-1">Título</label>
-              <input type="text" value={formTitle} onChange={(e) => setFormTitle(e.target.value)} className="w-full border border-green-700/40 rounded-lg px-3 py-2 text-sm" placeholder="Ex: Liderança para Gestores" required />
+              <input type="text" value={formTitle} onChange={(e) => setFormTitle(e.target.value)} className="w-full border border-gray-600/40 rounded-lg px-3 py-2 text-sm" placeholder="Ex: Liderança para Gestores" required />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-1">Categoria</label>
-              <input type="text" value={formCategory} onChange={(e) => setFormCategory(e.target.value)} className="w-full border border-green-700/40 rounded-lg px-3 py-2 text-sm" placeholder="Ex: Liderança, Técnico" />
+              <input type="text" value={formCategory} onChange={(e) => setFormCategory(e.target.value)} className="w-full border border-gray-600/40 rounded-lg px-3 py-2 text-sm" placeholder="Ex: Liderança, Técnico" />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-1">Horas Estimadas</label>
-              <input type="number" value={formHours} onChange={(e) => setFormHours(Number(e.target.value))} className="w-full border border-green-700/40 rounded-lg px-3 py-2 text-sm" min={0} />
+              <input type="number" value={formHours} onChange={(e) => setFormHours(Number(e.target.value))} className="w-full border border-gray-600/40 rounded-lg px-3 py-2 text-sm" min={0} />
             </div>
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-300 mb-1">Descrição</label>
-            <textarea value={formDescription} onChange={(e) => setFormDescription(e.target.value)} className="w-full border border-green-700/40 rounded-lg px-3 py-2 text-sm" rows={2} />
+            <textarea value={formDescription} onChange={(e) => setFormDescription(e.target.value)} className="w-full border border-gray-600/40 rounded-lg px-3 py-2 text-sm" rows={2} />
           </div>
           <div>
             <div className="flex items-center justify-between mb-2">
@@ -144,25 +144,25 @@ export default function TrilhasPage() {
             </div>
             {formContents.map((content, i) => (
               <div key={i} className="flex gap-2 mb-2 items-center">
-                <input type="text" value={content.title} onChange={(e) => updateContent(i, 'title', e.target.value)} className="flex-1 border border-green-700/40 rounded-lg px-3 py-2 text-sm" placeholder="Título do conteúdo" />
-                <select value={content.type} onChange={(e) => updateContent(i, 'type', e.target.value)} className="border border-green-700/40 rounded-lg px-2 py-2 text-sm">
+                <input type="text" value={content.title} onChange={(e) => updateContent(i, 'title', e.target.value)} className="flex-1 border border-gray-600/40 rounded-lg px-3 py-2 text-sm" placeholder="Título do conteúdo" />
+                <select value={content.type} onChange={(e) => updateContent(i, 'type', e.target.value)} className="border border-gray-600/40 rounded-lg px-2 py-2 text-sm">
                   {Object.entries(contentTypeLabels).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
                 </select>
-                <input type="text" value={content.contentUrl} onChange={(e) => updateContent(i, 'contentUrl', e.target.value)} className="w-48 border border-green-700/40 rounded-lg px-3 py-2 text-sm" placeholder="URL do conteúdo" />
-                <input type="number" value={content.durationMinutes} onChange={(e) => updateContent(i, 'durationMinutes', Number(e.target.value))} className="w-20 border border-green-700/40 rounded-lg px-2 py-2 text-sm" min={0} placeholder="min" />
+                <input type="text" value={content.contentUrl} onChange={(e) => updateContent(i, 'contentUrl', e.target.value)} className="w-48 border border-gray-600/40 rounded-lg px-3 py-2 text-sm" placeholder="URL do conteúdo" />
+                <input type="number" value={content.durationMinutes} onChange={(e) => updateContent(i, 'durationMinutes', Number(e.target.value))} className="w-20 border border-gray-600/40 rounded-lg px-2 py-2 text-sm" min={0} placeholder="min" />
                 <button type="button" onClick={() => removeContent(i)} className="text-red-500 hover:text-red-700 text-sm px-2">✕</button>
               </div>
             ))}
           </div>
           <div className="flex gap-2">
-            <button type="submit" className="px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-green-800 text-sm">Criar Trilha</button>
+            <button type="submit" className="px-4 py-2 bg-green-700 text-white rounded-lg hover:bg-gray-700 text-sm">Criar Trilha</button>
             <button type="button" onClick={() => setShowNewTrack(false)} className="px-4 py-2 text-gray-400 hover:text-gray-200 text-sm">Cancelar</button>
           </div>
         </form>
       )}
 
       <div className="flex items-center gap-4">
-        <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)} className="border border-green-700/40 rounded-lg px-3 py-2 text-sm">
+        <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)} className="border border-gray-600/40 rounded-lg px-3 py-2 text-sm">
           <option value="">Todos os status</option>
           <option value="DRAFT">Rascunho</option>
           <option value="PUBLISHED">Publicada</option>
@@ -171,14 +171,14 @@ export default function TrilhasPage() {
       </div>
 
       {filtered.length === 0 ? (
-        <div className="text-center py-12 bg-green-900/30 rounded-lg">
+        <div className="text-center py-12 bg-gray-800/30 rounded-lg">
           <p className="text-gray-400">Nenhuma trilha de desenvolvimento encontrada.</p>
           <p className="text-gray-400 text-sm mt-1">Crie sua primeira trilha clicando no botão acima.</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {filtered.map((track) => (
-            <Link key={track.id} href={`/trilhas/${track.id}`} className="bg-green-950/50 backdrop-blur-lg rounded-lg border border-green-800/30 p-4 hover:shadow-md transition-shadow">
+            <Link key={track.id} href={`/trilhas/${track.id}`} className="bg-gray-900/50 backdrop-blur-lg rounded-lg border border-gray-700/30 p-4 hover:shadow-md transition-shadow">
               <div className="flex items-center justify-between mb-2">
                 <span className="font-medium text-gray-100 truncate">{track.title}</span>
                 <span className={`text-xs px-2 py-1 rounded-full font-medium ${statusColors[track.status]}`}>{statusLabels[track.status]}</span>

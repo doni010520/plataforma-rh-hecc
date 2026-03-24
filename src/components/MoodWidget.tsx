@@ -44,7 +44,7 @@ export default function MoodWidget({ initialMood }: MoodWidgetProps) {
   }
 
   return (
-    <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-6">
+    <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-6">
       <h3 className="text-sm font-medium text-gray-400 mb-3">
         Como você está hoje?
       </h3>
@@ -57,7 +57,7 @@ export default function MoodWidget({ initialMood }: MoodWidgetProps) {
             className={`flex flex-col items-center gap-1 p-2 rounded-lg transition-all ${
               selectedMood === mood
                 ? 'bg-emerald-900/30 ring-2 ring-green-600 scale-110'
-                : 'hover:bg-green-900/30'
+                : 'hover:bg-gray-800/30'
             }`}
           >
             <span className="text-3xl">{moodEmojis[mood]}</span>

@@ -74,8 +74,8 @@ export default function ResultadosPesquisaPage() {
   if (loading) {
     return (
       <div className="space-y-4">
-        <div className="h-8 w-64 bg-green-800/40 rounded animate-pulse" />
-        <div className="h-96 bg-green-800/40 rounded animate-pulse" />
+        <div className="h-8 w-64 bg-gray-700/40 rounded animate-pulse" />
+        <div className="h-96 bg-gray-700/40 rounded animate-pulse" />
       </div>
     );
   }
@@ -103,23 +103,23 @@ export default function ResultadosPesquisaPage() {
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-4">
+        <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-4">
           <h3 className="text-sm font-medium text-gray-400 mb-1">Taxa de Resposta</h3>
           <p className="text-2xl font-bold text-gray-100">{data.responseRate.toFixed(0)}%</p>
           <p className="text-xs text-gray-400">{data.totalResponses} de {data.totalUsers} colaboradores</p>
         </div>
-        <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-4">
+        <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-4">
           <h3 className="text-sm font-medium text-gray-400 mb-1">Respostas</h3>
           <p className="text-2xl font-bold text-gray-100">{data.totalResponses}</p>
         </div>
-        <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-4">
+        <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-4">
           <h3 className="text-sm font-medium text-gray-400 mb-1">Perguntas</h3>
           <p className="text-2xl font-bold text-gray-100">{data.questionResults?.length ?? 0}</p>
         </div>
       </div>
 
       {/* Department Response Rate */}
-      <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-6 mb-6">
+      <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-6 mb-6">
         <h2 className="text-lg font-semibold text-gray-100 mb-4">Taxa de Resposta por Departamento</h2>
         {(data.departmentStats?.length ?? 0) === 0 ? (
           <p className="text-sm text-gray-400">Nenhum departamento encontrado.</p>
@@ -133,7 +133,7 @@ export default function ResultadosPesquisaPage() {
                     {dept.responses}/{dept.totalUsers} ({dept.rate.toFixed(0)}%)
                   </span>
                 </div>
-                <div className="w-full bg-green-800/40 rounded-full h-3">
+                <div className="w-full bg-gray-700/40 rounded-full h-3">
                   <div
                     className="h-3 rounded-full bg-green-700 transition-all"
                     style={{ width: `${dept.rate}%` }}
@@ -148,7 +148,7 @@ export default function ResultadosPesquisaPage() {
       {/* Question Results */}
       <div className="space-y-6">
         {(data.questionResults || []).map((qr, i) => (
-          <div key={qr.questionId} className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-6">
+          <div key={qr.questionId} className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-6">
             <h3 className="text-sm font-medium text-gray-400 mb-1">Pergunta {i + 1}</h3>
             <p className="font-semibold text-gray-100 mb-4">{qr.text}</p>
             <p className="text-xs text-gray-400 mb-3">{qr.totalAnswers} respostas</p>
@@ -166,7 +166,7 @@ export default function ResultadosPesquisaPage() {
                     return (
                       <div key={score} className="flex items-center gap-2">
                         <span className="text-sm text-gray-400 w-4">{score}</span>
-                        <div className="flex-1 bg-green-800/40 rounded-full h-4">
+                        <div className="flex-1 bg-gray-700/40 rounded-full h-4">
                           <div
                             className="h-4 rounded-full bg-emerald-900/300 transition-all"
                             style={{ width: `${pct}%` }}
@@ -189,7 +189,7 @@ export default function ResultadosPesquisaPage() {
                   return (
                     <div key={option} className="flex items-center gap-2">
                       <span className="text-sm text-gray-300 min-w-[120px]">{option}</span>
-                      <div className="flex-1 bg-green-800/40 rounded-full h-4">
+                      <div className="flex-1 bg-gray-700/40 rounded-full h-4">
                         <div
                           className="h-4 rounded-full bg-emerald-900/300 transition-all"
                           style={{ width: `${pct}%` }}
@@ -210,7 +210,7 @@ export default function ResultadosPesquisaPage() {
                   <p className="text-sm text-gray-400">Nenhuma resposta de texto.</p>
                 ) : (
                   qr.answers.map((ans, j) => (
-                    <div key={j} className="bg-green-900/30 p-3 rounded-md">
+                    <div key={j} className="bg-gray-800/30 p-3 rounded-md">
                       <p className="text-sm text-gray-300">{ans}</p>
                     </div>
                   ))

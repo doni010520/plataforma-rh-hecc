@@ -10,7 +10,7 @@ if (process.env.NODE_ENV !== 'production') {
   globalForOpenAI.openai = openai;
 }
 
-export const AI_MODEL = process.env.OPENAI_MODEL || 'gpt-4o-mini';
+export const AI_MODEL = process.env.OPENAI_MODEL || 'gpt-4.1-mini';
 
 // ── System Prompts ──
 

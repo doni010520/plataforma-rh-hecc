@@ -138,8 +138,8 @@ export default function PerfilPage() {
   if (loading) {
     return (
       <div className="space-y-4">
-        <div className="h-8 w-48 bg-green-800/40 rounded animate-pulse" />
-        <div className="h-64 bg-green-800/40 rounded animate-pulse" />
+        <div className="h-8 w-48 bg-gray-700/40 rounded animate-pulse" />
+        <div className="h-64 bg-gray-700/40 rounded animate-pulse" />
       </div>
     );
   }
@@ -161,7 +161,7 @@ export default function PerfilPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2">
-          <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-6">
+          <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-6">
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="flex items-center gap-4 mb-6">
                 <div className="relative">
@@ -179,7 +179,7 @@ export default function PerfilPage() {
                   <button
                     type="button"
                     onClick={() => fileInputRef.current?.click()}
-                    className="absolute bottom-0 right-0 w-7 h-7 bg-green-700 text-white rounded-full flex items-center justify-center hover:bg-green-800 transition-colors"
+                    className="absolute bottom-0 right-0 w-7 h-7 bg-green-700 text-white rounded-full flex items-center justify-center hover:bg-gray-700 transition-colors"
                     aria-label="Alterar avatar"
                   >
                     <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -214,7 +214,7 @@ export default function PerfilPage() {
                   onChange={(e) => setName(e.target.value)}
                   required
                   minLength={2}
-                  className="w-full px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-600/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                 />
               </div>
 
@@ -224,7 +224,7 @@ export default function PerfilPage() {
                   type="text"
                   value={jobTitle}
                   onChange={(e) => setJobTitle(e.target.value)}
-                  className="w-full px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-600/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                   placeholder="Ex: Analista de RH"
                 />
               </div>
@@ -235,7 +235,7 @@ export default function PerfilPage() {
                   type="email"
                   value={user.email}
                   disabled
-                  className="w-full px-3 py-2 border border-green-700/40 rounded-md bg-green-900/40 text-gray-400"
+                  className="w-full px-3 py-2 border border-gray-600/40 rounded-md bg-gray-800/40 text-gray-400"
                 />
               </div>
 
@@ -250,7 +250,7 @@ export default function PerfilPage() {
               <button
                 type="submit"
                 disabled={saving}
-                className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-800 transition-colors disabled:opacity-50 font-medium"
+                className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition-colors disabled:opacity-50 font-medium"
               >
                 {saving ? 'Salvando...' : 'Salvar Alterações'}
               </button>
@@ -259,7 +259,7 @@ export default function PerfilPage() {
         </div>
 
         <div className="space-y-6">
-          <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-6">
+          <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-6">
             <h3 className="text-sm font-medium text-gray-400 mb-3">Informações</h3>
             <dl className="space-y-3">
               <div>
@@ -285,7 +285,7 @@ export default function PerfilPage() {
             </dl>
           </div>
 
-          <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-6">
+          <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-6">
             <h3 className="text-sm font-medium text-gray-400 mb-3">
               Feedbacks Recebidos ({feedbacks.length})
             </h3>
@@ -294,7 +294,7 @@ export default function PerfilPage() {
             ) : (
               <div className="space-y-3 max-h-96 overflow-y-auto">
                 {feedbacks.slice(0, 10).map((fb) => (
-                  <div key={fb.id} className="border-b border-green-800/20 pb-3 last:border-0">
+                  <div key={fb.id} className="border-b border-gray-700/20 pb-3 last:border-0">
                     <div className="flex items-center gap-2 mb-1">
                       <span className="text-xs font-medium text-gray-300">{fb.fromUser.name}</span>
                       <span

@@ -149,7 +149,7 @@ export default function FeedbackPage() {
         <h1 className="text-2xl font-bold text-gray-100">Feedback</h1>
         <button
           onClick={() => setShowForm(!showForm)}
-          className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-800 transition-colors font-medium"
+          className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition-colors font-medium"
         >
           Enviar Feedback
         </button>
@@ -160,7 +160,7 @@ export default function FeedbackPage() {
       )}
 
       {showForm && (
-        <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-6 mb-6">
+        <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-6 mb-6">
           <h2 className="text-lg font-semibold text-gray-100 mb-4">Novo Feedback</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -170,7 +170,7 @@ export default function FeedbackPage() {
                   value={formTo}
                   onChange={(e) => setFormTo(e.target.value)}
                   required
-                  className="w-full px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-600/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                 >
                   <option value="">Selecione...</option>
                   {colaboradores.map((c) => (
@@ -185,7 +185,7 @@ export default function FeedbackPage() {
                 <select
                   value={formType}
                   onChange={(e) => setFormType(e.target.value)}
-                  className="w-full px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                  className="w-full px-3 py-2 border border-gray-600/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                 >
                   <option value="PRAISE">Elogio</option>
                   <option value="CONSTRUCTIVE">Construtivo</option>
@@ -204,7 +204,7 @@ export default function FeedbackPage() {
                 required
                 minLength={20}
                 rows={4}
-                className="w-full px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                className="w-full px-3 py-2 border border-gray-600/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                 placeholder="Descreva seu feedback com detalhes..."
               />
               <p className="text-xs text-gray-400 mt-1">{formContent.length}/20 caracteres mínimo</p>
@@ -253,7 +253,7 @@ export default function FeedbackPage() {
               <button
                 type="submit"
                 disabled={saving}
-                className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-800 transition-colors disabled:opacity-50 font-medium"
+                className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition-colors disabled:opacity-50 font-medium"
               >
                 {saving ? 'Enviando...' : 'Enviar Feedback'}
               </button>
@@ -263,11 +263,11 @@ export default function FeedbackPage() {
       )}
 
       <div className="flex items-center gap-4 mb-4">
-        <div className="flex bg-green-900/40 rounded-md p-1">
+        <div className="flex bg-gray-800/40 rounded-md p-1">
           <button
             onClick={() => setTab('received')}
             className={`px-4 py-1.5 rounded text-sm font-medium transition-colors ${
-              tab === 'received' ? 'bg-green-950/50 backdrop-blur-lg text-gray-100 shadow-sm' : 'text-gray-400'
+              tab === 'received' ? 'bg-gray-900/50 backdrop-blur-lg text-gray-100 shadow-sm' : 'text-gray-400'
             }`}
           >
             Recebidos
@@ -275,7 +275,7 @@ export default function FeedbackPage() {
           <button
             onClick={() => setTab('sent')}
             className={`px-4 py-1.5 rounded text-sm font-medium transition-colors ${
-              tab === 'sent' ? 'bg-green-950/50 backdrop-blur-lg text-gray-100 shadow-sm' : 'text-gray-400'
+              tab === 'sent' ? 'bg-gray-900/50 backdrop-blur-lg text-gray-100 shadow-sm' : 'text-gray-400'
             }`}
           >
             Enviados
@@ -284,7 +284,7 @@ export default function FeedbackPage() {
         <select
           value={filterType}
           onChange={(e) => setFilterType(e.target.value)}
-          className="px-3 py-1.5 border border-green-700/40 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+          className="px-3 py-1.5 border border-gray-600/40 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
         >
           <option value="">Todos os tipos</option>
           <option value="PRAISE">Elogio</option>
@@ -294,7 +294,7 @@ export default function FeedbackPage() {
         <select
           value={filterPeriod}
           onChange={(e) => setFilterPeriod(e.target.value)}
-          className="px-3 py-1.5 border border-green-700/40 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+          className="px-3 py-1.5 border border-gray-600/40 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
         >
           <option value="">Todo período</option>
           <option value="7d">Últimos 7 dias</option>
@@ -305,11 +305,11 @@ export default function FeedbackPage() {
 
       <div className="space-y-4">
         {loading ? (
-          <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-8 text-center text-gray-400">
+          <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-8 text-center text-gray-400">
             Carregando...
           </div>
         ) : feedbacks.length === 0 ? (
-          <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-8 text-center text-gray-400">
+          <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-8 text-center text-gray-400">
             {tab === 'received'
               ? 'Nenhum feedback recebido ainda.'
               : 'Nenhum feedback enviado ainda.'}
@@ -320,7 +320,7 @@ export default function FeedbackPage() {
             const personLabel = tab === 'received' ? 'De' : 'Para';
 
             return (
-              <div key={fb.id} className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-5">
+              <div key={fb.id} className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-5">
                 <div className="flex items-start gap-4">
                   <div className="flex-shrink-0">
                     {person.avatarUrl ? (

@@ -62,6 +62,11 @@ const typeIcons: Record<string, string> = {
 
 const reactionEmojis = ['👏', '❤️', '🎉', '🔥', '💪'];
 
+interface Colleague {
+  id: string;
+  name: string;
+}
+
 export default function MuralPage() {
   const [celebrations, setCelebrations] = useState<Celebration[]>([]);
   const [loading, setLoading] = useState(true);
@@ -69,12 +74,20 @@ export default function MuralPage() {
   const [totalPages, setTotalPages] = useState(1);
   const [filterType, setFilterType] = useState('');
 
+  // Current user
+  const [currentUserId, setCurrentUserId] = useState<string | null>(null);
+  const [currentUserRole, setCurrentUserRole] = useState<string | null>(null);
+
   // Form state
   const [showForm, setShowForm] = useState(false);
   const [content, setContent] = useState('');
   const [type, setType] = useState('GENERAL');
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
+
+  // Edit state
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editContent, setEditContent] = useState('');
 
   // Media state
   const [uploadedMedia, setUploadedMedia] = useState<UploadedMedia[]>([]);
@@ -87,6 +100,13 @@ export default function MuralPage() {
 
   // Lightbox state
   const [lightboxUrl, setLightboxUrl] = useState<string | null>(null);
+
+  // Mention state
+  const [colleagues, setColleagues] = useState<Colleague[]>([]);
+  const [mentionQuery, setMentionQuery] = useState('');
+  const [showMentions, setShowMentions] = useState(false);
+  const [mentionCursorPos, setMentionCursorPos] = useState(0);
+  const contentRef = useRef<HTMLTextAreaElement>(null);
 
   const fetchCelebrations = useCallback(async () => {
     const params = new URLSearchParams();
@@ -105,6 +125,15 @@ export default function MuralPage() {
   useEffect(() => {
     fetchCelebrations();
   }, [fetchCelebrations]);
+
+  useEffect(() => {
+    fetch('/api/me').then(r => r.ok ? r.json() : null).then(me => {
+      if (me) { setCurrentUserId(me.id); setCurrentUserRole(me.role); }
+    }).catch(() => {});
+    fetch('/api/colaboradores?limit=50').then(r => r.ok ? r.json() : null).then(data => {
+      if (data?.data) setColleagues(data.data.map((u: { id: string; name: string }) => ({ id: u.id, name: u.name })));
+    }).catch(() => {});
+  }, []);
 
   async function handleFileSelect(e: React.ChangeEvent<HTMLInputElement>) {
     const files = e.target.files;
@@ -239,11 +268,66 @@ export default function MuralPage() {
     fetchCelebrations();
   }
 
+  async function handleEdit(id: string) {
+    setSaving(true);
+    const res = await fetch(`/api/mural/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ content: editContent }),
+    });
+    setSaving(false);
+    if (res.ok) {
+      setEditingId(null);
+      setEditContent('');
+      fetchCelebrations();
+    }
+  }
+
+  async function handleDelete(id: string) {
+    if (!confirm('Tem certeza que deseja excluir esta publicação?')) return;
+    const res = await fetch(`/api/mural/${id}`, { method: 'DELETE' });
+    if (res.ok) fetchCelebrations();
+  }
+
+  function handleContentChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
+    const val = e.target.value;
+    setContent(val);
+
+    const cursorPos = e.target.selectionStart;
+    setMentionCursorPos(cursorPos);
+
+    // Check if user is typing @mention
+    const textBeforeCursor = val.slice(0, cursorPos);
+    const atMatch = textBeforeCursor.match(/@(\w*)$/);
+    if (atMatch) {
+      setMentionQuery(atMatch[1].toLowerCase());
+      setShowMentions(true);
+    } else {
+      setShowMentions(false);
+      setMentionQuery('');
+    }
+  }
+
+  function insertMention(name: string) {
+    const textBeforeCursor = content.slice(0, mentionCursorPos);
+    const textAfterCursor = content.slice(mentionCursorPos);
+    const atIndex = textBeforeCursor.lastIndexOf('@');
+    const newText = textBeforeCursor.slice(0, atIndex) + `@${name} ` + textAfterCursor;
+    setContent(newText);
+    setShowMentions(false);
+    setMentionQuery('');
+    contentRef.current?.focus();
+  }
+
+  const filteredColleagues = colleagues.filter(c =>
+    c.name.toLowerCase().includes(mentionQuery),
+  ).slice(0, 5);
+
   if (loading) {
     return (
       <div className="space-y-4">
-        <div className="h-8 w-48 bg-green-800/40 rounded animate-pulse" />
-        <div className="h-64 bg-green-800/40 rounded animate-pulse" />
+        <div className="h-8 w-48 bg-gray-700/40 rounded animate-pulse" />
+        <div className="h-64 bg-gray-700/40 rounded animate-pulse" />
       </div>
     );
   }
@@ -275,7 +359,7 @@ export default function MuralPage() {
         <h1 className="text-2xl font-bold text-gray-100">Mural de Celebrações</h1>
         <button
           onClick={() => setShowForm(!showForm)}
-          className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-800 font-medium text-sm"
+          className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-gray-700 font-medium text-sm"
         >
           {showForm ? 'Cancelar' : '+ Celebrar'}
         </button>
@@ -286,7 +370,7 @@ export default function MuralPage() {
         <select
           value={filterType}
           onChange={(e) => { setFilterType(e.target.value); setPage(1); }}
-          className="px-3 py-1.5 border border-green-700/40 rounded-md text-sm"
+          className="px-3 py-1.5 border border-gray-600/40 rounded-md text-sm"
         >
           <option value="">Todos os tipos</option>
           <option value="ACHIEVEMENT">Conquista</option>
@@ -298,13 +382,13 @@ export default function MuralPage() {
 
       {/* Create Form */}
       {showForm && (
-        <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-5 mb-6">
+        <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-5 mb-6">
           <form onSubmit={handleCreate} className="space-y-3">
             <div>
               <select
                 value={type}
                 onChange={(e) => setType(e.target.value)}
-                className="px-3 py-1.5 border border-green-700/40 rounded-md text-sm"
+                className="px-3 py-1.5 border border-gray-600/40 rounded-md text-sm"
               >
                 <option value="GENERAL">⭐ Geral</option>
                 <option value="ACHIEVEMENT">🏆 Conquista</option>
@@ -312,13 +396,33 @@ export default function MuralPage() {
                 <option value="ANNIVERSARY">🎉 Aniversário de Empresa</option>
               </select>
             </div>
-            <textarea
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              rows={3}
-              className="w-full px-3 py-2 border border-green-700/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-              placeholder="Compartilhe uma celebração, mencione colegas..."
-            />
+            <div className="relative">
+              <textarea
+                ref={contentRef}
+                value={content}
+                onChange={handleContentChange}
+                rows={3}
+                className="w-full px-3 py-2 border border-gray-600/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                placeholder="Compartilhe uma celebração... Use @ para mencionar colegas"
+              />
+              {showMentions && filteredColleagues.length > 0 && (
+                <div className="absolute left-0 right-0 bottom-full mb-1 bg-gray-800 border border-gray-700/40 rounded-lg shadow-lg z-10 max-h-40 overflow-y-auto">
+                  {filteredColleagues.map(c => (
+                    <button
+                      key={c.id}
+                      type="button"
+                      onClick={() => insertMention(c.name)}
+                      className="w-full text-left px-3 py-2 text-sm text-gray-100 hover:bg-gray-700/40 flex items-center gap-2"
+                    >
+                      <span className="w-6 h-6 rounded-full bg-emerald-900/40 text-emerald-300 flex items-center justify-center text-xs font-bold flex-shrink-0">
+                        {c.name[0]}
+                      </span>
+                      {c.name}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
 
             {/* Media Upload */}
             <div>
@@ -335,7 +439,7 @@ export default function MuralPage() {
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
                   disabled={uploading || uploadedMedia.length >= 10}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 border border-green-700/40 rounded-md text-sm text-gray-300 hover:bg-green-900/30 disabled:opacity-40 transition-colors"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 border border-gray-600/40 rounded-md text-sm text-gray-300 hover:bg-gray-800/30 disabled:opacity-40 transition-colors"
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -360,11 +464,11 @@ export default function MuralPage() {
               {uploadedMedia.length > 0 && (
                 <div className="mt-3 grid grid-cols-3 gap-2">
                   {uploadedMedia.map((m, i) => (
-                    <div key={i} className="relative group rounded-lg overflow-hidden border border-green-700/40">
+                    <div key={i} className="relative group rounded-lg overflow-hidden border border-gray-600/40">
                       {m.type === 'image' ? (
                         <img src={m.preview || m.url} alt={m.fileName} className="w-full h-24 object-cover" />
                       ) : (
-                        <div className="w-full h-24 bg-green-900/30 flex flex-col items-center justify-center">
+                        <div className="w-full h-24 bg-gray-800/30 flex flex-col items-center justify-center">
                           <span className="text-2xl">🎥</span>
                           <span className="text-[10px] text-gray-400 mt-1 truncate max-w-full px-1">{m.fileName}</span>
                         </div>
@@ -388,7 +492,7 @@ export default function MuralPage() {
             <button
               type="submit"
               disabled={saving || uploading}
-              className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-green-800 disabled:opacity-50 font-medium text-sm"
+              className="bg-green-700 text-white px-4 py-2 rounded-md hover:bg-gray-700 disabled:opacity-50 font-medium text-sm"
             >
               {saving ? 'Publicando...' : 'Publicar'}
             </button>
@@ -398,7 +502,7 @@ export default function MuralPage() {
 
       {/* Feed */}
       {celebrations.length === 0 ? (
-        <div className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-12 text-center">
+        <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-12 text-center">
           <p className="text-gray-400">Nenhuma celebração ainda.</p>
           <p className="text-sm text-gray-400 mt-1">Seja o primeiro a celebrar algo!</p>
         </div>
@@ -419,7 +523,7 @@ export default function MuralPage() {
             const videos = mediaItems.filter((m) => m.type === 'video');
 
             return (
-              <div key={c.id} className="bg-green-950/50 backdrop-blur-lg rounded-lg shadow-sm p-5">
+              <div key={c.id} className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-5">
                 {/* Header */}
                 <div className="flex items-start gap-3 mb-3">
                   <div className="w-10 h-10 rounded-full bg-emerald-900/40 text-emerald-300 flex items-center justify-center text-sm font-bold flex-shrink-0">
@@ -445,12 +549,60 @@ export default function MuralPage() {
                       </span>
                     </div>
                   </div>
+
+                  {/* Edit / Delete — only for author or admin */}
+                  {(c.author?.id === currentUserId || currentUserRole === 'ADMIN') && (
+                    <div className="flex items-center gap-1 flex-shrink-0">
+                      <button
+                        onClick={() => { setEditingId(c.id); setEditContent(c.content); }}
+                        className="p-1.5 text-gray-400 hover:text-emerald-400 rounded transition-colors"
+                        title="Editar"
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                        </svg>
+                      </button>
+                      <button
+                        onClick={() => handleDelete(c.id)}
+                        className="p-1.5 text-gray-400 hover:text-red-400 rounded transition-colors"
+                        title="Excluir"
+                      >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                      </button>
+                    </div>
+                  )}
                 </div>
 
-                {/* Content */}
-                {c.content && (
+                {/* Content — editable or read-only */}
+                {editingId === c.id ? (
+                  <div className="mb-3 space-y-2">
+                    <textarea
+                      value={editContent}
+                      onChange={(e) => setEditContent(e.target.value)}
+                      rows={3}
+                      className="w-full px-3 py-2 border border-gray-600/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent text-sm"
+                    />
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => handleEdit(c.id)}
+                        disabled={saving}
+                        className="bg-green-700 text-white px-3 py-1 rounded-md text-sm hover:bg-green-800 disabled:opacity-50"
+                      >
+                        {saving ? 'Salvando...' : 'Salvar'}
+                      </button>
+                      <button
+                        onClick={() => { setEditingId(null); setEditContent(''); }}
+                        className="text-sm text-gray-400 hover:text-gray-300"
+                      >
+                        Cancelar
+                      </button>
+                    </div>
+                  </div>
+                ) : c.content ? (
                   <p className="text-gray-200 whitespace-pre-wrap mb-3">{c.content}</p>
-                )}
+                ) : null}
 
                 {/* Media Gallery */}
                 {mediaItems.length > 0 && (
@@ -510,7 +662,7 @@ export default function MuralPage() {
                     <button
                       key={emoji}
                       onClick={() => handleReaction(c.id, emoji)}
-                      className="inline-flex items-center gap-1 px-2 py-0.5 bg-green-900/40 hover:bg-green-800/40 rounded-full text-sm transition-colors"
+                      className="inline-flex items-center gap-1 px-2 py-0.5 bg-gray-800/40 hover:bg-gray-700/40 rounded-full text-sm transition-colors"
                       title={data.users.join(', ')}
                     >
                       <span>{emoji}</span>
@@ -522,7 +674,7 @@ export default function MuralPage() {
                       <button
                         key={emoji}
                         onClick={() => handleReaction(c.id, emoji)}
-                        className="w-7 h-7 flex items-center justify-center hover:bg-green-900/40 rounded-full transition-colors text-sm opacity-40 hover:opacity-100"
+                        className="w-7 h-7 flex items-center justify-center hover:bg-gray-800/40 rounded-full transition-colors text-sm opacity-40 hover:opacity-100"
                       >
                         {emoji}
                       </button>
@@ -532,10 +684,10 @@ export default function MuralPage() {
 
                 {/* Comments */}
                 {(c.comments?.length ?? 0) > 0 && (
-                  <div className="border-t border-green-800/20 pt-3 space-y-2">
+                  <div className="border-t border-gray-700/20 pt-3 space-y-2">
                     {(c.comments || []).map((comment) => (
                       <div key={comment.id} className="flex items-start gap-2">
-                        <div className="w-6 h-6 rounded-full bg-green-800/40 text-gray-400 flex items-center justify-center text-xs font-bold flex-shrink-0">
+                        <div className="w-6 h-6 rounded-full bg-gray-700/40 text-gray-400 flex items-center justify-center text-xs font-bold flex-shrink-0">
                           {(comment.user?.name || '?')[0]}
                         </div>
                         <div>
@@ -551,7 +703,7 @@ export default function MuralPage() {
                 )}
 
                 {/* Add Comment */}
-                <div className="border-t border-green-800/20 pt-3 mt-2">
+                <div className="border-t border-gray-700/20 pt-3 mt-2">
                   {commentingId === c.id ? (
                     <div className="flex gap-2">
                       <input
@@ -559,7 +711,7 @@ export default function MuralPage() {
                         value={commentText}
                         onChange={(e) => setCommentText(e.target.value)}
                         placeholder="Escreva um comentário..."
-                        className="flex-1 px-3 py-1.5 border border-green-700/40 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                        className="flex-1 px-3 py-1.5 border border-gray-600/40 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
                         onKeyDown={(e) => { if (e.key === 'Enter') handleComment(c.id); }}
                       />
                       <button onClick={() => handleComment(c.id)} className="text-sm text-emerald-400 hover:text-emerald-200 font-medium">
@@ -587,7 +739,7 @@ export default function MuralPage() {
           <button
             onClick={() => setPage(Math.max(1, page - 1))}
             disabled={page === 1}
-            className="px-3 py-1.5 border border-green-700/40 rounded-md text-sm disabled:opacity-30"
+            className="px-3 py-1.5 border border-gray-600/40 rounded-md text-sm disabled:opacity-30"
           >
             Anterior
           </button>
@@ -595,7 +747,7 @@ export default function MuralPage() {
           <button
             onClick={() => setPage(Math.min(totalPages, page + 1))}
             disabled={page === totalPages}
-            className="px-3 py-1.5 border border-green-700/40 rounded-md text-sm disabled:opacity-30"
+            className="px-3 py-1.5 border border-gray-600/40 rounded-md text-sm disabled:opacity-30"
           >
             Próxima
           </button>

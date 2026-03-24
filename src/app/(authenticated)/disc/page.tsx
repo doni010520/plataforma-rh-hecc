@@ -177,7 +177,7 @@ export default function DiscPage() {
   if (loading && phase === 'loading') {
     return (
       <div className="flex justify-center py-20">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-700" />
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-600" />
       </div>
     );
   }
@@ -207,7 +207,7 @@ export default function DiscPage() {
 
         {/* Primary Profile Badge */}
         {primary && (
-          <div className="bg-green-950/50 backdrop-blur-lg rounded-xl shadow-sm border border-green-800/30 p-6 mb-6">
+          <div className="bg-gray-900/50 backdrop-blur-lg rounded-xl shadow-sm border border-gray-700/30 p-6 mb-6">
             <div className="flex items-center gap-4 mb-4">
               <div className={`w-16 h-16 ${PROFILE_INFO[primary].bgColor} rounded-xl flex items-center justify-center`}>
                 <span className="text-2xl font-bold text-white">{primary}</span>
@@ -226,7 +226,7 @@ export default function DiscPage() {
         )}
 
         {/* DISC Bars */}
-        <div className="bg-green-950/50 backdrop-blur-lg rounded-xl shadow-sm border border-green-800/30 p-6 mb-6">
+        <div className="bg-gray-900/50 backdrop-blur-lg rounded-xl shadow-sm border border-gray-700/30 p-6 mb-6">
           <h3 className="text-lg font-semibold text-gray-100 mb-6">Distribuicao do Perfil</h3>
           <div className="space-y-5">
             {profiles.map(({ key, value }) => (
@@ -240,7 +240,7 @@ export default function DiscPage() {
                   </div>
                   <span className="text-sm font-semibold text-gray-100">{value}%</span>
                 </div>
-                <div className="w-full bg-green-900/40 rounded-full h-4 overflow-hidden">
+                <div className="w-full bg-gray-800/40 rounded-full h-4 overflow-hidden">
                   <div
                     className={`h-full rounded-full ${PROFILE_INFO[key].bgColor} transition-all duration-700`}
                     style={{ width: `${value}%` }}
@@ -254,7 +254,7 @@ export default function DiscPage() {
         {/* All Profiles Summary */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
           {profiles.map(({ key }) => (
-            <div key={key} className="bg-green-950/50 backdrop-blur-lg rounded-xl shadow-sm border border-green-800/30 p-5">
+            <div key={key} className="bg-gray-900/50 backdrop-blur-lg rounded-xl shadow-sm border border-gray-700/30 p-5">
               <div className="flex items-center gap-3 mb-2">
                 <span className={`w-8 h-8 ${PROFILE_INFO[key].bgColor} rounded-lg flex items-center justify-center text-white font-bold text-sm`}>
                   {key}
@@ -269,7 +269,7 @@ export default function DiscPage() {
         <div className="text-center">
           <button
             onClick={handleRetake}
-            className="px-6 py-2.5 bg-green-950/50 backdrop-blur-lg border border-green-700/40 text-gray-300 font-medium rounded-lg hover:bg-green-900/30 transition-colors"
+            className="px-6 py-2.5 bg-gray-900/50 backdrop-blur-lg border border-gray-600/40 text-gray-300 font-medium rounded-lg hover:bg-gray-800/30 transition-colors"
           >
             Refazer Avaliacao
           </button>
@@ -285,7 +285,7 @@ export default function DiscPage() {
         <h1 className="text-2xl font-bold text-gray-100 mb-2">Avaliacao DISC</h1>
         <p className="text-gray-400 mb-8">Avaliacao comportamental baseada na metodologia DISC</p>
 
-        <div className="bg-green-950/50 backdrop-blur-lg rounded-xl shadow-sm border border-green-800/30 p-6 sm:p-8 mb-8">
+        <div className="bg-gray-900/50 backdrop-blur-lg rounded-xl shadow-sm border border-gray-700/30 p-6 sm:p-8 mb-8">
           <h2 className="text-xl font-semibold text-gray-100 mb-4">O que e o DISC?</h2>
           <p className="text-gray-300 mb-4">
             O DISC e uma metodologia de avaliacao comportamental que identifica quatro dimensoes principais
@@ -295,7 +295,7 @@ export default function DiscPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
             {(['D', 'I', 'S', 'C'] as const).map((key) => (
-              <div key={key} className="flex items-start gap-3 p-3 rounded-lg bg-green-900/30">
+              <div key={key} className="flex items-start gap-3 p-3 rounded-lg bg-gray-800/30">
                 <span className={`w-10 h-10 ${PROFILE_INFO[key].bgColor} rounded-lg flex items-center justify-center text-white font-bold flex-shrink-0`}>
                   {key}
                 </span>
@@ -330,7 +330,7 @@ export default function DiscPage() {
           <button
             onClick={startAssessment}
             disabled={loading}
-            className="w-full sm:w-auto px-8 py-3 bg-green-700 text-white font-medium rounded-lg hover:bg-green-800 focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 disabled:opacity-50 transition-colors"
+            className="w-full sm:w-auto px-8 py-3 bg-green-700 text-white font-medium rounded-lg hover:bg-gray-700 focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 disabled:opacity-50 transition-colors"
           >
             {loading ? 'Carregando...' : 'Iniciar Avaliacao'}
           </button>
@@ -356,14 +356,14 @@ export default function DiscPage() {
         </p>
 
         {/* Progress Bar */}
-        <div className="w-full bg-green-800/40 rounded-full h-2.5 mb-8">
+        <div className="w-full bg-gray-700/40 rounded-full h-2.5 mb-8">
           <div
             className="bg-green-700 h-2.5 rounded-full transition-all duration-300"
             style={{ width: `${progress}%` }}
           />
         </div>
 
-        <div className="bg-green-950/50 backdrop-blur-lg rounded-xl shadow-sm border border-green-800/30 p-6 sm:p-8">
+        <div className="bg-gray-900/50 backdrop-blur-lg rounded-xl shadow-sm border border-gray-700/30 p-6 sm:p-8">
           <h2 className="text-lg font-semibold text-gray-100 mb-2">
             Selecione os comportamentos
           </h2>
@@ -385,7 +385,7 @@ export default function DiscPage() {
                       ? 'border-green-400 bg-emerald-900/30'
                       : isLeastSel
                       ? 'border-red-400 bg-red-900/30'
-                      : 'border-green-800/30 hover:border-green-700/40'
+                      : 'border-gray-700/30 hover:border-gray-600/40'
                   }`}
                 >
                   <span className="font-medium text-gray-100">{word}</span>
@@ -399,7 +399,7 @@ export default function DiscPage() {
                       className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-colors ${
                         isMost
                           ? 'bg-green-600 text-white'
-                          : 'bg-green-900/40 text-gray-400 hover:bg-emerald-900/40 hover:text-emerald-400'
+                          : 'bg-gray-800/40 text-gray-400 hover:bg-emerald-900/40 hover:text-emerald-400'
                       }`}
                     >
                       MAIS
@@ -413,7 +413,7 @@ export default function DiscPage() {
                       className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-colors ${
                         isLeastSel
                           ? 'bg-red-600 text-white'
-                          : 'bg-green-900/40 text-gray-400 hover:bg-red-900/30 hover:text-red-700'
+                          : 'bg-gray-800/40 text-gray-400 hover:bg-red-900/30 hover:text-red-700'
                       }`}
                     >
                       MENOS
@@ -456,7 +456,7 @@ export default function DiscPage() {
               type="button"
               onClick={handleNext}
               disabled={!canProceed || submitting}
-              className="px-6 py-2.5 bg-green-700 text-white font-medium rounded-lg hover:bg-green-800 focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="px-6 py-2.5 bg-green-700 text-white font-medium rounded-lg hover:bg-gray-700 focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
               {submitting ? 'Calculando...' : isLast ? 'Finalizar' : 'Proxima'}
             </button>

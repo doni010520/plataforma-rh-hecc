@@ -95,7 +95,7 @@ const statusLabels: Record<string, string> = {
 const statusColors: Record<string, string> = {
   SCHEDULED: 'bg-blue-100 text-blue-800',
   COMPLETED: 'bg-emerald-900/40 text-emerald-300',
-  CANCELLED: 'bg-green-900/40 text-gray-200',
+  CANCELLED: 'bg-gray-800/40 text-gray-200',
 };
 
 const dayLabels = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
@@ -356,7 +356,7 @@ export default function OneOnOnePage() {
             </p>
           </div>
           <span
-            className={`px-2 py-1 rounded-full text-xs font-medium ${statusColors[m.status] || 'bg-green-900/40 text-gray-200'}`}
+            className={`px-2 py-1 rounded-full text-xs font-medium ${statusColors[m.status] || 'bg-gray-800/40 text-gray-200'}`}
           >
             {statusLabels[m.status] || m.status}
           </span>
@@ -364,7 +364,7 @@ export default function OneOnOnePage() {
 
         {/* Notes */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="bg-green-950/50 backdrop-blur-lg border rounded-lg p-4">
+          <div className="bg-gray-900/50 backdrop-blur-lg border rounded-lg p-4">
             <label className="block text-sm font-medium text-gray-300 mb-2">
               Notas do Gestor
             </label>
@@ -382,7 +382,7 @@ export default function OneOnOnePage() {
               </p>
             )}
           </div>
-          <div className="bg-green-950/50 backdrop-blur-lg border rounded-lg p-4">
+          <div className="bg-gray-900/50 backdrop-blur-lg border rounded-lg p-4">
             <label className="block text-sm font-medium text-gray-300 mb-2">
               Notas do Colaborador
             </label>
@@ -403,20 +403,20 @@ export default function OneOnOnePage() {
         </div>
 
         {/* Topics */}
-        <div className="bg-green-950/50 backdrop-blur-lg border rounded-lg p-4">
+        <div className="bg-gray-900/50 backdrop-blur-lg border rounded-lg p-4">
           <h2 className="text-sm font-medium text-gray-300 mb-3">Pauta / Tópicos</h2>
           <div className="space-y-2 mb-3">
             {m.topics.map((t) => (
               <div
                 key={t.id}
-                className="flex items-start gap-3 p-2 rounded hover:bg-green-900/30"
+                className="flex items-start gap-3 p-2 rounded hover:bg-gray-800/30"
               >
                 <button
                   onClick={() => toggleTopic(t.id)}
                   className={`mt-0.5 w-5 h-5 rounded border flex-shrink-0 flex items-center justify-center ${
                     t.discussed
-                      ? 'bg-green-700 border-green-700 text-white'
-                      : 'border-green-700/40'
+                      ? 'bg-green-700 border-gray-600 text-white'
+                      : 'border-gray-600/40'
                   }`}
                 >
                   {t.discussed && (
@@ -456,7 +456,7 @@ export default function OneOnOnePage() {
               <button
                 onClick={addTopic}
                 disabled={!newTopicContent.trim()}
-                className="px-3 py-2 bg-green-700 text-white rounded text-sm hover:bg-green-800 disabled:opacity-50"
+                className="px-3 py-2 bg-green-700 text-white rounded text-sm hover:bg-gray-700 disabled:opacity-50"
               >
                 Adicionar
               </button>
@@ -465,7 +465,7 @@ export default function OneOnOnePage() {
         </div>
 
         {/* Action Items */}
-        <div className="bg-green-950/50 backdrop-blur-lg border rounded-lg p-4">
+        <div className="bg-gray-900/50 backdrop-blur-lg border rounded-lg p-4">
           <label className="block text-sm font-medium text-gray-300 mb-2">
             Itens de Ação
           </label>
@@ -483,7 +483,7 @@ export default function OneOnOnePage() {
           <button
             onClick={saveNotes}
             disabled={saving}
-            className="px-4 py-2 bg-green-700 text-white rounded-lg text-sm font-medium hover:bg-green-800 disabled:opacity-50"
+            className="px-4 py-2 bg-green-700 text-white rounded-lg text-sm font-medium hover:bg-gray-700 disabled:opacity-50"
           >
             {saving ? 'Salvando...' : 'Salvar'}
           </button>
@@ -521,7 +521,7 @@ export default function OneOnOnePage() {
             <p className="text-sm text-gray-400 mt-1">
               {frequencyLabels[c.frequency] || c.frequency} &middot; {dayLabels[c.dayOfWeek]}
               {!c.active && (
-                <span className="ml-2 px-2 py-0.5 bg-green-900/40 text-gray-400 rounded-full text-xs">
+                <span className="ml-2 px-2 py-0.5 bg-gray-800/40 text-gray-400 rounded-full text-xs">
                   Inativo
                 </span>
               )}
@@ -530,7 +530,7 @@ export default function OneOnOnePage() {
           <div className="flex gap-2">
             <button
               onClick={() => { setShowMeetingForm(true); setNewScheduledAt(''); }}
-              className="px-4 py-2 bg-green-700 text-white rounded-lg text-sm font-medium hover:bg-green-800"
+              className="px-4 py-2 bg-green-700 text-white rounded-lg text-sm font-medium hover:bg-gray-700"
             >
               Nova Reunião
             </button>
@@ -547,7 +547,7 @@ export default function OneOnOnePage() {
 
         {/* New Meeting form */}
         {showMeetingForm && (
-          <form onSubmit={createMeeting} className="bg-green-950/50 backdrop-blur-lg border rounded-lg p-4 space-y-3">
+          <form onSubmit={createMeeting} className="bg-gray-900/50 backdrop-blur-lg border rounded-lg p-4 space-y-3">
             <h2 className="font-semibold text-gray-100 text-sm">Nova Reunião</h2>
             <div>
               <label className="block text-sm font-medium text-gray-300 mb-1">
@@ -564,14 +564,14 @@ export default function OneOnOnePage() {
             <div className="flex gap-2">
               <button
                 type="submit"
-                className="px-4 py-2 bg-green-700 text-white rounded text-sm hover:bg-green-800"
+                className="px-4 py-2 bg-green-700 text-white rounded text-sm hover:bg-gray-700"
               >
                 Criar
               </button>
               <button
                 type="button"
                 onClick={() => setShowMeetingForm(false)}
-                className="px-4 py-2 bg-green-800/40 rounded text-sm hover:bg-green-700/40"
+                className="px-4 py-2 bg-gray-700/40 rounded text-sm hover:bg-green-700/40"
               >
                 Cancelar
               </button>
@@ -585,7 +585,7 @@ export default function OneOnOnePage() {
             <div
               key={m.id}
               onClick={() => loadMeetingDetail(c.id, m.id)}
-              className="bg-green-950/50 backdrop-blur-lg border rounded-lg p-4 cursor-pointer hover:border-green-300 transition-colors"
+              className="bg-gray-900/50 backdrop-blur-lg border rounded-lg p-4 cursor-pointer hover:border-green-300 transition-colors"
             >
               <div className="flex items-center justify-between">
                 <div>
@@ -604,7 +604,7 @@ export default function OneOnOnePage() {
                   </p>
                 </div>
                 <span
-                  className={`px-2 py-1 rounded-full text-xs font-medium ${statusColors[m.status] || 'bg-green-900/40 text-gray-200'}`}
+                  className={`px-2 py-1 rounded-full text-xs font-medium ${statusColors[m.status] || 'bg-gray-800/40 text-gray-200'}`}
                 >
                   {statusLabels[m.status] || m.status}
                 </span>
@@ -632,7 +632,7 @@ export default function OneOnOnePage() {
               setShowCreateForm(!showCreateForm);
               if (!showCreateForm) loadEmployees();
             }}
-            className="px-4 py-2 bg-green-700 text-white rounded-lg text-sm font-medium hover:bg-green-800"
+            className="px-4 py-2 bg-green-700 text-white rounded-lg text-sm font-medium hover:bg-gray-700"
           >
             Novo Ciclo 1:1
           </button>
@@ -641,7 +641,7 @@ export default function OneOnOnePage() {
 
       {/* Create cycle form */}
       {showCreateForm && (
-        <form onSubmit={createCycle} className="bg-green-950/50 backdrop-blur-lg border rounded-lg p-6 space-y-4">
+        <form onSubmit={createCycle} className="bg-gray-900/50 backdrop-blur-lg border rounded-lg p-6 space-y-4">
           <h2 className="font-semibold text-gray-100">Novo Ciclo 1:1</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
@@ -697,14 +697,14 @@ export default function OneOnOnePage() {
           <div className="flex gap-2">
             <button
               type="submit"
-              className="px-4 py-2 bg-green-700 text-white rounded text-sm hover:bg-green-800"
+              className="px-4 py-2 bg-green-700 text-white rounded text-sm hover:bg-gray-700"
             >
               Criar
             </button>
             <button
               type="button"
               onClick={() => setShowCreateForm(false)}
-              className="px-4 py-2 bg-green-800/40 rounded text-sm hover:bg-green-700/40"
+              className="px-4 py-2 bg-gray-700/40 rounded text-sm hover:bg-green-700/40"
             >
               Cancelar
             </button>
@@ -722,7 +722,7 @@ export default function OneOnOnePage() {
             <div
               key={c.id}
               onClick={() => loadMeetings(c)}
-              className="bg-green-950/50 backdrop-blur-lg border rounded-lg p-4 cursor-pointer hover:border-green-300 transition-colors"
+              className="bg-gray-900/50 backdrop-blur-lg border rounded-lg p-4 cursor-pointer hover:border-green-300 transition-colors"
             >
               <div className="flex items-center justify-between">
                 <div>
@@ -741,14 +741,14 @@ export default function OneOnOnePage() {
                 </div>
                 <div className="text-right flex items-center gap-3">
                   {!c.active && (
-                    <span className="px-2 py-0.5 bg-green-900/40 text-gray-400 rounded-full text-xs">
+                    <span className="px-2 py-0.5 bg-gray-800/40 text-gray-400 rounded-full text-xs">
                       Inativo
                     </span>
                   )}
                   {lastMeeting && (
                     <div>
                       <span
-                        className={`px-2 py-1 rounded-full text-xs font-medium ${statusColors[lastMeeting.status] || 'bg-green-900/40 text-gray-200'}`}
+                        className={`px-2 py-1 rounded-full text-xs font-medium ${statusColors[lastMeeting.status] || 'bg-gray-800/40 text-gray-200'}`}
                       >
                         {statusLabels[lastMeeting.status] || lastMeeting.status}
                       </span>
