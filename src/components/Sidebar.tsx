@@ -227,8 +227,7 @@ const navSections: NavSection[] = [
   },
 ];
 
-// Flat list for permission mapping
-const allNavItems = navSections.flatMap((s) => s.items);
+
 
 // Map href to module key used in permissions
 const hrefToModule: Record<string, string> = {
