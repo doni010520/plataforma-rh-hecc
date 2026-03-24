@@ -173,7 +173,7 @@ export async function POST(request: Request) {
         actionUrl: `${appUrl}/login`,
         actionLabel: 'Acessar Plataforma',
       });
-      sendEmail({ to: emailLower, subject, html }).catch(() => {});
+      sendEmail({ to: emailLower, subject, html }).catch((err: Error) => console.error('[Email] Send failed:', err.message));
 
       return NextResponse.json(colaborador, { status: 201 });
     }
@@ -205,7 +205,7 @@ export async function POST(request: Request) {
       actionUrl: inviteLink,
       actionLabel: 'Aceitar Convite e Criar Senha',
     });
-    sendEmail({ to: emailLower, subject, html }).catch(() => {});
+    sendEmail({ to: emailLower, subject, html }).catch((err: Error) => console.error('[Email] Send failed:', err.message));
 
     return NextResponse.json(colaborador, { status: 201 });
   } catch (error) {

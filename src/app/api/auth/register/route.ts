@@ -82,7 +82,7 @@ export async function POST(request: Request) {
       companyName,
       loginUrl: `${appUrl}/login`,
     });
-    sendEmail({ to: email, subject, html }).catch(() => {});
+    sendEmail({ to: email, subject, html }).catch((err: Error) => console.error('[Email] Send failed:', err.message));
 
     return NextResponse.json({ success: true });
   } catch (error) {

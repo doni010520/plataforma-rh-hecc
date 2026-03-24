@@ -13,25 +13,21 @@ interface SendEmailParams {
 export async function sendEmail({ to, subject, html }: SendEmailParams) {
   if (!process.env.RESEND_API_KEY) {
     console.warn('[Email] RESEND_API_KEY not configured, skipping email send');
-    return null;
+    throw new Error('RESEND_API_KEY não configurada');
   }
 
-  try {
-    const { data, error } = await resend.emails.send({
-      from: FROM_EMAIL,
-      to: Array.isArray(to) ? to : [to],
-      subject,
-      html,
-    });
+  const { data, error } = await resend.emails.send({
+    from: FROM_EMAIL,
+    to: Array.isArray(to) ? to : [to],
+    subject,
+    html,
+  });
 
-    if (error) {
-      console.error('[Email] Failed to send:', error);
-      return null;
-    }
-
-    return data;
-  } catch (err) {
-    console.error('[Email] Unexpected error:', err);
-    return null;
+  if (error) {
+    console.error('[Email] Failed to send:', JSON.stringify(error));
+    throw new Error(error.message || 'Falha ao enviar email');
   }
+
+  console.log('[Email] Sent successfully:', data?.id, 'to:', to);
+  return data;
 }
