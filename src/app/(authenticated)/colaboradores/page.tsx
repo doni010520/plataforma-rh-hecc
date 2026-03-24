@@ -179,6 +179,27 @@ export default function ColaboradoresPage() {
     fetchColaboradores(pagination.page);
   }
 
+  const [resendingInvite, setResendingInvite] = useState<string | null>(null);
+
+  async function handleResendInvite(userId: string, userName: string) {
+    if (!confirm(`Reenviar convite para ${userName}?`)) return;
+    setResendingInvite(userId);
+    try {
+      const res = await fetch(`/api/colaboradores/${userId}/reenviar-convite`, {
+        method: 'POST',
+      });
+      if (res.ok) {
+        alert(`Convite reenviado para ${userName}!`);
+      } else {
+        const data = await res.json();
+        alert(data.error || 'Erro ao reenviar convite.');
+      }
+    } catch {
+      alert('Erro de conexão ao reenviar convite.');
+    }
+    setResendingInvite(null);
+  }
+
   const roleLabels: Record<string, string> = {
     ADMIN: 'Administrador',
     MANAGER: 'Gestor',
@@ -413,6 +434,14 @@ export default function ColaboradoresPage() {
                               className="text-emerald-400 hover:text-emerald-300 hover:bg-emerald-500/10 text-sm font-medium px-2 py-1 rounded transition-colors"
                             >
                               Editar
+                            </button>
+                            <button
+                              onClick={() => handleResendInvite(user.id, user.name)}
+                              disabled={resendingInvite === user.id}
+                              className="text-blue-400 hover:text-blue-300 hover:bg-blue-500/10 text-sm font-medium px-2 py-1 rounded transition-colors disabled:opacity-50"
+                              title="Reenviar email de convite"
+                            >
+                              {resendingInvite === user.id ? '...' : 'Reenviar'}
                             </button>
                             <button
                               onClick={() => handleToggleActive(user)}
