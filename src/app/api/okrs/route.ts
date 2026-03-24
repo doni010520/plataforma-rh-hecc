@@ -75,12 +75,12 @@ export async function POST(request: NextRequest) {
 
   // Only ADMIN can create COMPANY objectives
   if (level === 'COMPANY' && !hasRole(user.role, ['ADMIN'])) {
-    return forbiddenResponse('Apenas administradores podem criar objectivos da empresa.');
+    return forbiddenResponse('Apenas administradores podem criar objetivos da empresa.');
   }
 
   // Only ADMIN/MANAGER can create TEAM objectives
   if (level === 'TEAM' && !hasRole(user.role, ['ADMIN', 'MANAGER'])) {
-    return forbiddenResponse('Apenas gestores podem criar objectivos de equipa.');
+    return forbiddenResponse('Apenas gestores podem criar objetivos de equipe.');
   }
 
   // Validate parent exists and belongs to same company

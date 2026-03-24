@@ -100,7 +100,7 @@ export function Header({ userName, avatarUrl }: HeaderProps) {
     .slice(0, 2);
 
   return (
-    <header className="fixed top-0 left-0 md:left-64 right-0 h-16 bg-gray-900/70 backdrop-blur-xl border-b border-emerald-500/10 flex items-center justify-between px-4 md:px-6 z-20 header-light">
+    <header className="fixed top-0 left-0 md:left-64 right-0 h-16 bg-gray-900/80 backdrop-blur-xl border-b border-gray-700/40 shadow-sm flex items-center justify-between px-4 md:px-6 z-20 header-light">
       {/* Mobile menu button */}
       <button
         onClick={() => document.dispatchEvent(new CustomEvent('toggle-sidebar'))}

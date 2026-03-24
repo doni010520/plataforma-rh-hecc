@@ -58,12 +58,12 @@ export default function ManagerDashboard() {
 
   return (
     <div className="mt-8">
-      <h2 className="text-lg font-bold text-gray-100 mb-4">Visão da Equipa</h2>
+      <h2 className="text-lg font-bold text-gray-100 mb-4">Visão da Equipe</h2>
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
         <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-5">
-          <h3 className="text-sm font-medium text-gray-400 mb-1">Equipa</h3>
+          <h3 className="text-sm font-medium text-gray-400 mb-1">Equipe</h3>
           <p className="text-2xl font-bold text-gray-100">{data.teamSize}</p>
           <p className="text-xs text-gray-400">colaboradores</p>
         </div>

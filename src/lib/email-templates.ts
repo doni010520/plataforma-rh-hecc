@@ -74,7 +74,7 @@ export function colaboradorInviteTemplate(params: {
         Olá, ${escapeHtml(employeeName)}!
       </h2>
       <p style="margin:0 0 12px;color:#374151;font-size:14px;line-height:1.6;">
-        <strong>${escapeHtml(inviterName)}</strong> convidou você para fazer parte da equipa de
+        <strong>${escapeHtml(inviterName)}</strong> convidou você para fazer parte da equipe de
         <strong>${escapeHtml(companyName)}</strong> na HECC Plataforma RH.
       </p>
       <p style="margin:0 0 8px;color:#374151;font-size:14px;line-height:1.6;">
@@ -115,13 +115,13 @@ export function registrationConfirmationTemplate(params: {
         A empresa <strong>${escapeHtml(companyName)}</strong> foi cadastrada com sucesso na HECC Plataforma RH.
       </p>
       <p style="margin:0 0 12px;color:#374151;font-size:14px;line-height:1.6;">
-        Você é o administrador da conta. Comece configurando sua equipa:
+        Você é o administrador da conta. Comece configurando sua equipe:
       </p>
       <ul style="margin:0 0 16px;padding-left:20px;color:#374151;font-size:14px;line-height:1.8;">
         <li>Crie departamentos para organizar a empresa</li>
         <li>Adicione colaboradores e gestores</li>
         <li>Configure ciclos de avaliação de desempenho</li>
-        <li>Defina OKRs e metas para a equipa</li>
+        <li>Defina OKRs e metas para a equipe</li>
       </ul>
       ${ctaButton('Acessar Dashboard', loginUrl)}
     `),

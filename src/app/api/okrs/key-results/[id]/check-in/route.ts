@@ -21,7 +21,7 @@ export async function POST(request: NextRequest, { params }: { params: { id: str
     hasRole(user.role, ['ADMIN']);
 
   if (!canCheckIn) {
-    return forbiddenResponse('Apenas o dono do objectivo pode fazer check-in.');
+    return forbiddenResponse('Apenas o dono do objetivo pode fazer check-in.');
   }
 
   const body = await request.json();

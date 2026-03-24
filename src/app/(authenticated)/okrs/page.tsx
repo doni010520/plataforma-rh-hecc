@@ -310,7 +310,7 @@ export default function OKRsPage() {
                   onChange={(e) => setDescription(e.target.value)}
                   rows={2}
                   className="w-full px-3 py-2 border border-gray-600/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-                  placeholder="Descreva o objectivo..."
+                  placeholder="Descreva o objetivo..."
                 />
               </div>
               <div>
@@ -453,7 +453,7 @@ export default function OKRsPage() {
       {/* Objectives List */}
       {objectives.length === 0 ? (
         <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-12 text-center">
-          <p className="text-gray-400">Nenhum objectivo encontrado.</p>
+          <p className="text-gray-400">Nenhum objetivo encontrado.</p>
           <p className="text-sm text-gray-400 mt-1">
             Crie seu primeiro OKR clicando no botão acima.
           </p>
@@ -529,7 +529,7 @@ export default function OKRsPage() {
                 {/* Children count */}
                 {obj.children.length > 0 && (
                   <p className="text-xs text-gray-400 mt-2">
-                    {obj.children.length} objectivo(s) vinculado(s)
+                    {obj.children.length} objetivo(s) vinculado(s)
                   </p>
                 )}
               </Link>
