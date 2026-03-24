@@ -403,17 +403,18 @@ export function Sidebar({ userRole: serverRole }: SidebarProps) {
       )}
 
       <aside
-        className={`fixed left-0 top-0 h-screen w-64 bg-gray-900/80 backdrop-blur-xl border-r border-gray-700/30 flex flex-col z-40 transition-transform duration-200 sidebar-light ${
+        className={`fixed left-0 top-16 h-[calc(100vh-4rem)] w-64 bg-gray-900/60 backdrop-blur-2xl border-r border-white/[0.06] flex flex-col z-30 transition-transform duration-200 sidebar-light ${
           mobileOpen ? 'translate-x-0' : '-translate-x-full'
         } md:translate-x-0`}
         aria-label="Menu de navegação principal"
       >
-        <div className="flex items-center justify-between px-5 py-5 border-b border-gray-700/30">
+        {/* Mobile: close button + logo */}
+        <div className="flex items-center justify-between px-4 py-3 border-b border-gray-700/30 md:hidden">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/feedflow-dark.svg" alt="FeedFlow" className="h-7" />
           <button
             onClick={() => setMobileOpen(false)}
-            className="md:hidden p-1 text-gray-400 hover:text-gray-200"
+            className="p-1 text-gray-400 hover:text-gray-200"
             aria-label="Fechar menu"
           >
             <svg className="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -422,7 +423,7 @@ export function Sidebar({ userRole: serverRole }: SidebarProps) {
           </button>
         </div>
 
-        <nav className="flex-1 overflow-y-auto py-4" aria-label="Navegação">
+        <nav className="flex-1 overflow-y-auto py-3" aria-label="Navegação">
           <ul className="space-y-1 px-3" role="list">
             {navItems.filter((item) => {
               if (userRole === 'EMPLOYEE' && employeeModules) {
