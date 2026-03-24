@@ -48,26 +48,26 @@ export default function MoodWidget({ initialMood }: MoodWidgetProps) {
       <h3 className="text-sm font-medium text-gray-400 mb-3">
         Como você está hoje?
       </h3>
-      <div className="flex items-center justify-center gap-4">
+      <div className="flex items-center justify-center gap-3">
         {[1, 2, 3, 4, 5].map((mood) => (
           <button
             key={mood}
             onClick={() => handleMoodSelect(mood)}
             disabled={saving}
-            className={`flex flex-col items-center gap-1 p-2 rounded-lg transition-all ${
+            className={`flex flex-col items-center justify-center gap-1.5 w-[72px] h-[80px] rounded-xl transition-all mood-card ${
               selectedMood === mood
-                ? 'bg-emerald-900/30 ring-2 ring-green-600 scale-110'
-                : 'hover:bg-gray-800/30'
+                ? 'ring-2 ring-emerald-400 scale-105 mood-card-active'
+                : 'hover:scale-105'
             }`}
           >
-            <span className="text-3xl">{moodEmojis[mood]}</span>
-            <span className="text-xs text-gray-400">{moodLabels[mood]}</span>
+            <span className="text-2xl leading-none">{moodEmojis[mood]}</span>
+            <span className="text-[11px] text-gray-400 font-medium">{moodLabels[mood]}</span>
           </button>
         ))}
       </div>
       {saved && selectedMood && (
         <p className="text-center text-xs text-green-600 mt-2">
-          Humor registado: {moodLabels[selectedMood]}
+          Humor registrado: {moodLabels[selectedMood]}
         </p>
       )}
     </div>
