@@ -137,7 +137,7 @@ export default async function DashboardPage() {
       {pendingSurveys.length > 0 && (
         <div className="mt-6 bg-emerald-900/40 backdrop-blur-lg border border-emerald-500/20 rounded-2xl p-4">
           <h3 className="text-sm font-semibold text-emerald-300 mb-2">
-            📋 Pesquisas Activas ({pendingSurveys.length})
+            📋 Pesquisas Ativas ({pendingSurveys.length})
           </h3>
           <div className="space-y-2">
             {pendingSurveys.map((s) => (
@@ -259,7 +259,7 @@ export default async function DashboardPage() {
         </div>
         {userObjectives.length === 0 ? (
           <p className="text-gray-400 text-sm">
-            Nenhum objectivo definido para este trimestre.{' '}
+            Nenhum objetivo definido para este trimestre.{' '}
             <Link href="/okrs" className="text-emerald-400 hover:text-emerald-300">
               Criar OKR
             </Link>

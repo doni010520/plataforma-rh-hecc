@@ -93,7 +93,7 @@ export default function AdminDashboard() {
         <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-5">
           <h3 className="text-sm font-medium text-gray-400 mb-1">Total Colaboradores</h3>
           <p className="text-3xl font-bold text-gray-100">{data.totalEmployees}</p>
-          <p className="text-xs text-gray-400">activos na plataforma</p>
+          <p className="text-xs text-gray-400">ativos na plataforma</p>
         </div>
         <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-5">
           <h3 className="text-sm font-medium text-gray-400 mb-1">Taxa de Engajamento</h3>
@@ -158,10 +158,10 @@ export default function AdminDashboard() {
       {/* Active Review Cycles */}
       <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-6 mb-6">
         <h3 className="text-sm font-semibold text-gray-100 mb-4">
-          Ciclos de Avaliação Activos
+          Ciclos de Avaliação Ativos
         </h3>
         {(data.activeCycles?.length ?? 0) === 0 ? (
-          <p className="text-sm text-gray-400">Nenhum ciclo activo.</p>
+          <p className="text-sm text-gray-400">Nenhum ciclo ativo.</p>
         ) : (
           <div className="space-y-4">
             {(data.activeCycles || []).map((cycle) => (

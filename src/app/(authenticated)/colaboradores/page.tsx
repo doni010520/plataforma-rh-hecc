@@ -410,16 +410,16 @@ export default function ColaboradoresPage() {
                           <>
                             <button
                               onClick={() => openEdit(user)}
-                              className="text-emerald-400 hover:text-emerald-200 text-sm font-medium"
+                              className="text-emerald-400 hover:text-emerald-300 hover:bg-emerald-500/10 text-sm font-medium px-2 py-1 rounded transition-colors"
                             >
                               Editar
                             </button>
                             <button
                               onClick={() => handleToggleActive(user)}
-                              className={`text-sm font-medium ${
+                              className={`text-sm font-medium px-2 py-1 rounded transition-colors ${
                                 user.active
-                                  ? 'text-red-600 hover:text-red-800'
-                                  : 'text-green-600 hover:text-emerald-300'
+                                  ? 'text-red-400 hover:text-red-300 hover:bg-red-500/10'
+                                  : 'text-green-400 hover:text-green-300 hover:bg-green-500/10'
                               }`}
                             >
                               {user.active ? 'Desativar' : 'Reativar'}

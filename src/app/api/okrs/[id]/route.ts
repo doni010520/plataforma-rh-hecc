@@ -62,7 +62,7 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
       select: { managerId: true },
     });
     if (owner?.managerId !== user.id) {
-      return forbiddenResponse('Você não tem permissão para editar este objectivo.');
+      return forbiddenResponse('Você não tem permissão para editar este objetivo.');
     }
   }
 
@@ -101,12 +101,12 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
   }
 
   if (objective.ownerId !== user.id && !hasRole(user.role, ['ADMIN'])) {
-    return forbiddenResponse('Apenas o dono ou administrador pode excluir este objectivo.');
+    return forbiddenResponse('Apenas o dono ou administrador pode excluir este objetivo.');
   }
 
   if (objective.children.length > 0) {
     return NextResponse.json(
-      { error: 'Não é possível excluir um objectivo que possui objectivos filhos.' },
+      { error: 'Não é possível excluir um objetivo que possui objetivos filhos.' },
       { status: 400 },
     );
   }

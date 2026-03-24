@@ -184,14 +184,56 @@ const topics: HelpTopic[] = [
 export default function AjudaPage() {
   const [openTopic, setOpenTopic] = useState<number | null>(null);
   const [openItem, setOpenItem] = useState<string | null>(null);
+  const [search, setSearch] = useState('');
+
+  const normalizedSearch = search.toLowerCase().trim();
+
+  const filteredTopics = normalizedSearch
+    ? topics
+        .map((topic) => ({
+          ...topic,
+          items: topic.items.filter(
+            (item) =>
+              item.question.toLowerCase().includes(normalizedSearch) ||
+              item.answer.toLowerCase().includes(normalizedSearch),
+          ),
+        }))
+        .filter((topic) => topic.items.length > 0 || topic.title.toLowerCase().includes(normalizedSearch))
+    : topics;
 
   return (
     <div className="max-w-3xl mx-auto">
       <h1 className="text-2xl font-bold text-gray-100 mb-2">Central de Ajuda</h1>
-      <p className="text-gray-400 mb-6">Encontre respostas para as dúvidas mais comuns sobre a plataforma.</p>
+      <p className="text-gray-400 mb-4">Encontre respostas para as dúvidas mais comuns sobre a plataforma.</p>
+
+      <div className="relative mb-6">
+        <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        </svg>
+        <input
+          type="text"
+          value={search}
+          onChange={(e) => {
+            setSearch(e.target.value);
+            if (e.target.value) {
+              setOpenTopic(null);
+              setOpenItem(null);
+            }
+          }}
+          placeholder="Buscar por palavra-chave..."
+          className="w-full pl-10 pr-4 py-2.5 rounded-lg border border-gray-700/30 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+        />
+      </div>
+
+      {filteredTopics.length === 0 && (
+        <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-8 text-center">
+          <p className="text-gray-400">Nenhum resultado encontrado para &ldquo;{search}&rdquo;.</p>
+          <p className="text-sm text-gray-500 mt-1">Tente buscar com outras palavras.</p>
+        </div>
+      )}
 
       <div className="space-y-3">
-        {topics.map((topic, topicIdx) => (
+        {filteredTopics.map((topic, topicIdx) => (
           <div key={topicIdx} className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm overflow-hidden">
             <button
               onClick={() => setOpenTopic(openTopic === topicIdx ? null : topicIdx)}
@@ -209,7 +251,7 @@ export default function AjudaPage() {
               </svg>
             </button>
 
-            {openTopic === topicIdx && (
+            {(openTopic === topicIdx || normalizedSearch) && (
               <div className="border-t border-gray-700/20">
                 {topic.items.map((item, itemIdx) => {
                   const itemKey = `${topicIdx}-${itemIdx}`;
@@ -229,7 +271,7 @@ export default function AjudaPage() {
                         </svg>
                         <span className="text-sm font-medium text-gray-200">{item.question}</span>
                       </button>
-                      {openItem === itemKey && (
+                      {(openItem === itemKey || normalizedSearch) && (
                         <div className="px-5 pb-3 pl-11">
                           <p className="text-sm text-gray-400 leading-relaxed">{item.answer}</p>
                         </div>

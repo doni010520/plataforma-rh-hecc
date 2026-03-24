@@ -33,7 +33,7 @@ const typeLabels: Record<string, string> = {
 
 const statusLabels: Record<string, string> = {
   DRAFT: 'Rascunho',
-  ACTIVE: 'Activa',
+  ACTIVE: 'Ativa',
   CLOSED: 'Encerrada',
 };
 
@@ -48,7 +48,7 @@ const questionBank = [
   { text: 'Sinto que meu trabalho é reconhecido.', type: 'SCALE' },
   { text: 'Tenho oportunidades de crescimento profissional.', type: 'SCALE' },
   { text: 'A comunicação interna é clara e eficiente.', type: 'SCALE' },
-  { text: 'Me sinto parte de uma equipa colaborativa.', type: 'SCALE' },
+  { text: 'Me sinto parte de uma equipe colaborativa.', type: 'SCALE' },
   { text: 'Recebo feedback regular do meu gestor.', type: 'SCALE' },
   { text: 'Minha carga de trabalho é adequada.', type: 'SCALE' },
   { text: 'Tenho os recursos necessários para realizar meu trabalho.', type: 'SCALE' },
@@ -199,7 +199,7 @@ export default function PesquisasPage() {
         >
           <option value="">Todos os status</option>
           <option value="DRAFT">Rascunho</option>
-          <option value="ACTIVE">Activa</option>
+          <option value="ACTIVE">Ativa</option>
           <option value="CLOSED">Encerrada</option>
         </select>
       </div>
@@ -418,7 +418,7 @@ export default function PesquisasPage() {
                       onClick={() => handleStatusChange(survey.id, 'ACTIVE')}
                       className="text-sm bg-green-600 text-white px-3 py-1.5 rounded-md hover:bg-green-700 font-medium"
                     >
-                      Activar
+                      Ativar
                     </button>
                   )}
                   {survey.status === 'ACTIVE' && (

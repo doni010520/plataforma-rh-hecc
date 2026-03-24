@@ -262,20 +262,20 @@ export default function FeedbackPage() {
         </div>
       )}
 
-      <div className="flex items-center gap-4 mb-4">
-        <div className="flex bg-gray-800/40 rounded-md p-1">
+      <div className="flex flex-wrap items-center gap-3 mb-4">
+        <div className="flex bg-gray-800/50 rounded-lg p-1 border border-gray-700/30">
           <button
             onClick={() => setTab('received')}
-            className={`px-4 py-1.5 rounded text-sm font-medium transition-colors ${
-              tab === 'received' ? 'bg-gray-900/50 backdrop-blur-lg text-gray-100 shadow-sm' : 'text-gray-400'
+            className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all ${
+              tab === 'received' ? 'bg-emerald-500/20 text-emerald-300 shadow-sm' : 'text-gray-400 hover:text-gray-200'
             }`}
           >
             Recebidos
           </button>
           <button
             onClick={() => setTab('sent')}
-            className={`px-4 py-1.5 rounded text-sm font-medium transition-colors ${
-              tab === 'sent' ? 'bg-gray-900/50 backdrop-blur-lg text-gray-100 shadow-sm' : 'text-gray-400'
+            className={`px-4 py-1.5 rounded-md text-sm font-medium transition-all ${
+              tab === 'sent' ? 'bg-emerald-500/20 text-emerald-300 shadow-sm' : 'text-gray-400 hover:text-gray-200'
             }`}
           >
             Enviados

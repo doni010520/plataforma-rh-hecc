@@ -228,7 +228,7 @@ export default function ObjectiveDetailPage() {
   }
 
   async function handleDelete() {
-    if (!confirm('Tem certeza que deseja excluir este objectivo?')) return;
+    if (!confirm('Tem certeza que deseja excluir este objetivo?')) return;
 
     const res = await fetch(`/api/okrs/${id}`, { method: 'DELETE' });
     if (res.ok) {
