@@ -33,17 +33,25 @@ export async function updateSession(request: NextRequest) {
 
   const isAuthPage =
     request.nextUrl.pathname.startsWith('/login') ||
-    request.nextUrl.pathname.startsWith('/register');
+    request.nextUrl.pathname.startsWith('/register') ||
+    request.nextUrl.pathname.startsWith('/aceitar-convite');
 
-  const isAuthApi = request.nextUrl.pathname.startsWith('/api/auth');
+  const isAuthRoute =
+    request.nextUrl.pathname.startsWith('/api/auth') ||
+    request.nextUrl.pathname.startsWith('/auth/callback');
 
-  if (!user && !isAuthPage && !isAuthApi) {
+  if (!user && !isAuthPage && !isAuthRoute) {
     const url = request.nextUrl.clone();
     url.pathname = '/login';
     return NextResponse.redirect(url);
   }
 
-  if (user && isAuthPage) {
+  // Redirect logged-in users away from login/register (but NOT aceitar-convite)
+  const isLoginOrRegister =
+    request.nextUrl.pathname.startsWith('/login') ||
+    request.nextUrl.pathname.startsWith('/register');
+
+  if (user && isLoginOrRegister) {
     const url = request.nextUrl.clone();
     url.pathname = '/dashboard';
     return NextResponse.redirect(url);
