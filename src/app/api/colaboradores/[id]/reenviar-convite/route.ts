@@ -38,7 +38,7 @@ export async function POST(
       await supabase.auth.admin.generateLink({
         type: 'invite',
         email: colaborador.email,
-        options: { redirectTo: `${appUrl}/auth/callback` },
+        options: { redirectTo: `${appUrl}/auth/confirmar` },
       });
 
     if (linkError) {
@@ -47,7 +47,7 @@ export async function POST(
         await supabase.auth.admin.generateLink({
           type: 'recovery',
           email: colaborador.email,
-          options: { redirectTo: `${appUrl}/auth/callback` },
+          options: { redirectTo: `${appUrl}/auth/confirmar` },
         });
 
       if (recoveryError || !recoveryData) {

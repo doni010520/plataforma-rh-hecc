@@ -131,7 +131,7 @@ export async function POST(request: Request) {
       await supabase.auth.admin.generateLink({
         type: 'invite',
         email: emailLower,
-        options: { redirectTo: `${appUrl}/auth/callback` },
+        options: { redirectTo: `${appUrl}/auth/confirmar` },
       });
 
     if (linkError || !linkData.user) {
