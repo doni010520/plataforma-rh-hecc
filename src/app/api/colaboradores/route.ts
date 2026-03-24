@@ -1,9 +1,17 @@
 import { prisma } from '@/lib/prisma';
 import { getApiUser, unauthorizedResponse, forbiddenResponse } from '@/lib/auth';
-import { createClient } from '@/lib/supabase/server';
+import { createClient as createSupabaseAdmin } from '@supabase/supabase-js';
 import { sendEmail } from '@/lib/email';
 import { colaboradorInviteTemplate } from '@/lib/email-templates';
 import { NextResponse, type NextRequest } from 'next/server';
+
+function getSupabaseAdmin() {
+  return createSupabaseAdmin(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
+    { auth: { autoRefreshToken: false, persistSession: false } },
+  );
+}
 
 export async function GET(request: NextRequest) {
   const user = await getApiUser();
@@ -114,7 +122,7 @@ export async function POST(request: Request) {
       }
     }
 
-    const supabase = createClient();
+    const supabase = getSupabaseAdmin();
     const { data: inviteData, error: inviteError } =
       await supabase.auth.admin.inviteUserByEmail(emailLower);
 
