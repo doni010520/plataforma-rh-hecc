@@ -112,10 +112,12 @@ export function Header({ userName, avatarUrl }: HeaderProps) {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
           </svg>
         </button>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/feedflow-dark.svg" alt="FeedFlow" className="hidden md:block h-9 logo-dark" />
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/feedflow-primary.svg" alt="FeedFlow" className="hidden md:block h-9 logo-light" />
+        <div className="hidden md:block">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/feedflow-dark.svg" alt="FeedFlow" className="h-9 logo-dark" />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/feedflow-primary.svg" alt="FeedFlow" className="h-9 logo-light" />
+        </div>
       </div>
 
       <div className="flex-1" />
