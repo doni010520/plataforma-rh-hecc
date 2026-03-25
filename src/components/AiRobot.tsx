@@ -14,7 +14,7 @@ const phrases = [
 const COLS = 17;
 const TOTAL_FRAMES = 136;
 const FPS = 17;
-const DISPLAY = 80; // rendered size px
+const DISPLAY = 100; // rendered size px
 
 export function AiRobot({ onClick }: { onClick: () => void }) {
   const [phraseIndex, setPhraseIndex] = useState(0);
