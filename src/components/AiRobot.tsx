@@ -10,34 +10,68 @@ const phrases = [
   'Pergunte-me qualquer coisa! 💬',
 ];
 
-// Sprite sheet config
+// Sprite sheet config: 3400x1600px image, 17 cols x 8 rows, 200x200 per frame
 const COLS = 17;
 const ROWS = 8;
 const TOTAL_FRAMES = 136;
 const FPS = 17;
-const DISPLAY_SIZE = 80; // rendered size on screen
+const DISPLAY = 80; // rendered size px
 
 export function AiRobot({ onClick }: { onClick: () => void }) {
   const [phraseIndex, setPhraseIndex] = useState(0);
   const [showBubble, setShowBubble] = useState(true);
   const [dismissed, setDismissed] = useState(false);
-  const spriteRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
   const frameRef = useRef(0);
+  const imgRef = useRef<HTMLImageElement | null>(null);
 
-  // Sprite animation loop
+  // Load sprite image once and animate with canvas (handles transparency properly)
   useEffect(() => {
-    const interval = setInterval(() => {
-      frameRef.current = (frameRef.current + 1) % TOTAL_FRAMES;
-      const col = frameRef.current % COLS;
-      const row = Math.floor(frameRef.current / COLS);
-      if (spriteRef.current) {
-        // Move the background so the correct frame is visible in the 80x80 window
-        const bgX = -(col * DISPLAY_SIZE);
-        const bgY = -(row * DISPLAY_SIZE);
-        spriteRef.current.style.backgroundPosition = `${bgX}px ${bgY}px`;
+    const img = new Image();
+    img.src = '/robot_sprite.png';
+    imgRef.current = img;
+
+    let animId: number;
+    let lastTime = 0;
+    const frameDuration = 1000 / FPS;
+
+    const animate = (time: number) => {
+      if (time - lastTime >= frameDuration) {
+        lastTime = time;
+        frameRef.current = (frameRef.current + 1) % TOTAL_FRAMES;
+        const col = frameRef.current % COLS;
+        const row = Math.floor(frameRef.current / COLS);
+        const canvas = canvasRef.current;
+        const ctx = canvas?.getContext('2d');
+        if (ctx && canvas && imgRef.current?.complete) {
+          ctx.clearRect(0, 0, DISPLAY, DISPLAY);
+          // Draw only the current frame from the sprite sheet
+          ctx.drawImage(
+            imgRef.current,
+            col * 200, // source x (in original 200px frames)
+            row * 200, // source y
+            200,        // source width
+            200,        // source height
+            0,          // dest x
+            0,          // dest y
+            DISPLAY,    // dest width (scaled to 80px)
+            DISPLAY     // dest height
+          );
+        }
       }
-    }, 1000 / FPS);
-    return () => clearInterval(interval);
+      animId = requestAnimationFrame(animate);
+    };
+
+    img.onload = () => {
+      animId = requestAnimationFrame(animate);
+    };
+
+    // If already cached
+    if (img.complete) {
+      animId = requestAnimationFrame(animate);
+    }
+
+    return () => cancelAnimationFrame(animId);
   }, []);
 
   // Phrase rotation
@@ -78,32 +112,19 @@ export function AiRobot({ onClick }: { onClick: () => void }) {
         </div>
       )}
 
-      {/* Animated sprite robot button */}
+      {/* Animated sprite robot — canvas approach for proper transparency */}
       <button
         onClick={onClick}
-        className="group hover:scale-110 transition-all duration-200 focus:outline-none"
+        className="hover:scale-110 transition-transform duration-200 focus:outline-none"
         aria-label="Abrir agente IA"
-        style={{
-          width: DISPLAY_SIZE,
-          height: DISPLAY_SIZE,
-          overflow: 'hidden',
-          borderRadius: '50%',
-          filter: 'drop-shadow(0 4px 12px rgba(16, 185, 129, 0.3))',
-        }}
+        style={{ filter: 'drop-shadow(0 4px 12px rgba(16, 185, 129, 0.35))' }}
       >
-        {/* Sprite layer — overflow:hidden on parent clips to 1 frame */}
-        <div
-          ref={spriteRef}
-          className="pointer-events-none group-hover:brightness-110 transition-all duration-200"
-          style={{
-            width: DISPLAY_SIZE,
-            height: DISPLAY_SIZE,
-            backgroundImage: 'url(/robot_sprite.png)',
-            // Scale entire sprite: 17 cols × 80px = 1360px wide, 8 rows × 80px = 640px tall
-            backgroundSize: `${COLS * DISPLAY_SIZE}px ${ROWS * DISPLAY_SIZE}px`,
-            backgroundPosition: '0px 0px',
-            backgroundRepeat: 'no-repeat',
-          }}
+        <canvas
+          ref={canvasRef}
+          width={DISPLAY}
+          height={DISPLAY}
+          className="pointer-events-none"
+          style={{ width: DISPLAY, height: DISPLAY }}
         />
       </button>
     </div>

@@ -292,20 +292,20 @@ export default function GamificacaoPage() {
 
       {/* My Profile Card */}
       {currentUser && (
-        <div className="bg-gradient-to-r from-gray-800 to-gray-700 dark:from-gray-800 dark:to-gray-700 rounded-xl p-5 mb-6 text-white border border-emerald-500/20">
+        <div className="bg-white dark:bg-gray-800/60 rounded-xl p-5 mb-6 border border-gray-200 dark:border-emerald-500/20 shadow-sm">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-emerald-400 text-sm font-medium">Seu ranking</p>
-              <p className="text-3xl font-bold text-white">{getRankBadge(currentUser.rank)}</p>
+              <p className="text-emerald-600 dark:text-emerald-400 text-sm font-medium">Seu ranking</p>
+              <p className="text-3xl font-bold text-gray-900 dark:text-white">{getRankBadge(currentUser.rank)}</p>
             </div>
             <div className="text-right">
-              <p className="text-emerald-400 text-sm font-medium">Total de pontos</p>
-              <p className="text-3xl font-bold text-white">{currentUser.totalPoints.toLocaleString('pt-BR')}</p>
+              <p className="text-emerald-600 dark:text-emerald-400 text-sm font-medium">Total de pontos</p>
+              <p className="text-3xl font-bold text-gray-900 dark:text-white">{currentUser.totalPoints.toLocaleString('pt-BR')}</p>
             </div>
           </div>
           {badges.filter((b) => b.earned).length > 0 && (
-            <div className="mt-3 pt-3 border-t border-white/20">
-              <p className="text-gray-100 text-xs mb-2">Seus badges</p>
+            <div className="mt-3 pt-3 border-t border-gray-200 dark:border-white/20">
+              <p className="text-gray-500 dark:text-gray-400 text-xs mb-2">Seus badges</p>
               <div className="flex flex-wrap gap-2">
                 {badges.filter((b) => b.earned).map((b) => (
                   <span
