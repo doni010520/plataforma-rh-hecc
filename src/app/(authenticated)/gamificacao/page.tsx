@@ -292,15 +292,15 @@ export default function GamificacaoPage() {
 
       {/* My Profile Card */}
       {currentUser && (
-        <div className="bg-gradient-to-r from-emerald-700 to-emerald-500 rounded-xl p-5 mb-6 text-white">
+        <div className="bg-gradient-to-r from-gray-800 to-gray-700 dark:from-gray-800 dark:to-gray-700 rounded-xl p-5 mb-6 text-white border border-emerald-500/20">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-gray-100 text-sm">Seu ranking</p>
-              <p className="text-3xl font-bold">{getRankBadge(currentUser.rank)}</p>
+              <p className="text-emerald-400 text-sm font-medium">Seu ranking</p>
+              <p className="text-3xl font-bold text-white">{getRankBadge(currentUser.rank)}</p>
             </div>
             <div className="text-right">
-              <p className="text-gray-100 text-sm">Total de pontos</p>
-              <p className="text-3xl font-bold">{currentUser.totalPoints.toLocaleString('pt-BR')}</p>
+              <p className="text-emerald-400 text-sm font-medium">Total de pontos</p>
+              <p className="text-3xl font-bold text-white">{currentUser.totalPoints.toLocaleString('pt-BR')}</p>
             </div>
           </div>
           {badges.filter((b) => b.earned).length > 0 && (
