@@ -292,7 +292,7 @@ export default function GamificacaoPage() {
 
       {/* My Profile Card */}
       {currentUser && (
-        <div className="bg-gradient-to-r from-green-600 to-purple-600 rounded-xl p-5 mb-6 text-white">
+        <div className="bg-gradient-to-r from-emerald-700 to-emerald-500 rounded-xl p-5 mb-6 text-white">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-gray-100 text-sm">Seu ranking</p>
@@ -383,7 +383,7 @@ export default function GamificacaoPage() {
                       {getRankBadge(entry.rank)}
                     </span>
                   </div>
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-green-500 to-purple-500 flex items-center justify-center text-white font-bold text-sm">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-600 to-emerald-400 flex items-center justify-center text-white font-bold text-sm">
                     {entry.userName.charAt(0).toUpperCase()}
                   </div>
                   <div className="flex-1 min-w-0">

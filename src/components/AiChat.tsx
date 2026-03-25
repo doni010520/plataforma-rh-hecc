@@ -143,8 +143,8 @@ export function AiChat({ inline, departmentId }: AiChatProps) {
               <h3 className="font-medium text-sm">Agente IA FeedFlow</h3>
             </div>
             <div className="flex gap-2">
-              <button onClick={() => setMessages([])} className="text-green-200 hover:text-white text-xs">Limpar</button>
-              <button onClick={() => setIsOpen(false)} className="text-green-200 hover:text-white">
+              <button onClick={() => setMessages([])} className="text-white/70 hover:text-white text-xs font-medium">Limpar</button>
+              <button onClick={() => setIsOpen(false)} className="text-white/70 hover:text-white">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 </svg>
@@ -169,7 +169,7 @@ function ChatHeader({ onClear }: { onClear: () => void }) {
   return (
     <div className="flex items-center justify-between px-4 py-3 border-b bg-green-700 text-white rounded-t-lg">
       <h3 className="font-medium text-sm">Assistente IA</h3>
-      <button onClick={onClear} className="text-green-200 hover:text-white text-xs">Limpar conversa</button>
+      <button onClick={onClear} className="text-white/70 hover:text-white text-xs font-medium">Limpar conversa</button>
     </div>
   );
 }
