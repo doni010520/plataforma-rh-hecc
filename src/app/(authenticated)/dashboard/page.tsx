@@ -102,29 +102,29 @@ export default async function DashboardPage() {
     <div>
       <h1 className="text-2xl font-bold text-gray-100 mb-6">Dashboard</h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div className="bg-gray-900/50 backdrop-blur-lg border border-emerald-500/10 rounded-2xl shadow-sm p-6">
-          <h3 className="text-sm font-medium text-gray-400 mb-1">Bem-vindo(a)</h3>
-          <p className="text-xl font-semibold text-gray-100">{user.name}</p>
-          <p className="text-sm text-gray-400 mt-1">{user.company?.name ?? 'Sem empresa'}</p>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="bg-gray-900/50 dark:bg-gray-900/50 bg-white backdrop-blur-lg border border-gray-200 dark:border-emerald-500/10 rounded-xl shadow-sm p-5">
+          <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-500 mb-2">Bem-vindo(a)</h3>
+          <p className="text-lg font-bold text-gray-900 dark:text-gray-100 leading-tight">{user.name}</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1.5">{user.company?.name ?? 'Sem empresa'}</p>
         </div>
 
-        <div className="bg-gray-900/50 backdrop-blur-lg border border-emerald-500/10 rounded-2xl shadow-sm p-6">
-          <h3 className="text-sm font-medium text-gray-400 mb-1">Cargo</h3>
-          <p className="text-xl font-semibold text-gray-100">{user.jobTitle || 'Não definido'}</p>
-          <p className="text-sm text-gray-400 mt-1">{user.department?.name || 'Sem departamento'}</p>
+        <div className="bg-gray-900/50 dark:bg-gray-900/50 bg-white backdrop-blur-lg border border-gray-200 dark:border-emerald-500/10 rounded-xl shadow-sm p-5">
+          <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-500 mb-2">Cargo</h3>
+          <p className="text-lg font-bold text-gray-900 dark:text-gray-100 leading-tight">{user.jobTitle || 'Não definido'}</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1.5">{user.department?.name || 'Sem departamento'}</p>
         </div>
 
-        <div className="bg-gray-900/50 backdrop-blur-lg border border-emerald-500/10 rounded-2xl shadow-sm p-6">
-          <h3 className="text-sm font-medium text-gray-400 mb-1">Perfil</h3>
-          <p className="text-xl font-semibold text-gray-100">
+        <div className="bg-gray-900/50 dark:bg-gray-900/50 bg-white backdrop-blur-lg border border-gray-200 dark:border-emerald-500/10 rounded-xl shadow-sm p-5">
+          <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-500 mb-2">Perfil</h3>
+          <p className="text-lg font-bold text-gray-900 dark:text-gray-100 leading-tight">
             {user.role === 'ADMIN'
               ? 'Administrador'
               : user.role === 'MANAGER'
                 ? 'Gestor'
                 : 'Colaborador'}
           </p>
-          <p className="text-sm text-gray-400 mt-1">{user.email}</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1.5">{user.email}</p>
         </div>
       </div>
 
