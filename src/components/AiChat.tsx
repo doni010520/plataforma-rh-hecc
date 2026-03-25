@@ -1,11 +1,12 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { AiRobot } from './AiRobot';
 
 interface Message {
   role: 'user' | 'assistant';
   content: string;
+  ts?: number;
 }
 
 interface AiChatProps {
@@ -13,22 +14,123 @@ interface AiChatProps {
   departmentId?: string;
 }
 
+const MAX_MESSAGES_BEFORE_COMPACT = 20;
+
 export function AiChat({ inline, departmentId }: AiChatProps) {
   const [messages, setMessages] = useState<Message[]>([]);
+  const [summary, setSummary] = useState('');
   const [input, setInput] = useState('');
   const [isStreaming, setIsStreaming] = useState(false);
   const [isOpen, setIsOpen] = useState(inline ?? false);
+  const [loaded, setLoaded] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const saveTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
+  // Load conversation from server on first open
+  useEffect(() => {
+    if (!isOpen || loaded) return;
+    async function loadMemory() {
+      try {
+        const res = await fetch('/api/ai/memory');
+        if (res.ok) {
+          const data = await res.json();
+          if (data.messages?.length > 0) {
+            setMessages(data.messages);
+          }
+          if (data.summary) {
+            setSummary(data.summary);
+          }
+        }
+      } catch {
+        // Fail silently — start fresh
+      }
+      setLoaded(true);
+    }
+    loadMemory();
+  }, [isOpen, loaded]);
+
+  // Debounced save to server
+  const saveToServer = useCallback((msgs: Message[], sum: string) => {
+    if (saveTimeoutRef.current) clearTimeout(saveTimeoutRef.current);
+    saveTimeoutRef.current = setTimeout(async () => {
+      try {
+        await fetch('/api/ai/memory', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ messages: msgs, summary: sum }),
+        });
+      } catch {
+        // Fail silently
+      }
+    }, 1000); // Save 1s after last change
+  }, []);
+
+  // Compact old messages into summary
+  const compactIfNeeded = useCallback(async (msgs: Message[], currentSummary: string) => {
+    if (msgs.length <= MAX_MESSAGES_BEFORE_COMPACT) return { messages: msgs, summary: currentSummary };
+
+    // Take the oldest messages to compact
+    const toCompact = msgs.slice(0, msgs.length - MAX_MESSAGES_BEFORE_COMPACT);
+    const toKeep = msgs.slice(msgs.length - MAX_MESSAGES_BEFORE_COMPACT);
+
+    // Build text from old messages
+    const oldText = toCompact
+      .map(m => `${m.role === 'user' ? 'Usuário' : 'IA'}: ${m.content}`)
+      .join('\n');
+
+    const prevSummary = currentSummary ? `Resumo anterior: ${currentSummary}\n\n` : '';
+
+    try {
+      const res = await fetch('/api/ai/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          messages: [{
+            role: 'user',
+            content: `${prevSummary}Resuma as seguintes mensagens em no máximo 3 frases curtas, mantendo os pontos-chave e decisões importantes:\n\n${oldText}`,
+          }],
+        }),
+      });
+
+      if (res.ok && res.body) {
+        let newSummary = '';
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder();
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          const text = decoder.decode(value);
+          const lines = text.split('\n').filter(l => l.startsWith('data: '));
+          for (const line of lines) {
+            const data = line.slice(6);
+            if (data === '[DONE]') break;
+            try {
+              const parsed = JSON.parse(data);
+              if (parsed.content) newSummary += parsed.content;
+            } catch { /* ignore */ }
+          }
+        }
+        if (newSummary.trim()) {
+          return { messages: toKeep, summary: newSummary.trim() };
+        }
+      }
+    } catch {
+      // If compaction fails, just keep recent messages without summary update
+    }
+
+    return { messages: toKeep, summary: currentSummary };
+  }, []);
+
   async function sendMessage() {
     const text = input.trim();
     if (!text || isStreaming) return;
 
-    const newMessages: Message[] = [...messages, { role: 'user', content: text }];
+    const userMsg: Message = { role: 'user', content: text, ts: Date.now() };
+    const newMessages: Message[] = [...messages, userMsg];
     setMessages([...newMessages, { role: 'assistant', content: '' }]);
     setInput('');
     setIsStreaming(true);
@@ -38,8 +140,9 @@ export function AiChat({ inline, departmentId }: AiChatProps) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          messages: newMessages,
+          messages: newMessages.map(m => ({ role: m.role, content: m.content })),
           context: departmentId ? { departmentId } : undefined,
+          summary: summary || undefined,
         }),
       });
 
@@ -58,6 +161,7 @@ export function AiChat({ inline, departmentId }: AiChatProps) {
 
       const reader = response.body.getReader();
       const decoder = new TextDecoder();
+      let fullResponse = '';
 
       while (true) {
         const { done, value } = await reader.read();
@@ -72,11 +176,12 @@ export function AiChat({ inline, departmentId }: AiChatProps) {
           try {
             const parsed = JSON.parse(data);
             if (parsed.content) {
+              fullResponse += parsed.content;
               setMessages(prev => {
                 const updated = [...prev];
                 updated[updated.length - 1] = {
                   role: 'assistant',
-                  content: updated[updated.length - 1].content + parsed.content,
+                  content: fullResponse,
                 };
                 return updated;
               });
@@ -86,6 +191,14 @@ export function AiChat({ inline, departmentId }: AiChatProps) {
           }
         }
       }
+
+      // After response complete, save and compact
+      const finalMessages = [...newMessages, { role: 'assistant' as const, content: fullResponse, ts: Date.now() }];
+      const compacted = await compactIfNeeded(finalMessages, summary);
+      setMessages(compacted.messages);
+      setSummary(compacted.summary);
+      saveToServer(compacted.messages, compacted.summary);
+
     } catch {
       setMessages(prev => {
         const updated = [...prev];
@@ -100,6 +213,13 @@ export function AiChat({ inline, departmentId }: AiChatProps) {
     setIsStreaming(false);
   }
 
+  function handleClear() {
+    setMessages([]);
+    setSummary('');
+    // Clear on server too
+    fetch('/api/ai/memory', { method: 'DELETE' }).catch(() => {});
+  }
+
   function handleKeyDown(e: React.KeyboardEvent) {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
@@ -111,7 +231,7 @@ export function AiChat({ inline, departmentId }: AiChatProps) {
   if (inline) {
     return (
       <div className="flex flex-col h-[600px] bg-gray-900/50 backdrop-blur-lg border rounded-lg">
-        <ChatHeader onClear={() => setMessages([])} />
+        <ChatHeader onClear={handleClear} />
         <ChatMessages messages={messages} isStreaming={isStreaming} messagesEndRef={messagesEndRef} />
         <ChatInput
           input={input}
@@ -143,7 +263,7 @@ export function AiChat({ inline, departmentId }: AiChatProps) {
               <h3 className="font-medium text-sm">Agente IA FeedFlow</h3>
             </div>
             <div className="flex gap-2">
-              <button onClick={() => setMessages([])} className="text-white/70 hover:text-white text-xs font-medium">Limpar</button>
+              <button onClick={handleClear} className="text-white/70 hover:text-white text-xs font-medium">Limpar</button>
               <button onClick={() => setIsOpen(false)} className="text-white/70 hover:text-white">
                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />

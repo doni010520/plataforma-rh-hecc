@@ -19,9 +19,10 @@ export async function POST(request: NextRequest) {
   }
 
   const body = await request.json();
-  const { messages, context } = body as {
+  const { messages, context, summary } = body as {
     messages: Array<{ role: 'user' | 'assistant'; content: string }>;
     context?: { departmentId?: string };
+    summary?: string;
   };
 
   if (!messages || messages.length === 0) {
@@ -33,7 +34,8 @@ export async function POST(request: NextRequest) {
 
   try {
     const contextData = await collectChatContext(user.companyId, context);
-    const fullSystemPrompt = `${SYSTEM_PROMPT_CHAT}\n\n--- DADOS DA EMPRESA ---\n${contextData}`;
+    const summaryBlock = summary ? `\n\n--- RESUMO DE CONVERSAS ANTERIORES ---\n${summary}` : '';
+    const fullSystemPrompt = `${SYSTEM_PROMPT_CHAT}\n\n--- DADOS DA EMPRESA ---\n${contextData}${summaryBlock}`;
 
     const encoder = new TextEncoder();
     const stream = new ReadableStream({
