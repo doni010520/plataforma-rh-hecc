@@ -14,8 +14,6 @@ const phrases = [
 const COLS = 17;
 const ROWS = 8;
 const TOTAL_FRAMES = 136;
-const FRAME_W = 200; // original px per frame in the sprite
-const FRAME_H = 200;
 const FPS = 17;
 const DISPLAY_SIZE = 80; // rendered size on screen
 
