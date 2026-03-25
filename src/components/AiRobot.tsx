@@ -14,7 +14,7 @@ const phrases = [
 const COLS = 17;
 const ROWS = 8;
 const TOTAL_FRAMES = 136;
-const FRAME_W = 200; // px per frame in the sprite
+const FRAME_W = 200; // original px per frame in the sprite
 const FRAME_H = 200;
 const FPS = 17;
 const DISPLAY_SIZE = 80; // rendered size on screen
@@ -33,10 +33,9 @@ export function AiRobot({ onClick }: { onClick: () => void }) {
       const col = frameRef.current % COLS;
       const row = Math.floor(frameRef.current / COLS);
       if (spriteRef.current) {
-        // Scale factor: display 80px from 200px frames
-        const scale = DISPLAY_SIZE / FRAME_W;
-        const bgX = -(col * FRAME_W * scale);
-        const bgY = -(row * FRAME_H * scale);
+        // Move the background so the correct frame is visible in the 80x80 window
+        const bgX = -(col * DISPLAY_SIZE);
+        const bgY = -(row * DISPLAY_SIZE);
         spriteRef.current.style.backgroundPosition = `${bgX}px ${bgY}px`;
       }
     }, 1000 / FPS);
@@ -84,16 +83,25 @@ export function AiRobot({ onClick }: { onClick: () => void }) {
       {/* Animated sprite robot button */}
       <button
         onClick={onClick}
-        className="group w-[80px] h-[80px] rounded-full hover:scale-110 transition-all duration-200 focus:outline-none relative"
+        className="group hover:scale-110 transition-all duration-200 focus:outline-none"
         aria-label="Abrir agente IA"
-        style={{ filter: 'drop-shadow(0 4px 12px rgba(16, 185, 129, 0.3))' }}
+        style={{
+          width: DISPLAY_SIZE,
+          height: DISPLAY_SIZE,
+          overflow: 'hidden',
+          borderRadius: '50%',
+          filter: 'drop-shadow(0 4px 12px rgba(16, 185, 129, 0.3))',
+        }}
       >
-        {/* Sprite animation layer — pointer-events:none so clicks go to button */}
+        {/* Sprite layer — overflow:hidden on parent clips to 1 frame */}
         <div
           ref={spriteRef}
-          className="w-[80px] h-[80px] rounded-full pointer-events-none group-hover:drop-shadow-[0_0_15px_rgba(16,185,129,0.5)] transition-all duration-200"
+          className="pointer-events-none group-hover:brightness-110 transition-all duration-200"
           style={{
+            width: DISPLAY_SIZE,
+            height: DISPLAY_SIZE,
             backgroundImage: 'url(/robot_sprite.png)',
+            // Scale entire sprite: 17 cols × 80px = 1360px wide, 8 rows × 80px = 640px tall
             backgroundSize: `${COLS * DISPLAY_SIZE}px ${ROWS * DISPLAY_SIZE}px`,
             backgroundPosition: '0px 0px',
             backgroundRepeat: 'no-repeat',
