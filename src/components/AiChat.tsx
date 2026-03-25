@@ -196,7 +196,7 @@ function ChatMessages({
           <div
             className={`max-w-[85%] px-3 py-2 rounded-lg text-sm whitespace-pre-wrap ${
               msg.role === 'user'
-                ? 'bg-emerald-900/40 text-green-900'
+                ? 'bg-emerald-600/30 text-emerald-100'
                 : 'bg-gray-800/40 text-gray-100'
             }`}
           >
