@@ -12,7 +12,6 @@ const phrases = [
 
 // Sprite sheet config: 3400x1600px image, 17 cols x 8 rows, 200x200 per frame
 const COLS = 17;
-const ROWS = 8;
 const TOTAL_FRAMES = 136;
 const FPS = 17;
 const DISPLAY = 80; // rendered size px
