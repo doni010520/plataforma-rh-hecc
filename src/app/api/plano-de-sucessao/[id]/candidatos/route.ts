@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getApiUser, unauthorizedResponse, forbiddenResponse } from '@/lib/auth';
-import { ensureSuccessionTables } from '../../route';
+import { ensureSuccessionTables } from '@/lib/succession-tables';
 
 // POST: add candidate to plan
 export async function POST(request: Request, { params }: { params: { id: string } }) {

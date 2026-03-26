@@ -313,7 +313,7 @@ export default function ExperienciaPage() {
         ) : evaluations.length === 0 ? (
           <div className="p-8 text-center">
             <p className="text-gray-500 dark:text-gray-400">Nenhuma avaliação de experiência encontrada.</p>
-            <p className="text-xs text-gray-400 mt-1">Configure os períodos e clique em "Verificar Agora" para disparar avaliações.</p>
+            <p className="text-xs text-gray-400 mt-1">Configure os períodos e clique em &ldquo;Verificar Agora&rdquo; para disparar avaliações.</p>
           </div>
         ) : (
           <div className="overflow-x-auto">

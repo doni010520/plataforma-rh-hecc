@@ -283,7 +283,7 @@ export default function IncentivosPage() {
           </div>
 
           {eligibilities.length === 0 ? (
-            <p className="text-center py-6 text-gray-400 text-sm">Clique em "Calcular Elegíveis" para gerar a lista.</p>
+            <p className="text-center py-6 text-gray-400 text-sm">Clique em &ldquo;Calcular Elegíveis&rdquo; para gerar a lista.</p>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-sm">

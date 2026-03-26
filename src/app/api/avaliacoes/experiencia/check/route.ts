@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getApiUser, unauthorizedResponse, forbiddenResponse } from '@/lib/auth';
 import { createNotificationsForMany } from '@/lib/notifications';
-import { ensureExperienceTables } from '../route';
+import { ensureExperienceTables } from '@/lib/experience-tables';
 
 interface ConfigRow {
   periods: number[];

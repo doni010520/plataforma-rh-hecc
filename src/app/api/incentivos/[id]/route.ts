@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getApiUser, unauthorizedResponse, forbiddenResponse } from '@/lib/auth';
-import { ensureIncentiveTables } from '../route';
+import { ensureIncentiveTables } from '@/lib/incentive-tables';
 
 // GET: program details with eligibilities
 export async function GET(_request: Request, { params }: { params: { id: string } }) {
