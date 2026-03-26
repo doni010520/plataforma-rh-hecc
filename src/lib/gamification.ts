@@ -13,6 +13,7 @@ export const POINT_VALUES = {
   DISC_COMPLETED: 25,
   ENPS_COMPLETED: 10,
   ONE_ON_ONE_COMPLETED: 15,
+  EXPERIENCE_EVAL_COMPLETED: 20,
 } as const;
 
 export const POINT_LABELS: Record<string, string> = {
@@ -24,6 +25,7 @@ export const POINT_LABELS: Record<string, string> = {
   DISC_COMPLETED: 'Avaliação DISC concluída',
   ENPS_COMPLETED: 'eNPS respondido',
   ONE_ON_ONE_COMPLETED: 'Reunião 1:1 concluída',
+  EXPERIENCE_EVAL_COMPLETED: 'Avaliação de experiência concluída',
 };
 
 /**

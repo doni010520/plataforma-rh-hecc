@@ -102,6 +102,15 @@ const navSections: NavSection[] = [
     title: 'Uso periódico',
     items: [
   {
+    label: 'Aval. Experiência',
+    href: '/avaliacoes/experiencia',
+    icon: (
+      <svg className="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+      </svg>
+    ),
+  },
+  {
     label: 'Colaboradores',
     href: '/colaboradores',
     icon: (
@@ -235,6 +244,7 @@ const hrefToModule: Record<string, string> = {
   '/colaboradores': 'colaboradores',
   '/departamentos': 'departamentos',
   '/avaliacoes': 'avaliacoes',
+  '/avaliacoes/experiencia': 'avaliacoes-experiencia',
   '/feedback': 'feedback',
   '/one-on-one': 'one-on-one',
   '/okrs': 'okrs',
