@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 
 interface UserRef {
   id: string;
@@ -59,6 +59,20 @@ export default function FeedbackPage() {
   const [formType, setFormType] = useState('PRAISE');
   const [formContent, setFormContent] = useState('');
   const [formVisibility, setFormVisibility] = useState('PRIVATE');
+  const [searchColaborador, setSearchColaborador] = useState('');
+  const [showColabDropdown, setShowColabDropdown] = useState(false);
+  const colabDropdownRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (colabDropdownRef.current && !colabDropdownRef.current.contains(e.target as Node)) {
+        setShowColabDropdown(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const fetchFeedbacks = useCallback(async () => {
     setLoading(true);
@@ -118,6 +132,7 @@ export default function FeedbackPage() {
     setSaving(false);
     setShowForm(false);
     setFormTo('');
+    setSearchColaborador('');
     setFormType('PRAISE');
     setFormContent('');
     setFormVisibility('PRIVATE');
@@ -129,6 +144,7 @@ export default function FeedbackPage() {
   function resetForm() {
     setShowForm(false);
     setFormTo('');
+    setSearchColaborador('');
     setFormType('PRAISE');
     setFormContent('');
     setFormVisibility('PRIVATE');
@@ -164,21 +180,55 @@ export default function FeedbackPage() {
           <h2 className="text-lg font-semibold text-gray-100 mb-4">Novo Feedback</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
+              <div className="relative" ref={colabDropdownRef}>
                 <label className="block text-sm font-medium text-gray-300 mb-1">Destinatário</label>
-                <select
-                  value={formTo}
-                  onChange={(e) => setFormTo(e.target.value)}
-                  required
+                <input
+                  type="text"
+                  value={searchColaborador}
+                  onChange={(e) => {
+                    setSearchColaborador(e.target.value);
+                    setFormTo('');
+                    setShowColabDropdown(true);
+                  }}
+                  onFocus={() => setShowColabDropdown(true)}
+                  placeholder="Buscar colaborador..."
+                  required={!formTo}
                   className="w-full px-3 py-2 border border-gray-600/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-                >
-                  <option value="">Selecione...</option>
-                  {colaboradores.map((c) => (
-                    <option key={c.id} value={c.id}>
-                      {c.name}
-                    </option>
-                  ))}
-                </select>
+                />
+                {formTo && (
+                  <button
+                    type="button"
+                    onClick={() => { setFormTo(''); setSearchColaborador(''); }}
+                    className="absolute right-2 top-[34px] text-gray-400 hover:text-gray-200"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                )}
+                {showColabDropdown && !formTo && (
+                  <div className="absolute z-20 w-full mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600/50 rounded-lg shadow-lg max-h-48 overflow-y-auto">
+                    {colaboradores
+                      .filter((c) => c.name.toLowerCase().includes(searchColaborador.toLowerCase()))
+                      .map((c) => (
+                        <button
+                          key={c.id}
+                          type="button"
+                          onClick={() => {
+                            setFormTo(c.id);
+                            setSearchColaborador(c.name);
+                            setShowColabDropdown(false);
+                          }}
+                          className="w-full text-left px-3 py-2 text-sm text-gray-900 dark:text-gray-100 hover:bg-emerald-50 dark:hover:bg-emerald-500/10 transition-colors"
+                        >
+                          {c.name}
+                        </button>
+                      ))}
+                    {colaboradores.filter((c) => c.name.toLowerCase().includes(searchColaborador.toLowerCase())).length === 0 && (
+                      <p className="px-3 py-2 text-sm text-gray-500">Nenhum resultado</p>
+                    )}
+                  </div>
+                )}
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-300 mb-1">Tipo</label>
