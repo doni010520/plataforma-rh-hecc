@@ -10,6 +10,7 @@ const MODULE_DEFAULTS: Record<string, boolean> = {
   avaliacoes: true,
   'avaliacoes-experiencia': false,
   'plano-de-sucessao': false,
+  incentivos: false,
   feedback: true,
   'one-on-one': true,
   okrs: true,
