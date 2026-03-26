@@ -219,9 +219,26 @@ export async function POST(request: Request) {
       },
     });
 
-    // Send branded invite email with magic link via Resend
-    // linkData.properties.action_link contains the invite acceptance URL
-    const inviteLink = linkData.properties?.action_link || `${appUrl}/login`;
+    // Build our own invite link that goes directly to our /auth/callback
+    // instead of through Supabase's redirect (which uses hash fragments that break on mobile).
+    // Extract the hashed_token from the action_link URL.
+    let inviteLink = `${appUrl}/login`;
+    try {
+      const actionLink = linkData.properties?.action_link;
+      if (actionLink) {
+        const actionUrl = new URL(actionLink);
+        const tokenHash = actionUrl.searchParams.get('token') || actionUrl.searchParams.get('token_hash');
+        const type = actionUrl.searchParams.get('type') || 'invite';
+        if (tokenHash) {
+          // Go directly to our callback with the token — server-side verification, works everywhere
+          inviteLink = `${appUrl}/auth/callback?token_hash=${encodeURIComponent(tokenHash)}&type=${type}`;
+        } else {
+          inviteLink = actionLink;
+        }
+      }
+    } catch {
+      // If URL parsing fails, use login as fallback
+    }
     const { subject, html } = colaboradorInviteTemplate({
       employeeName: name.trim(),
       companyName: user.company.name,
