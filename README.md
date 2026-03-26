@@ -52,13 +52,19 @@ Plataforma completa de gestão de pessoas, desenvolvida com Next.js 14, Supabase
 - **Trilhas** — Trilhas de aprendizagem com conteúdos e progresso
 
 ### Inteligência
-- **IA** — Chat com GPT-4.1-mini, análises de dados, alertas e insights
+- **IA** — Chat com GPT-4.1-mini, memória persistente por usuário, compactação automática de contexto, guia completo da plataforma no prompt
 - **Analytics** — People Analytics com dashboards
 
 ### Administração
 - **Permissões** — Configuração de módulos visíveis por perfil (EMPLOYEE)
-- **Ajuda** — Central de ajuda com 10 tópicos FAQ
+- **Ajuda** — Central de ajuda com 10 tópicos FAQ e busca por palavra-chave
 - **Notificações** — Sistema de notificações em tempo real
+
+### UX
+- **Sidebar colapsável** — Seções organizadas por frequência de uso (diário, semanal, periódico, administrativo) com toggle persistido em localStorage
+- **Robô animado** — Botão flutuante do Agente IA com sprite sheet animado (136 frames, mix-blend-mode screen para transparência)
+- **Tema adaptativo** — Logo dark/light automática, cards com contraste adequado em ambos os temas
+- **Memória da IA** — Conversas salvas no PostgreSQL por usuário, com compactação automática quando >20 mensagens (resumo via IA)
 
 ## Arquitetura
 
@@ -101,7 +107,7 @@ src/
 2. Sistema gera link via `supabase.auth.admin.generateLink()`
 3. Email personalizado enviado via Resend (marca FeedFlow, tema escuro + esmeralda)
 4. Colaborador clica "Aceitar Convite" → Supabase valida token
-5. Redireciona para `/auth/confirmar` → captura sessão (client-side)
+5. Redireciona para `/auth/callback` → PKCE code exchange (server-side, funciona em todos os navegadores incluindo mobile)
 6. Redireciona para `/aceitar-convite` → formulário de criar senha
 7. Após definir senha → dashboard
 
