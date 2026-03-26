@@ -44,7 +44,7 @@ export default function MoodWidget({ initialMood }: MoodWidgetProps) {
   }
 
   return (
-    <div className="bg-gray-900/50 backdrop-blur-lg rounded-lg shadow-sm p-6">
+    <div className="bg-white dark:bg-gray-800/70 border border-gray-200 dark:border-gray-600/30 backdrop-blur-lg rounded-xl shadow-sm p-6">
       <h3 className="text-sm font-medium text-gray-400 mb-3">
         Como você está hoje?
       </h3>
