@@ -106,6 +106,22 @@ body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
+/* ===== Dark Card Visibility Fix ===== */
+/* Cards using bg-gray-900/50 + backdrop-blur blend into the dark background.
+   Override to a lighter, more opaque tone with a subtle border. */
+html.dark .bg-gray-900\/50 {
+  background-color: rgba(31, 41, 55, 0.75) !important;
+  border: 1px solid rgba(75, 85, 99, 0.35) !important;
+}
+
+/* Light mode override for same cards */
+html.light .bg-gray-900\/50 {
+  background-color: #ffffff !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  color: #111827;
+}
+
 /* ===== Dark Theme Form Elements ===== */
 /* Fix contrast: browser defaults are white bg + dark text on dark theme */
 select,
@@ -123,6 +139,29 @@ textarea {
   background-color: rgba(31, 41, 55, 0.7) !important;
   color: #e5e7eb !important;
   border-color: rgba(75, 85, 99, 0.4) !important;
+}
+
+/* Light mode: reset form element styles */
+html.light select,
+html.light input[type="text"],
+html.light input[type="email"],
+html.light input[type="password"],
+html.light input[type="number"],
+html.light input[type="date"],
+html.light input[type="datetime-local"],
+html.light input[type="time"],
+html.light input[type="search"],
+html.light input[type="tel"],
+html.light input[type="url"],
+html.light textarea {
+  background-color: #ffffff !important;
+  color: #111827 !important;
+  border-color: #d1d5db !important;
+}
+
+html.light input::placeholder,
+html.light textarea::placeholder {
+  color: #9ca3af !important;
 }
 
 select option {
