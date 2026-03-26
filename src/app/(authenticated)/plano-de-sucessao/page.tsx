@@ -177,7 +177,6 @@ export default function PlanoSucessaoPage() {
 
   // Stats
   const noCandidates = plans.filter(p => p.candidateCount === 0).length;
-  const readyNow = plans.filter(p => p.candidateCount > 0).length; // simplified
   const critical = plans.filter(p => p.priority === 'CRITICAL').length;
 
   return (

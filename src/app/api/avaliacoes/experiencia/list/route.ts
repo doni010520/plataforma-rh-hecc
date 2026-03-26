@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getApiUser, unauthorizedResponse, forbiddenResponse } from '@/lib/auth';
-import { ensureExperienceTables } from '../route';
+import { ensureExperienceTables } from '@/lib/experience-tables';
 
 interface ExperienceEvalRow {
   id: string;

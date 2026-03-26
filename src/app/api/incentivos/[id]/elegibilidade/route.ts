@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { getApiUser, unauthorizedResponse, forbiddenResponse } from '@/lib/auth';
-import { ensureIncentiveTables } from '../../route';
+import { ensureIncentiveTables } from '@/lib/incentive-tables';
 
 // POST: calculate and generate eligibilities for a program
 export async function POST(_request: Request, { params }: { params: { id: string } }) {
