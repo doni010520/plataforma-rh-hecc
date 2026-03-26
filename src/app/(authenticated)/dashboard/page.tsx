@@ -157,7 +157,7 @@ export default async function DashboardPage() {
               <Link
                 key={a.id}
                 href={`/avaliacoes/responder/${a.id}`}
-                className="group bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/40 rounded-xl p-4 hover:border-emerald-500/40 hover:shadow-md transition-all"
+                className="group bg-white dark:bg-gray-800/70 border border-gray-200 dark:border-gray-600/30 rounded-xl p-4 hover:border-emerald-500/40 hover:shadow-md transition-all"
               >
                 <div className="flex items-start gap-3">
                   <div className="flex-shrink-0 w-9 h-9 rounded-lg bg-purple-100 dark:bg-purple-500/15 flex items-center justify-center">
@@ -185,7 +185,7 @@ export default async function DashboardPage() {
               <Link
                 key={s.id}
                 href={`/pesquisas/${s.id}/responder`}
-                className="group bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/40 rounded-xl p-4 hover:border-emerald-500/40 hover:shadow-md transition-all"
+                className="group bg-white dark:bg-gray-800/70 border border-gray-200 dark:border-gray-600/30 rounded-xl p-4 hover:border-emerald-500/40 hover:shadow-md transition-all"
               >
                 <div className="flex items-start gap-3">
                   <div className="flex-shrink-0 w-9 h-9 rounded-lg bg-emerald-100 dark:bg-emerald-500/15 flex items-center justify-center">
@@ -211,7 +211,7 @@ export default async function DashboardPage() {
               <Link
                 key={a.id}
                 href={`/nr01/avaliacoes/${a.id}/responder`}
-                className="group bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/40 rounded-xl p-4 hover:border-emerald-500/40 hover:shadow-md transition-all"
+                className="group bg-white dark:bg-gray-800/70 border border-gray-200 dark:border-gray-600/30 rounded-xl p-4 hover:border-emerald-500/40 hover:shadow-md transition-all"
               >
                 <div className="flex items-start gap-3">
                   <div className="flex-shrink-0 w-9 h-9 rounded-lg bg-amber-100 dark:bg-amber-500/15 flex items-center justify-center">
@@ -239,7 +239,7 @@ export default async function DashboardPage() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <Link
           href="/feedback"
-          className="group bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/40 rounded-xl p-4 hover:border-emerald-500/40 hover:shadow-md transition-all text-center"
+          className="group bg-white dark:bg-gray-800/70 border border-gray-200 dark:border-gray-600/30 rounded-xl p-4 hover:border-emerald-500/40 hover:shadow-md transition-all text-center"
         >
           <div className="w-10 h-10 rounded-xl bg-emerald-100 dark:bg-emerald-500/15 flex items-center justify-center mx-auto mb-2">
             <svg className="w-5 h-5 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -250,7 +250,7 @@ export default async function DashboardPage() {
         </Link>
         <Link
           href="/mural"
-          className="group bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/40 rounded-xl p-4 hover:border-emerald-500/40 hover:shadow-md transition-all text-center"
+          className="group bg-white dark:bg-gray-800/70 border border-gray-200 dark:border-gray-600/30 rounded-xl p-4 hover:border-emerald-500/40 hover:shadow-md transition-all text-center"
         >
           <div className="w-10 h-10 rounded-xl bg-pink-100 dark:bg-pink-500/15 flex items-center justify-center mx-auto mb-2">
             <svg className="w-5 h-5 text-pink-600 dark:text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -261,7 +261,7 @@ export default async function DashboardPage() {
         </Link>
         <Link
           href="/okrs"
-          className="group bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/40 rounded-xl p-4 hover:border-emerald-500/40 hover:shadow-md transition-all text-center"
+          className="group bg-white dark:bg-gray-800/70 border border-gray-200 dark:border-gray-600/30 rounded-xl p-4 hover:border-emerald-500/40 hover:shadow-md transition-all text-center"
         >
           <div className="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-500/15 flex items-center justify-center mx-auto mb-2">
             <svg className="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -272,7 +272,7 @@ export default async function DashboardPage() {
         </Link>
         <Link
           href="/comunicados"
-          className="group bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/40 rounded-xl p-4 hover:border-emerald-500/40 hover:shadow-md transition-all text-center relative"
+          className="group bg-white dark:bg-gray-800/70 border border-gray-200 dark:border-gray-600/30 rounded-xl p-4 hover:border-emerald-500/40 hover:shadow-md transition-all text-center relative"
         >
           <div className="w-10 h-10 rounded-xl bg-orange-100 dark:bg-orange-500/15 flex items-center justify-center mx-auto mb-2">
             <svg className="w-5 h-5 text-orange-600 dark:text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -294,7 +294,7 @@ export default async function DashboardPage() {
       )}
 
       {/* OKRs Progress */}
-      <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/40 rounded-xl p-5">
+      <div className="bg-white dark:bg-gray-800/70 border border-gray-200 dark:border-gray-600/30 rounded-xl p-5">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-sm font-semibold text-gray-900 dark:text-gray-100">
             Meus OKRs — Q{currentQuarter}/{currentYear}
@@ -352,7 +352,7 @@ export default async function DashboardPage() {
       {/* Two columns: Feedbacks + Mural */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Recent Feedbacks */}
-        <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/40 rounded-xl p-5">
+        <div className="bg-white dark:bg-gray-800/70 border border-gray-200 dark:border-gray-600/30 rounded-xl p-5">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-sm font-semibold text-gray-900 dark:text-gray-100">Feedbacks Recentes</h2>
             <Link href="/feedback" className="text-xs text-emerald-500 hover:text-emerald-400 font-medium">
@@ -397,7 +397,7 @@ export default async function DashboardPage() {
         </div>
 
         {/* Recent Mural */}
-        <div className="bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700/40 rounded-xl p-5">
+        <div className="bg-white dark:bg-gray-800/70 border border-gray-200 dark:border-gray-600/30 rounded-xl p-5">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-sm font-semibold text-gray-900 dark:text-gray-100">Mural de Celebrações</h2>
             <Link href="/mural" className="text-xs text-emerald-500 hover:text-emerald-400 font-medium">
