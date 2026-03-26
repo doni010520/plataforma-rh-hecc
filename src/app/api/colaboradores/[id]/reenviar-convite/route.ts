@@ -57,7 +57,18 @@ export async function POST(
         );
       }
 
-      const recoveryLink = recoveryData.properties?.action_link || `${appUrl}/login`;
+      let recoveryLink = `${appUrl}/login`;
+      try {
+        const actionLink = recoveryData.properties?.action_link;
+        if (actionLink) {
+          const actionUrl = new URL(actionLink);
+          const tokenHash = actionUrl.searchParams.get('token') || actionUrl.searchParams.get('token_hash');
+          const linkType = actionUrl.searchParams.get('type') || 'recovery';
+          if (tokenHash) {
+            recoveryLink = `${appUrl}/auth/callback?token_hash=${encodeURIComponent(tokenHash)}&type=${linkType}`;
+          }
+        }
+      } catch { /* fallback to login */ }
       const { subject, html } = colaboradorInviteTemplate({
         employeeName: colaborador.name,
         companyName: user.company.name,
@@ -70,7 +81,18 @@ export async function POST(
       return NextResponse.json({ success: true });
     }
 
-    const inviteLink = linkData.properties?.action_link || `${appUrl}/login`;
+    let inviteLink = `${appUrl}/login`;
+    try {
+      const actionLink = linkData.properties?.action_link;
+      if (actionLink) {
+        const actionUrl = new URL(actionLink);
+        const tokenHash = actionUrl.searchParams.get('token') || actionUrl.searchParams.get('token_hash');
+        const linkType = actionUrl.searchParams.get('type') || 'invite';
+        if (tokenHash) {
+          inviteLink = `${appUrl}/auth/callback?token_hash=${encodeURIComponent(tokenHash)}&type=${linkType}`;
+        }
+      }
+    } catch { /* fallback to login */ }
     const { subject, html } = colaboradorInviteTemplate({
       employeeName: colaborador.name,
       companyName: user.company.name,
