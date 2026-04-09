@@ -100,7 +100,7 @@ export async function POST(request: Request) {
   if (user.role !== 'ADMIN') return forbiddenResponse();
 
   try {
-    const { name, email, jobTitle, departmentId, managerId, role } = await request.json();
+    const { name, email, jobTitle, departmentId, managerId, role, admissionDate } = await request.json();
 
     if (!name || !email) {
       return NextResponse.json(
@@ -189,6 +189,11 @@ export async function POST(request: Request) {
         },
       });
 
+      // Save admission_date if provided
+      if (admissionDate) {
+        await prisma.$executeRaw`UPDATE users SET admission_date = ${new Date(admissionDate)} WHERE id = ${colaborador.id}`;
+      }
+
       // Send branded email with login link (no invite token available)
       const { subject, html } = colaboradorInviteTemplate({
         employeeName: name.trim(),
@@ -218,6 +223,11 @@ export async function POST(request: Request) {
         manager: { select: { id: true, name: true } },
       },
     });
+
+    // Save admission_date if provided
+    if (admissionDate) {
+      await prisma.$executeRaw`UPDATE users SET admission_date = ${new Date(admissionDate)} WHERE id = ${colaborador.id}`;
+    }
 
     // Build our own invite link that goes directly to our /auth/callback
     // instead of through Supabase's redirect (which uses hash fragments that break on mobile).

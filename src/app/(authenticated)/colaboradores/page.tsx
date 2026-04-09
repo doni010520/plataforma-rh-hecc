@@ -50,6 +50,7 @@ export default function ColaboradoresPage() {
   const [formDeptId, setFormDeptId] = useState('');
   const [formManagerId, setFormManagerId] = useState('');
   const [formRole, setFormRole] = useState('EMPLOYEE');
+  const [formAdmissionDate, setFormAdmissionDate] = useState('');
   const [currentUserRole, setCurrentUserRole] = useState<string | null>(null);
 
   const fetchColaboradores = useCallback(
@@ -106,6 +107,7 @@ export default function ColaboradoresPage() {
     setFormDeptId('');
     setFormManagerId('');
     setFormRole('EMPLOYEE');
+    setFormAdmissionDate('');
     setEditingUser(null);
     setShowForm(false);
     setError('');
@@ -133,6 +135,7 @@ export default function ColaboradoresPage() {
       departmentId: formDeptId || null,
       managerId: formManagerId || null,
       role: formRole,
+      admissionDate: formAdmissionDate || null,
     };
 
     if (!editingUser) {
@@ -304,6 +307,15 @@ export default function ColaboradoresPage() {
                 <option value="MANAGER">Gestor</option>
                 <option value="ADMIN">Administrador</option>
               </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-1">Data de Admissão</label>
+              <input
+                type="date"
+                value={formAdmissionDate}
+                onChange={(e) => setFormAdmissionDate(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-600/40 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+              />
             </div>
 
             {error && (

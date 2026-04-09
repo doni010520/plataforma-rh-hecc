@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 const MODULE_LABELS: Record<string, string> = {
   dashboard: 'Dashboard',
@@ -27,6 +28,7 @@ const MODULE_LABELS: Record<string, string> = {
 };
 
 export default function PermissoesPage() {
+  const router = useRouter();
   const [modules, setModules] = useState<Record<string, boolean>>({});
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -39,7 +41,10 @@ export default function PermissoesPage() {
       fetch('/api/me').then(r => r.ok ? r.json() : null),
     ]).then(([perms, me]) => {
       if (perms) setModules(perms.employeeModules);
-      if (me) setUserRole(me.role);
+      if (me) {
+        setUserRole(me.role);
+        if (me.role !== 'ADMIN') router.replace('/dashboard');
+      }
       setLoading(false);
     }).catch(() => setLoading(false));
   }, []);

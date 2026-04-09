@@ -6,15 +6,16 @@ export async function GET(request: NextRequest) {
   const user = await getApiUser();
   if (!user) return unauthorizedResponse();
 
-  if (user.role === 'EMPLOYEE') {
-    return forbiddenResponse('Apenas administradores podem visualizar denúncias.');
-  }
-
   const { searchParams } = new URL(request.url);
   const status = searchParams.get('status');
   const category = searchParams.get('category');
 
   const where: Record<string, unknown> = { companyId: user.companyId };
+
+  // EMPLOYEE can only see their own complaints
+  if (user.role === 'EMPLOYEE') {
+    where.authorId = user.id;
+  }
   if (status) where.status = status;
   if (category) where.category = category;
 

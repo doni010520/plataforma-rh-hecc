@@ -54,17 +54,14 @@ export default function PerfilPage() {
   }, []);
 
   const fetchProfile = useCallback(async () => {
-    const res = await fetch('/api/colaboradores?limit=1');
+    const res = await fetch('/api/me');
     if (res.ok) {
-      const data = await res.json();
-      if (data.data.length > 0) {
-        const u = data.data[0];
-        setUser(u);
-        setName(u.name);
-        setJobTitle(u.jobTitle || '');
-        setAvatarPreview(u.avatarUrl);
-        fetchFeedbacks(u.id);
-      }
+      const u = await res.json();
+      setUser(u);
+      setName(u.name);
+      setJobTitle(u.jobTitle || '');
+      setAvatarPreview(u.avatarUrl);
+      fetchFeedbacks(u.id);
     }
     setLoading(false);
   }, [fetchFeedbacks]);

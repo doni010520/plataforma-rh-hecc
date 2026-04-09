@@ -39,6 +39,10 @@ export async function PUT(request: Request) {
       }
 
       const supabase = createClient();
+
+      // Ensure bucket exists (idempotent)
+      await supabase.storage.createBucket('avatars', { public: true }).catch(() => {});
+
       const extension = avatarFile.name.split('.').pop();
       const filePath = `${user.companyId}/${user.id}/avatar.${extension}`;
 

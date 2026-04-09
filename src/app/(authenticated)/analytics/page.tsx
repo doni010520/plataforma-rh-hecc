@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 interface EmployeeData {
@@ -40,15 +41,22 @@ const moodEmojis: Record<number, string> = {
 };
 
 export default function AnalyticsPage() {
+  const router = useRouter();
   const [data, setData] = useState<AnalyticsData | null>(null);
   const [loading, setLoading] = useState(true);
   const [tab, setTab] = useState<'overview' | 'risk' | 'scatter'>('overview');
 
   const fetchData = useCallback(async () => {
+    // Guard: only ADMIN/MANAGER
+    const meRes = await fetch('/api/me');
+    if (meRes.ok) {
+      const me = await meRes.json();
+      if (me.role === 'EMPLOYEE') { router.replace('/dashboard'); return; }
+    }
     const res = await fetch('/api/analytics');
     if (res.ok) setData(await res.json());
     setLoading(false);
-  }, []);
+  }, [router]);
 
   useEffect(() => {
     fetchData();
