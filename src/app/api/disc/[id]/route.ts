@@ -67,6 +67,9 @@ export async function PUT(
     if (!validProfiles.includes(answer.most) || !validProfiles.includes(answer.least)) {
       continue;
     }
+    if (answer.most === answer.least) {
+      return NextResponse.json({ error: 'As opções "mais" e "menos" devem ser diferentes.' }, { status: 400 });
+    }
     scores[answer.most] += 2;
     scores[answer.least] -= 1;
   }

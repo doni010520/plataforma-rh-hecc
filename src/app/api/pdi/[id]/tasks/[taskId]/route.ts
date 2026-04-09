@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { getApiUser, unauthorizedResponse } from '@/lib/auth';
+import { getApiUser, unauthorizedResponse, forbiddenResponse } from '@/lib/auth';
 
 export async function PUT(
   request: NextRequest,
@@ -11,12 +11,16 @@ export async function PUT(
 
   const { id, taskId } = await params;
 
-  // Verify plan belongs to company
+  // Verify plan belongs to company AND user has access
   const plan = await prisma.developmentPlan.findFirst({
     where: { id, companyId: user.companyId },
   });
   if (!plan) {
     return NextResponse.json({ error: 'PDI não encontrado.' }, { status: 404 });
+  }
+  // Only plan owner, their manager, or admin can modify tasks
+  if (plan.userId !== user.id && user.role === 'EMPLOYEE') {
+    return forbiddenResponse('Sem permissão para editar este PDI.');
   }
 
   const body = await request.json();
