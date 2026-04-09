@@ -14,10 +14,19 @@ function getSupabaseAdmin() {
 // DELETE /api/admin/reset-invites
 // Removes all users except the requesting admin from both DB and Supabase Auth.
 // This allows re-inviting the same emails.
-export async function DELETE() {
+export async function DELETE(request: Request) {
   const user = await getApiUser();
   if (!user) return unauthorizedResponse();
   if (user.role !== 'ADMIN') return forbiddenResponse();
+
+  // Extra confirmation required — must pass header X-Confirm: RESET
+  const confirm = request.headers.get('X-Confirm');
+  if (confirm !== 'RESET') {
+    return NextResponse.json(
+      { error: 'Confirmação obrigatória. Envie o header X-Confirm: RESET' },
+      { status: 400 },
+    );
+  }
 
   const supabase = getSupabaseAdmin();
 

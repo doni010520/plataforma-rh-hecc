@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
 
 interface AiAnalysis {
   id: string;
@@ -61,6 +62,7 @@ const priorityLabels: Record<string, string> = { LOW: 'Baixa', MEDIUM: 'Média',
 const priorityColors: Record<string, string> = { LOW: 'bg-gray-800/40 text-gray-200', MEDIUM: 'bg-yellow-100 text-yellow-300', HIGH: 'bg-orange-100 text-orange-800', URGENT: 'bg-red-900/30 text-red-800' };
 
 export default function IAPage() {
+  const router = useRouter();
   const [tab, setTab] = useState<Tab>('dashboard');
   const [dashboard, setDashboard] = useState<DashboardData | null>(null);
   const [analyses, setAnalyses] = useState<AiAnalysis[]>([]);
@@ -75,6 +77,14 @@ export default function IAPage() {
 
   const fetchData = useCallback(async () => {
     setLoading(true);
+    // Guard: only ADMIN/MANAGER
+    try {
+      const meRes = await fetch('/api/me');
+      if (meRes.ok) {
+        const me = await meRes.json();
+        if (me.role === 'EMPLOYEE') { router.replace('/dashboard'); return; }
+      }
+    } catch { /* ignore */ }
     try {
       const [dashRes, anRes, alRes] = await Promise.all([
         fetch('/api/ai/dashboard'),
@@ -86,7 +96,7 @@ export default function IAPage() {
       if (alRes.ok) setAlerts(await alRes.json());
     } catch { /* ignore */ }
     setLoading(false);
-  }, [filterType]);
+  }, [filterType, router]);
 
   useEffect(() => { fetchData(); }, [fetchData]);
 
