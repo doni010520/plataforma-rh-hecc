@@ -6,16 +6,17 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
   const user = await getApiUser();
   if (!user) return unauthorizedResponse();
 
-  if (!hasRole(user.role, ['ADMIN'])) {
-    return forbiddenResponse('Apenas administradores podem editar comunicados.');
-  }
-
   const announcement = await prisma.announcement.findFirst({
     where: { id: params.id, companyId: user.companyId },
   });
 
   if (!announcement) {
     return NextResponse.json({ error: 'Comunicado não encontrado.' }, { status: 404 });
+  }
+
+  // Author or ADMIN can edit
+  if (announcement.authorId !== user.id && !hasRole(user.role, ['ADMIN'])) {
+    return forbiddenResponse('Sem permissão para editar este comunicado.');
   }
 
   const body = await request.json();
@@ -47,16 +48,17 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
   const user = await getApiUser();
   if (!user) return unauthorizedResponse();
 
-  if (!hasRole(user.role, ['ADMIN'])) {
-    return forbiddenResponse('Apenas administradores podem excluir comunicados.');
-  }
-
   const announcement = await prisma.announcement.findFirst({
     where: { id: params.id, companyId: user.companyId },
   });
 
   if (!announcement) {
     return NextResponse.json({ error: 'Comunicado não encontrado.' }, { status: 404 });
+  }
+
+  // Author or ADMIN can delete
+  if (announcement.authorId !== user.id && !hasRole(user.role, ['ADMIN'])) {
+    return forbiddenResponse('Sem permissão para excluir este comunicado.');
   }
 
   await prisma.announcement.delete({ where: { id: params.id } });
