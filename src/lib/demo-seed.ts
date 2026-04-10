@@ -96,6 +96,15 @@ function randomMood(): number {
 export async function seedDemoCompany() {
   const supabase = getSupabaseAdmin();
 
+  // Ensure admission_date column exists on users table
+  try {
+    await prisma.$executeRawUnsafe(`
+      ALTER TABLE users ADD COLUMN IF NOT EXISTS admission_date TIMESTAMPTZ
+    `);
+  } catch {
+    // Column already exists or permission issue — continue
+  }
+
   // Clean up first
   await cleanupDemoCompany();
 
