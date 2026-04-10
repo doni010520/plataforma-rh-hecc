@@ -40,7 +40,10 @@ export async function updateSession(request: NextRequest) {
     request.nextUrl.pathname.startsWith('/api/auth') ||
     request.nextUrl.pathname.startsWith('/auth/');
 
-  if (!user && !isAuthPage && !isAuthRoute) {
+  // Demo routes — allow public access so they can auto-login
+  const isDemoRoute = request.nextUrl.pathname.startsWith('/demo/');
+
+  if (!user && !isAuthPage && !isAuthRoute && !isDemoRoute) {
     const url = request.nextUrl.clone();
     url.pathname = '/login';
     return NextResponse.redirect(url);
