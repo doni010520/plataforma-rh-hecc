@@ -1079,6 +1079,30 @@ async function seedNotifications(companyId: string, u: string[]) {
 export async function cleanupDemoCompany() {
   const supabase = getSupabaseAdmin();
 
+  // Also clean up orphaned Supabase Auth users with demo email domains
+  // (from previous failed seeds)
+  try {
+    let page = 1;
+    while (true) {
+      const { data: authList } = await supabase.auth.admin.listUsers({ page, perPage: 1000 });
+      if (!authList?.users || authList.users.length === 0) break;
+
+      const orphans = authList.users.filter(u =>
+        u.email?.endsWith('@saborarte-demo.com') ||
+        u.email?.endsWith('@feedflow-demo.com'),
+      );
+
+      for (const orphan of orphans) {
+        await supabase.auth.admin.deleteUser(orphan.id).catch(() => {});
+      }
+
+      if (authList.users.length < 1000) break;
+      page++;
+    }
+  } catch (err) {
+    console.error('[Demo Cleanup] Orphan cleanup error:', err);
+  }
+
   const companies = await prisma.company.findMany({
     where: { name: DEMO_COMPANY_NAME },
     include: { users: true },
