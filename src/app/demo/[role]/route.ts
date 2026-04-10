@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import { DEMO_ADMIN_EMAIL, DEMO_USER_EMAIL, DEMO_PASSWORD } from '@/lib/demo-seed';
+import { DEMO_ADMIN_EMAIL, DEMO_MANAGER_EMAIL, DEMO_USER_EMAIL, DEMO_PASSWORD } from '@/lib/demo-seed';
 
-// GET /demo/admin  → auto-login as demo admin
-// GET /demo/user   → auto-login as demo employee (Renata)
-// GET /demo/manager → auto-login as demo manager (Carlos)
+// GET /demo/admin    → auto-login como Patrícia Moraes (Gerente Geral)
+// GET /demo/manager  → auto-login como Chef Rodrigo Bianchi (Chef Executivo)
+// GET /demo/user     → auto-login como Larissa Mendes (Garçonete)
 export async function GET(
   request: Request,
   { params }: { params: { role: string } },
@@ -16,12 +16,14 @@ export async function GET(
     case 'admin':
       email = DEMO_ADMIN_EMAIL;
       break;
+    case 'manager':
+    case 'chef':
+      email = DEMO_MANAGER_EMAIL;
+      break;
     case 'user':
     case 'employee':
+    case 'garcom':
       email = DEMO_USER_EMAIL;
-      break;
-    case 'manager':
-      email = 'carlos.mendes@feedflow-demo.com';
       break;
     default:
       return NextResponse.redirect(new URL('/login', request.url));
