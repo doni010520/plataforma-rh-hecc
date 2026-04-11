@@ -1,12 +1,17 @@
-import { NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
+import { NextRequest, NextResponse } from 'next/server';
+import { createServerClient } from '@supabase/ssr';
 import { DEMO_ADMIN_EMAIL, DEMO_MANAGER_EMAIL, DEMO_USER_EMAIL, DEMO_PASSWORD } from '@/lib/demo-seed';
 
 // GET /demo/admin    → auto-login como Patrícia Moraes (Gerente Geral)
 // GET /demo/manager  → auto-login como Chef Rodrigo Bianchi (Chef Executivo)
 // GET /demo/user     → auto-login como Larissa Mendes (Garçonete)
+//
+// IMPORTANT: This route creates its own Supabase client that writes cookies
+// directly to the outgoing response, because the standard createClient()
+// from @/lib/supabase/server writes to cookieStore which doesn't propagate
+// to NextResponse.redirect() properly.
 export async function GET(
-  request: Request,
+  request: NextRequest,
   { params }: { params: { role: string } },
 ) {
   const role = params.role;
@@ -29,24 +34,42 @@ export async function GET(
       return NextResponse.redirect(new URL('/login', request.url));
   }
 
-  const supabase = createClient();
+  // Pre-create the response so we can attach cookies to it
+  const response = NextResponse.redirect(new URL('/dashboard', request.url));
 
-  // Sign out any existing session to ensure clean login
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return request.cookies.getAll();
+        },
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value, options }) => {
+            response.cookies.set(name, value, options);
+          });
+        },
+      },
+    },
+  );
+
+  // Clear any previous session cookies
   await supabase.auth.signOut().catch(() => {});
 
-  // Sign in with demo credentials
+  // Sign in with the demo credentials — this sets new session cookies on `response`
   const { error } = await supabase.auth.signInWithPassword({
     email,
     password: DEMO_PASSWORD,
   });
 
   if (error) {
-    // Demo company may not be seeded yet — return friendly error page
-    const url = new URL('/login', request.url);
-    url.searchParams.set('error', 'demo_not_ready');
-    return NextResponse.redirect(url);
+    const loginUrl = new URL('/login', request.url);
+    loginUrl.searchParams.set('error', 'demo_not_ready');
+    loginUrl.searchParams.set('detail', error.message);
+    return NextResponse.redirect(loginUrl);
   }
 
-  // Success — redirect to dashboard
-  return NextResponse.redirect(new URL('/dashboard', request.url));
+  // `response` now carries the session cookies from signInWithPassword
+  return response;
 }
