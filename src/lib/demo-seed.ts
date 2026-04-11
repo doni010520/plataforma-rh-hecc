@@ -1005,13 +1005,36 @@ async function seedTracks(companyId: string, u: string[]) {
 async function seedRecruitment(companyId: string, adminId: string) {
   if (!adminId) return;
 
-  const positions = [
-    { title: 'Cozinheiro de Chapa', location: 'São Paulo - SP', salaryMin: 2200, salaryMax: 2800, vacancies: 1, description: 'Buscamos cozinheiro experiente para a praça da chapa. Requisitos: experiência mínima de 2 anos, curso de boas práticas, disponibilidade para finais de semana.' },
-    { title: 'Garçom(ete)', location: 'São Paulo - SP', salaryMin: 1800, salaryMax: 2400, vacancies: 2, description: 'Vagas para garçom(ete) com perfil comunicativo e atencioso. Experiência em restaurantes à la carte é diferencial.' },
-    { title: 'Motoboy / Entregador', location: 'São Paulo - SP', salaryMin: 1500, salaryMax: 1800, vacancies: 1, description: 'Entregador com moto própria, CNH categoria A, conhecimento da região. Bônus por entregas.' },
+  const positionsData = [
+    {
+      title: 'Cozinheiro de Chapa', location: 'São Paulo - SP', salaryMin: 2200, salaryMax: 2800, vacancies: 1,
+      description: 'Buscamos cozinheiro experiente para a praça da chapa. Requisitos: experiência mínima de 2 anos, curso de boas práticas, disponibilidade para finais de semana.',
+      candidates: [
+        { name: 'Ricardo Alves', email: 'ricardo.alves@candidatos-demo.com', phone: '(11) 98765-4321' },
+        { name: 'Sandra Moreira', email: 'sandra.moreira@candidatos-demo.com', phone: '(11) 91234-5678' },
+        { name: 'Marcos Vinícius', email: 'marcos.v@candidatos-demo.com', phone: '(11) 99876-5432' },
+      ],
+    },
+    {
+      title: 'Garçom(ete)', location: 'São Paulo - SP', salaryMin: 1800, salaryMax: 2400, vacancies: 2,
+      description: 'Vagas para garçom(ete) com perfil comunicativo e atencioso. Experiência em restaurantes à la carte é diferencial.',
+      candidates: [
+        { name: 'Juliana Paiva', email: 'juliana.paiva@candidatos-demo.com', phone: '(11) 95432-1234' },
+        { name: 'Felipe Monteiro', email: 'felipe.monteiro@candidatos-demo.com', phone: '(11) 94321-9876' },
+        { name: 'Vanessa Souza', email: 'vanessa.souza@candidatos-demo.com', phone: '(11) 93210-8765' },
+      ],
+    },
+    {
+      title: 'Motoboy / Entregador', location: 'São Paulo - SP', salaryMin: 1500, salaryMax: 1800, vacancies: 1,
+      description: 'Entregador com moto própria, CNH categoria A, conhecimento da região. Bônus por entregas.',
+      candidates: [
+        { name: 'Anderson Silva', email: 'anderson.silva@candidatos-demo.com', phone: '(11) 92109-7654' },
+        { name: 'Rogério Pinto', email: 'rogerio.pinto@candidatos-demo.com', phone: '(11) 91098-6543' },
+      ],
+    },
   ];
 
-  for (const p of positions) {
+  for (const p of positionsData) {
     const pos = await prisma.jobPosition.create({
       data: {
         companyId,
@@ -1027,14 +1050,7 @@ async function seedRecruitment(companyId: string, adminId: string) {
       },
     });
 
-    // Candidatos fictícios
-    const candidates = [
-      { name: 'Ricardo Alves', email: 'ricardo.alves@email.com', phone: '(11) 98765-4321' },
-      { name: 'Juliana Paiva', email: 'juliana.paiva@email.com', phone: '(11) 91234-5678' },
-      { name: 'Marcos Vinícius', email: 'marcos.v@email.com', phone: '(11) 99876-5432' },
-    ];
-
-    for (const c of candidates) {
+    for (const c of p.candidates) {
       const cand = await prisma.candidate.create({
         data: {
           companyId,
