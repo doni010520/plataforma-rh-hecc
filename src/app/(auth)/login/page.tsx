@@ -1,16 +1,28 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
 
 export default function LoginPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const [isDemoPrefill, setIsDemoPrefill] = useState(false);
+
+  // Pre-fill from query params (used by /demo/[role] fallback)
+  useEffect(() => {
+    const emailParam = searchParams.get('email');
+    const passwordParam = searchParams.get('password');
+    const isDemo = searchParams.get('demo') === '1';
+    if (emailParam) setEmail(emailParam);
+    if (passwordParam) setPassword(passwordParam);
+    if (isDemo) setIsDemoPrefill(true);
+  }, [searchParams]);
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
@@ -42,8 +54,16 @@ export default function LoginPage() {
             <img src="/feedflow-dark.svg" alt="FeedFlow" className="h-12 mx-auto logo-dark" />
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/feedflow-primary.svg" alt="FeedFlow" className="h-12 mx-auto logo-light" />
-            <p className="text-gray-400 mt-2">Faça login para continuar</p>
+            <p className="text-gray-400 mt-2">
+              {isDemoPrefill ? 'Demo pronta para entrar' : 'Faça login para continuar'}
+            </p>
           </div>
+
+          {isDemoPrefill && (
+            <div className="bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs p-3 rounded-md mb-4 text-center">
+              ✨ Credenciais já preenchidas — basta clicar em &ldquo;Entrar&rdquo;
+            </div>
+          )}
 
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
