@@ -40,8 +40,8 @@ export async function updateSession(request: NextRequest) {
     request.nextUrl.pathname.startsWith('/api/auth') ||
     request.nextUrl.pathname.startsWith('/auth/');
 
-  // Demo routes — allow public access so they can auto-login
-  const isDemoRoute = request.nextUrl.pathname.startsWith('/demo/');
+  // Demo routes — allow public access
+  const isDemoRoute = request.nextUrl.pathname === '/demo' || request.nextUrl.pathname.startsWith('/demo/');
 
   if (!user && !isAuthPage && !isAuthRoute && !isDemoRoute) {
     const url = request.nextUrl.clone();
