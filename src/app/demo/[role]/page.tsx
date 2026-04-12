@@ -4,96 +4,172 @@ import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 
-// Mirror these from lib/demo-seed.ts (avoid importing server code into a client component)
+// Demo credentials (mirror from lib/demo-seed.ts — avoid importing server code)
 const DEMO_PASSWORD = 'FeedflowDemo2026!';
-const DEMO_ADMIN_EMAIL = 'demo.admin@saborarte-demo.com';
-const DEMO_MANAGER_EMAIL = 'chef.rodrigo@saborarte-demo.com';
-const DEMO_USER_EMAIL = 'larissa.garcom@saborarte-demo.com';
+const DEMO_PROFILES: Record<string, { email: string; name: string; role: string }> = {
+  admin: { email: 'demo.admin@saborarte-demo.com', name: 'Patrícia Moraes', role: 'Gerente Geral' },
+  manager: { email: 'chef.rodrigo@saborarte-demo.com', name: 'Rodrigo Bianchi', role: 'Chef Executivo' },
+  chef: { email: 'chef.rodrigo@saborarte-demo.com', name: 'Rodrigo Bianchi', role: 'Chef Executivo' },
+  user: { email: 'larissa.garcom@saborarte-demo.com', name: 'Larissa Mendes', role: 'Garçonete' },
+  employee: { email: 'larissa.garcom@saborarte-demo.com', name: 'Larissa Mendes', role: 'Garçonete' },
+  garcom: { email: 'larissa.garcom@saborarte-demo.com', name: 'Larissa Mendes', role: 'Garçonete' },
+};
 
 export default function DemoAutoLoginPage() {
   const params = useParams();
   const router = useRouter();
-  const [status, setStatus] = useState<'loading' | 'error'>('loading');
-  const [errorMsg, setErrorMsg] = useState('');
+  const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
+  const [copiedField, setCopiedField] = useState<'email' | 'password' | null>(null);
+
+  const roleKey = typeof params.role === 'string' ? params.role : '';
+  const profile = DEMO_PROFILES[roleKey];
 
   useEffect(() => {
-    async function doLogin() {
-      const role = typeof params.role === 'string' ? params.role : '';
+    if (!profile) {
+      router.replace('/login');
+      return;
+    }
 
-      let email: string;
-      switch (role) {
-        case 'admin':
-          email = DEMO_ADMIN_EMAIL;
-          break;
-        case 'manager':
-        case 'chef':
-          email = DEMO_MANAGER_EMAIL;
-          break;
-        case 'user':
-        case 'employee':
-        case 'garcom':
-          email = DEMO_USER_EMAIL;
-          break;
-        default:
-          router.replace('/login');
-          return;
-      }
+    let cancelled = false;
 
+    async function tryAutoLogin() {
       const supabase = createClient();
 
-      // Sign out any existing session first to avoid conflicts
       try { await supabase.auth.signOut(); } catch { /* ignore */ }
 
       const { error } = await supabase.auth.signInWithPassword({
-        email,
+        email: profile.email,
         password: DEMO_PASSWORD,
       });
 
+      if (cancelled) return;
+
       if (error) {
-        setStatus('error');
-        setErrorMsg(error.message);
+        // Fall back to manual credentials view
+        setStatus('ready');
         return;
       }
 
-      // Hard navigation so the middleware picks up the new session cookies
+      // Hard navigation so the middleware picks up the session cookies
       window.location.href = '/dashboard';
     }
 
-    doLogin();
-  }, [params.role, router]);
+    // If auto-login doesn't finish in 3.5s (iOS WebView blocking, etc.),
+    // show the manual credentials card so the user isn't stuck.
+    const fallbackTimer = setTimeout(() => {
+      if (!cancelled) setStatus('ready');
+    }, 3500);
+
+    tryAutoLogin();
+
+    return () => {
+      cancelled = true;
+      clearTimeout(fallbackTimer);
+    };
+  }, [profile, router]);
+
+  async function copy(value: string, field: 'email' | 'password') {
+    try {
+      await navigator.clipboard.writeText(value);
+      setCopiedField(field);
+      setTimeout(() => setCopiedField(null), 1500);
+    } catch {
+      // Fallback: use document.execCommand
+      const textarea = document.createElement('textarea');
+      textarea.value = value;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textarea);
+      setCopiedField(field);
+      setTimeout(() => setCopiedField(null), 1500);
+    }
+  }
+
+  function goToLoginWithPrefill() {
+    if (!profile) return;
+    const url = `/login?email=${encodeURIComponent(profile.email)}&password=${encodeURIComponent(DEMO_PASSWORD)}&demo=1`;
+    router.push(url);
+  }
+
+  if (!profile) return null;
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white px-4">
-      <div className="text-center max-w-sm">
+    <div className="min-h-screen flex items-center justify-center bg-gray-900 text-white px-4 py-8">
+      <div className="w-full max-w-md">
         {status === 'loading' && (
-          <>
+          <div className="text-center">
             <div className="w-14 h-14 mx-auto mb-4 border-4 border-white/20 border-t-emerald-400 rounded-full animate-spin" />
             <h1 className="text-lg font-semibold text-emerald-400 mb-1">Carregando demo FeedFlow</h1>
             <p className="text-sm text-gray-400">Preparando acesso ao Sabor &amp; Arte...</p>
-          </>
+          </div>
         )}
-        {status === 'error' && (
-          <>
-            <div className="w-14 h-14 mx-auto mb-4 rounded-full bg-red-500/20 flex items-center justify-center">
-              <svg className="w-7 h-7 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-              </svg>
+
+        {status === 'ready' && (
+          <div className="bg-gray-800/60 border border-gray-700/60 rounded-2xl p-6 shadow-2xl">
+            <div className="text-center mb-6">
+              <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-emerald-500/20 mb-3">
+                <svg className="w-7 h-7 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                </svg>
+              </div>
+              <h1 className="text-xl font-bold text-white mb-1">Demo FeedFlow</h1>
+              <p className="text-sm text-gray-400">Você entrará como:</p>
+              <p className="text-base font-semibold text-emerald-400 mt-2">{profile.name}</p>
+              <p className="text-xs text-gray-500">{profile.role} · Sabor &amp; Arte Restaurante</p>
             </div>
-            <h1 className="text-lg font-semibold text-red-400 mb-1">Demo não disponível</h1>
-            <p className="text-sm text-gray-400 mb-4">
-              Os dados de demonstração ainda não foram gerados.<br />
-              Entre em contato com o administrador.
-            </p>
-            {errorMsg && (
-              <p className="text-xs text-gray-600 font-mono break-all">{errorMsg}</p>
-            )}
+
             <button
-              onClick={() => router.replace('/login')}
-              className="mt-4 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 rounded-md text-sm font-medium transition-colors"
+              onClick={goToLoginWithPrefill}
+              className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 rounded-lg transition-colors mb-5"
             >
-              Ir para login
+              Entrar na demo
             </button>
-          </>
+
+            <div className="border-t border-gray-700/50 pt-5">
+              <p className="text-xs uppercase tracking-wider text-gray-500 mb-3 text-center">
+                Credenciais (use se preferir)
+              </p>
+
+              <label className="block text-xs text-gray-400 mb-1">Email</label>
+              <div className="flex gap-2 mb-3">
+                <input
+                  readOnly
+                  value={profile.email}
+                  className="flex-1 bg-gray-900/70 border border-gray-700/60 rounded-md px-3 py-2 text-sm text-white"
+                  onFocus={(e) => e.currentTarget.select()}
+                />
+                <button
+                  onClick={() => copy(profile.email, 'email')}
+                  className="px-3 py-2 bg-gray-700/60 hover:bg-gray-700 text-xs font-medium rounded-md transition-colors whitespace-nowrap"
+                >
+                  {copiedField === 'email' ? '✓ Copiado' : 'Copiar'}
+                </button>
+              </div>
+
+              <label className="block text-xs text-gray-400 mb-1">Senha</label>
+              <div className="flex gap-2">
+                <input
+                  readOnly
+                  value={DEMO_PASSWORD}
+                  className="flex-1 bg-gray-900/70 border border-gray-700/60 rounded-md px-3 py-2 text-sm text-white font-mono"
+                  onFocus={(e) => e.currentTarget.select()}
+                />
+                <button
+                  onClick={() => copy(DEMO_PASSWORD, 'password')}
+                  className="px-3 py-2 bg-gray-700/60 hover:bg-gray-700 text-xs font-medium rounded-md transition-colors whitespace-nowrap"
+                >
+                  {copiedField === 'password' ? '✓ Copiado' : 'Copiar'}
+                </button>
+              </div>
+            </div>
+
+            <p className="text-[11px] text-gray-600 text-center mt-5">
+              Ambiente de demonstração · Dados fictícios · Reset diário
+            </p>
+          </div>
         )}
       </div>
     </div>
