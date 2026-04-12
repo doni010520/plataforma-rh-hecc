@@ -45,12 +45,27 @@ export default function DemoAutoLoginPage() {
       if (cancelled) return;
 
       if (error) {
-        // Fall back to manual credentials view
         setStatus('ready');
         return;
       }
 
-      // Hard navigation so the middleware picks up the session cookies
+      // IMPORTANT: Verify the session is actually accessible from the server.
+      // On iOS Instagram/WebView, signInWithPassword can "succeed" but the
+      // cookies don't persist across navigation, so the middleware won't see
+      // the session and will redirect to /login. We test with /api/me first.
+      try {
+        const testRes = await fetch('/api/me', { credentials: 'include', cache: 'no-store' });
+        if (!testRes.ok) {
+          // Cookies aren't being persisted — show manual fallback
+          setStatus('ready');
+          return;
+        }
+      } catch {
+        setStatus('ready');
+        return;
+      }
+
+      // Session verified — safe to navigate
       window.location.href = '/dashboard';
     }
 
